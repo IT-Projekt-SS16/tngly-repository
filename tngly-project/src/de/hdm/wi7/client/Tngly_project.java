@@ -1,5 +1,7 @@
 package de.hdm.wi7.client;
 
+// Kommentar zum Test als Commit
+
 import de.hdm.wi7.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
