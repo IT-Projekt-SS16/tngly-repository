@@ -39,7 +39,7 @@ public class Profile {
 	private boolean isSmoking;
 	
 	/*
-	 * Get-/Set-Operations
+	 * Get-/Set-Operations + toString
 	 */
 	
 	
@@ -144,7 +144,8 @@ public class Profile {
 	}
 	
 	// Return textual description of selected instance adding the real name and user name
-
+	
+	@Override
 	public String toString() {
 	    return super.toString() + " " + this.name + " " + this.lastName + " aka " + this.userName;
 	  }
