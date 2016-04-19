@@ -39,18 +39,21 @@ public class Tngly_project implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Send");
+		final Button profileButton = new Button("Profile");
+		//final Button saveButton = new Button("Save");
 		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
+		nameField.setText("First Name");
 		final Label errorLabel = new Label();
 
 		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
+		//saveButton.addStyleName("sendButton");
+		profileButton.addStyleName("profileButton");
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
+		//RootPanel.get("nameFieldContainer").add(nameField);
+		//RootPanel.get("sendButtonContainer").add(saveButton);
+		RootPanel.get("profileButtonContainer").add(profileButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 
 		// Focus the cursor on the name field when the app loads
@@ -59,7 +62,7 @@ public class Tngly_project implements EntryPoint {
 
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Remote Procedure Call");
+		dialogBox.setText("Profile");
 		dialogBox.setAnimationEnabled(true);
 		final Button closeButton = new Button("Close");
 		// We can set the id of a widget by accessing its Element
@@ -67,21 +70,45 @@ public class Tngly_project implements EntryPoint {
 		final Label textToServerLabel = new Label();
 		final HTML serverResponseLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
+		//dialogVPanel.addStyleName("dialogVPanel");
+		//dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
+		//dialogVPanel.add(textToServerLabel);
+		//dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
+		//dialogVPanel.add(serverResponseLabel);
+		//dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+		//dialogVPanel.add(closeButton);
+		//dialogBox.setWidget(dialogVPanel);
+		
 		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
+		dialogVPanel.add(new HTML("<b>First Name:</b>"));
 		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
+		dialogVPanel.add(new HTML("<br><b>Name:</b>"));
 		dialogVPanel.add(serverResponseLabel);
+		dialogVPanel.add(new HTML("<br><b>Date Of Birth:</b>"));
+		dialogVPanel.add(new HTML("<br><b>Gender:</b>"));
 		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
 		dialogVPanel.add(closeButton);
 		dialogBox.setWidget(dialogVPanel);
 
+		
+		
 		// Add a handler to close the DialogBox
+		profileButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dialogBox.setText("Profile");
+				serverResponseLabel.removeStyleName("serverResponseLabelError");
+				//serverResponseLabel.setHTML(result);
+				dialogBox.center();
+				profileButton.setEnabled(true);
+			}
+		});
 		closeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				dialogBox.setText("Remote Procedure Call");
+				serverResponseLabel.removeStyleName("serverResponseLabelError");
+				//serverResponseLabel.setHTML(result);
 				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
+				profileButton.setEnabled(true);
 			}
 		});
 
@@ -108,18 +135,18 @@ public class Tngly_project implements EntryPoint {
 			 */
 			private void sendNameToServer() {
 				// First, we validate the input.
-				errorLabel.setText("");
-				String textToServer = nameField.getText();
-				if (!FieldVerifier.isValidName(textToServer)) {
-					errorLabel.setText("Please enter at least four characters");
-					return;
+				//errorLabel.setText("");
+				//String textToServer = nameField.getText();
+				//if (!FieldVerifier.isValidName(textToServer)) {
+				//	errorLabel.setText("Please enter at least four characters");
+				//	return;
 				}
 
 				// Then, we send the input to the server.
-				sendButton.setEnabled(false);
-				textToServerLabel.setText(textToServer);
-				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer, new AsyncCallback<String>() {
+				//saveButton.setEnabled(false);
+				//textToServerLabel.setText(textToServer);
+				//serverResponseLabel.setText("");
+				//greetingService.greetServer(textToServer, new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
 						dialogBox.setText("Remote Procedure Call - Failure");
@@ -136,13 +163,13 @@ public class Tngly_project implements EntryPoint {
 						dialogBox.center();
 						closeButton.setFocus(true);
 					}
-				});
+				
 			}
 		}
 
 		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
+		//MyHandler handler = new MyHandler();
+		//saveButton.addClickHandler(handler);
+		//profileButton.addClickHandler(handler);
+		//nameField.addKeyUpHandler(handler);
 	}
-}
