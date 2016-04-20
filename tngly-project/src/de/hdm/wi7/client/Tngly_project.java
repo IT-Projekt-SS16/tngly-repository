@@ -48,7 +48,7 @@ public class Tngly_project implements EntryPoint {
 	  
 	    final Button profileButton = new Button("Profile");
 
-	   profileButton.setStylePrimaryName("bankproject-menubutton");
+	   profileButton.setStylePrimaryName("tngly-menubutton");
 
 	    horPanel.add(profileButton);
 	    
@@ -66,7 +66,7 @@ public class Tngly_project implements EntryPoint {
 	        });
 	    
 	    final Button wishlistButton = new Button("Wishlist");
-	    wishlistButton.setStylePrimaryName("Wishlistbutton");
+	    wishlistButton.setStylePrimaryName("tngly-menubutton");
 	    horPanel.add(wishlistButton);
 
 	    wishlistButton.addClickHandler(new ClickHandler() {
@@ -78,7 +78,7 @@ public class Tngly_project implements EntryPoint {
 	    });
 	    
 	    final Button searchProfilButton = new Button("Search Profile");
-	    searchProfilButton.setStylePrimaryName("Wishlistbutton");
+	    searchProfilButton.setStylePrimaryName("tngly-menubutton");
 	    horPanel.add(searchProfilButton);
 
 	    searchProfilButton.addClickHandler(new ClickHandler() {
@@ -91,7 +91,7 @@ public class Tngly_project implements EntryPoint {
 	    
 	    
 	    final Button banViewButton = new Button("Bans");
-	    banViewButton.setStylePrimaryName("banViewbutton");
+	    banViewButton.setStylePrimaryName("tngly-menubutton");
 	    horPanel.add(banViewButton);
 
 	    banViewButton.addClickHandler(new ClickHandler() {

@@ -1,6 +1,9 @@
 package de.hdm.wi7.client;
 
-
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ProfileView extends Update{
 	
@@ -22,9 +25,32 @@ public class ProfileView extends Update{
 	   */
 	  @Override
 	  protected void run() {
-		  this.append("Here you will see your profile");
 		  
+      VerticalPanel verPanel = new VerticalPanel();
 		  
+      RootPanel.get("Details").add(verPanel);
+      
+	  Label firstName = new Label("First Name:");
+	  verPanel.add(firstName);
+	  
+	  
+	  Label name = new Label("Name:");
+	  verPanel.add(name);
+	  
+	  Label gender = new Label("Gender:");
+	  verPanel.add(gender);
+	  
+	  Label dateOfBirth = new Label("Date of Birth:");
+	  verPanel.add(dateOfBirth);
+		  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  }
 }
 
