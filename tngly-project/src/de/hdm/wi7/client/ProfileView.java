@@ -33,9 +33,11 @@ public class ProfileView extends Update{
 		  
       RootPanel.get("Details").add(verPanel);
       
+      Label userName = new Label("Username:");
+	  verPanel.add(userName);
+	  
 	  Label firstName = new Label("First Name:");
 	  verPanel.add(firstName);
-	  
 	  
 	  Label name = new Label("Name:");
 	  verPanel.add(name);
@@ -58,8 +60,6 @@ public class ProfileView extends Update{
 	  Label confession = new Label("Confession:");
 	  verPanel.add(confession);
 	  
-	  Label userName = new Label("Username:");
-	  verPanel.add(userName);
 	  
 	  final Button editProfilButton = new Button("Edit Profile");
 	    editProfilButton.setStylePrimaryName("tngly-menubutton");
@@ -67,9 +67,9 @@ public class ProfileView extends Update{
 
 	    editProfilButton.addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
-	        //Update update = new EditProfileView();
+	        Update update = new EditProfileView();
 	        RootPanel.get("Details").clear();
-	        //RootPanel.get("Details").add(update);
+	        RootPanel.get("Details").add(update);
 	      }
 	    }); 
 	  
