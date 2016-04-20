@@ -1,6 +1,9 @@
 package de.hdm.wi7.client;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -43,11 +46,32 @@ public class ProfileView extends Update{
 	  Label dateOfBirth = new Label("Date of Birth:");
 	  verPanel.add(dateOfBirth);
 		  
+	  Label bodyHeight = new Label("Body Height:");
+	  verPanel.add(bodyHeight);
 	  
+	  Label hairColour = new Label("Haircolour:");
+	  verPanel.add(hairColour);
+		  
+	  Label isSmoking = new Label("Smoker:");
+	  verPanel.add(isSmoking);
 	  
+	  Label confession = new Label("Confession:");
+	  verPanel.add(confession);
 	  
+	  Label userName = new Label("Username:");
+	  verPanel.add(userName);
 	  
-	  
+	  final Button editProfilButton = new Button("Edit Profile");
+	    editProfilButton.setStylePrimaryName("tngly-menubutton");
+	    verPanel.add(editProfilButton);
+
+	    editProfilButton.addClickHandler(new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+	        //Update update = new EditProfileView();
+	        RootPanel.get("Details").clear();
+	        //RootPanel.get("Details").add(update);
+	      }
+	    }); 
 	  
 	  
 	  
