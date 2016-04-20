@@ -3,23 +3,24 @@
 
 /** Example rules used by the template application (remove for your app) */
 html{
-	background: url("");
+	background: url("http://fs5.directupload.net/images/160420/ruc73jsz.jpg");
 }
 
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
+.body{
+	weight: 200px;
 }
 
-
+div#Header {
+	margin-top: 250px;    
+	 
+	
+}
 
 }
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
+
 }
 
 
@@ -27,11 +28,11 @@ h1 {
 	font-size: 100%;
 	font-weight: bold;
 	width: 15em;
-	margin-bottom: 1em;
+	margin-bottom: 0em;
 }
 
 div#Details {
-	margin-left: 15em;
+	margin-left: 25em;
 	min-height: 400px;
 	max-height: 500px;
 	padding: 1em 1em;
@@ -41,11 +42,10 @@ div#Details {
 }
 
 div#Navigator {
-	margin-left: 13em;
-	width: 50em;
-	min-height: 20px;
+	margin-left: 25em;
+	width: 780px;
+	min-height: 10px;
 	padding: 1em 3em;
-	
 }
 
 .tngly-headline {
@@ -56,11 +56,12 @@ div#Navigator {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	text-align: left;
+
 }
 
 div#Trailer {
 	clear: both;
-	padding: 30px 0;
+	padding: 15px 0;
 	margin: 0 auto; 
 	border-top: 1px dashed silver;
 	font-size: 80%;

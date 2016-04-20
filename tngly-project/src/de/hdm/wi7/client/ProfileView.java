@@ -21,11 +21,7 @@ public class ProfileView extends Update{
 	    return "Profile View";
 	  }
 
-	  /**
-	   * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
-	   * eine "Einschubmethode", die von einer Methode der Basisklasse
-	   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
-	   */
+
 	  @Override
 	  protected void run() {
 		  
@@ -35,6 +31,7 @@ public class ProfileView extends Update{
       
       Label userName = new Label("Username:");
 	  verPanel.add(userName);
+	  
 	  
 	  Label firstName = new Label("First Name:");
 	  verPanel.add(firstName);
