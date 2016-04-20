@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,137 +40,68 @@ public class Tngly_project implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button profileButton = new Button("Profile");
-		//final Button saveButton = new Button("Save");
-		final TextBox nameField = new TextBox();
-		nameField.setText("First Name");
-		final Label errorLabel = new Label();
+	
+	HorizontalPanel horPanel = new HorizontalPanel();
+	
+	RootPanel.get("Navigator").add(horPanel);
 
-		// We can add style names to widgets
-		//saveButton.addStyleName("sendButton");
-		profileButton.addStyleName("profileButton");
+	  
+	    final Button profileButton = new Button("Profile");
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		//RootPanel.get("nameFieldContainer").add(nameField);
-		//RootPanel.get("sendButtonContainer").add(saveButton);
-		RootPanel.get("profileButtonContainer").add(profileButton);
-		RootPanel.get("errorLabelContainer").add(errorLabel);
+	   profileButton.setStylePrimaryName("bankproject-menubutton");
 
-		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
-		nameField.selectAll();
+	    horPanel.add(profileButton);
+	    
+	    profileButton.addClickHandler(new ClickHandler() {
+	        public void onClick(ClickEvent event)
+	        {
+	            /*
+	             * Showcase instantiieren.
+	             */
+	            Update update = new ProfileView();
+	           
+	            RootPanel.get("Details").clear();
+	            RootPanel.get("Details").add(update);
+	          }
+	        });
+	    
+	    final Button wishlistButton = new Button("Wishlist");
+	    wishlistButton.setStylePrimaryName("Wishlistbutton");
+	    horPanel.add(wishlistButton);
 
-		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Profile");
-		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
-		// We can set the id of a widget by accessing its Element
-		closeButton.getElement().setId("closeButton");
-		final Label textToServerLabel = new Label();
-		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		//dialogVPanel.addStyleName("dialogVPanel");
-		//dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		//dialogVPanel.add(textToServerLabel);
-		//dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		//dialogVPanel.add(serverResponseLabel);
-		//dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		//dialogVPanel.add(closeButton);
-		//dialogBox.setWidget(dialogVPanel);
-		
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>First Name:</b>"));
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Name:</b>"));
-		dialogVPanel.add(serverResponseLabel);
-		dialogVPanel.add(new HTML("<br><b>Date Of Birth:</b>"));
-		dialogVPanel.add(new HTML("<br><b>Gender:</b>"));
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
+	    wishlistButton.addClickHandler(new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+	        Update update = new WishlistView();
+	        RootPanel.get("Details").clear();
+	        RootPanel.get("Details").add(update);
+	      }
+	    });
+	    
+	    final Button searchProfilButton = new Button("Search Profile");
+	    searchProfilButton.setStylePrimaryName("Wishlistbutton");
+	    horPanel.add(searchProfilButton);
 
-		
-		
-		// Add a handler to close the DialogBox
-		profileButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.setText("Profile");
-				serverResponseLabel.removeStyleName("serverResponseLabelError");
-				//serverResponseLabel.setHTML(result);
-				dialogBox.center();
-				profileButton.setEnabled(true);
-			}
-		});
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.setText("Remote Procedure Call");
-				serverResponseLabel.removeStyleName("serverResponseLabelError");
-				//serverResponseLabel.setHTML(result);
-				dialogBox.hide();
-				profileButton.setEnabled(true);
-			}
-		});
+	    searchProfilButton.addClickHandler(new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+	        Update update = new SearchProfileView();
+	        RootPanel.get("Details").clear();
+	        RootPanel.get("Details").add(update);
+	      }
+	    });
+	    
+	    
+	    final Button banViewButton = new Button("Bans");
+	    banViewButton.setStylePrimaryName("banViewbutton");
+	    horPanel.add(banViewButton);
 
-		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				sendNameToServer();
-			}
-
-			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendNameToServer();
-				}
-			}
-
-			/**
-			 * Send the name from the nameField to the server and wait for a response.
-			 */
-			private void sendNameToServer() {
-				// First, we validate the input.
-				//errorLabel.setText("");
-				//String textToServer = nameField.getText();
-				//if (!FieldVerifier.isValidName(textToServer)) {
-				//	errorLabel.setText("Please enter at least four characters");
-				//	return;
-				}
-
-				// Then, we send the input to the server.
-				//saveButton.setEnabled(false);
-				//textToServerLabel.setText(textToServer);
-				//serverResponseLabel.setText("");
-				//greetingService.greetServer(textToServer, new AsyncCallback<String>() {
-					public void onFailure(Throwable caught) {
-						// Show the RPC error message to the user
-						dialogBox.setText("Remote Procedure Call - Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(SERVER_ERROR);
-						dialogBox.center();
-						closeButton.setFocus(true);
-					}
-
-					public void onSuccess(String result) {
-						dialogBox.setText("Remote Procedure Call");
-						serverResponseLabel.removeStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(result);
-						dialogBox.center();
-						closeButton.setFocus(true);
-					}
-				
-			}
-		}
-
-		// Add a handler to send the name to the server
-		//MyHandler handler = new MyHandler();
-		//saveButton.addClickHandler(handler);
-		//profileButton.addClickHandler(handler);
-		//nameField.addKeyUpHandler(handler);
+	    banViewButton.addClickHandler(new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+	        Update update = new BanView();
+	        RootPanel.get("Details").clear();
+	        RootPanel.get("Details").add(update);
+	      }
+	    });
+	    
+	   
 	}
+}
