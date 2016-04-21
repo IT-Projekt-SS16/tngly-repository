@@ -2,26 +2,78 @@
 
 
 /** Example rules used by the template application (remove for your app) */
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
+html{
+	background: url("http://fs5.directupload.net/images/160420/ruc73jsz.jpg");
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
+.body{
+	weight: 200px;
 }
 
+div#Header {
+	margin-top: 170px;    
+	 
+	
+}
+
+}
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
+
+}
+
+
+.tngly-menubutton {
+	font-size: 100%;
+	font-weight: bold;
+	width: 15em;
+	margin-bottom: 0em;
+}
+
+div#Details {
+	margin-left: 25em;
+	min-height: 400px;
+	max-height: 500px;
+	padding: 1em 1em;
+	border-top: 1px;
+	border-left: 1px;
+	
+}
+
+div#Navigator {
+	margin-left: 25em;
+	width: 780px;
+	min-height: 10px;
+	padding: 1em 3em;
+}
+
+.tngly-headline {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #0080c0;
+	margin: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: left;
+
+}
+
+div#Trailer {
+	clear: both;
+	padding: 15px 0;
+	margin: 0 auto; 
+	border-top: 1px dashed silver;
+	font-size: 80%;
+	text-align: center;
+}
+
 }
 
 .dialogVPanel {
   margin: 5px;
+  width: 350px;
+  height: 250px;
 }
 
 .serverResponseLabelError {
