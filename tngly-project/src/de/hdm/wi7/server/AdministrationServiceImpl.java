@@ -70,10 +70,10 @@ import de.hdm.wi7.shared.Wishlist;
  * auf die Applikationsschicht konzentrieren!
  * </p>
  * <p>
- * Beachten Sie, dass sämtliche Methoden, die mittels GWT RPC aufgerufen werden
- * können ein <code>throws IllegalArgumentException</code> in der
+ * Beachten Sie, dass sï¿½mtliche Methoden, die mittels GWT RPC aufgerufen werden
+ * kï¿½nnen ein <code>throws IllegalArgumentException</code> in der
  * Methodendeklaration aufweisen. Diese Methoden dï¿½rfen also Instanzen von
- * {@link IllegalArgumentException} auswerfen. Mit diesen Exceptions können z.B.
+ * {@link IllegalArgumentException} auswerfen. Mit diesen Exceptions kï¿½nnen z.B.
  * Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
  * transportiert und dort systematisch in einem Catch-Block abgearbeitet werden.
  * </p>
@@ -142,7 +142,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		 * Satz von Mappern besitzt, mit deren Hilfe sie dann mit der Datenbank
 		 * kommunizieren kann.
 		 */
-		this.profileMapper = ProfileMapper.getProfileMapper();
+		this.profileMapper = ProfileMapper.profileMapper();
 		this.wishlistMapper = WishlistMapper.getWishlistMapper();
 		this.profileBanMapper = ProfileBanMapper.getProfileBanMapper();
 		this.informationMapper = InformationMapper.getInformationMapper();
@@ -206,7 +206,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public void createProfile(Profile profile) throws IllegalArgumentException {
-		this.profileMapper.createProfile(profile);
+		this.profileMapper.create(profile);
 		return;
 	}
 
