@@ -31,8 +31,6 @@ public interface AdministrationServiceAsync {
 	
 	public void deleteProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
-	public void createWishlist(int profileId, AsyncCallback<Wishlist> callback) throws IllegalArgumentException;
-	
 	public void editWishlist(Wishlist wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	public void deleteWishlist(Wishlist wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;

@@ -305,6 +305,11 @@ public class ProfileMapper {
       e.printStackTrace();
     }
   }
+
+public void edit(Profile p) {
+	// TODO Auto-generated method stub
+	
+}
 }
   /**
    * Auslesen der zugehörigen <code>Account</code>-Objekte zu einem gegebenen

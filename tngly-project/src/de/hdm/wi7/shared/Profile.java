@@ -38,6 +38,12 @@ public class Profile {
 	// Is the person smoking? (e.g. yes, no)
 	private boolean isSmoking;
 	
+	private Wishlist wishlist;
+	
+	public Profile(){
+		this.wishlist = new Wishlist();
+	}
+	
 	/*
 	 * Get-/Set-Operations + toString
 	 */

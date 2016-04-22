@@ -33,8 +33,6 @@ public interface AdministrationService extends RemoteService{
 	
 	public void deleteProfile(Profile profile) throws IllegalArgumentException;
 	
-	public Wishlist createWishlist(int profileId) throws IllegalArgumentException;
-	
 	public void editWishlist(Wishlist wishlist) throws IllegalArgumentException;
 	
 	public void deleteWishlist(Wishlist wishlist) throws IllegalArgumentException;

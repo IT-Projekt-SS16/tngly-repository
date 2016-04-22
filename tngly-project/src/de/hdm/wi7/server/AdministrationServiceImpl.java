@@ -3,6 +3,7 @@ package de.hdm.wi7.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.wi7.shared.AdministrationService;
+import de.hdm.wi7.shared.CommonSettings;
 import de.hdm.wi7.shared.Description;
 import de.hdm.wi7.shared.Profile;
 import de.hdm.wi7.shared.ProfileBan;
@@ -123,6 +124,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 */
 	private PropertyMapper propertyMapper = null;
 	
+	
 	/**
 	 * No-Argument Konstruktor
 	 */
@@ -206,26 +208,20 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public void createProfile(Profile profile) throws IllegalArgumentException {
-		this.profileMapper.create(profile);
-		return;
+		CommonSettings.setUserProfile(profile);
+		this.profileMapper.create(CommonSettings.getUserProfile());
 	}
 
 	@Override
 	public void editProfile(Profile profile) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		CommonSettings.setUserProfile(profile);
+		this.profileMapper.edit(CommonSettings.getUserProfile());
 	}
 
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Wishlist createWishlist(int profileId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		this.profileMapper.delete(CommonSettings.getUserProfile());
+		CommonSettings.setUserProfile(null);
 	}
 
 	@Override
