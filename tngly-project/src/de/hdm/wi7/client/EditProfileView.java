@@ -1,13 +1,10 @@
 package de.hdm.wi7.client;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -111,24 +108,21 @@ public class EditProfileView extends Update{
 	  final Button saveProfilButton = new Button("Save");
 	    saveProfilButton.setStylePrimaryName("tngly-menubutton");
 	    verPanel.add(saveProfilButton);
+	    
+	    ClientsideSettings.getLogger().severe("INFO: " + CommonSettings.getUserProfile().toString());
 
 	    saveProfilButton.addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
 	    	  if (CommonSettings.getUserProfile() == null){
 	    		  Profile temp = new Profile();
 		    	  String expectedPattern = "MM/dd/yyyy";
-		    	  SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
+		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
 		    	  
 		    	  temp.setName(tbfn.getText());
 		    	  temp.setLastName(tbn.getText());
 		    	  temp.setGender(tbg.getText());
 		    	  Date date = null;
-				try {
-					date = formatter.parse(tbdob.getText());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		    	  date = dateTimeFormat.parse(tbdob.getText());
 		    	  temp.setDateOfBirth(date);
 		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
 		    	  temp.setBodyHeight(f);
@@ -144,19 +138,14 @@ public class EditProfileView extends Update{
 	    	  }
 	    	  else {
 	    		  Profile temp = new Profile();
-		    	  String expectedPattern = "MM/dd/yyyy";
-		    	  SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
+	    		  String expectedPattern = "MM/dd/yyyy";
+		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
 		    	  
 		    	  temp.setName(tbfn.getText());
 		    	  temp.setLastName(tbn.getText());
 		    	  temp.setGender(tbg.getText());
 		    	  Date date = null;
-				try {
-					date = formatter.parse(tbdob.getText());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		    	  date = dateTimeFormat.parse(tbdob.getText());
 		    	  temp.setDateOfBirth(date);
 		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
 		    	  temp.setBodyHeight(f);

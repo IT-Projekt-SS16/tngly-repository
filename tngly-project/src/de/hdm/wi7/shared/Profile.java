@@ -1,13 +1,19 @@
 package de.hdm.wi7.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Profile {
+public class Profile implements Serializable{
 
 	/*
 	 *  Attributes
 	 */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// The profile´s ID
 	private int id;
 	

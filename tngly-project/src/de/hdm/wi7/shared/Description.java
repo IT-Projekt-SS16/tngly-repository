@@ -1,6 +1,13 @@
 package de.hdm.wi7.shared;
 
-public class Description extends Property {
+import java.io.Serializable;
+
+public class Description extends Property implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 *  To be done
 	 */

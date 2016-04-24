@@ -1,6 +1,13 @@
 package de.hdm.wi7.shared;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public void setEmail(String email) {
 		// TODO Auto-generated method stub
