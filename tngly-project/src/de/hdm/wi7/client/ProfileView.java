@@ -7,8 +7,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import java.util.logging.Logger;
 
 import de.hdm.wi7.shared.Profile;
+import de.hdm.wi7.client.ClientsideSettings;
 
 public class ProfileView extends Update{
 	
@@ -67,8 +69,13 @@ public class ProfileView extends Update{
 	    editProfilButton.addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
 	    	  Update update = new EditProfileView();
+	    		 
 	        RootPanel.get("Details").clear();
 	        RootPanel.get("Details").add(update);
+	        
+	    	  
+	    		 Logger logger = ClientsideSettings.getLogger();	    		 
+	    		 logger.info("Erfolgreich View geswitcht.");
 	      }
 	    }); 
 	  

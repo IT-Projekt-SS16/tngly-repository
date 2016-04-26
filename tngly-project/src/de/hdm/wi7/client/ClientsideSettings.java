@@ -24,12 +24,12 @@ public class ClientsideSettings extends CommonSettings{
 	/**
 	 * Name des Client-seitigen Loggers.
 	 */
-	private static final String LOGGER_NAME = "Client";
-
-	/**
-	 * Instanz des Client-seitigen Loggers.
-	 */
-	private static final Logger log = Logger.getLogger(LOGGER_NAME);
+	 private static final String LOGGER_NAME = "Tngly Web Client";
+	  
+	  /**
+	   * Instanz des Client-seitigen Loggers.
+	   */
+	  private static final Logger log = Logger.getLogger(LOGGER_NAME);
 
 	/**
 	 * <p>
@@ -62,21 +62,21 @@ public class ClientsideSettings extends CommonSettings{
 	 * <h2>HINWEIS:</h2>
 	 * <p>
 	 * Beachten Sie, dass Sie den auszugebenden Log nun nicht mehr durch
-	 * bedarfsweise Einfügen und Auskommentieren etwa von
-	 * <code>System.out.println(...);</code> steuern. Sie belassen künftig
-	 * sämtliches Logging im Code und können ohne abermaliges Kompilieren den
-	 * Log Level "von außen" durch die Datei <code>logging.properties</code>
+	 * bedarfsweise Einfï¿½gen und Auskommentieren etwa von
+	 * <code>System.out.println(...);</code> steuern. Sie belassen kï¿½nftig
+	 * sï¿½mtliches Logging im Code und kï¿½nnen ohne abermaliges Kompilieren den
+	 * Log Level "von auï¿½en" durch die Datei <code>logging.properties</code>
 	 * steuern. Sie finden diese Datei in Ihrem <code>war/WEB-INF</code>-Ordner.
-	 * Der dort standardmäßig vorgegebene Log Level ist <code>WARN</code>. Dies
-	 * würde bedeuten, dass Sie keine <code>INFO</code>-Meldungen wohl aber
+	 * Der dort standardmï¿½ï¿½ig vorgegebene Log Level ist <code>WARN</code>. Dies
+	 * wï¿½rde bedeuten, dass Sie keine <code>INFO</code>-Meldungen wohl aber
 	 * <code>WARN</code>- und <code>SEVERE</code>-Meldungen erhielten. Wenn Sie
-	 * also auch Log des Levels <code>INFO</code> wollten, müssten Sie in dieser
+	 * also auch Log des Levels <code>INFO</code> wollten, mï¿½ssten Sie in dieser
 	 * Datei <code>.level = INFO</code> setzen.
 	 * </p>
 	 * 
 	 * Weitere Infos siehe Dokumentation zu Java Logging.
 	 * 
-	 * @return die Logger-Instanz für die Server-Seite
+	 * @return die Logger-Instanz fï¿½r die Server-Seite
 	 */
 	public static Logger getLogger() {
 		return log;
@@ -87,7 +87,7 @@ public class ClientsideSettings extends CommonSettings{
 	 * Anlegen und Auslesen der applikationsweit eindeutigen BankAdministration.
 	 * Diese Methode erstellt die BankAdministration, sofern sie noch nicht
 	 * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
-	 * zuvor angelegte Objekt zurückgegeben.
+	 * zuvor angelegte Objekt zurï¿½ckgegeben.
 	 * </p>
 	 * 
 	 * <p>
@@ -103,7 +103,7 @@ public class ClientsideSettings extends CommonSettings{
 	public static AdministrationServiceAsync getAdministration() {
 		// Gab es bislang noch keine Administration-Instanz, dann...
 		if (administration == null) {
-			// Zunächst instantiieren wir Administration
+			// Zunï¿½chst instantiieren wir Administration
 			administration = GWT.create(AdministrationService.class);
 
 			final AsyncCallback<Void> initAdministrationCallback = new AsyncCallback<Void>() {
@@ -122,7 +122,7 @@ public class ClientsideSettings extends CommonSettings{
 			administration.init(initAdministrationCallback);
 		}
 
-		// So, nun brauchen wir die Administration nur noch zurückzugeben.
+		// So, nun brauchen wir die Administration nur noch zurï¿½ckzugeben.
 		return administration;
 	}
 

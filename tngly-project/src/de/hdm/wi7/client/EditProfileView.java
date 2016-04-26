@@ -1,6 +1,7 @@
 package de.hdm.wi7.client;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -37,6 +38,9 @@ public class EditProfileView extends Update{
 	  @Override
 	  protected void run() {
 		  
+		  Logger logger = ClientsideSettings.getLogger();	    		 
+ 		 logger.info("Erfolgreich Profile-Edit-View geswitcht.");
+ 		 
     VerticalPanel verPanel = new VerticalPanel();
 		  
     RootPanel.get("Details").add(verPanel);
@@ -113,7 +117,12 @@ public class EditProfileView extends Update{
 
 	    saveProfilButton.addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
-	    		 if (CommonSettings.getUserProfile() == null){
+	    	  
+	    	 Logger logger = ClientsideSettings.getLogger();	
+	  		 logger.info("Erfolgreich onClick ausgeführt.");
+	    	  		
+	    		 if (CommonSettings.getUserProfile() == null){	
+	    	 		 logger.info("getUserProfile war null.");
 	    		  Profile temp = new Profile();
 		    	  String expectedPattern = "MM/dd/yyyy";
 		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
@@ -135,8 +144,10 @@ public class EditProfileView extends Update{
 		    	  }
 		    	  temp.setConfession(tbc.getText());
 		    	  ClientsideSettings.getAdministration().createProfile(temp, new CreateCallback());
+		  		 	logger.info("if-getAdministration wurde aufgerufen");
 	    	  }
 	    	  else {
+	    	 		 logger.info("getUserProfile war nicht 0.");
 	    		  Profile temp = new Profile();
 	    		  String expectedPattern = "MM/dd/yyyy";
 		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
@@ -162,6 +173,8 @@ public class EditProfileView extends Update{
 	    	 
 	    	  // What happens before?
 	    	  Update update = new ProfileView();
+	    	  
+	  		 logger.info("new ProfileView wurde instantiiert");
 	        RootPanel.get("Details").clear();
 	        RootPanel.get("Details").add(update);
 	      }

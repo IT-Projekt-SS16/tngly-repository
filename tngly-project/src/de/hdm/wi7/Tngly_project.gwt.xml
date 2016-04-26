@@ -8,6 +8,8 @@
 <module rename-to='tngly_project'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
+  <!--  Logger implementieren -->
+  <inherits name="com.google.gwt.logging.Logging" />
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
@@ -21,6 +23,7 @@
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='de.hdm.wi7.client.Tngly_project'/>
+  
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
