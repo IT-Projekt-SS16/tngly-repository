@@ -113,7 +113,7 @@ public class EditProfileView extends Update{
 
 	    saveProfilButton.addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
-	    	  if (CommonSettings.getUserProfile() == null){
+	    		 if (CommonSettings.getUserProfile() == null){
 	    		  Profile temp = new Profile();
 		    	  String expectedPattern = "MM/dd/yyyy";
 		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
