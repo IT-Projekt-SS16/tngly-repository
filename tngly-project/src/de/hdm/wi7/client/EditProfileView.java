@@ -51,7 +51,7 @@ public class EditProfileView extends Update{
     final TextBox tbs = new TextBox();
     final TextBox tbc = new TextBox();
     
-    //*** BEISPIEL ADDKEYHANDLER NOCH FÜR ALLE ÜBERNEHMEN***
+    //*** BEISPIEL ADDKEYHANDLER NOCH Fï¿½R ALLE ï¿½BERNEHMEN***
     
   //  tbfn.addKeyPressHandler(new KeyPressHandler() {
 
@@ -160,6 +160,7 @@ public class EditProfileView extends Update{
 		    	  ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());
 	    	  }
 	    	 
+	    	  // What happens before?
 	    	  Update update = new ProfileView();
 	        RootPanel.get("Details").clear();
 	        RootPanel.get("Details").add(update);
