@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.hdm.wi7.shared.CommonSettings;
 import de.hdm.wi7.shared.Profile;
@@ -49,8 +51,6 @@ public class EditProfileView extends Update{
     TextBox tbu = new TextBox();
     final TextBox tbfn = new TextBox();
     final TextBox tbn = new TextBox();
-    final TextBox tbg = new TextBox();
-    final TextBox tbdob = new TextBox();
     final TextBox tbbh = new TextBox();
     final TextBox tbhc = new TextBox();
     final TextBox tbc = new TextBox();
@@ -60,6 +60,15 @@ public class EditProfileView extends Update{
     isSmokingBox.addItem("yes");
     isSmokingBox.addItem("No");
     
+    final ListBox genderBox = new ListBox(false);
+    genderBox.setVisibleItemCount(2);
+    genderBox.addItem("w");
+    genderBox.addItem("m");
+       
+    final  DatePicker datePicker = new DatePicker();
+       
+        
+ 
     
   
     
@@ -96,11 +105,11 @@ public class EditProfileView extends Update{
 	  
 	  Label gender = new Label("Gender:");
 	  verPanel.add(gender);
-	  verPanel.add(tbg);
+	  verPanel.add(genderBox);
 	  
 	  Label dateOfBirth = new Label("Date of Birth:");
 	  verPanel.add(dateOfBirth);
-	  verPanel.add(tbdob);
+	  verPanel.add(datePicker);
 	  
 	  Label bodyHeight = new Label("Body Height:");
 	  verPanel.add(bodyHeight);
