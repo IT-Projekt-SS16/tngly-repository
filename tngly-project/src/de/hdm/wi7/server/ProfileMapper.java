@@ -1,3 +1,4 @@
+
 package de.hdm.wi7.server;
 
 import java.sql.*;
@@ -306,6 +307,11 @@ public class ProfileMapper {
     }
   }
 
+public void edit(Profile userProfile) {
+	// TODO Auto-generated method stub
+	
+}
+
   /**
    * Auslesen der zugehörigen <code>Account</code>-Objekte zu einem gegebenen
    * Kunden.
@@ -322,3 +328,4 @@ public class ProfileMapper {
    // return AccountMapper.accountMapper().findByOwner(c);
  // }
 }
+

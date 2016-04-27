@@ -3,12 +3,19 @@
  */
 package de.hdm.wi7.shared;
 
-public class Property {
+import java.io.Serializable;
+
+public class Property implements Serializable{
 
 	/*
 	 *  Attributes
 	 */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// The property´s ID
 	private int id;
 	

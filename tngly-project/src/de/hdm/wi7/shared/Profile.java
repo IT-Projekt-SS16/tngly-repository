@@ -1,13 +1,19 @@
 package de.hdm.wi7.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Profile {
+public class Profile implements Serializable{
 
 	/*
 	 *  Attributes
 	 */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// The profile´s ID
 	private int id;
 	
@@ -37,6 +43,12 @@ public class Profile {
 	
 	// Is the person smoking? (e.g. yes, no)
 	private boolean isSmoking;
+	
+	private Wishlist wishlist;
+	
+	public Profile(){
+		this.wishlist = new Wishlist();
+	}
 	
 	/*
 	 * Get-/Set-Operations + toString
@@ -102,6 +114,7 @@ public class Profile {
 	public void setGender(String gender)	{
 		this.gender = gender;
 	}
+	
 	
 	// Get person´s body height
 	public float getBodyHeight()	{
