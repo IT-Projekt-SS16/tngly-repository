@@ -85,11 +85,11 @@ public class SearchByProfileView extends Update{
 	  verPanel.add(confession);
 	  verPanel.add(tbc);
 	  
-	  final Button saveProfilButton = new Button("Search");
-	    saveProfilButton.setStylePrimaryName("tngly-menubutton");
-	    verPanel.add(saveProfilButton);
+	  final Button saveProfileButton = new Button("Search");
+	    saveProfileButton.setStylePrimaryName("tngly-menubutton");
+	    verPanel.add(saveProfileButton);
 
-	    saveProfilButton.addClickHandler(new ClickHandler() {
+	    saveProfileButton.addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
 	        Update update = new ProfileView();
 	        RootPanel.get("Details").clear();

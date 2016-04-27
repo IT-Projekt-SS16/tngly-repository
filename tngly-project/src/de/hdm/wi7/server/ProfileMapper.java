@@ -1,9 +1,10 @@
-package de.hdm.wi7.server;
 
-import de.hdm.wi7.shared.Profile;
+package de.hdm.wi7.server;
 
 import java.sql.*;
 import java.util.Vector;
+
+import de.hdm.wi7.shared.*;
 
 /**
  * Mapper-Klasse, die <code>Customer</code>-Objekte auf eine relationale
@@ -215,7 +216,7 @@ public class ProfileMapper {
    * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
    *         <code>id</code>.
    */
-  public Profile create(Profile p) {
+  public Profile insert(Profile p) {
     Connection con = DBConnection.connection();
 
     try {
@@ -306,11 +307,11 @@ public class ProfileMapper {
     }
   }
 
-public void edit(Profile p) {
+public void edit(Profile userProfile) {
 	// TODO Auto-generated method stub
 	
 }
-}
+
   /**
    * Auslesen der zugehörigen <code>Account</code>-Objekte zu einem gegebenen
    * Kunden.
@@ -326,6 +327,5 @@ public void edit(Profile p) {
      */
    // return AccountMapper.accountMapper().findByOwner(c);
  // }
-
-
+}
 

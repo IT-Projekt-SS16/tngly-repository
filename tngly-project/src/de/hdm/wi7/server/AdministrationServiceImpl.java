@@ -209,7 +209,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void createProfile(Profile profile) throws IllegalArgumentException {
 		CommonSettings.setUserProfile(profile);
-		this.profileMapper.create(CommonSettings.getUserProfile());
+		this.profileMapper.insert(CommonSettings.getUserProfile());
 	}
 
 	@Override
