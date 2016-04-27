@@ -120,9 +120,6 @@ public class EditProfileView extends Update{
 		    	  Update update = new ProfileView();
 		    	  
 		    	  
-		    	  
-		    	  
-		    	  
 		    	  RootPanel.get("Details").clear();
 		    	  RootPanel.get("Details").add(update);
 		    
@@ -132,7 +129,3 @@ public class EditProfileView extends Update{
 }
 	      
 	    
-
-//		  
-//	  }
-//}
