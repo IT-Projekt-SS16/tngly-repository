@@ -110,19 +110,20 @@ public class ClientsideSettings extends CommonSettings{
 				public void onFailure(Throwable caught) {
 					ClientsideSettings
 							.getLogger()
-							.severe("Der Administration konnte nicht initialisiert werden!");
+							.severe("Der Administration konnte nicht initialisiert werden!" + caught);
 				}
 
 				public void onSuccess(Void result) {
 					ClientsideSettings.getLogger().info(
-							"Der Administration wurde initialisiert.");
-				}
-			};
+						"Der Administration wurde initialisiert.");
+			}
+		};
 
-			administration.init(initAdministrationCallback);
+		administration.init(initAdministrationCallback);
 		}
 
 		// So, nun brauchen wir die Administration nur noch zur�ckzugeben.
+			
 		return administration;
 	}
 

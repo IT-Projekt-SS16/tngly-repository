@@ -117,18 +117,117 @@ public class EditProfileView extends Update{
 
 	    saveProfilButton.addClickHandler(new ClickHandler() {
 		      public void onClick(ClickEvent event) {
-		    	  Update update = new ProfileView();
 		    	  
-		    	  
-		    	  
-		    	  
-		    	  
+		    	  Logger logger = ClientsideSettings.getLogger();	
+			  		 logger.info("Erfolgreich onClick ausgeführt.");
+			  		 
+			  		 if (CommonSettings.getUserProfile() == null){	
+		    	 		 logger.info("getUserProfile war null.");
+		    		  Profile temp = new Profile();
+			    	  String expectedPattern = "MM/dd/yyyy";
+			    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+			    	  
+			    	  logger.info("Profile+DateTimeFormat instantiiert");
+			    	  
+			    	  temp.setName(tbfn.getText());
+			    	  
+			    	  logger.info("Name CHECK");
+			    	  
+			    	  temp.setLastName(tbn.getText());
+			    	  
+			    	  logger.info("lastName CHECK");
+			    	  
+			    	  temp.setGender(tbg.getText());
+			    	  
+			    	  logger.info("gender CHECK");
+			    	  
+			    	  Date date = null;
+			    	  date = dateTimeFormat.parse(tbdob.getText());
+			    	  temp.setDateOfBirth(date);
+			    	  
+			    	  logger.info("dateOfBirth CHECK");
+			    	  
+			    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
+			    	  temp.setBodyHeight(f);
+			    	  
+			    	  logger.info("bodyHeight CHECK");
+			    	  
+			    	  temp.setHairColour(tbhc.getText());
+			    	  
+			    	  logger.info("HairColour CHECK");
+			    	  
+			    	  if (tbs.getText() == "Yes"){
+			    		  temp.setIsSmoking(true);
+			    	  }
+			    	  else {
+			    		  temp.setIsSmoking(false);
+			    	  }
+			    	  
+			    	  logger.info("isSmoking CHECK");
+			    	  
+			    	  temp.setConfession(tbc.getText());
+			    	  
+			    	  logger.info("Confession CHECK");
+
+			    	  
+			    	  ClientsideSettings.getAdministration().createProfile(temp, new CreateCallback());
+			  		 	logger.info("if-getAdministration wurde aufgerufen");
+			  		 	
+			  		 	
+		    	  }
+		    	  else {
+		    	 		 logger.info("getUserProfile war nicht 0.");
+		    		  Profile temp = new Profile();
+		    		  String expectedPattern = "MM/dd/yyyy";
+			    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+			    	  
+			    	  temp.setName(tbfn.getText());
+			    	  temp.setLastName(tbn.getText());
+			    	  temp.setGender(tbg.getText());
+			    	  Date date = null;
+			    	  date = dateTimeFormat.parse(tbdob.getText());
+			    	  temp.setDateOfBirth(date);
+			    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
+			    	  temp.setBodyHeight(f);
+			    	  temp.setHairColour(tbhc.getText());
+			    	  if (tbs.getText() == "Yes"){
+			    		  temp.setIsSmoking(true);
+			    	  }
+			    	  else {
+			    		  temp.setIsSmoking(false);
+			    	  }
+			    	  temp.setConfession(tbc.getText());
+			    	  ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());
+		    	  }
+			  		 
+			  		 
+			  		 
+			  		 
+		    	  Update update = new ProfileView();		    	  
+		    	  	    	  
 		    	  RootPanel.get("Details").clear();
 		    	  RootPanel.get("Details").add(update);
+		    	  
+		    	  logger.info("Erfolgreicher Reswitch.");
 		    
 		      }
 	    }); 
 	  }
+	  
+	  class CreateCallback implements AsyncCallback<Void> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				// TODO Auto-generated method stub
+				
+			}
+			  
+		  }
 }
 	      
 	    
