@@ -113,87 +113,26 @@ public class EditProfileView extends Update{
 	    saveProfilButton.setStylePrimaryName("tngly-menubutton");
 	    verPanel.add(saveProfilButton);
 	    
-	    ClientsideSettings.getLogger().severe("INFO: " + CommonSettings.getUserProfile().toString());
+	    //ClientsideSettings.getLogger().severe("INFO: " + CommonSettings.getUserProfile().toString());
 
 	    saveProfilButton.addClickHandler(new ClickHandler() {
-	      public void onClick(ClickEvent event) {
-	    	  
-	    	 Logger logger = ClientsideSettings.getLogger();	
-	  		 logger.info("Erfolgreich onClick ausgeführt.");
-	    	  		
-	    		 if (CommonSettings.getUserProfile() == null){	
-	    	 		 logger.info("getUserProfile war null.");
-	    		  Profile temp = new Profile();
-		    	  String expectedPattern = "MM/dd/yyyy";
-		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+		      public void onClick(ClickEvent event) {
+		    	  Update update = new ProfileView();
 		    	  
-		    	  temp.setName(tbfn.getText());
-		    	  temp.setLastName(tbn.getText());
-		    	  temp.setGender(tbg.getText());
-		    	  Date date = null;
-		    	  date = dateTimeFormat.parse(tbdob.getText());
-		    	  temp.setDateOfBirth(date);
-		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
-		    	  temp.setBodyHeight(f);
-		    	  temp.setHairColour(tbhc.getText());
-		    	  if (tbs.getText() == "Yes"){
-		    		  temp.setIsSmoking(true);
-		    	  }
-		    	  else {
-		    		  temp.setIsSmoking(false);
-		    	  }
-		    	  temp.setConfession(tbc.getText());
-		    	  ClientsideSettings.getAdministration().createProfile(temp, new CreateCallback());
-		  		 	logger.info("if-getAdministration wurde aufgerufen");
-	    	  }
-	    	  else {
-	    	 		 logger.info("getUserProfile war nicht 0.");
-	    		  Profile temp = new Profile();
-	    		  String expectedPattern = "MM/dd/yyyy";
-		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
 		    	  
-		    	  temp.setName(tbfn.getText());
-		    	  temp.setLastName(tbn.getText());
-		    	  temp.setGender(tbg.getText());
-		    	  Date date = null;
-		    	  date = dateTimeFormat.parse(tbdob.getText());
-		    	  temp.setDateOfBirth(date);
-		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
-		    	  temp.setBodyHeight(f);
-		    	  temp.setHairColour(tbhc.getText());
-		    	  if (tbs.getText() == "Yes"){
-		    		  temp.setIsSmoking(true);
-		    	  }
-		    	  else {
-		    		  temp.setIsSmoking(false);
-		    	  }
-		    	  temp.setConfession(tbc.getText());
-		    	  ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());
-	    	  }
-	    	 
-	    	  // What happens before?
-	    	  Update update = new ProfileView();
-	    	  
-	  		 logger.info("new ProfileView wurde instantiiert");
-	        RootPanel.get("Details").clear();
-	        RootPanel.get("Details").add(update);
-	      }
+		    	  
+		    	  
+		    	  
+		    	  RootPanel.get("Details").clear();
+		    	  RootPanel.get("Details").add(update);
+		    
+		      }
 	    }); 
-	  
-
-	  }
-	  class CreateCallback implements AsyncCallback<Void> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-		}
-
-		@Override
-		public void onSuccess(Void result) {
-			// TODO Auto-generated method stub
-			
-		}
-		  
 	  }
 }
+	      
+	    
+
+//		  
+//	  }
+//}
