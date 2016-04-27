@@ -27,13 +27,13 @@ public class EditProfileView extends Update{
 	   */
 	  @Override
 	  protected String getHeadlineText() {
-	    return "Profile View";
+	    return "EDIT VIEW";
 	  }
 
 	  /**
-	   * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	   * Jede View muss die <code>run()</code>-Methode implementieren. Sie ist
 	   * eine "Einschubmethode", die von einer Methode der Basisklasse
-	   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	   * <code>Update</code> aufgerufen wird, wenn der View aktiviert wird.
 	   */
 	  @Override
 	  protected void run() {
@@ -113,87 +113,125 @@ public class EditProfileView extends Update{
 	    saveProfilButton.setStylePrimaryName("tngly-menubutton");
 	    verPanel.add(saveProfilButton);
 	    
-	    ClientsideSettings.getLogger().severe("INFO: " + CommonSettings.getUserProfile().toString());
+	    //ClientsideSettings.getLogger().severe("INFO: " + CommonSettings.getUserProfile().toString());
 
 	    saveProfilButton.addClickHandler(new ClickHandler() {
-	      public void onClick(ClickEvent event) {
-	    	  
-	    	 Logger logger = ClientsideSettings.getLogger();	
-	  		 logger.info("Erfolgreich onClick ausgeführt.");
-	    	  		
-	    		 if (CommonSettings.getUserProfile() == null){	
-	    	 		 logger.info("getUserProfile war null.");
-	    		  Profile temp = new Profile();
-		    	  String expectedPattern = "MM/dd/yyyy";
-		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+		      public void onClick(ClickEvent event) {
 		    	  
-		    	  temp.setName(tbfn.getText());
-		    	  temp.setLastName(tbn.getText());
-		    	  temp.setGender(tbg.getText());
-		    	  Date date = null;
-		    	  date = dateTimeFormat.parse(tbdob.getText());
-		    	  temp.setDateOfBirth(date);
-		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
-		    	  temp.setBodyHeight(f);
-		    	  temp.setHairColour(tbhc.getText());
-		    	  if (tbs.getText() == "Yes"){
-		    		  temp.setIsSmoking(true);
-		    	  }
-		    	  else {
-		    		  temp.setIsSmoking(false);
-		    	  }
-		    	  temp.setConfession(tbc.getText());
-		    	  ClientsideSettings.getAdministration().createProfile(temp, new CreateCallback());
-		  		 	logger.info("if-getAdministration wurde aufgerufen");
-	    	  }
-	    	  else {
-	    	 		 logger.info("getUserProfile war nicht 0.");
-	    		  Profile temp = new Profile();
-	    		  String expectedPattern = "MM/dd/yyyy";
-		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
-		    	  
-		    	  temp.setName(tbfn.getText());
-		    	  temp.setLastName(tbn.getText());
-		    	  temp.setGender(tbg.getText());
-		    	  Date date = null;
-		    	  date = dateTimeFormat.parse(tbdob.getText());
-		    	  temp.setDateOfBirth(date);
-		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
-		    	  temp.setBodyHeight(f);
-		    	  temp.setHairColour(tbhc.getText());
-		    	  if (tbs.getText() == "Yes"){
-		    		  temp.setIsSmoking(true);
-		    	  }
-		    	  else {
-		    		  temp.setIsSmoking(false);
-		    	  }
-		    	  temp.setConfession(tbc.getText());
-		    	  ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());
-	    	  }
-	    	 
-	    	  // What happens before?
-	    	  Update update = new ProfileView();
-	    	  
-	  		 logger.info("new ProfileView wurde instantiiert");
-	        RootPanel.get("Details").clear();
-	        RootPanel.get("Details").add(update);
-	      }
-	    }); 
-	  
+		    	  Logger logger = ClientsideSettings.getLogger();	
+			  		 logger.info("Erfolgreich onClick ausgeführt.");
+			  		 
+			  		 if (CommonSettings.getUserProfile() == null){	
+		    	 		 logger.info("getUserProfile war null.");
+		    		  Profile temp = new Profile();
+			    	  String expectedPattern = "MM/dd/yyyy";
+			    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+			    	  
+			    	  logger.info("Profile+DateTimeFormat instantiiert");
+			    	  
+			    	  temp.setName(tbfn.getText());
+			    	  
+			    	  logger.info("Name CHECK");
+			    	  
+			    	  temp.setLastName(tbn.getText());
+			    	  
+			    	  logger.info("lastName CHECK");
+			    	  
+			    	  temp.setGender(tbg.getText());
+			    	  
+			    	  logger.info("gender CHECK");
+			    	  
+			    	  Date date = null;
+			    	  date = dateTimeFormat.parse(tbdob.getText());
+			    	  temp.setDateOfBirth(date);
+			    	  
+			    	  logger.info("dateOfBirth CHECK");
+			    	  
+			    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
+			    	  temp.setBodyHeight(f);
+			    	  
+			    	  logger.info("bodyHeight CHECK");
+			    	  
+			    	  temp.setHairColour(tbhc.getText());
+			    	  
+			    	  logger.info("HairColour CHECK");
+			    	  
+			    	  if (tbs.getText() == "Yes"){
+			    		  temp.setIsSmoking(true);
+			    	  }
+			    	  else {
+			    		  temp.setIsSmoking(false);
+			    	  }
+			    	  
+			    	  logger.info("isSmoking CHECK");
+			    	  
+			    	  temp.setConfession(tbc.getText());
+			    	  
+			    	  logger.info("Confession CHECK");
 
+			    	  
+			    	  ClientsideSettings.getAdministration().createProfile(temp, new CreateCallback());
+			  		 	logger.info("if-getAdministration wurde aufgerufen");
+			  		 	
+			  		 	
+		    	  }
+		    	  else {
+		    	 		 logger.info("getUserProfile war nicht 0.");
+		    		  Profile temp = new Profile();
+		    		  String expectedPattern = "MM/dd/yyyy";
+			    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+			    	  
+			    	  temp.setName(tbfn.getText());
+			    	  temp.setLastName(tbn.getText());
+			    	  temp.setGender(tbg.getText());
+			    	  Date date = null;
+			    	  date = dateTimeFormat.parse(tbdob.getText());
+			    	  temp.setDateOfBirth(date);
+			    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
+			    	  temp.setBodyHeight(f);
+			    	  temp.setHairColour(tbhc.getText());
+			    	  if (tbs.getText() == "Yes"){
+			    		  temp.setIsSmoking(true);
+			    	  }
+			    	  else {
+			    		  temp.setIsSmoking(false);
+			    	  }
+			    	  temp.setConfession(tbc.getText());
+			    	  ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());
+		    	  }
+			  		 
+			  		 
+			  		 
+			  		 
+		    	  Update update = new ProfileView();		    	  
+		    	  	    	  
+		    	  RootPanel.get("Details").clear();
+		    	  RootPanel.get("Details").add(update);
+		    	  
+		    	  logger.info("Erfolgreicher Reswitch.");
+		    
+		      }
+	    }); 
 	  }
+	  
 	  class CreateCallback implements AsyncCallback<Void> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-		}
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
 
-		@Override
-		public void onSuccess(Void result) {
-			// TODO Auto-generated method stub
-			
-		}
-		  
-	  }
+			@Override
+			public void onSuccess(Void result) {
+				// TODO Auto-generated method stub
+				
+			}
+			  
+		  }
 }
+	      
+	    
+
+//		  
+//	  }
+//}
