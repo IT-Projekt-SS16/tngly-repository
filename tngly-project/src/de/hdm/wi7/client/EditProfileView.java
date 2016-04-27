@@ -21,13 +21,13 @@ public class EditProfileView extends Update{
 	   */
 	  @Override
 	  protected String getHeadlineText() {
-	    return "Profile View";
+	    return "EDIT VIEW";
 	  }
 
 	  /**
-	   * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	   * Jede View muss die <code>run()</code>-Methode implementieren. Sie ist
 	   * eine "Einschubmethode", die von einer Methode der Basisklasse
-	   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	   * <code>Update</code> aufgerufen wird, wenn der View aktiviert wird.
 	   */
 	  @Override
 	  protected void run() {
