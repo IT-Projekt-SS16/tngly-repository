@@ -43,10 +43,13 @@ public class DBConnection {
      * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
      * Software neu komilieren zu müssen.
      */
-    private static String googleUrl = "jdbc:google:mysql://173.194.226.20/tnglyDB?user=phil&password=goat"; 
+    private static String googleUrl = "jdbc:google:mysql://173.194.226.20?user=phil&password=goat";
+
+   // private static String googleUrl = "jdbc:google:mysql://173.194.226.20/tnglyDB?user=phil&password=goat"; 
    // private static String googleUrl = "jdbc:google:mysql://173.194.226.20/tnglyDB?user=root";
    // private static String googleUrl = "jdbc:google:mysql://our-dominion-125909:it-projekt/tnglyDB?user=root";
    // private static String googleUrl = "jdbc:google:mysql://173.194.226.20?user=root";
+
     private static String localUrl = "jdbc:mysql://127.0.0.1:3306/bankproject?user=demo&password=demo";
 
     /**
