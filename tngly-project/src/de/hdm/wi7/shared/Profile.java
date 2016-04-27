@@ -27,7 +27,7 @@ public class Profile implements Serializable{
 	private String lastName;
 	
 	// The persons date of birth
-	private Date dateOfBirth;
+	private String dateOfBirth;
 	
 	// The person´s gender
 	private String gender;
@@ -42,7 +42,7 @@ public class Profile implements Serializable{
 	private String confession;
 	
 	// Is the person smoking? (e.g. yes, no)
-	private boolean isSmoking;
+	private int isSmoking;
 	
 	private Wishlist wishlist;
 	
@@ -96,12 +96,12 @@ public class Profile implements Serializable{
 	}
 	
 	// Get person´s date of birth
-	public Date getDateOfBirth()	{
+	public String getDateOfBirth()	{
 		return this.dateOfBirth;
 	}
 	
 	// Set person´s date of birth 
-	public void setDateOfBirth(Date dateOfBirth)	{
+	public void setDateOfBirth(String dateOfBirth)	{
 		this.dateOfBirth = dateOfBirth;
 	}
 	
@@ -147,12 +147,12 @@ public class Profile implements Serializable{
 	}
 	
 	// Get person´s smoking status - Is the person smoking?
-	public boolean getIsSmoking()	{
+	public int getIsSmoking()	{
 		return this.isSmoking;
 	}
 	
 	// Set person´s smoking status - Is the person smoking?
-	public void setIsSmoking(boolean isSmoking)	{
+	public void setIsSmoking(int isSmoking)	{
 		this.isSmoking = isSmoking;
 	}
 	

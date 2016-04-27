@@ -1,5 +1,6 @@
 package de.hdm.wi7.client;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -124,7 +125,7 @@ public class EditProfileView extends Update{
 			  		 if (CommonSettings.getUserProfile() == null){	
 		    	 		 logger.info("getUserProfile war null.");
 		    		  Profile temp = new Profile();
-			    	  String expectedPattern = "MM/dd/yyyy";
+			    	  String expectedPattern = "yyyy/MM/dd";
 			    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
 			    	  
 			    	  logger.info("Profile+DateTimeFormat instantiiert");
@@ -142,8 +143,9 @@ public class EditProfileView extends Update{
 			    	  logger.info("gender CHECK");
 			    	  
 			    	  Date date = null;
-			    	  date = dateTimeFormat.parse(tbdob.getText());
-			    	  temp.setDateOfBirth(date);
+			    	  date = dateTimeFormat.parse("1995/10/10");
+			    	  temp.setDateOfBirth(tbdob.getText());
+			    	  // temp.setDateOfBirth(null);
 			    	  
 			    	  logger.info("dateOfBirth CHECK");
 			    	  
@@ -157,10 +159,10 @@ public class EditProfileView extends Update{
 			    	  logger.info("HairColour CHECK");
 			    	  
 			    	  if (tbs.getText() == "Yes"){
-			    		  temp.setIsSmoking(true);
+			    		  temp.setIsSmoking(1);
 			    	  }
 			    	  else {
-			    		  temp.setIsSmoking(false);
+			    		  temp.setIsSmoking(0);
 			    	  }
 			    	  
 			    	  logger.info("isSmoking CHECK");
@@ -186,15 +188,15 @@ public class EditProfileView extends Update{
 			    	  temp.setGender(tbg.getText());
 			    	  Date date = null;
 			    	  date = dateTimeFormat.parse(tbdob.getText());
-			    	  temp.setDateOfBirth(date);
+			    	  temp.setDateOfBirth(tbdob.getText());
 			    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
 			    	  temp.setBodyHeight(f);
 			    	  temp.setHairColour(tbhc.getText());
 			    	  if (tbs.getText() == "Yes"){
-			    		  temp.setIsSmoking(true);
+			    		  temp.setIsSmoking(1);
 			    	  }
 			    	  else {
-			    		  temp.setIsSmoking(false);
+			    		  temp.setIsSmoking(0);
 			    	  }
 			    	  temp.setConfession(tbc.getText());
 			    	  ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());

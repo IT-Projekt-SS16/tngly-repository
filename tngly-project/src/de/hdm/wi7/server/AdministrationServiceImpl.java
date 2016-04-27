@@ -80,7 +80,7 @@ import de.hdm.wi7.shared.Wishlist;
  * </p>
  */
 @SuppressWarnings("serial")
-public class AdministrationServiceImpl extends RemoteServiceServlet implements AdministrationService{
+public class AdministrationServiceImpl extends RemoteServiceServlet implements AdministrationService {
 
 	/**
 	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse

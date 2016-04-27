@@ -97,7 +97,7 @@ public class ProfileMapper {
         p.setUserName(rs.getString("userName"));
         p.setName(rs.getString("name"));
         p.setLastName(rs.getString("lastName"));
-        p.setDateOfBirth(rs.getDate("dateOfBirth"));
+        p.setDateOfBirth(rs.getString("dateOfBirth"));
         p.setGender(rs.getString("gender"));
         p.setBodyHeight(rs.getFloat("bodyHeight"));
         p.setHairColour(rs.getString("hairColour"));
@@ -105,7 +105,7 @@ public class ProfileMapper {
         
         // evtl. muss hier nochmal geschaut werden, ob 0 automatisch als false und * automatisch als true ausgegeben wird
         
-        p.setIsSmoking(rs.getBoolean("isSmoking"));
+        p.setIsSmoking(rs.getInt("isSmoking"));
        
 
         return p;
@@ -146,7 +146,7 @@ public class ProfileMapper {
         p.setUserName(rs.getString("userName"));
         p.setName(rs.getString("name"));
         p.setLastName(rs.getString("lastName"));
-        p.setDateOfBirth(rs.getDate("dateOfBirth"));
+        p.setDateOfBirth(rs.getString("dateOfBirth"));
         p.setGender(rs.getString("gender"));
         p.setBodyHeight(rs.getFloat("bodyHeight"));
         p.setHairColour(rs.getString("hairColour"));
@@ -154,7 +154,7 @@ public class ProfileMapper {
         
         // evtl. muss hier nochmal geschaut werden, ob 0 automatisch als false und * automatisch als true ausgegeben wird
         
-        p.setIsSmoking(rs.getBoolean("isSmoking"));
+        p.setIsSmoking(rs.getInt("isSmoking"));
 
         // Hinzufügen des neuen Objekts zum Ergebnisvektor
         result.addElement(p);
@@ -240,8 +240,8 @@ public class ProfileMapper {
         stmt = con.createStatement();
 
         // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-        stmt.executeUpdate("INSERT INTO profiles (id, userName, name, lastName, dateOfBirth, gender, bodyHeight, hairColour, confession, isSmoking) "
-            + "VALUES (" + p.getId() + ",'" + p.getUserName() + "','" + p.getName() + "','" + p.getLastName() + "','" + p.getDateOfBirth() + "','" + p.getGender() + "','"
+        stmt.executeUpdate("INSERT INTO profiles (id, userName, name, lastName, gender, dateOfBirth, bodyHeight, hairColour, confession, isSmoking) "
+            + "VALUES (" + p.getId() + ",'" + p.getUserName() + "','" + p.getName() + "','" + p.getLastName() + "','" + p.getGender() + "','" + p.getDateOfBirth() + "','"
             + p.getBodyHeight() + "','" + p.getHairColour() + "','" + p.getConfession() + "','" + p.getIsSmoking() + "')");
       }
     }

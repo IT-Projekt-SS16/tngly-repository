@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import com.google.appengine.api.utils.SystemProperty;
-
+//
 /**
  * Verwalten einer Verbindung zur Datenbank.
  * <p>
@@ -43,14 +43,14 @@ public class DBConnection {
      * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
      * Software neu komilieren zu müssen.
      */
-    private static String googleUrl = "jdbc:google:mysql://173.194.226.20?user=phil&password=goat";
+    private static String googleUrl = "jdbc:google:mysql://173.194.232.14:3306/tnglyDB?user=root";
 
    // private static String googleUrl = "jdbc:google:mysql://173.194.226.20/tnglyDB?user=phil&password=goat"; 
    // private static String googleUrl = "jdbc:google:mysql://173.194.226.20/tnglyDB?user=root";
-   // private static String googleUrl = "jdbc:google:mysql://our-dominion-125909:it-projekt/tnglyDB?user=root";
+   // private static String googleUrl = "jdbc:google:mysql://our-dominion-125909:it-projekt-2/tnglyDB";
    // private static String googleUrl = "jdbc:google:mysql://173.194.226.20?user=root";
 
-    private static String localUrl = "jdbc:mysql://127.0.0.1:3306/bankproject?user=demo&password=demo";
+    private static String localUrl = "jdbc:mysql://173.194.232.14:3306/tnglyDB?user=root";
 
     /**
      * Diese statische Methode kann aufgrufen werden durch
@@ -80,6 +80,8 @@ public class DBConnection {
         // Wenn es bisher keine Conncetion zur DB gab, ...
         if (con == null) {
             String url = null;
+            String user = "phil";
+            String password = "goat";
             try {
                 if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
                     // Load the class that provides the new
@@ -99,7 +101,7 @@ public class DBConnection {
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
-                con = DriverManager.getConnection(url);
+                con = DriverManager.getConnection(url, user, password);
             } catch (Exception e) {
                 con = null;
                 e.printStackTrace();
