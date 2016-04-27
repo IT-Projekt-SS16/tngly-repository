@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -45,8 +46,9 @@ public class EditProfileView extends Update{
  		 logger.info("Erfolgreich Profile-Edit-View geswitcht.");
  		 
     VerticalPanel verPanel = new VerticalPanel();
-		  
+    
     RootPanel.get("Details").add(verPanel);
+
     
     TextBox tbu = new TextBox();
     final TextBox tbfn = new TextBox();
@@ -130,6 +132,8 @@ public class EditProfileView extends Update{
 	  final Button saveProfilButton = new Button("Save");
 	    saveProfilButton.setStylePrimaryName("tngly-menubutton");
 	    verPanel.add(saveProfilButton);
+	    
+
 	  }
 }
 	    
