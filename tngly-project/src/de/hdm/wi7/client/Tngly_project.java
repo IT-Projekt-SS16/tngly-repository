@@ -3,6 +3,10 @@ package de.hdm.wi7.client;
 // Kommentar zum Test als Commit
 
 import de.hdm.wi7.shared.FieldVerifier;
+
+import java.util.logging.Logger;
+import java.util.logging.*;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -39,8 +43,19 @@ public class Tngly_project implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
-	public void onModuleLoad() {
 	
+	private Logger logger = Logger.getLogger("");
+	
+	
+	public void onModuleLoad() {
+		  
+		  GWT.setUncaughtExceptionHandler(new
+			        GWT.UncaughtExceptionHandler() {
+			        	public void onUncaughtException(Throwable e) {
+			        		 logger.log(Level.ALL, "Ex caught!", e);
+			        	}
+		  });
+		  
 	HorizontalPanel horPanel = new HorizontalPanel();
 	
 	RootPanel.get("Navigator").add(horPanel);
@@ -100,8 +115,9 @@ public class Tngly_project implements EntryPoint {
 	        RootPanel.get("Details").clear();
 	        RootPanel.get("Details").add(update);
 	      }
+	      
+	      
 	    });
 	    
-	   
 	}
 }

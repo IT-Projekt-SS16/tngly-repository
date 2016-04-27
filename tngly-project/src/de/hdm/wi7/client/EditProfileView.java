@@ -1,15 +1,21 @@
 package de.hdm.wi7.client;
 
+import java.util.Date;
+import java.util.logging.Logger;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.i18n.shared.DateTimeFormat;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.wi7.shared.CommonSettings;
+import de.hdm.wi7.shared.Profile;
 
 public class EditProfileView extends Update{
 
@@ -32,21 +38,24 @@ public class EditProfileView extends Update{
 	  @Override
 	  protected void run() {
 		  
+		  Logger logger = ClientsideSettings.getLogger();	    		 
+ 		 logger.info("Erfolgreich Profile-Edit-View geswitcht.");
+ 		 
     VerticalPanel verPanel = new VerticalPanel();
 		  
     RootPanel.get("Details").add(verPanel);
     
     TextBox tbu = new TextBox();
-    TextBox tbfn = new TextBox();
-    TextBox tbn = new TextBox();
-    TextBox tbg = new TextBox();
-    TextBox tbdob = new TextBox();
-    TextBox tbbh = new TextBox();
-    TextBox tbhc = new TextBox();
-    TextBox tbs = new TextBox();
-    TextBox tbc = new TextBox();
+    final TextBox tbfn = new TextBox();
+    final TextBox tbn = new TextBox();
+    final TextBox tbg = new TextBox();
+    final TextBox tbdob = new TextBox();
+    final TextBox tbbh = new TextBox();
+    final TextBox tbhc = new TextBox();
+    final TextBox tbs = new TextBox();
+    final TextBox tbc = new TextBox();
     
-    //*** BEISPIEL ADDKEYHANDLER NOCH FÜR ALLE ÜBERNEHMEN***
+    //*** BEISPIEL ADDKEYHANDLER NOCH Fï¿½R ALLE ï¿½BERNEHMEN***
     
   //  tbfn.addKeyPressHandler(new KeyPressHandler() {
 
@@ -103,14 +112,88 @@ public class EditProfileView extends Update{
 	  final Button saveProfilButton = new Button("Save");
 	    saveProfilButton.setStylePrimaryName("tngly-menubutton");
 	    verPanel.add(saveProfilButton);
+	    
+	    ClientsideSettings.getLogger().severe("INFO: " + CommonSettings.getUserProfile().toString());
 
 	    saveProfilButton.addClickHandler(new ClickHandler() {
 	      public void onClick(ClickEvent event) {
-	        Update update = new ProfileView();
+	    	  
+	    	 Logger logger = ClientsideSettings.getLogger();	
+	  		 logger.info("Erfolgreich onClick ausgefÃ¼hrt.");
+	    	  		
+	    		 if (CommonSettings.getUserProfile() == null){	
+	    	 		 logger.info("getUserProfile war null.");
+	    		  Profile temp = new Profile();
+		    	  String expectedPattern = "MM/dd/yyyy";
+		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+		    	  
+		    	  temp.setName(tbfn.getText());
+		    	  temp.setLastName(tbn.getText());
+		    	  temp.setGender(tbg.getText());
+		    	  Date date = null;
+		    	  date = dateTimeFormat.parse(tbdob.getText());
+		    	  temp.setDateOfBirth(date);
+		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
+		    	  temp.setBodyHeight(f);
+		    	  temp.setHairColour(tbhc.getText());
+		    	  if (tbs.getText() == "Yes"){
+		    		  temp.setIsSmoking(true);
+		    	  }
+		    	  else {
+		    		  temp.setIsSmoking(false);
+		    	  }
+		    	  temp.setConfession(tbc.getText());
+		    	  ClientsideSettings.getAdministration().createProfile(temp, new CreateCallback());
+		  		 	logger.info("if-getAdministration wurde aufgerufen");
+	    	  }
+	    	  else {
+	    	 		 logger.info("getUserProfile war nicht 0.");
+	    		  Profile temp = new Profile();
+	    		  String expectedPattern = "MM/dd/yyyy";
+		    	  DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat(expectedPattern);
+		    	  
+		    	  temp.setName(tbfn.getText());
+		    	  temp.setLastName(tbn.getText());
+		    	  temp.setGender(tbg.getText());
+		    	  Date date = null;
+		    	  date = dateTimeFormat.parse(tbdob.getText());
+		    	  temp.setDateOfBirth(date);
+		    	  float f = Float.valueOf(tbbh.getText().trim()).floatValue();
+		    	  temp.setBodyHeight(f);
+		    	  temp.setHairColour(tbhc.getText());
+		    	  if (tbs.getText() == "Yes"){
+		    		  temp.setIsSmoking(true);
+		    	  }
+		    	  else {
+		    		  temp.setIsSmoking(false);
+		    	  }
+		    	  temp.setConfession(tbc.getText());
+		    	  ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());
+	    	  }
+	    	 
+	    	  // What happens before?
+	    	  Update update = new ProfileView();
+	    	  
+	  		 logger.info("new ProfileView wurde instantiiert");
 	        RootPanel.get("Details").clear();
 	        RootPanel.get("Details").add(update);
 	      }
 	    }); 
 	  
+
+	  }
+	  class CreateCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			
+		}
+		  
 	  }
 }
