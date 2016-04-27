@@ -6,15 +6,16 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>de.hdm.wi7.server.GreetingServiceImpl</servlet-class>
-  </servlet>
   
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/tngly_project/greet</url-pattern>
-  </servlet-mapping>
+  <servlet>
+		<servlet-name>administrationService</servlet-name>
+		<servlet-class>de.hdm.wi7.server.AdministrationServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>administrationService</servlet-name>
+		<url-pattern>/tngly_project/administration</url-pattern>
+	</servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

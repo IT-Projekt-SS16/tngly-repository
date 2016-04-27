@@ -42,7 +42,7 @@ public class Profile implements Serializable{
 	private String confession;
 	
 	// Is the person smoking? (e.g. yes, no)
-	private boolean isSmoking;
+	private int isSmoking;
 	
 	private Wishlist wishlist;
 	
@@ -147,12 +147,12 @@ public class Profile implements Serializable{
 	}
 	
 	// Get person´s smoking status - Is the person smoking?
-	public boolean getIsSmoking()	{
+	public int getIsSmoking()	{
 		return this.isSmoking;
 	}
 	
 	// Set person´s smoking status - Is the person smoking?
-	public void setIsSmoking(boolean isSmoking)	{
+	public void setIsSmoking(int isSmoking)	{
 		this.isSmoking = isSmoking;
 	}
 	
