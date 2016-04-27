@@ -27,9 +27,9 @@ public class SearchProfileView extends Update{
 
 		    searchByProfileButton.addClickHandler(new ClickHandler() {
 		      public void onClick(ClickEvent event) {
-		        //Update update = new SearchByProfileView();
+		        Update update = new SearchByProfileView();
 		        RootPanel.get("Details").clear();
-		        //RootPanel.get("Details").add(update);
+		        RootPanel.get("Details").add(update);
 		        
 		      }
 		    });
