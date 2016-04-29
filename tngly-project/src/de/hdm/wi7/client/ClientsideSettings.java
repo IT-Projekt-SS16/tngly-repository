@@ -10,11 +10,11 @@ import de.hdm.wi7.shared.AdministrationServiceAsync;
 import de.hdm.wi7.shared.CommonSettings;
 import de.hdm.wi7.shared.User;
 
-public class ClientsideSettings extends CommonSettings{
-	
+public class ClientsideSettings extends CommonSettings {
+
 	/**
 	 * Remote Service Proxy zur Verbindungsaufnahme mit dem Server-seitgen
-	 * Dienst namens <code>BankAdministration</code>.
+	 * Dienst namens <code>AdministrationService</code>.
 	 */
 
 	private static AdministrationServiceAsync administration = null;
@@ -24,12 +24,12 @@ public class ClientsideSettings extends CommonSettings{
 	/**
 	 * Name des Client-seitigen Loggers.
 	 */
-	 private static final String LOGGER_NAME = "Tngly Web Client";
-	  
-	  /**
-	   * Instanz des Client-seitigen Loggers.
-	   */
-	  private static final Logger log = Logger.getLogger(LOGGER_NAME);
+	private static final String LOGGER_NAME = "Tngly Web Client";
+
+	/**
+	 * Instanz des Client-seitigen Loggers.
+	 */
+	private static final Logger log = Logger.getLogger(LOGGER_NAME);
 
 	/**
 	 * <p>
@@ -39,7 +39,7 @@ public class ClientsideSettings extends CommonSettings{
 	 * <h2>Anwendungsbeispiel:</h2> Zugriff auf den Logger herstellen durch:
 	 * 
 	 * <pre>
-	 * Logger logger = ClientSideSettings.getLogger();
+	 * Logger logger = ClientsideSettings.getLogger();
 	 * </pre>
 	 * 
 	 * und dann Nachrichten schreiben etwa mittels
@@ -51,7 +51,7 @@ public class ClientsideSettings extends CommonSettings{
 	 * oder
 	 * 
 	 * <pre>
-	 * logger.info(&quot;Lege neuen Kunden an.&quot;);
+	 * logger.info;
 	 * </pre>
 	 * 
 	 * <p>
@@ -62,21 +62,22 @@ public class ClientsideSettings extends CommonSettings{
 	 * <h2>HINWEIS:</h2>
 	 * <p>
 	 * Beachten Sie, dass Sie den auszugebenden Log nun nicht mehr durch
-	 * bedarfsweise Einfï¿½gen und Auskommentieren etwa von
-	 * <code>System.out.println(...);</code> steuern. Sie belassen kï¿½nftig
-	 * sï¿½mtliches Logging im Code und kï¿½nnen ohne abermaliges Kompilieren den
-	 * Log Level "von auï¿½en" durch die Datei <code>logging.properties</code>
-	 * steuern. Sie finden diese Datei in Ihrem <code>war/WEB-INF</code>-Ordner.
-	 * Der dort standardmï¿½ï¿½ig vorgegebene Log Level ist <code>WARN</code>. Dies
-	 * wï¿½rde bedeuten, dass Sie keine <code>INFO</code>-Meldungen wohl aber
-	 * <code>WARN</code>- und <code>SEVERE</code>-Meldungen erhielten. Wenn Sie
-	 * also auch Log des Levels <code>INFO</code> wollten, mï¿½ssten Sie in dieser
-	 * Datei <code>.level = INFO</code> setzen.
+	 * bedarfsweise Einfuegen und Auskommentieren etwa von
+	 * <code>System.out.println(...);</code> steuern. Sie belassen kuenftig
+	 * saemtliches Logging im Code und können ohne abermaliges Kompilieren
+	 * den Log Level "von aussen" durch die Datei
+	 * <code>logging.properties</code> steuern. Sie finden diese Datei in Ihrem
+	 * <code>war/WEB-INF</code>-Ordner. Der dort standardmaessig vorgegebene
+	 * Log Level ist <code>WARN</code>. Dies wuerde bedeuten, dass Sie keine
+	 * <code>INFO</code>-Meldungen wohl aber <code>WARN</code>- und
+	 * <code>SEVERE</code>-Meldungen erhielten. Wenn Sie also auch Log des
+	 * Levels <code>INFO</code> wollten, muessten Sie in dieser Datei
+	 * <code>.level = INFO</code> setzen.
 	 * </p>
 	 * 
 	 * Weitere Infos siehe Dokumentation zu Java Logging.
 	 * 
-	 * @return die Logger-Instanz fï¿½r die Server-Seite
+	 * @return die Logger-Instanz für die Server-Seite
 	 */
 	public static Logger getLogger() {
 		return log;
@@ -84,53 +85,72 @@ public class ClientsideSettings extends CommonSettings{
 
 	/**
 	 * <p>
-	 * Anlegen und Auslesen der applikationsweit eindeutigen BankAdministration.
-	 * Diese Methode erstellt die BankAdministration, sofern sie noch nicht
+	 * Anlegen und Auslesen der applikationsweit eindeutigen AdministrationService.
+	 * Diese Methode erstellt die AdministrationService, sofern sie noch nicht
 	 * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
-	 * zuvor angelegte Objekt zurï¿½ckgegeben.
+	 * zuvor angelegte Objekt zurueckgegeben.
 	 * </p>
 	 * 
 	 * <p>
 	 * Der Aufruf dieser Methode erfolgt im Client z.B. durch
-	 * <code>BankAdministrationAsync bankVerwaltung = ClientSideSettings.getBankVerwaltung()</code>
+	 * <code>AdministrationServiceAsync administration = ClientsideSettings.getAdministration()</code>
 	 * .
 	 * </p>
 	 * 
-	 * @return eindeutige Instanz des Typs <code>BankAdministrationAsync</code>
+	 * @return eindeutige Instanz des Typs <code>AdministrationServiceAsync</code>
 	 * @author Peter Thies
 	 * @since 28.02.2012
 	 */
 	public static AdministrationServiceAsync getAdministration() {
 		// Gab es bislang noch keine Administration-Instanz, dann...
 		if (administration == null) {
-			// Zunï¿½chst instantiieren wir Administration
+			// Zunächst instantiieren wir Administration
 			administration = GWT.create(AdministrationService.class);
 
 			final AsyncCallback<Void> initAdministrationCallback = new AsyncCallback<Void>() {
 				public void onFailure(Throwable caught) {
-					ClientsideSettings
-							.getLogger()
+					ClientsideSettings.getLogger()
 							.severe("Der Administration konnte nicht initialisiert werden!" + caught);
 				}
 
 				public void onSuccess(Void result) {
-					ClientsideSettings.getLogger().info(
-						"Der Administration wurde initialisiert.");
-			}
-		};
+					ClientsideSettings.getLogger().info("Der Administration wurde initialisiert.");
+				}
+			};
 
-		administration.init(initAdministrationCallback);
+			administration.init(initAdministrationCallback);
 		}
 
-		// So, nun brauchen wir die Administration nur noch zurï¿½ckzugeben.
-			
+		// So, nun brauchen wir die Administration nur noch zurückzugeben.
+
 		return administration;
 	}
 
+	/**
+	 * <p>
+	 * Rückgeben des applikationsweit eindeutigen aktuellen Benutzers. 
+	 * Bei wiederholtem Aufruf dieser Methode wird stets das bereits
+	 * zuvor angelegte Objekt zurückgegeben.
+	 * </p>
+	 * 
+	 * @return eindeutige Instanz des Typs <code>User</code>
+	 * @author Kevin Jaeger
+	 * @since 28.04.2016
+	 */
 	public static User getCurrentUser() {
 		return currentUser;
 	}
 
+	/**
+	 * <p>
+	 * Setzen des applikationsweit eindeutigen aktuellen Benutzers. 
+	 * Bei wiederholtem Aufruf dieser Methode wird stets das bereits
+	 * zuvor angelegte Objekt überschrieben.
+	 * </p>
+	 * 
+	 * @author Kevin Jaeger
+	 * @since 28.04.2016
+	 */
 	public static void setCurrentUser(User currentUser) {
 		ClientsideSettings.currentUser = currentUser;
 	}

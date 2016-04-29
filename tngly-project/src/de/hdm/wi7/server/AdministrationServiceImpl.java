@@ -14,68 +14,68 @@ import de.hdm.wi7.shared.Wishlist;
 
 /**
  * <p>
- * Implementierungsklasse des Interface <code>AdministationCommon</code>. Diese
- * Klasse ist <em>die</em> Klasse, die sï¿½mtliche Applikationslogik (oder engl.
- * Business Logic) aggregiert. Sie ist wie eine Spinne, die sï¿½mtliche
- * Zusammenhï¿½nge in ihrem Netz (in unserem Fall die Daten der Applikation)
- * ï¿½berblickt und fï¿½r einen geordneten Ablauf und dauerhafte Konsistenz der
- * Daten und Ablï¿½ufe sorgt.
+ * Implementierungsklasse des Interface <code>AdministationService</code>. Diese
+ * Klasse ist <em>die</em> Klasse, die saemtliche Applikationslogik (oder engl.
+ * Business Logic) aggregiert. Sie ist wie eine Spinne, die saemtliche
+ * Zusammenhaenge in ihrem Netz (in unserem Fall die Daten der Applikation)
+ * ueberblickt und fuer einen geordneten Ablauf und dauerhafte Konsistenz der
+ * Daten und Ablaeufe sorgt.
  * </p>
  * <p>
  * Die Applikationslogik findet sich in den Methoden dieser Klasse. Jede dieser
  * Methoden kann als <em>Transaction Script</em> bezeichnet werden. Dieser Name
- * lï¿½sst schon vermuten, dass hier analog zu Datenbanktransaktion pro
- * Transaktion gleiche mehrere Teilaktionen durchgefï¿½hrt werden, die das
- * System von einem konsistenten Zustand in einen anderen, auch wieder
- * konsistenten Zustand ï¿½berfï¿½hren. Wenn dies zwischenzeitig scheitern
- * sollte, dann ist das jeweilige Transaction Script dafï¿½r verwantwortlich,
- * eine Fehlerbehandlung durchzufï¿½hren.
+ * laesst schon vermuten, dass hier analog zu Datenbanktransaktion pro
+ * Transaktion gleiche mehrere Teilaktionen durchgefuehrt werden, die das System
+ * von einem konsistenten Zustand in einen anderen, auch wieder konsistenten
+ * Zustand ueberfuehren. Wenn dies zwischenzeitig scheitern sollte, dann ist das
+ * jeweilige Transaction Script dafuer verantwortlich, eine Fehlerbehandlung
+ * durchzufuehren.
  * </p>
  * <p>
  * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies
  * sind:
  * <ol>
- * <li>{@link AdministrationCommon}: Dies ist das <em>lokale</em> - also
- * Server-seitige - Interface, das die im System zur Verfï¿½gung gestellten
+ * <li>{@link AdministrationService}: Dies ist das <em>lokale</em> - also
+ * Server-seitige - Interface, das die im System zur Verfuegung gestellten
  * Funktionen deklariert.</li>
- * <li>{@link AdministrationCommonAsync}: <code>AdministartionCommonImpl</code>
- * und <code>AdministrationCommon</code> bilden nur die Server-seitige Sicht der
- * Applikationslogik ab. Diese basiert vollstï¿½ndig auf synchronen
- * Funktionsaufrufen. Wir mï¿½ssen jedoch in der Lage sein, Client-seitige
- * asynchrone Aufrufe zu bedienen. Dies bedingt ein weiteres Interface, das in
- * der Regel genauso benannt wird, wie das synchrone Interface, jedoch mit dem
- * zusï¿½tzlichen Suffix "Async". Es steht nur mittelbar mit dieser Klasse in
- * Verbindung. Die Erstellung und Pflege der Async Interfaces wird durch das
- * Google Plugin semiautomatisch unterstï¿½tzt. Weitere Informationen unter
- * {@link AdministrationCommonAsync}.</li>
- * <li> {@link RemoteServiceServlet}: Jede Server-seitig instantiierbare und
- * Client-seitig ï¿½ber GWT RPC nutzbare Klasse muss die Klasse
+ * <li>{@link AdministrationServiceAsync}:
+ * <code>AdministartionServiceImpl</code> und <code>AdministrationService</code>
+ * bilden nur die Server-seitige Sicht der Applikationslogik ab. Diese basiert
+ * vollstaendig auf synchronen Funktionsaufrufen. Wir muessen jedoch in der Lage
+ * sein, Client-seitige asynchrone Aufrufe zu bedienen. Dies bedingt ein
+ * weiteres Interface, das in der Regel genauso benannt wird, wie das synchrone
+ * Interface, jedoch mit dem zusaetzlichen Suffix "Async". Es steht nur
+ * mittelbar mit dieser Klasse in Verbindung. Die Erstellung und Pflege der
+ * Async Interfaces wird durch das Google Plugin semiautomatisch unterstuetzt.
+ * Weitere Informationen unter {@link AdministrationServiceAsync}.</li>
+ * <li>{@link RemoteServiceServlet}: Jede Server-seitig instantiierbare und
+ * Client-seitig ueber GWT RPC nutzbare Klasse muss die Klasse
  * <code>RemoteServiceServlet</code> implementieren. Sie legt die funktionale
- * Basis fï¿½r die Anbindung von <code>AdministrationCommonImpl</code> an die
+ * Basis fuer die Anbindung von <code>AdministrationServiceImpl</code> an die
  * Runtime des GWT RPC-Mechanismus.</li>
  * </ol>
  * </p>
  * <p>
  * <b>Wichtiger Hinweis:</b> Diese Klasse bedient sich sogenannter
- * Mapper-Klassen. Sie gehï¿½ren der Datenbank-Schicht an und bilden die
+ * Mapper-Klassen. Sie gehoeren der Datenbank-Schicht an und bilden die
  * objektorientierte Sicht der Applikationslogik auf die relationale
  * organisierte Datenbank ab. Zuweilen kommen "kreative" Zeitgenossen auf die
  * Idee, in diesen Mappern auch Applikationslogik zu realisieren. Siehe dazu
  * auch die Hinweise in {@link #delete(User)} Einzig nachvollziehbares Argument
- * fï¿½r einen solchen Ansatz ist die Steigerung der Performance umfangreicher
+ * fuer einen solchen Ansatz ist die Steigerung der Performance umfangreicher
  * Datenbankoperationen. Doch auch dieses Argument zieht nur dann, wenn wirklich
- * groï¿½e Datenmengen zu handhaben sind. In einem solchen Fall wï¿½rde man
- * jedoch eine entsprechend erweiterte Architektur realisieren, die wiederum
- * sï¿½mtliche Applikationslogik in der Applikationsschicht isolieren wï¿½rde.
- * Also, keine Applikationslogik in die Mapper-Klassen "stecken" sondern dies
- * auf die Applikationsschicht konzentrieren!
+ * grosse Datenmengen zu handhaben sind. In einem solchen Fall wuerde man jedoch
+ * eine entsprechend erweiterte Architektur realisieren, die wiederum saemtliche
+ * Applikationslogik in der Applikationsschicht isolieren wuerde. Also, keine
+ * Applikationslogik in die Mapper-Klassen "stecken" sondern dies auf die
+ * Applikationsschicht konzentrieren!
  * </p>
  * <p>
- * Beachten Sie, dass sï¿½mtliche Methoden, die mittels GWT RPC aufgerufen werden
- * kï¿½nnen ein <code>throws IllegalArgumentException</code> in der
- * Methodendeklaration aufweisen. Diese Methoden dï¿½rfen also Instanzen von
- * {@link IllegalArgumentException} auswerfen. Mit diesen Exceptions kï¿½nnen z.B.
- * Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
+ * Beachten Sie, dass saemtliche Methoden, die mittels GWT RPC aufgerufen werden
+ * koennen ein <code>throws IllegalArgumentException</code> in der
+ * Methodendeklaration aufweisen. Diese Methoden duerfen also Instanzen von
+ * {@link IllegalArgumentException} auswerfen. Mit diesen Exceptions koennen
+ * z.B. Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
  * transportiert und dort systematisch in einem Catch-Block abgearbeitet werden.
  * </p>
  */
@@ -83,48 +83,46 @@ import de.hdm.wi7.shared.Wishlist;
 public class AdministrationServiceImpl extends RemoteServiceServlet implements AdministrationService {
 
 	/**
-	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse
-	 * benï¿½tigt.
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benoetigt.
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der Bauteilobjekte mit der Datenbank
+	 * Referenz auf den DatenbankMapper, der Profilobjekte mit der Datenbank
 	 * abgleicht.
 	 */
 	private ProfileMapper profileMapper = null;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der Baugruppenobjekte mit der Datenbank
-	 * abgleicht.
+	 * Referenz auf den DatenbankMapper, der Wunschlistenobjekte mit der
+	 * Datenbank abgleicht.
 	 */
 	private WishlistMapper wishlistMapper = null;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der Endproduktobjekte mit der Datenbank
-	 * abgleicht.
+	 * Referenz auf den DatenbankMapper, der Kontaktsperrenobjekte mit der
+	 * Datenbank abgleicht.
 	 */
 	private ProfileBanMapper profileBanMapper = null;
-	
+
 	/**
-	 * Referenz auf den DatenbankMapper, der Endproduktobjekte mit der Datenbank
-	 * abgleicht.
+	 * Referenz auf den DatenbankMapper, der Informationsobjekte mit der
+	 * Datenbank abgleicht.
 	 */
 	private InformationMapper informationMapper = null;
-	
+
 	/**
-	 * Referenz auf den DatenbankMapper, der Endproduktobjekte mit der Datenbank
-	 * abgleicht.
+	 * Referenz auf den DatenbankMapper, der Profilbesuchsobjekte mit der
+	 * Datenbank abgleicht.
 	 */
 	private ProfileVisitMapper profileVisitMapper = null;
-	
+
 	/**
-	 * Referenz auf den DatenbankMapper, der Endproduktobjekte mit der Datenbank
-	 * abgleicht.
+	 * Referenz auf den DatenbankMapper, der Eigenschaftsobjekte mit der
+	 * Datenbank abgleicht.
 	 */
 	private PropertyMapper propertyMapper = null;
-	
-	
+
 	/**
 	 * No-Argument Konstruktor
 	 */
@@ -134,13 +132,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	/**
 	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
-	 * No-Argument-Konstruktor {@link #AdministrationCommonImpl()}. Diese
-	 * Methode muss fï¿½r jede Instanz von <code>AdministrationCommonImpl</code>
+	 * No-Argument-Konstruktor {@link #AdministrationServiceImpl()}. Diese
+	 * Methode muss fuer jede Instanz von <code>AdministrationServiceImpl</code>
 	 * aufgerufen werden.
 	 */
 	public void init() throws IllegalArgumentException {
 		/*
-		 * Ganz wesentlich ist, dass die Administration einen vollstï¿½ndigen
+		 * Ganz wesentlich ist, dass die Administration einen vollstaendigen
 		 * Satz von Mappern besitzt, mit deren Hilfe sie dann mit der Datenbank
 		 * kommunizieren kann.
 		 */
@@ -151,7 +149,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		this.propertyMapper = PropertyMapper.getPropertyMapper();
 		this.profileVisitMapper = ProfileVisitMapper.getProfileVisitMapper();
 	}
-	
+
 	/**
 	 * Login Daten werden mit der Datenbank abgeglichen
 	 * 
@@ -162,8 +160,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 				.getUserService();
 
 		if (userService.isUserLoggedIn()) {
-			com.google.appengine.api.users.User user = userService
-					.getCurrentUser();
+			com.google.appengine.api.users.User user = userService.getCurrentUser();
 
 			User u = new User();
 			u.setEmail(user.getEmail());
@@ -175,11 +172,9 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 			User u = new User();
 			u.setIsLoggedIn(false);
 			if (isReportGen) {
-				u.setLoginUrl(userService
-						.createLoginURL(ServersideSettings.PAGE_URL_REPORT));
+				u.setLoginUrl(userService.createLoginURL(ServersideSettings.PAGE_URL_REPORT));
 			} else {
-				u.setLoginUrl(userService
-						.createLoginURL(ServersideSettings.PAGE_URL_EDITOR));
+				u.setLoginUrl(userService.createLoginURL(ServersideSettings.PAGE_URL_EDITOR));
 			}
 			return u;
 		}
@@ -190,50 +185,69 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 * Benutzer wird ausgeloggt
 	 */
 	@Override
-	public String logoutUser(boolean isReportGen)
-			throws IllegalArgumentException {
+	public String logoutUser(boolean isReportGen) throws IllegalArgumentException {
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 				.getUserService();
 
 		if (userService.isUserLoggedIn()) {
 			if (isReportGen) {
-				return userService
-						.createLogoutURL(ServersideSettings.PAGE_URL_REPORT);
+				return userService.createLogoutURL(ServersideSettings.PAGE_URL_REPORT);
 			}
 			return userService.createLogoutURL(ServersideSettings.PAGE_URL_EDITOR);
 		}
 		return "http://www.google.de";
 	}
-	
 
+	/**
+	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers
+	 * am System.
+	 */
 	@Override
 	public void createProfile(Profile profile) throws IllegalArgumentException {
+		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
+		// Benutzers
 		CommonSettings.setUserProfile(profile);
+		// Übergabe des Benutzerprofils an den ProfilMapper zur weiteren
+		// Verarbeitung (Einfügen in DB)
 		this.profileMapper.insert(CommonSettings.getUserProfile());
 	}
 
+	/**
+	 * Aufruf dieser Methode durch den Benutzer, um Informationen des Profils zu
+	 * ändern.
+	 */
 	@Override
 	public void editProfile(Profile profile) throws IllegalArgumentException {
+		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
+		// Benutzers
 		CommonSettings.setUserProfile(profile);
+		// Übergabe des Benutzerprofils an den ProfilMapper zur weiteren
+		// Verarbeitung (Update in DB)
 		this.profileMapper.edit(CommonSettings.getUserProfile());
 	}
 
+	/**
+	 * Aufruf dieser Methode durch den Benutzer, 
+	 * um das eigene Profil endgültig aus dem System zu löschen.
+	 */
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
+		// Übergabe des applikationsweiten Benutzerprofils an den ProfilMapper zur weiteren Verarbeitung (Löschen in DB)
 		this.profileMapper.delete(CommonSettings.getUserProfile());
+		// Löschen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
 		CommonSettings.setUserProfile(null);
 	}
 
 	@Override
 	public void editWishlist(Wishlist wishlist) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteWishlist(Wishlist wishlist) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -245,7 +259,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void deleteProfileBan(int profileId) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -257,13 +271,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void editProperty(Property property) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteProperty(Property property) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -275,13 +289,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void editSelection(Selection selection) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSelection(Selection selection) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -293,13 +307,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void editDescription(Description description) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteDescription(Description description) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -311,13 +325,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void editInformation(Description description) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteInformation(Description description) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
