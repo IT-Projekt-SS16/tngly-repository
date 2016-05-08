@@ -167,10 +167,30 @@ public class ProfileMapper {
     }
   }
 
-public void edit(Profile userProfile) {
-	// TODO Auto-generated method stub
+public Profile edit(Profile p) {
 	
-}
+		    Connection con = DBConnection.connection();
+
+		    try {
+		      Statement stmt = con.createStatement();
+
+		      stmt.executeUpdate("UPDATE profiles " + "SET userName=\""
+		          + p.getUserName() + "\", " + "name=\"" + p.getName() + "\", " + "lastName=\"" + p.getLastName()
+		          + "\", " + "lastName=\"" + p.getLastName() + "\", " + "dateOfBirth=\"" + p.getDateOfBirth() 
+		          + "\", " + "gender=\"" + p.getGender() + "\", " + "bodyHeight=\"" + p.getBodyHeight() 
+		          + "\", " + "hairColour=\"" + p.getHairColour() + "\", " + "confession=\"" + p.getConfession()
+		          + "\", " + "isSmoking=\"" + p.getIsSmoking()
+		          + "WHERE id=" + p.getId());
+
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+
+		    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+		    return p;
+		  }
+	
 
 }
 
