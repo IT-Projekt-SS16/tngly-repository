@@ -1,4 +1,3 @@
-
 package de.hdm.core.server.db;
 
 import java.sql.*;

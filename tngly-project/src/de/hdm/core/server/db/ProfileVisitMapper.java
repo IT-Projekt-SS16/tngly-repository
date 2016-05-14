@@ -45,7 +45,7 @@ public class ProfileVisitMapper {
 
 		      // Statement ausfüllen und als Query an die DB schicken
 		      ResultSet rs = stmt
-		          .executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profiles "
+		          .executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits "
 		              + "WHERE id=" + id + " ORDER BY id");
 
 		      /*
@@ -79,7 +79,7 @@ public class ProfileVisitMapper {
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profiles"
+		      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits"
 		           + "ORDER BY id");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
@@ -113,7 +113,7 @@ public class ProfileVisitMapper {
 			    try {
 			      Statement stmt = con.createStatement();
 
-			      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profiles"
+			      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits"
 			           + "WHERE visitingProfileId=" + visitingProfileId + "ORDER BY timestamp");
 
 			      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
@@ -151,7 +151,7 @@ public class ProfileVisitMapper {
 		       * Primärschlüsselwert ist.
 		       */
 		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-		          + "FROM profiles ");
+		          + "FROM profileVisits ");
 
 		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 		      if (rs.next()) {

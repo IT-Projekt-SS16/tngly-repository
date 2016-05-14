@@ -1,44 +1,42 @@
 package de.hdm.core.server.db;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Vector;
+import de.hdm.core.shared.bo.Wish;
+import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.Wish;
 
-import de.hdm.core.shared.bo.ProfileBan;
-
-public class ProfileBanMapper {
+public class WishMapper {
 
 
 	/**
 	 * Übernommen & angepasst von: @author Thies
 	 */
 	
-	  public static ProfileBanMapper getProfileBanMapper() {
-			return profileBanMapper;
+	  public static WishMapper getWishMapper() {
+			return wishMapper;
 		}
 
-		public static void setProfileBanMapper(ProfileBanMapper profileBanMapper) {
-			ProfileBanMapper.profileBanMapper = profileBanMapper;
+		public static void setWishMapper(WishMapper wishMapper) {
+			WishMapper.wishMapper = wishMapper;
 		}
 
-		  private static ProfileBanMapper profileBanMapper = null;
+		  private static WishMapper wishMapper = null;
 
-	  protected ProfileBanMapper() {
+	  protected WishMapper() {
 	  }
 
 
-	  public static ProfileBanMapper profileBanMapper() {
-	    if (profileBanMapper == null) {
-	    	profileBanMapper = new ProfileBanMapper();
+	  public static WishMapper wishMapper() {
+	    if (wishMapper == null) {
+	    	wishMapper = new WishMapper();
 	    }
 
-	    return profileBanMapper;
+	    return wishMapper;
 	  }
 	  
 	  
-	  public ProfileBan findByKey(int id) {
+	  public Wish findByKey(int id) {
 		    // DB-Verbindung holen
 		    Connection con = DBConnection.connection();
 
@@ -48,7 +46,7 @@ public class ProfileBanMapper {
 
 		      // Statement ausfüllen und als Query an die DB schicken
 		      ResultSet rs = stmt
-		          .executeQuery("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans "
+		          .executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes "
 		              + "WHERE id=" + id + " ORDER BY id");
 
 		      /*
@@ -57,13 +55,13 @@ public class ProfileBanMapper {
 		       */
 		      if (rs.next()) {
 		        // Ergebnis-Tupel in Objekt umwandeln
-		        ProfileBan pb = new ProfileBan();
-		        pb.setId(rs.getInt("id"));
-		        pb.setBanningProfileId(rs.getInt("banningProfileId"));
-		        pb.setBannedProfileId(rs.getInt("bannedProfileId"));
-		        pb.setTimestamp(rs.getDate("timestamp"));
+		        Wish w = new Wish();
+		        w.setId(rs.getInt("id"));
+		        w.setWishingProfileId(rs.getInt("wishingProfileId"));
+		        w.setWishedProfileId(rs.getInt("wishedProfileId"));
+		        w.setTimestamp(rs.getDate("timestamp"));
 
-		        return pb;
+		        return w;
 		      }
 		    }
 		    catch (SQLException e) {
@@ -74,29 +72,29 @@ public class ProfileBanMapper {
 		    return null;
 		  }
 
-		  public Vector<ProfileBan> findAll() {
+		  public Vector<Wish> findAll() {
 		    Connection con = DBConnection.connection();
 		    // Ergebnisvektor vorbereiten
-		    Vector<ProfileBan> result = new Vector<ProfileBan>();
+		    Vector<Wish> result = new Vector<Wish>();
 
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans"
+		      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes"
 		           + "ORDER BY id");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
 		      // erstellt.
 		      while (rs.next()) {
-		        ProfileBan pb = new ProfileBan();
-		        pb.setId(rs.getInt("id"));
-		        pb.setBanningProfileId(rs.getInt("banningProfileId"));
-		        pb.setBannedProfileId(rs.getInt("bannedProfileId"));
-		        pb.setTimestamp(rs.getDate("timestamp"));
+		        Wish w = new Wish();
+		        w.setId(rs.getInt("id"));
+		        w.setWishingProfileId(rs.getInt("wishingProfileId"));
+		        w.setWishedProfileId(rs.getInt("wishedProfileId"));
+		        w.setTimestamp(rs.getDate("timestamp"));
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        
-		        result.addElement(pb);
+		        result.addElement(w);
 		      }
 		    }
 		    catch (SQLException e) {
@@ -107,30 +105,30 @@ public class ProfileBanMapper {
 		    return result;
 		  }
 
-		  public Vector<ProfileBan> findBannedProfiles(int banningProfileId) {
+		  public Vector<Wish> findWishedProfiles(int wishingProfileId) {
 			  
 			    Connection con = DBConnection.connection();
 			    // Ergebnisvektor vorbereiten
-			    Vector<ProfileBan> result = new Vector<ProfileBan>();
+			    Vector<Wish> result = new Vector<Wish>();
 
 			    try {
 			      Statement stmt = con.createStatement();
 
-			      ResultSet rs = stmt.executeQuery("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans"
-			           + "WHERE banningProfileId=" + banningProfileId + "ORDER BY timestamp");
+			      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes"
+			           + "WHERE wishingProfileId=" + wishingProfileId + "ORDER BY timestamp");
 
 			      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
 			      // erstellt.
 			      while (rs.next()) {
-			        ProfileBan pb = new ProfileBan();
-			        pb.setId(rs.getInt("id"));
-			        pb.setBanningProfileId(rs.getInt("banningProfileId"));
-			        pb.setBannedProfileId(rs.getInt("bannedProfileId"));
-			        pb.setTimestamp(rs.getDate("timestamp"));
+			        Wish w = new Wish();
+			        w.setId(rs.getInt("id"));
+			        w.setWishingProfileId(rs.getInt("wishingProfileId"));
+			        w.setWishedProfileId(rs.getInt("wishedProfileId"));
+			        w.setTimestamp(rs.getDate("timestamp"));
 
 			        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 			        
-			        result.addElement(pb);
+			        result.addElement(w);
 			      }
 			    }
 			    catch (SQLException e) {
@@ -142,7 +140,7 @@ public class ProfileBanMapper {
 			  }
 		  
 		 
-		  public ProfileBan insert(ProfileBan pb) {
+		  public Wish insert(Wish w) {
 			  
 		    Connection con = DBConnection.connection();
 
@@ -154,7 +152,7 @@ public class ProfileBanMapper {
 		       * Primärschlüsselwert ist.
 		       */
 		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-		          + "FROM profileBans ");
+		          + "FROM wishes ");
 
 		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 		      if (rs.next()) {
@@ -162,37 +160,37 @@ public class ProfileBanMapper {
 		         * c erhält den bisher maximalen, nun um 1 inkrementierten
 		         * Primärschlüssel.
 		         */
-		        pb.setId(rs.getInt("maxid") + 1);
+		        w.setId(rs.getInt("maxid") + 1);
 
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO profileBans (id, banningProfileId, bannedProfileId, timestamp) "
-		            + "VALUES (" + pb.getId() + ",'" + pb.getBanningProfileId() + "','" + pb.getBannedProfileId() + "','" + pb.getTimestamp() + "')");
+		        stmt.executeUpdate("INSERT INTO wishes (id, wishingProfileId, wishedProfileId, timestamp) "
+		            + "VALUES (" + w.getId() + ",'" + w.getWishingProfileId() + "','" + w.getWishedProfileId() + "','" + w.getTimestamp() + "')");
 		      }
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 
-		    return pb;
+		    return w;
 		  }
 
 
-		  public void delete(ProfileBan pb) {
+		  public void delete(Wish w) {
 		    Connection con = DBConnection.connection();
 
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("DELETE FROM profileBans " + "WHERE id=" + pb.getId());
+		      stmt.executeUpdate("DELETE FROM wishes " + "WHERE id=" + w.getId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 		  }
 
-		public ProfileBan edit(ProfileBan pb) {
+		public Wish edit(Wish w) {
 			
 			// Diese Methode heißt nur zwecks der Konvention "edit" - aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
 				    Connection con = DBConnection.connection();
@@ -200,9 +198,9 @@ public class ProfileBanMapper {
 				    try {
 				      Statement stmt = con.createStatement();
 
-				      stmt.executeUpdate("UPDATE profileBans " + "SET timestamp=\""
-				          + pb.getTimestamp() 
-				          + "WHERE id=" + pb.getId());
+				      stmt.executeUpdate("UPDATE wishes " + "SET timestamp=\""
+				          + w.getTimestamp() 
+				          + "WHERE id=" + w.getId());
 
 				    }
 				    catch (SQLException e) {
@@ -210,6 +208,7 @@ public class ProfileBanMapper {
 				    }
 
 				    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
-				    return pb;
+				    return w;
 				  }
+	  
 }

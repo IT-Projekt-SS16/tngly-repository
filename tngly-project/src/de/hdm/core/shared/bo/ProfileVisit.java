@@ -58,7 +58,7 @@ public class ProfileVisit implements Serializable{
 		return this.visitedProfileId;
 	}
 	
-	// Get ProfileVisit´s visited profile id
+	// Set ProfileVisit´s visited profile id
 	public void setVisitedProfileId(int visitedProfileId)	{
 		this.visitedProfileId = visitedProfileId;
 	}
