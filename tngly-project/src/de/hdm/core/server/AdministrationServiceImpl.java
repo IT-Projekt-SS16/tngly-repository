@@ -7,8 +7,9 @@ import de.hdm.core.server.db.ProfileBanMapper;
 import de.hdm.core.server.db.ProfileMapper;
 import de.hdm.core.server.db.ProfileVisitMapper;
 import de.hdm.core.server.db.PropertyMapper;
-import de.hdm.core.server.db.WishlistMapper;
+import de.hdm.core.server.db.WishMapper;
 import de.hdm.core.shared.AdministrationService;
+import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
@@ -103,7 +104,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 * Referenz auf den DatenbankMapper, der Wunschlistenobjekte mit der
 	 * Datenbank abgleicht.
 	 */
-	private WishlistMapper wishlistMapper = null;
+	private WishMapper wishMapper = null;
 
 	/**
 	 * Referenz auf den DatenbankMapper, der Kontaktsperrenobjekte mit der
@@ -149,7 +150,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		 * kommunizieren kann.
 		 */
 		this.profileMapper = ProfileMapper.profileMapper();
-		this.wishlistMapper = WishlistMapper.getWishlistMapper();
+		this.wishMapper = WishMapper.getWishMapper();
 		this.profileBanMapper = ProfileBanMapper.getProfileBanMapper();
 		this.informationMapper = InformationMapper.getInformationMapper();
 		this.propertyMapper = PropertyMapper.getPropertyMapper();
