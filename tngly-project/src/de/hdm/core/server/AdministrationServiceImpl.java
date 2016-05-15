@@ -2,6 +2,7 @@ package de.hdm.core.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.server.db.InformationMapper;
 import de.hdm.core.server.db.ProfileBanMapper;
 import de.hdm.core.server.db.ProfileMapper;
@@ -213,10 +214,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public void createProfile(Profile profile) throws IllegalArgumentException {
 		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
 		// Benutzers
-		CommonSettings.setUserProfile(profile);
+//		CommonSettings.setUserProfile(profile);
 		// Übergabe des Benutzerprofils an den ProfilMapper zur weiteren
 		// Verarbeitung (Einfügen in DB)
-		this.profileMapper.insert(CommonSettings.getUserProfile());
+		this.profileMapper.insert(ClientsideSettings.getUserProfile());
 	}
 
 	/**
@@ -227,10 +228,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public void editProfile(Profile profile) throws IllegalArgumentException {
 		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
 		// Benutzers
-		CommonSettings.setUserProfile(profile);
+//		CommonSettings.setUserProfile(profile);
 		// Übergabe des Benutzerprofils an den ProfilMapper zur weiteren
 		// Verarbeitung (Update in DB)
-		this.profileMapper.edit(CommonSettings.getUserProfile());
+		this.profileMapper.edit(ClientsideSettings.getUserProfile());
 	}
 
 	/**
@@ -240,10 +241,15 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
 		// Übergabe des applikationsweiten Benutzerprofils an den ProfilMapper zur weiteren Verarbeitung (Löschen in DB)
-		this.profileMapper.delete(CommonSettings.getUserProfile());
+		this.profileMapper.delete(ClientsideSettings.getUserProfile());
 		// Löschen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
-		CommonSettings.setUserProfile(null);
+		ClientsideSettings.setUserProfile(null);
 	}
+	
+	public Profile findProfile(String userEmail) throws IllegalArgumentException {
+		return this.profileMapper.findByName(userEmail);
+	}
+	
 
 	@Override
 	public void editWishlist(Wishlist wishlist) throws IllegalArgumentException {

@@ -156,6 +156,10 @@ public class EditorEntryPoint implements EntryPoint {
 		horPanel.add(signOutLink);
 
 		horPanel.add(moduleLink);
+		
+		Update update = new EditProfileView();
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
 
 	}
 

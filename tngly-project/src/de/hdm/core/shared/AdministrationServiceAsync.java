@@ -50,6 +50,8 @@ public interface AdministrationServiceAsync {
 	 */
 	public void deleteProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
+	public void findProfile(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
+	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu fügen.

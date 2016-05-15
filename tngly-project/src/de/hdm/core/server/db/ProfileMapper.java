@@ -26,7 +26,7 @@ public class ProfileMapper {
   }
 
  
-  public Profile findByKey(int id) {
+  public Profile findByName(String id) {
     // DB-Verbindung holen
     Connection con = DBConnection.connection();
 
@@ -38,7 +38,7 @@ public class ProfileMapper {
       ResultSet rs = stmt
           .executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
           		+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles "
-              + "WHERE id=" + id + " ORDER BY lastName");
+              + "WHERE userName LIKE " + "'" + id + "%'" + " ORDER BY lastName");
 
       /*
        * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
