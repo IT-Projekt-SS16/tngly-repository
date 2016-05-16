@@ -16,7 +16,7 @@ public class Wish {
 		private int wishedProfileId;
 		
 		// The wish´s timestamp
-		private Date timestamp;
+		//private Date timestamp;
 		
 		/*
 		 * Get-/Set-Operations + toString
@@ -54,17 +54,17 @@ public class Wish {
 		}
 		
 		// Get timestamp
-		public Date getTimestamp()	{
-			return this.timestamp;
-		}
+		//public Date getTimestamp()	{
+		//	return this.timestamp;
+		//}
 		
 		// Set timestamp
-		public void setTimestamp(Date timestamp)	{
-			this.timestamp = timestamp;
-		}
+		//public void setTimestamp(Date timestamp)	{
+		//	this.timestamp = timestamp;
+		//}
 		
-		@Override
-		public String toString() {
-		    return super.toString() + " " + this.id + " Das Profil mit der id " + this.wishingProfileId + " wünscht sich das Profile mit der id " + this.wishedProfileId + " um " + this.timestamp;
-		  }
+		//@Override
+		//public String toString() {
+		//    return super.toString() + " " + this.id + " Das Profil mit der id " + this.wishingProfileId + " wünscht sich das Profile mit der id " + this.wishedProfileId + " um " + this.timestamp;
+		//  }
 }
