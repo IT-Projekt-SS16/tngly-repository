@@ -13,7 +13,7 @@ public class Selection extends Property implements Serializable{
 	private int items;
 	
 	/*
-	 * Get-Operations + toString
+	 * Operations
 	 */
 	
 	// Get items

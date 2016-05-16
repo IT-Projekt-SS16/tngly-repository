@@ -2,6 +2,7 @@ package de.hdm.core.server.db;
 import java.sql.*;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Property;
+import de.hdm.core.shared.bo.InfoPropertyConnection;
 
 
 public class PropertyMapper {
@@ -118,6 +119,57 @@ public void edit(Property userProperty) {
 	
 }
 
+ // Verbindung zwischen Property und Information
+
+public InfoPropertyConnection InfoPropertyConnection(InfoPropertyConnection i) {
+	  
+    Connection con = DBConnection.connection();
+
+    try {
+      Statement stmt = con.createStatement();
+
+      /*
+       * Zunächst schauen wir nach, welches der momentan höchste
+       * Primärschlüsselwert ist.
+       */
+      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+          + "FROM infoPropertyConnections ");
+
+      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+      if (rs.next()) {
+        /*
+         * i erhält den bisher maximalen, nun um 1 inkrementierten
+         * Primärschlüssel.
+         */
+        i.setId(rs.getInt("maxid") + 1);
+
+        stmt = con.createStatement();
+
+        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+        stmt.executeUpdate("INSERT INTO infoPropertyConnections (id, informationId, propertyId) "
+            + "VALUES (" + i.getId() + ",'" + i.getInformationId() + "','" + i.getPropertyId() + "')");
+      }
+    }
+    catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return i;
+  }
+
+
+  public void delete(InfoPropertyConnection i) {
+    Connection con = DBConnection.connection();
+
+    try {
+      Statement stmt = con.createStatement();
+
+      stmt.executeUpdate("DELETE FROM infoPropertyConnections " + "WHERE id=" + i.getId());
+    }
+    catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
  
 }
 

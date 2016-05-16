@@ -15,7 +15,7 @@ public class Information implements Serializable{
 	private String value;
 	
 	/*
-	 * Get-/Set-Operations + toString
+	 * Get-/Set-Operations
 	 */
 	
 	// Get the ID
