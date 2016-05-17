@@ -52,6 +52,8 @@ public interface AdministrationService extends RemoteService {
 	 */
 	public void deleteProfile(Profile profile) throws IllegalArgumentException;
 
+	public Profile findProfile(String userEmail) throws IllegalArgumentException;
+	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu fügen.

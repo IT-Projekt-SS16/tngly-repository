@@ -2,10 +2,12 @@ package de.hdm.editor.client;
 
 import java.util.logging.Logger;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,10 +17,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.hdm.core.client.ClientsideSettings;
-import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.bo.Profile;
 
 public class EditProfileView extends Update {
+
+	private Boolean existsUserInDB = null;
 
 	/**
 	 * Jeder Showcase besitzt eine einleitende Ãœberschrift, die durch diese
@@ -42,6 +45,14 @@ public class EditProfileView extends Update {
 		Logger logger = ClientsideSettings.getLogger();
 		logger.info("Erfolgreich Profile-Edit-View geswitcht.");
 
+		logger.info(ClientsideSettings.getLoginInfo().getEmailAddress());
+
+		if (ClientsideSettings.getUserProfile() == null) {
+			int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+			ClientsideSettings.getAdministration().findProfile(
+					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), new FindCallback());
+		}
+
 		VerticalPanel verPanel = new VerticalPanel();
 
 		RootPanel.get("Details").add(verPanel);
@@ -53,10 +64,30 @@ public class EditProfileView extends Update {
 		final TextBox tbhc = new TextBox();
 		final TextBox tbc = new TextBox();
 
+		final ListBox hairColourList = new ListBox(false);
+		hairColourList.setVisibleItemCount(5);
+		hairColourList.addItem("Black");
+		hairColourList.addItem("Brown");
+		hairColourList.addItem("Red");
+		hairColourList.addItem("Blonde");
+		hairColourList.addItem("Dark Blonde");
+
 		final ListBox isSmokingBox = new ListBox(false);
 		isSmokingBox.setVisibleItemCount(2);
 		isSmokingBox.addItem("yes");
 		isSmokingBox.addItem("No");
+
+		final ListBox confessionBox = new ListBox(false);
+		confessionBox.setVisibleItemCount(9);
+		confessionBox.addItem("Atheistic");
+		confessionBox.addItem("Buddhistic");
+		confessionBox.addItem("Evangelic");
+		confessionBox.addItem("Catholic");
+		confessionBox.addItem("Hindu");
+		confessionBox.addItem("Muslim");
+		confessionBox.addItem("Jewish");
+		confessionBox.addItem("Orthodox");
+		confessionBox.addItem("Other");
 
 		final ListBox genderBox = new ListBox(false);
 		genderBox.setVisibleItemCount(2);
@@ -64,6 +95,11 @@ public class EditProfileView extends Update {
 		genderBox.addItem("m");
 
 		final DatePicker datePicker = new DatePicker();
+		datePicker.setYearArrowsVisible(true);
+		datePicker.setYearAndMonthDropdownVisible(true);
+		// show 51 years in the years dropdown. The range of years is centered
+		// on the selected date
+		datePicker.setVisibleYearCount(101);
 
 		// *** BEISPIEL ADDKEYHANDLER NOCH Fï¿½R ALLE ï¿½BERNEHMEN***
 
@@ -80,43 +116,47 @@ public class EditProfileView extends Update {
 		ta.setCharacterWidth(80);
 		ta.setVisibleLines(50);
 
-		Label userName = new Label("Username:");
-		verPanel.add(userName);
-		if (CommonSettings.getUserProfile() == null) {
-			verPanel.add(tbu);
+		// HorizontalPanel horizonPanel = new HorizontalPanel();
+		// Label firstWarning = new Label("Bitte füllen Sie alle nachfolgenden
+		// Felder vollständig aus!");
+		// firstWarning.setPixelSize(10, 10);
+		// horizonPanel.add(firstWarning);
+		// verPanel.add(horizonPanel);
+		// if (ClientsideSettings.getUserProfile() == null){
+		// verPanel.add(firstWarning);
+		// }
+
+		if (ClientsideSettings.getUserProfile() != null) {
+			logger.info("Result: " + ClientsideSettings.getUserProfile().getUserName());
 		} else {
-			tbu.setText(CommonSettings.getUserProfile().getUserName());
-			verPanel.add(tbu);
+			logger.info("Result: NULL");
 		}
-		
 
 		Label firstName = new Label("First Name:");
 		verPanel.add(firstName);
-		if (CommonSettings.getUserProfile() == null) {
+		if (ClientsideSettings.getUserProfile() == null) {
 			verPanel.add(tbfn);
 		} else {
-			tbfn.setText(CommonSettings.getUserProfile().getName());
+			tbfn.setText(ClientsideSettings.getUserProfile().getName());
 			verPanel.add(tbfn);
 		}
-		
 
 		Label name = new Label("Last Name:");
 		verPanel.add(name);
-		if (CommonSettings.getUserProfile() == null) {
+		if (ClientsideSettings.getUserProfile() == null) {
 			verPanel.add(tbn);
 		} else {
-			tbn.setText(CommonSettings.getUserProfile().getLastName());
+			tbn.setText(ClientsideSettings.getUserProfile().getLastName());
 			verPanel.add(tbn);
 		}
-		
 
 		Label gender = new Label("Gender:");
 		verPanel.add(gender);
-		if (CommonSettings.getUserProfile() == null) {
+		if (ClientsideSettings.getUserProfile() == null) {
 			verPanel.add(genderBox);
 		} else {
 			int index;
-			if (CommonSettings.getUserProfile().getGender() == "m"){
+			if (ClientsideSettings.getUserProfile().getGender() == "m") {
 				index = 1;
 			} else {
 				index = 0;
@@ -124,57 +164,83 @@ public class EditProfileView extends Update {
 			genderBox.setItemSelected(index, true);
 			verPanel.add(genderBox);
 		}
-		
 
 		Label dateOfBirth = new Label("Date of Birth:");
 		verPanel.add(dateOfBirth);
-		if (CommonSettings.getUserProfile() == null) {
+		if (ClientsideSettings.getUserProfile() == null) {
 			verPanel.add(datePicker);
 		} else {
-			datePicker.setValue(CommonSettings.getUserProfile().getDateOfBirth());
+			datePicker.setValue(ClientsideSettings.getUserProfile().getDateOfBirth());
 			verPanel.add(datePicker);
 		}
-		
 
 		Label bodyHeight = new Label("Body Height:");
 		verPanel.add(bodyHeight);
-		if (CommonSettings.getUserProfile() == null) {
+		if (ClientsideSettings.getUserProfile() == null) {
 			verPanel.add(tbbh);
 		} else {
-			tbbh.setText(Float.toString(CommonSettings.getUserProfile().getBodyHeight()));
+			tbbh.setText(Float.toString(ClientsideSettings.getUserProfile().getBodyHeight()));
 			verPanel.add(tbbh);
 		}
-		
 
 		Label hairColour = new Label("Haircolour:");
 		verPanel.add(hairColour);
-		if (CommonSettings.getUserProfile() == null) {
-			verPanel.add(tbhc);
+		if (ClientsideSettings.getUserProfile() == null) {
+			verPanel.add(hairColourList);
 		} else {
-			tbhc.setText(CommonSettings.getUserProfile().getHairColour());
-			verPanel.add(tbhc);
+			int index;
+			if (ClientsideSettings.getUserProfile().getHairColour() == "Black") {
+				index = 0;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Brown") {
+				index = 1;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Red") {
+				index = 2;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Blonde") {
+				index = 3;
+			} else {
+				index = 4;
+			}
+			hairColourList.setItemSelected(index, true);
+			verPanel.add(hairColourList);
 		}
-		
 
 		Label isSmoking = new Label("Smoker:");
 		verPanel.add(isSmoking);
-		if (CommonSettings.getUserProfile() == null) {
+		if (ClientsideSettings.getUserProfile() == null) {
 			verPanel.add(isSmokingBox);
 		} else {
-			isSmokingBox.setItemSelected(CommonSettings.getUserProfile().getIsSmoking(), true);
+			isSmokingBox.setItemSelected(ClientsideSettings.getUserProfile().getIsSmoking(), true);
 			verPanel.add(isSmokingBox);
 		}
-		
 
 		Label confession = new Label("Confession:");
 		verPanel.add(confession);
-		if (CommonSettings.getUserProfile() == null) {
-			verPanel.add(tbc);
+		if (ClientsideSettings.getUserProfile() == null) {
+			verPanel.add(confessionBox);
 		} else {
-			tbc.setText(CommonSettings.getUserProfile().getConfession());
-			verPanel.add(tbc);
+			int index;
+			if (ClientsideSettings.getUserProfile().getConfession() == "Atheistic") {
+				index = 0;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Buddhistic") {
+				index = 1;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Evangelic") {
+				index = 2;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Catholic") {
+				index = 3;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Hindu") {
+				index = 4;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Muslim") {
+				index = 5;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Jewish") {
+				index = 6;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Orthodox") {
+				index = 7;
+			} else {
+				index = 8;
+			}
+			confessionBox.setItemSelected(index, true);
+			verPanel.add(confessionBox);
 		}
-		
 
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStylePrimaryName("tngly-menubutton");
@@ -188,6 +254,10 @@ public class EditProfileView extends Update {
 
 				logger.info("getUserProfile war null.");
 				Profile temp = new Profile();
+
+				int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+
+				temp.setUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex));
 
 				logger.info("Profile+DateTimeFormat instantiiert");
 
@@ -213,7 +283,9 @@ public class EditProfileView extends Update {
 
 				logger.info("bodyHeight CHECK");
 
-				temp.setHairColour(tbhc.getText());
+				// temp.setHairColour(tbhc.getText());
+				int selectedHairColourIndex = hairColourList.getSelectedIndex();
+				temp.setGender(hairColourList.getItemText(selectedHairColourIndex));
 
 				logger.info("HairColour CHECK");
 
@@ -226,18 +298,22 @@ public class EditProfileView extends Update {
 
 				logger.info("isSmoking CHECK");
 
-				temp.setConfession(tbc.getText());
+				// temp.setConfession(tbc.getText());
+				int selectedConfessionIndex = confessionBox.getSelectedIndex();
+				temp.setGender(confessionBox.getItemText(selectedConfessionIndex));
 
 				logger.info("Confession CHECK");
 
-				if (CommonSettings.getUserProfile() == null) {
-					ClientsideSettings.getAdministration().createProfile(temp, new CreateCallback());
-//					CommonSettings.setUserProfile(temp);
+				if (ClientsideSettings.getUserProfile() == null) {
+					ClientsideSettings.setUserProfile(temp);
+					// ClientsideSettings.getAdministration().createProfile(temp,
+					// new CreateCallback());
 					logger.info("if-getAdministration wurde aufgerufen");
 				} else {
 					logger.info("getUserProfile war nicht 0.");
-//					CommonSettings.setUserProfile(temp);
-					ClientsideSettings.getAdministration().editProfile(temp, new CreateCallback());
+					ClientsideSettings.setUserProfile(temp);
+					// ClientsideSettings.getAdministration().editProfile(temp,
+					// new CreateCallback());
 				}
 
 				Update update = new ProfileView();
@@ -263,6 +339,22 @@ class CreateCallback implements AsyncCallback<Void> {
 	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
 
+	}
+
+}
+
+class FindCallback implements AsyncCallback<Profile> {
+	@Override
+	public void onFailure(Throwable caught) {
+		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+	}
+
+	@Override
+	public void onSuccess(Profile result) {
+		ClientsideSettings.setUserProfile(result);
+		ClientsideSettings.getLogger().info("Result: " + result.toString());
+		System.out.println("Result: " + result.toString());
+		GWT.log("Result: " + result.toString());
 	}
 
 }
