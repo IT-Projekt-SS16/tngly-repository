@@ -1,10 +1,56 @@
 package de.hdm.core.shared.bo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Wish {
 
 	private static final long serialVersionUID = 1L;
+	private static Wish wishlist = null;
+	private static ArrayList<Profile> arrayWishlist;
+	/**
+	 * Hier wird der Konstruktor fuer die Klasse Wishlist implementiert.
+	 */
+	public Wish(){
+	}
+	/**
+	 * Um sicherzustellen, dass pro Profile-Instanz nur eine Wishlist-Instanz existiert
+	 * sollte eine Wishlist-Instanz nur ueber diese Methode erstellt werden.
+	 * @return
+	 */
+	public static Wish wishlist() {
+	    if (wishlist == null) {
+	    	wishlist = new Wish();
+	    	arrayWishlist = new ArrayList<Profile>();
+	    }
+
+	    return wishlist;
+	  }
+	/**
+	 * Diese Methode fuegt der ArrayList ein neues Profile-Objekt hinzu.
+	 */
+	public void addProfileToWishlist(Profile profile){
+		arrayWishlist.add(profile);
+	}
+	/**
+	 * Diese Methode gibt die ArrayList mit allen enthaltenen Profile-Objekten zurueck.
+	 * @return 
+	 */
+	public ArrayList<Profile> getWishlist(){
+		return arrayWishlist;
+	}
+	/**
+	 * Diese Methode prueft, ob ein bestimmtes Profile-Objekt in der Array-List
+	 * enthalten ist und loescht dieses.
+	 */
+	public void deleteProfileFromWishlist(Profile profile){
+		for(Profile p : arrayWishlist){
+			if(p.getUserName() == profile.getUserName()){
+				arrayWishlist.remove(p);
+			}
+		}
+	}
+
 	
 		// The Wish´s ID
 		private int id;
@@ -16,7 +62,7 @@ public class Wish {
 		private int wishedProfileId;
 		
 		// The wish´s timestamp
-		//private Date timestamp;
+		private Date timestamp;
 		
 		/*
 		 * Get-/Set-Operations + toString
@@ -54,17 +100,18 @@ public class Wish {
 		}
 		
 		// Get timestamp
-		//public Date getTimestamp()	{
-		//	return this.timestamp;
-		//}
+		public Date getTimestamp()	{
+			return this.timestamp;
+		}
 		
 		// Set timestamp
-		//public void setTimestamp(Date timestamp)	{
-		//	this.timestamp = timestamp;
-		//}
+		public void setTimestamp(Date timestamp)	{
+			this.timestamp = timestamp;
+		}
 		
-		//@Override
-		//public String toString() {
-		//    return super.toString() + " " + this.id + " Das Profil mit der id " + this.wishingProfileId + " wünscht sich das Profile mit der id " + this.wishedProfileId + " um " + this.timestamp;
-		//  }
+		@Override
+		public String toString() {
+		    return super.toString() + " " + this.id + " Das Profil mit der id " + this.wishingProfileId + " wünscht sich das Profile mit der id " + this.wishedProfileId + " um " + this.timestamp;
+		  }
+		
 }
