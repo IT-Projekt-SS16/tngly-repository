@@ -322,7 +322,7 @@ public class EditProfileView extends Update {
 				RootPanel.get("Details").add(update);
 
 				logger.info("Erfolgreicher Reswitch.");
-
+				
 			}
 		});
 	}
