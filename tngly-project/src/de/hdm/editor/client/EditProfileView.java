@@ -271,11 +271,12 @@ public class EditProfileView extends Update {
 			myHobbiesSelect.setItemSelected(index, true);
 			verPanel.add(myHobbiesSelect);
 			
-			Label myHobbiesLabel = new Label("Other Hobbies:");
-			verPanel.add(myHobbiesLabel);
-			verPanel.add(tbmh);			
+					
 		}
 		
+		Label myHobbiesLabel = new Label("Other Hobbies:");
+		verPanel.add(myHobbiesLabel);
+		verPanel.add(tbmh);	
 		
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStylePrimaryName("tngly-menubutton");

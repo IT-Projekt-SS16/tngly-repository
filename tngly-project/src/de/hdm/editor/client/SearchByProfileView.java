@@ -270,10 +270,13 @@ public class SearchByProfileView extends Update{
 				myHobbiesSelect.setItemSelected(index, true);
 				verPanel.add(myHobbiesSelect);
 				
-				Label myHobbiesLabel = new Label("Other Hobbies:");
-				verPanel.add(myHobbiesLabel);
-				verPanel.add(tbmh);			
+						
 			}
+			
+			Label myHobbiesLabel = new Label("Other Hobbies:");
+			verPanel.add(myHobbiesLabel);
+			verPanel.add(tbmh);	
+			
 			final Button showProfilesButton = new Button("Search");
 			showProfilesButton.setStylePrimaryName("tngly-menubutton");
 			verPanel.add(showProfilesButton);
