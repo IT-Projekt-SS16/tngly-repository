@@ -57,12 +57,11 @@ public class EditProfileView extends Update {
 
 		RootPanel.get("Details").add(verPanel);
 
-		TextBox tbu = new TextBox();
+
 		final TextBox tbfn = new TextBox();
 		final TextBox tbn = new TextBox();
 		final TextBox tbbh = new TextBox();
-		final TextBox tbhc = new TextBox();
-		final TextBox tbc = new TextBox();
+		final TextBox tbmh = new TextBox();
 
 		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(5);
@@ -94,6 +93,14 @@ public class EditProfileView extends Update {
 		genderBox.addItem("w");
 		genderBox.addItem("m");
 
+		final ListBox myHobbiesSelect = new ListBox(false);
+		myHobbiesSelect.setVisibleItemCount(5);
+		myHobbiesSelect.addItem("Soccer");
+		myHobbiesSelect.addItem("Baseball");
+		myHobbiesSelect.addItem("Volleyball");
+		myHobbiesSelect.addItem("Basketball");
+		myHobbiesSelect.addItem("Golf");
+		
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearArrowsVisible(true);
 		datePicker.setYearAndMonthDropdownVisible(true);
@@ -241,7 +248,36 @@ public class EditProfileView extends Update {
 			confessionBox.setItemSelected(index, true);
 			verPanel.add(confessionBox);
 		}
-
+		
+		Label myHobbiesSelectLabel = new Label("My Hobbies:");
+		verPanel.add(myHobbiesSelectLabel);
+		if (ClientsideSettings.getUserProfile() == null) {
+			verPanel.add(myHobbiesSelect);
+		} else {
+			int index;
+			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
+				index = 0;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
+				index = 1;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
+				index = 2;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
+				index = 3;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
+				index = 4;
+			} else {
+				index = 5;
+			}
+			myHobbiesSelect.setItemSelected(index, true);
+			verPanel.add(myHobbiesSelect);
+			
+					
+		}
+		
+		Label myHobbiesLabel = new Label("Other Hobbies:");
+		verPanel.add(myHobbiesLabel);
+		verPanel.add(tbmh);	
+		
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStylePrimaryName("tngly-menubutton");
 		verPanel.add(saveProfilButton);
@@ -322,7 +358,7 @@ public class EditProfileView extends Update {
 				RootPanel.get("Details").add(update);
 
 				logger.info("Erfolgreicher Reswitch.");
-
+				
 			}
 		});
 	}
