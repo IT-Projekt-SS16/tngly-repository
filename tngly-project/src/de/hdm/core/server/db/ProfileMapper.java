@@ -204,19 +204,114 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
-					+ " YEAR(dateOfBirth) AS birthYear, gender, bodyHeight, hairColour, confession, isSmoking FROM profiles " 
-					+ "WHERE birthYear BETWEEN " + yearFrom + " AND " + yearTo 
-					+ " AND " + "gender='" + searchProfile.getGender() + "'" + " AND " + "bodyHeight BETWEEN " 
-					+ searchProfile.getBodyHeightFrom() + " AND " + searchProfile.getBodyHeightTo() 
-					+ " AND " + "hairColour='" + searchProfile.getHairColour() + "'" + " AND " 
-					+ "confession='" + searchProfile.getConfession() + "'" + " AND " 
-					+ "isSmoking=" + searchProfile.getIsSmoking() + " ORDER BY lastName");
+			StringBuilder stringBuilder;
+			stringBuilder.append("SELECT id, userName, name, lastName, dateOfBirth, "
+					+ "gender, bodyHeight, hairColour, confession, isSmoking FROM profiles WHERE ");
+					
+			boolean and = false;
+			
+				if (searchProfile.getGender() != null)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					
+					else {}
+						stringBuilder.append("gender ='" + searchProfile.getGender() + "'");
+						and = true;
+				}
+				else {and = false;}
+				
+				// Geburtsdatum
+				if (searchProfile.getAgeFrom() && searchProfile.getAgeTo() != null)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+						// ToDo
+					//	stringBuilder.append
+				}
+				
+				// Hier muss die Applikationslogik von Vornherein darauf achten, dass, wenn z.b. nur der von-Wert eingegeben wird, der bis-Wert automatisch aufgefüllt wird & vice versa
+				if (searchProfile.bodyHeightFrom() && searchProfile.bodyHeightTo != null)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+					
+					stringBuilder.append("bodyHeight BETWEEN " + searchProfile.getBodyHeightFrom() + " AND " + searchProfile.getBodyHeightTo());
+					and = true;
+				}
+				else { 
+					if (and == true) {
+					and = true;}
+					else { and = false;}
+				}
+				
+				// Haarfarbe selektieren
+				
+				if (searchProfile.getHairColour() != null)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+					
+						stringBuilder.append("hairColour ='" + searchProfile.getHairColour() +"'");
+						and = true;
+				}
+				else { 
+					if (and == true) {
+					and = true;}
+					else { and = false;}
+				}
+				
+				// Bekenntnis selektieren
+				
+				if (searchProfile.getHairColour() != null)	{
+					if (and==true)	{
+						stringBuilder.append(" AND ");
+					}
+					else{}
+					
+						stringBuilder.append("confession ='" + searchProfile.getConfession() +"'");
+						and = true;
+				}
+				else { 
+					if (and == true) {
+					and = true;}
+					else { and = false;}
+				}
+				
+				if (searchProfile.getSmoking() != null)	{
+					if (and==true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+					
+					stringBuilder.append("isSmoking =" + searchProfile.getIsSmoking());
+				}
+				
+				stringBuilder.append(" + ORDER BY lastName");
+				
+				and = false;
+				
+				String preparedStatement = stringBuilder.toString();
+				
+				ResultSet rs = stmt.executeQuery(preparedStatement);
+				
+				
+					
+				//	+ "WHERE birthYear BETWEEN " + yearFrom + " AND " + yearTo 
+				//	+ " AND " + "gender='" + searchProfile.getGender() + "'" + " AND " + "bodyHeight BETWEEN " 
+				//	+ searchProfile.getBodyHeightFrom() + " AND " + searchProfile.getBodyHeightTo() 
+				//	+ " AND " + "hairColour='" + searchProfile.getHairColour() + "'" + " AND " 
+				//	+ "confession='" + searchProfile.getConfession() + "'" + " AND " 
+				//	+ "isSmoking=" + searchProfile.getIsSmoking() + " ORDER BY lastName");
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
 			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
+				
 			while (rs.next()) {
 				Profile p = new Profile();
 				p.setId(rs.getInt("id"));
