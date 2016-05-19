@@ -50,6 +50,10 @@ public class Wish {
 			}
 		}
 	}
+	
+	public void deleteWishlist(Wish wishlist){
+		wishlist = null;
+	}
 
 	
 		// The Wish´s ID

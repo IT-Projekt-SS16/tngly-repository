@@ -9,6 +9,7 @@ import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
+import de.hdm.core.shared.bo.Wish;
 import de.hdm.core.shared.bo.Wishlist;
 
 @RemoteServiceRelativePath("administration")
@@ -42,13 +43,13 @@ public interface AdministrationService extends RemoteService {
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um Informationen des Profils zu ändern.
+	 * um Informationen des Profils zu ï¿½ndern.
 	 */
 	public void editProfile(Profile profile) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um das eigene Profil endgültig aus dem System zu löschen.
+	 * um das eigene Profil endgï¿½ltig aus dem System zu lï¿½schen.
 	 */
 	public void deleteProfile(Profile profile) throws IllegalArgumentException;
 
@@ -56,24 +57,29 @@ public interface AdministrationService extends RemoteService {
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu fügen.
+	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu fï¿½gen.
 	 */
-	public void editWishlist(Wishlist wishlist) throws IllegalArgumentException;
+	public void addProfileToWishlist(Wish wishlist) throws IllegalArgumentException;
 
 	/**
-	 * Interne Methode zur Löschung von Wunschlisten bei der Löschung eines Profils durch den Benutzer.
+	 * Interne Methode zur Lï¿½schung von Wunschlisten bei der Lï¿½schung eines Profils durch den Benutzer.
 	 */
-	public void deleteWishlist(Wishlist wishlist) throws IllegalArgumentException;
+	public void deleteWishlist(Wish wishlist) throws IllegalArgumentException;
+	
+	/**
+	 * Interne Methode zur Loeschung eines Profils von der Wishlist.
+	 */
+	public void deleteProfileFromWishlist(Wish wishlist) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um für ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verfügen.
+	 * um fï¿½r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verfï¿½gen.
 	 */
 	public ProfileBan createProfileBan(int profileId) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um die Kontaktsperre für ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
+	 * um die Kontaktsperre fï¿½r ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
 	 */
 	public void deleteProfileBan(int profileId) throws IllegalArgumentException;
 
