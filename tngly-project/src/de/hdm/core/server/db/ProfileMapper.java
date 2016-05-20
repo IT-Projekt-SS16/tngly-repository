@@ -205,7 +205,7 @@ public class ProfileMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			StringBuilder stringBuilder;
-			stringBuilder.append("SELECT id, userName, name, lastName, dateOfBirth, "
+			stringBuilder.append("SELECT id, userName, name, lastName, dateOfBirth, FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) AS age "
 					+ "gender, bodyHeight, hairColour, confession, isSmoking FROM profiles WHERE ");
 					
 			boolean and = false;
@@ -228,7 +228,7 @@ public class ProfileMapper {
 					}
 					else {}
 					
-						stringBuilder.append("FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365)) BETWEEN " + searchProfile.getAgeFrom + " AND " + searchProfile.getAgeTo);
+						stringBuilder.append("FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) BETWEEN " + searchProfile.getAgeFrom + " AND " + searchProfile.getAgeTo);
 				}
 				
 				// Hier muss die Applikationslogik von Vornherein darauf achten, dass, wenn z.b. nur der von-Wert eingegeben wird, der bis-Wert automatisch aufgefüllt wird & vice versa
