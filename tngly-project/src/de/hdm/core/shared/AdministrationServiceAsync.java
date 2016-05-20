@@ -11,6 +11,7 @@ import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
+import de.hdm.core.shared.bo.Wish;
 import de.hdm.core.shared.bo.Wishlist;
 
 public interface AdministrationServiceAsync {
@@ -43,13 +44,13 @@ public interface AdministrationServiceAsync {
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um Informationen des Profils zu ändern.
+	 * um Informationen des Profils zu ï¿½ndern.
 	 */
 	public void editProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um das eigene Profil endgültig aus dem System zu löschen.
+	 * um das eigene Profil endgï¿½ltig aus dem System zu lï¿½schen.
 	 */
 	public void deleteProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
@@ -59,24 +60,29 @@ public interface AdministrationServiceAsync {
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu fügen.
+	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu fï¿½gen.
 	 */
-	public void editWishlist(Wishlist wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void addProfileToWishlist(Wish wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	/**
-	 * Interne Methode zur Löschung von Wunschlisten bei der Löschung eines Profils durch den Benutzer.
+	 * Interne Methode zur Lï¿½schung von Wunschlisten bei der Lï¿½schung eines Profils durch den Benutzer.
 	 */
-	public void deleteWishlist(Wishlist wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void deleteWishlist(Wish wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	
+	/**
+	 * Interne Methode zur Loeschung eines Profils von der Wishlist.
+	 */
+	public void deleteProfileFromWishlist(Wish wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um für ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verfügen.
+	 * um fï¿½r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verfï¿½gen.
 	 */
 	public void createProfileBan(int profileId, AsyncCallback<ProfileBan> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um die Kontaktsperre für ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
+	 * um die Kontaktsperre fï¿½r ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
 	 */
 	public void deleteProfileBan(int profileId, AsyncCallback<Void> callback) throws IllegalArgumentException;
 

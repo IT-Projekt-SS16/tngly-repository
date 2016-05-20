@@ -21,6 +21,7 @@ import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
+import de.hdm.core.shared.bo.Wish;
 import de.hdm.core.shared.bo.Wishlist;
 
 /**
@@ -225,21 +226,21 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, um Informationen des Profils zu
-	 * ändern.
+	 * ï¿½ndern.
 	 */
 	@Override
 	public void editProfile(Profile profile) throws IllegalArgumentException {
 		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
 		// Benutzers
 //		CommonSettings.setUserProfile(profile);
-		// Übergabe des Benutzerprofils an den ProfilMapper zur weiteren
+		// ï¿½bergabe des Benutzerprofils an den ProfilMapper zur weiteren
 		// Verarbeitung (Update in DB)
 		this.profileMapper.edit(profile);
 	}
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um das eigene Profil endgültig aus dem System zu löschen.
+	 * um das eigene Profil endgï¿½ltig aus dem System zu lï¿½schen.
 	 */
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
@@ -270,15 +271,19 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public void editWishlist(Wishlist wishlist) throws IllegalArgumentException {
+	public void addProfileToWishlist(Wish wishlist) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteWishlist(Wishlist wishlist) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void deleteProfileFromWishlist(Wish wishlist) throws IllegalArgumentException {
+		
 
+	}
+	
+	public void deleteWishlist(Wish wishlist) throws IllegalArgumentException {
+		
 	}
 
 	@Override
