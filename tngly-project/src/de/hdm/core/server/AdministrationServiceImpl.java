@@ -242,13 +242,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 */
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
-		// Übergabe des applikationsweiten Benutzerprofils an den ProfilMapper zur weiteren Verarbeitung (Löschen in DB)
+		// ï¿½bergabe des applikationsweiten Benutzerprofils an den ProfilMapper zur weiteren Verarbeitung (Lï¿½schen in DB)
 		this.profileBanMapper.delete(profile);
 		this.profileVisitMapper.delete(profile);
 		this.wishMapper.delete(profile);
 		this.informationMapper.delete(profile);
 		this.profileMapper.delete(profile);
-		// Löschen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
+		// Lï¿½schen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
 		ServersideSettings.setUserProfile(null);
 	}
 	
@@ -260,8 +260,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException {
 		ServersideSettings.setSearchProfile(searchProfile);
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-		profiles = this.propertyMapper.searchForProperties(profiles);
-		profiles = this.informationMapper.searchForInformationValues(profiles);
+		// profiles = this.propertyMapper.searchForProperties(profiles);
+		// profiles = this.informationMapper.searchForInformationValues(profiles);
 		Profile reference = ServersideSettings.getUserProfile();
 		for (Profile p : profiles){
 			p.equals(reference);

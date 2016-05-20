@@ -129,8 +129,8 @@ public class EditProfileView extends Update {
 		ta.setVisibleLines(10);
 
 		// HorizontalPanel horizonPanel = new HorizontalPanel();
-		// Label firstWarning = new Label("Bitte füllen Sie alle nachfolgenden
-		// Felder vollständig aus!");
+		// Label firstWarning = new Label("Bitte fï¿½llen Sie alle nachfolgenden
+		// Felder vollstï¿½ndig aus!");
 		// firstWarning.setPixelSize(10, 10);
 		// horizonPanel.add(firstWarning);
 		// verPanel.add(horizonPanel);
@@ -347,12 +347,15 @@ public class EditProfileView extends Update {
 
 				if (ClientsideSettings.getUserProfile() == null) {
 					ClientsideSettings.setUserProfile(temp);
-					// ClientsideSettings.getAdministration().createProfile(temp,
-					// new CreateCallback());
+					 ClientsideSettings.getAdministration().createProfile(temp,
+					 new CreateCallback());
 					logger.info("if-getAdministration wurde aufgerufen");
 				} else {
 					logger.info("getUserProfile war nicht 0.");
 					ClientsideSettings.setUserProfile(temp);
+					 ClientsideSettings.getAdministration().createProfile(temp,
+							 new CreateCallback());
+							logger.info("if-getAdministration wurde aufgerufen");
 					// ClientsideSettings.getAdministration().editProfile(temp,
 					// new CreateCallback());
 				}

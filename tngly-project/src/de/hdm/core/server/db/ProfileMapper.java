@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import com.ibm.icu.util.Calendar;
 
@@ -138,19 +140,29 @@ public class ProfileMapper {
 				p.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
-
+				
+				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+				// java.sql.Date date = new java.sql.Date(mySQLformat.parse(p.getDateOfBirth()).getTime());
+				String date = mySQLformat.format(p.getDateOfBirth());
+				
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 				stmt.executeUpdate(
 						"INSERT INTO profiles (id, userName, name, lastName, gender, dateOfBirth, bodyHeight, hairColour, confession, isSmoking) "
 								+ "VALUES (" + p.getId() + ",'" + p.getUserName() + "','" + p.getName() + "','"
-								+ p.getLastName() + "','" + p.getGender() + "','" + p.getDateOfBirth() + "','"
+								+ p.getLastName() + "','" + p.getGender() + "','" + date + "','"
 								+ p.getBodyHeight() + "','" + p.getHairColour() + "','" + p.getConfession() + "','"
 								+ p.getIsSmoking() + "')");
+				
+				System.out.println("INSERT INTO profiles (id, userName, name, lastName, gender, dateOfBirth, bodyHeight, hairColour, confession, isSmoking) "
+						+ "VALUES (" + p.getId() + ",'" + p.getUserName() + "','" + p.getName() + "','"
+						+ p.getLastName() + "','" + p.getGender() + "','" + date + "','"
+						+ p.getBodyHeight() + "','" + p.getHairColour() + "','" + p.getConfession() + "','"
+						+ p.getIsSmoking() + "')");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
 		return p;
 	}
 
@@ -205,8 +217,8 @@ public class ProfileMapper {
 			// Statement ausfüllen und als Query an die DB schicken
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder
-					.append("SELECT id, userName, name, lastName, dateOfBirth, FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) AS age "
-							+ "gender, bodyHeight, hairColour, confession, isSmoking FROM profiles ");
+					.append("SELECT id, userName, name, lastName, dateOfBirth, FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) AS age, "
+							+ "gender, bodyHeight, hairColour, confession, isSmoking FROM `profiles`");
 
 			boolean and = false;
 
@@ -217,7 +229,7 @@ public class ProfileMapper {
 
 				else {
 				}
-				stringBuilder.append("WHERE gender ='" + searchProfile.getGender() + "'");
+				stringBuilder.append(" WHERE gender='" + searchProfile.getGender() + "'");
 				and = true;
 			} else {
 				and = false;
@@ -262,7 +274,7 @@ public class ProfileMapper {
 				} else {
 				}
 
-				stringBuilder.append("hairColour ='" + searchProfile.getHairColour() + "'");
+				stringBuilder.append("hairColour='" + searchProfile.getHairColour() + "'");
 				and = true;
 			} else {
 				if (and == true) {
@@ -280,7 +292,7 @@ public class ProfileMapper {
 				} else {
 				}
 
-				stringBuilder.append("confession ='" + searchProfile.getConfession() + "'");
+				stringBuilder.append("confession='" + searchProfile.getConfession() + "'");
 				and = true;
 			} else {
 				if (and == true) {
@@ -296,7 +308,7 @@ public class ProfileMapper {
 				} else {
 				}
 
-				stringBuilder.append("isSmoking =" + searchProfile.getIsSmoking());
+				stringBuilder.append("isSmoking=" + searchProfile.getIsSmoking());
 			}
 
 			stringBuilder.append(" ORDER BY lastName");
@@ -304,6 +316,7 @@ public class ProfileMapper {
 			and = false;
 
 			String preparedStatement = stringBuilder.toString();
+			System.out.println(preparedStatement);
 
 			ResultSet rs = stmt.executeQuery(preparedStatement);
 
