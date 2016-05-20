@@ -49,7 +49,7 @@ public class EditProfileView extends Update {
 
 		if (ClientsideSettings.getUserProfile() == null) {
 			int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-			ClientsideSettings.getAdministration().findProfile(
+			ClientsideSettings.getAdministration().findProfileByName(
 					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), new FindCallback());
 		}
 
@@ -61,10 +61,9 @@ public class EditProfileView extends Update {
 		final TextBox tbfn = new TextBox();
 		final TextBox tbn = new TextBox();
 		final TextBox tbbh = new TextBox();
-		final TextBox tbmh = new TextBox();
 
 		final ListBox hairColourList = new ListBox(false);
-		hairColourList.setVisibleItemCount(5);
+		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
 		hairColourList.addItem("Brown");
 		hairColourList.addItem("Red");
@@ -72,12 +71,12 @@ public class EditProfileView extends Update {
 		hairColourList.addItem("Dark Blonde");
 
 		final ListBox isSmokingBox = new ListBox(false);
-		isSmokingBox.setVisibleItemCount(2);
-		isSmokingBox.addItem("yes");
+		isSmokingBox.setVisibleItemCount(1);
+		isSmokingBox.addItem("Yes");
 		isSmokingBox.addItem("No");
 
 		final ListBox confessionBox = new ListBox(false);
-		confessionBox.setVisibleItemCount(9);
+		confessionBox.setVisibleItemCount(1);
 		confessionBox.addItem("Atheistic");
 		confessionBox.addItem("Buddhistic");
 		confessionBox.addItem("Evangelic");
@@ -89,17 +88,23 @@ public class EditProfileView extends Update {
 		confessionBox.addItem("Other");
 
 		final ListBox genderBox = new ListBox(false);
-		genderBox.setVisibleItemCount(2);
-		genderBox.addItem("w");
-		genderBox.addItem("m");
+		genderBox.setVisibleItemCount(1);
+		genderBox.addItem("F");
+		genderBox.addItem("M");
 
-		final ListBox myHobbiesSelect = new ListBox(false);
-		myHobbiesSelect.setVisibleItemCount(5);
-		myHobbiesSelect.addItem("Soccer");
-		myHobbiesSelect.addItem("Baseball");
-		myHobbiesSelect.addItem("Volleyball");
-		myHobbiesSelect.addItem("Basketball");
-		myHobbiesSelect.addItem("Golf");
+		final ListBox myHobbiesSelect = new ListBox(true);
+		myHobbiesSelect.setVisibleItemCount(11);
+		myHobbiesSelect.addItem("Handicraft");
+		myHobbiesSelect.addItem("Languages");
+		myHobbiesSelect.addItem("Singing");
+		myHobbiesSelect.addItem("Art");
+		myHobbiesSelect.addItem("Dancing");
+		myHobbiesSelect.addItem("Reading");
+		myHobbiesSelect.addItem("Computer");
+		myHobbiesSelect.addItem("Movies");
+		myHobbiesSelect.addItem("Cooking");
+		myHobbiesSelect.addItem("Music");
+		myHobbiesSelect.addItem("Fitness");
 		
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearArrowsVisible(true);
@@ -121,7 +126,7 @@ public class EditProfileView extends Update {
 
 		TextArea ta = new TextArea();
 		ta.setCharacterWidth(80);
-		ta.setVisibleLines(50);
+		ta.setVisibleLines(10);
 
 		// HorizontalPanel horizonPanel = new HorizontalPanel();
 		// Label firstWarning = new Label("Bitte füllen Sie alle nachfolgenden
@@ -163,7 +168,7 @@ public class EditProfileView extends Update {
 			verPanel.add(genderBox);
 		} else {
 			int index;
-			if (ClientsideSettings.getUserProfile().getGender() == "m") {
+			if (ClientsideSettings.getUserProfile().getGender() == "M") {
 				index = 1;
 			} else {
 				index = 0;
@@ -274,9 +279,9 @@ public class EditProfileView extends Update {
 					
 		}
 		
-		Label myHobbiesLabel = new Label("Other Hobbies:");
-		verPanel.add(myHobbiesLabel);
-		verPanel.add(tbmh);	
+		Label selfDescriptionLabel = new Label("This is how I describe myself:");
+		verPanel.add(selfDescriptionLabel);
+		verPanel.add(ta);
 		
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStylePrimaryName("tngly-menubutton");
@@ -321,7 +326,7 @@ public class EditProfileView extends Update {
 
 				// temp.setHairColour(tbhc.getText());
 				int selectedHairColourIndex = hairColourList.getSelectedIndex();
-				temp.setGender(hairColourList.getItemText(selectedHairColourIndex));
+				temp.setHairColour(hairColourList.getItemText(selectedHairColourIndex));
 
 				logger.info("HairColour CHECK");
 
@@ -336,7 +341,7 @@ public class EditProfileView extends Update {
 
 				// temp.setConfession(tbc.getText());
 				int selectedConfessionIndex = confessionBox.getSelectedIndex();
-				temp.setGender(confessionBox.getItemText(selectedConfessionIndex));
+				temp.setConfession(confessionBox.getItemText(selectedConfessionIndex));
 
 				logger.info("Confession CHECK");
 
@@ -389,8 +394,6 @@ class FindCallback implements AsyncCallback<Profile> {
 	public void onSuccess(Profile result) {
 		ClientsideSettings.setUserProfile(result);
 		ClientsideSettings.getLogger().info("Result: " + result.toString());
-		System.out.println("Result: " + result.toString());
-		GWT.log("Result: " + result.toString());
 	}
 
 }

@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -32,6 +33,10 @@ public class ProfileView extends Update {
 		VerticalPanel verPanel = new VerticalPanel();
 
 		RootPanel.get("Details").add(verPanel);
+		
+		FlexTable profile = new FlexTable();
+		
+		verPanel.add(profile);
 
 //		Label userName = new Label("Username:");
 //		verPanel.add(userName);
@@ -44,49 +49,65 @@ public class ProfileView extends Update {
 //		verPanel.add(userNameValue);
 
 		Label firstName = new Label("First Name:");
-		verPanel.add(firstName);
+		profile.setWidget(0, 0, firstName);
+//		verPanel.add(firstName);
 		Label firstNameValue = new Label(ClientsideSettings.getUserProfile().getName());
-		verPanel.add(firstNameValue);
+		profile.setWidget(0, 1, firstNameValue);
+//		verPanel.add(firstNameValue);
 
 		Label name = new Label("Last Name:");
-		verPanel.add(name);
+		profile.setWidget(1, 0, name);
+//		verPanel.add(name);
 		Label nameValue = new Label(ClientsideSettings.getUserProfile().getLastName());
-		verPanel.add(nameValue);
+		profile.setWidget(1, 1, nameValue);
+//		verPanel.add(nameValue);
 
 		Label gender = new Label("Gender:");
-		verPanel.add(gender);
+		profile.setWidget(2, 0, gender);
+//		verPanel.add(gender);
 		Label genderValue = new Label(ClientsideSettings.getUserProfile().getGender());
-		verPanel.add(genderValue);
+		profile.setWidget(2, 1, genderValue);
+//		verPanel.add(genderValue);
 
 		Label dateOfBirth = new Label("Date of Birth:");
-		verPanel.add(dateOfBirth);
+		profile.setWidget(3, 0, dateOfBirth);
+//		verPanel.add(dateOfBirth);
 		Label dOBValue = new Label(ClientsideSettings.getUserProfile().getDateOfBirth().toString());
-		verPanel.add(dOBValue);
+		profile.setWidget(3, 1, dOBValue);
+//		verPanel.add(dOBValue);
 
 		Label bodyHeight = new Label("Body Height:");
-		verPanel.add(bodyHeight);
+		profile.setWidget(4, 0, bodyHeight);
+//		verPanel.add(bodyHeight);
 		Label bodyHeightValue = new Label(Float.toString(ClientsideSettings.getUserProfile().getBodyHeight()));
-		verPanel.add(bodyHeightValue);
+		profile.setWidget(4, 1, bodyHeightValue);
+//		verPanel.add(bodyHeightValue);
 
 		Label hairColour = new Label("Haircolour:");
-		verPanel.add(hairColour);
+		profile.setWidget(5, 0, hairColour);
+//		verPanel.add(hairColour);
 		Label hairColourValue = new Label(ClientsideSettings.getUserProfile().getHairColour());
-		verPanel.add(hairColourValue);
+		profile.setWidget(5, 1, hairColourValue);
+//		verPanel.add(hairColourValue);
 
 		Label isSmoking = new Label("Smoker:");
-		verPanel.add(isSmoking);
+		profile.setWidget(6, 0, isSmoking);
+//		verPanel.add(isSmoking);
 		Label smokingValue;
 		if (ClientsideSettings.getUserProfile().getIsSmoking() == 0){
 			smokingValue = new Label("Yes");
 		} else {
 			smokingValue = new Label("No");
 		}
-		verPanel.add(smokingValue);
+		profile.setWidget(6, 1, smokingValue);
+//		verPanel.add(smokingValue);
 
 		Label confession = new Label("Confession:");
-		verPanel.add(confession);
+		profile.setWidget(7, 0, confession);
+//		verPanel.add(confession);
 		Label confessionValue = new Label(ClientsideSettings.getUserProfile().getConfession());
-		verPanel.add(confessionValue);
+		profile.setWidget(7, 1, confessionValue);
+//		verPanel.add(confessionValue);
 
 		final Button editProfilButton = new Button("Edit Profile");
 		editProfilButton.setStylePrimaryName("tngly-menubutton");

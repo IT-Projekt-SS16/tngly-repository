@@ -11,6 +11,7 @@ import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.LoginInfo;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.User;
 
 public class ClientsideSettings extends CommonSettings {
@@ -32,7 +33,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
 	 * für die Partnersuche.
 	 */
-	private static Profile searchProfile = null;
+	private static SearchProfile searchProfile = null;
 
 	/**
 	 * <p>
@@ -74,7 +75,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * @author Kevin Jaeger
 	 * @since 28.04.2016
 	 */
-	public static Profile getSearchProfile() {
+	public static SearchProfile getSearchProfile() {
 		return searchProfile;
 	}
 
@@ -88,7 +89,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * @author Kevin Jaeger
 	 * @since 28.04.2016
 	 */
-	public static void setSearchProfile(Profile searchProfile) {
+	public static void setSearchProfile(SearchProfile searchProfile) {
 		ClientsideSettings.searchProfile = searchProfile;
 	}
 

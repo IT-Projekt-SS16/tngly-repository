@@ -1,10 +1,14 @@
 package de.hdm.core.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
+
+import com.ibm.icu.util.Calendar;
 
 import de.hdm.core.shared.*;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.SearchProfile;
 
 /**
  * Übernommen & angepasst von: @author Thies
@@ -12,184 +16,329 @@ import de.hdm.core.shared.bo.Profile;
 
 public class ProfileMapper {
 
-  private static ProfileMapper profileMapper = null;
+	private static ProfileMapper profileMapper = null;
 
-  protected ProfileMapper() {
-  }
+	protected ProfileMapper() {
+	}
 
-  public static ProfileMapper profileMapper() {
-    if (profileMapper == null) {
-      profileMapper = new ProfileMapper();
-    }
+	public static ProfileMapper profileMapper() {
+		if (profileMapper == null) {
+			profileMapper = new ProfileMapper();
+		}
 
-    return profileMapper;
-  }
+		return profileMapper;
+	}
 
- 
-  public Profile findByName(String id) {
-    // DB-Verbindung holen
-    Connection con = DBConnection.connection();
+	public Profile findByName(String id) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
 
-    try {
-      // Leeres SQL-Statement (JDBC) anlegen
-      Statement stmt = con.createStatement();
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
 
-      // Statement ausfüllen und als Query an die DB schicken
-      ResultSet rs = stmt
-          .executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
-          		+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles "
-              + "WHERE userName LIKE " + "'" + id + "%'" + " ORDER BY lastName");
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
+					+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles " + "WHERE userName LIKE "
+					+ "'" + id + "%'" + " ORDER BY lastName");
 
-      /*
-       * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-       * werden. Prüfe, ob ein Ergebnis vorliegt.
-       */
-      if (rs.next()) {
-        // Ergebnis-Tupel in Objekt umwandeln
-        Profile p = new Profile();
-        p.setId(rs.getInt("id"));
-        p.setUserName(rs.getString("userName"));
-        p.setName(rs.getString("name"));
-        p.setLastName(rs.getString("lastName"));
-        p.setDateOfBirth(rs.getDate("dateOfBirth"));
-        p.setGender(rs.getString("gender"));
-        p.setBodyHeight(rs.getFloat("bodyHeight"));
-        p.setHairColour(rs.getString("hairColour"));
-        p.setConfession(rs.getString("confession"));
-        
-        // evtl. muss hier nochmal geschaut werden, ob 0 automatisch als false und * automatisch als true ausgegeben wird
-        
-        p.setIsSmoking(rs.getInt("isSmoking"));
-       
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
+			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Profile p = new Profile();
+				p.setId(rs.getInt("id"));
+				p.setUserName(rs.getString("userName"));
+				p.setName(rs.getString("name"));
+				p.setLastName(rs.getString("lastName"));
+				p.setDateOfBirth(rs.getDate("dateOfBirth"));
+				p.setGender(rs.getString("gender"));
+				p.setBodyHeight(rs.getFloat("bodyHeight"));
+				p.setHairColour(rs.getString("hairColour"));
+				p.setConfession(rs.getString("confession"));
 
-        return p;
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-      return null;
-    }
+				// evtl. muss hier nochmal geschaut werden, ob 0 automatisch als
+				// false und * automatisch als true ausgegeben wird
 
-    return null;
-  }
+				p.setIsSmoking(rs.getInt("isSmoking"));
 
-  public Vector<Profile> findAll() {
-    Connection con = DBConnection.connection();
-    // Ergebnisvektor vorbereiten
-    Vector<Profile> result = new Vector<Profile>();
+				return p;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-    try {
-      Statement stmt = con.createStatement();
+		return null;
+	}
 
-      ResultSet rs = stmt.executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
-        		+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles"
-           + "ORDER BY id");
+	public Vector<Profile> findAll() {
+		Connection con = DBConnection.connection();
+		// Ergebnisvektor vorbereiten
+		Vector<Profile> result = new Vector<Profile>();
 
-      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
-      // erstellt.
-      while (rs.next()) {
-        Profile p = new Profile();
-        p.setId(rs.getInt("id"));
-        p.setUserName(rs.getString("userName"));
-        p.setName(rs.getString("name"));
-        p.setLastName(rs.getString("lastName"));
-        p.setDateOfBirth(rs.getDate("dateOfBirth"));
-        p.setGender(rs.getString("gender"));
-        p.setBodyHeight(rs.getFloat("bodyHeight"));
-        p.setHairColour(rs.getString("hairColour"));
-        p.setConfession(rs.getString("confession"));
-        
-        // evtl. muss hier nochmal geschaut werden, ob 0 automatisch als false und * automatisch als true ausgegeben wird
-        
-        p.setIsSmoking(rs.getInt("isSmoking"));
+		try {
+			Statement stmt = con.createStatement();
 
-        // Hinzufügen des neuen Objekts zum Ergebnisvektor
-        result.addElement(p);
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
+			ResultSet rs = stmt.executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
+					+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles" + "ORDER BY id");
 
-    // Ergebnisvektor zurückgeben
-    return result;
-  }
+			// Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
+			// erstellt.
+			while (rs.next()) {
+				Profile p = new Profile();
+				p.setId(rs.getInt("id"));
+				p.setUserName(rs.getString("userName"));
+				p.setName(rs.getString("name"));
+				p.setLastName(rs.getString("lastName"));
+				p.setDateOfBirth(rs.getDate("dateOfBirth"));
+				p.setGender(rs.getString("gender"));
+				p.setBodyHeight(rs.getFloat("bodyHeight"));
+				p.setHairColour(rs.getString("hairColour"));
+				p.setConfession(rs.getString("confession"));
 
- 
-  public Profile insert(Profile p) {
-    Connection con = DBConnection.connection();
+				// evtl. muss hier nochmal geschaut werden, ob 0 automatisch als
+				// false und * automatisch als true ausgegeben wird
 
-    try {
-      Statement stmt = con.createStatement();
+				p.setIsSmoking(rs.getInt("isSmoking"));
 
-      /*
-       * Zunächst schauen wir nach, welches der momentan höchste
-       * Primärschlüsselwert ist.
-       */
-      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-          + "FROM profiles ");
+				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.addElement(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-      if (rs.next()) {
-        /*
-         * c erhält den bisher maximalen, nun um 1 inkrementierten
-         * Primärschlüssel.
-         */
-        p.setId(rs.getInt("maxid") + 1);
+		// Ergebnisvektor zurückgeben
+		return result;
+	}
 
-        stmt = con.createStatement();
+	public Profile insert(Profile p) {
+		Connection con = DBConnection.connection();
 
-        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-        stmt.executeUpdate("INSERT INTO profiles (id, userName, name, lastName, gender, dateOfBirth, bodyHeight, hairColour, confession, isSmoking) "
-            + "VALUES (" + p.getId() + ",'" + p.getUserName() + "','" + p.getName() + "','" + p.getLastName() + "','" + p.getGender() + "','" + p.getDateOfBirth() + "','"
-            + p.getBodyHeight() + "','" + p.getHairColour() + "','" + p.getConfession() + "','" + p.getIsSmoking() + "')");
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
+		try {
+			Statement stmt = con.createStatement();
 
-    return p;
-  }
+			/*
+			 * Zunächst schauen wir nach, welches der momentan höchste
+			 * Primärschlüsselwert ist.
+			 */
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM profiles ");
 
+			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			if (rs.next()) {
+				/*
+				 * c erhält den bisher maximalen, nun um 1 inkrementierten
+				 * Primärschlüssel.
+				 */
+				p.setId(rs.getInt("maxid") + 1);
 
-  public void delete(Profile p) {
-    Connection con = DBConnection.connection();
+				stmt = con.createStatement();
 
-    try {
-      Statement stmt = con.createStatement();
+				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				stmt.executeUpdate(
+						"INSERT INTO profiles (id, userName, name, lastName, gender, dateOfBirth, bodyHeight, hairColour, confession, isSmoking) "
+								+ "VALUES (" + p.getId() + ",'" + p.getUserName() + "','" + p.getName() + "','"
+								+ p.getLastName() + "','" + p.getGender() + "','" + p.getDateOfBirth() + "','"
+								+ p.getBodyHeight() + "','" + p.getHairColour() + "','" + p.getConfession() + "','"
+								+ p.getIsSmoking() + "')");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-      stmt.executeUpdate("DELETE FROM profiles " + "WHERE id=" + p.getId());
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
+		return p;
+	}
 
-public Profile edit(Profile p) {
-	
-		    Connection con = DBConnection.connection();
+	public void delete(Profile p) {
+		Connection con = DBConnection.connection();
 
-		    try {
-		      Statement stmt = con.createStatement();
+		try {
+			Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("UPDATE profiles " + "SET userName=\""
-		          + p.getUserName() + "\", " + "name=\"" + p.getName() + "\", " + "lastName=\"" + p.getLastName()
-		          + "\", " + "lastName=\"" + p.getLastName() + "\", " + "dateOfBirth=\"" + p.getDateOfBirth() 
-		          + "\", " + "gender=\"" + p.getGender() + "\", " + "bodyHeight=\"" + p.getBodyHeight() 
-		          + "\", " + "hairColour=\"" + p.getHairColour() + "\", " + "confession=\"" + p.getConfession()
-		          + "\", " + "isSmoking=\"" + p.getIsSmoking()
-		          + "WHERE id=" + p.getId());
+			stmt.executeUpdate("DELETE FROM profiles " + "WHERE id=" + p.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
+	public Profile edit(Profile p) {
 
-		    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
-		    return p;
-		  }
-	
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("UPDATE profiles " + "SET userName=\"" + p.getUserName() + "\", " + "name=\""
+					+ p.getName() + "\", " + "lastName=\"" + p.getLastName() + "\", " + "lastName=\"" + p.getLastName()
+					+ "\", " + "dateOfBirth=\"" + p.getDateOfBirth() + "\", " + "gender=\"" + p.getGender() + "\", "
+					+ "bodyHeight=\"" + p.getBodyHeight() + "\", " + "hairColour=\"" + p.getHairColour() + "\", "
+					+ "confession=\"" + p.getConfession() + "\", " + "isSmoking=\"" + p.getIsSmoking() + "WHERE id="
+					+ p.getId());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+		return p;
+	}
+
+	/*
+	 * TODO: Umschreiben der nachfolgenden Methode zur Ausgabe von Profile nach Vorgabe des "Suchprofils"
+	 */
+	public ArrayList<Profile> searchProfileByProfile(SearchProfile searchProfile) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+		
+		ArrayList<Profile> profiles = new ArrayList<Profile>();
+		
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		int yearFrom = year - searchProfile.getAgeRangeFrom();
+		int yearTo = year - searchProfile.getAgeRangeTo();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			// Statement ausfüllen und als Query an die DB schicken
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("SELECT id, userName, name, lastName, dateOfBirth, FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) AS age "
+					+ "gender, bodyHeight, hairColour, confession, isSmoking FROM profiles WHERE ");
+					
+			boolean and = false;
+			
+				if (searchProfile.getGender() != null)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					
+					else {}
+						stringBuilder.append("gender ='" + searchProfile.getGender() + "'");
+						and = true;
+				}
+				else {and = false;}
+				
+				// Geburtsdatum
+				if (searchProfile.getAgeRangeFrom() != -1 && searchProfile.getAgeRangeTo() != -1)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+					
+						stringBuilder.append("FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) BETWEEN " + searchProfile.getAgeRangeFrom() + " AND " + searchProfile.getAgeRangeTo());
+				}
+				
+				// Hier muss die Applikationslogik von Vornherein darauf achten, dass, wenn z.b. nur der von-Wert eingegeben wird, der bis-Wert automatisch aufgefüllt wird & vice versa
+				if (searchProfile.getBodyHeightFrom() != 0.0 && searchProfile.getBodyHeightTo() != 0.0)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+					
+					stringBuilder.append("bodyHeight BETWEEN " + searchProfile.getBodyHeightFrom() + " AND " + searchProfile.getBodyHeightTo());
+					and = true;
+				}
+				else { 
+					if (and == true) {
+					and = true;}
+					else { and = false;}
+				}
+				
+				// Haarfarbe selektieren
+				
+				if (searchProfile.getHairColour() != null)	{
+					if (and == true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+					
+						stringBuilder.append("hairColour ='" + searchProfile.getHairColour() +"'");
+						and = true;
+				}
+				else { 
+					if (and == true) {
+					and = true;}
+					else { and = false;}
+				}
+				
+				// Bekenntnis selektieren
+				
+				if (searchProfile.getConfession() != null)	{
+					if (and==true)	{
+						stringBuilder.append(" AND ");
+					}
+					else{}
+					
+						stringBuilder.append("confession ='" + searchProfile.getConfession() +"'");
+						and = true;
+				}
+				else { 
+					if (and == true) {
+					and = true;}
+					else { and = false;}
+				}
+				
+				if (searchProfile.getIsSmoking() != -1)	{
+					if (and==true)	{
+						stringBuilder.append(" AND ");
+					}
+					else {}
+					
+					stringBuilder.append("isSmoking =" + searchProfile.getIsSmoking());
+				}
+				
+				stringBuilder.append(" + ORDER BY lastName");
+				
+				and = false;
+				
+				String preparedStatement = stringBuilder.toString();
+				
+				ResultSet rs = stmt.executeQuery(preparedStatement);
+				
+				
+					
+				//	+ "WHERE birthYear BETWEEN " + yearFrom + " AND " + yearTo 
+				//	+ " AND " + "gender='" + searchProfile.getGender() + "'" + " AND " + "bodyHeight BETWEEN " 
+				//	+ searchProfile.getBodyHeightFrom() + " AND " + searchProfile.getBodyHeightTo() 
+				//	+ " AND " + "hairColour='" + searchProfile.getHairColour() + "'" + " AND " 
+				//	+ "confession='" + searchProfile.getConfession() + "'" + " AND " 
+				//	+ "isSmoking=" + searchProfile.getIsSmoking() + " ORDER BY lastName");
+
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
+			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+				
+			while (rs.next()) {
+				Profile p = new Profile();
+				p.setId(rs.getInt("id"));
+				p.setUserName(rs.getString("userName"));
+				p.setName(rs.getString("name"));
+				p.setLastName(rs.getString("lastName"));
+				p.setDateOfBirth(rs.getDate("dateOfBirth"));
+				p.setGender(rs.getString("gender"));
+				p.setBodyHeight(rs.getFloat("bodyHeight"));
+				p.setHairColour(rs.getString("hairColour"));
+				p.setConfession(rs.getString("confession"));
+
+				// evtl. muss hier nochmal geschaut werden, ob 0 automatisch als
+				// false und * automatisch als true ausgegeben wird
+
+				p.setIsSmoking(rs.getInt("isSmoking"));
+
+				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				profiles.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return profiles;
+
+	}
 
 }
-

@@ -10,12 +10,12 @@ public class ShowProfilesView extends Update{
 
 
 	  protected String getHeadlineText() {
-	    return "Wishlist View";
+	    return "Search Result";
 	  }
 	 
 
 	  protected void run() {
-		  this.append("Here you will see your Favourits");
+		  this.append("Here you will see your search results");
 		  
 		  FlexTable t = new FlexTable();
 		  

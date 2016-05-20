@@ -1,6 +1,7 @@
 package de.hdm.core.shared.bo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Profile implements Serializable{
@@ -13,6 +14,8 @@ public class Profile implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private int similiarityToReference;
 
 	// The profile´s ID
 	private int id;
@@ -44,10 +47,16 @@ public class Profile implements Serializable{
 	// Is the person smoking? (e.g. yes, no)
 	private int isSmoking;
 	
-	private Wishlist wishlist;
+	private ArrayList<Wish> wishlist;
+	
+	private ArrayList<ProfileBan> banlist;
+	
+	private ArrayList<Property> propertylist;
 	
 	public Profile(){
-		this.wishlist = new Wishlist();
+		this.setWishlist(new ArrayList<Wish>());
+		this.setBanlist(new ArrayList<ProfileBan>());
+		this.setPropertylist(new ArrayList<Property>());
 	}
 	
 	/*
@@ -55,6 +64,30 @@ public class Profile implements Serializable{
 	 */
 	
 	
+	public ArrayList<Wish> getWishlist() {
+		return wishlist;
+	}
+
+	public void setWishlist(ArrayList<Wish> wishlist) {
+		this.wishlist = wishlist;
+	}
+
+	public ArrayList<ProfileBan> getBanlist() {
+		return banlist;
+	}
+
+	public void setBanlist(ArrayList<ProfileBan> banlist) {
+		this.banlist = banlist;
+	}
+
+	public ArrayList<Property> getPropertylist() {
+		return propertylist;
+	}
+
+	public void setPropertylist(ArrayList<Property> propertylist) {
+		this.propertylist = propertylist;
+	}
+
 	// Get profile´s ID
 	public int getId()	{
 		return this.id;
@@ -158,6 +191,14 @@ public class Profile implements Serializable{
 	
 	// Return textual description of selected instance adding the real name and user name
 	
+	public int getSimiliarityToReference() {
+		return similiarityToReference;
+	}
+
+	public void setSimiliarityToReference(int similiarityToReference) {
+		this.similiarityToReference = similiarityToReference;
+	}
+
 	@Override
 	public String toString() {
 	    return super.toString() + " " + this.name + " " + this.lastName + " aka " + this.userName;
