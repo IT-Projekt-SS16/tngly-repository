@@ -1,8 +1,10 @@
 package de.hdm.core.server.db;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.InfoPropertyConnection;
+import de.hdm.core.shared.bo.Profile;
 
 
 public class PropertyMapper {
@@ -170,6 +172,12 @@ public InfoPropertyConnection InfoPropertyConnection(InfoPropertyConnection i) {
       e.printStackTrace();
     }
   }
+
+public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
+	return profiles;
+	// TODO Auto-generated method stub
+	
+}
  
 }
 

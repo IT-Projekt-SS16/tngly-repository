@@ -370,15 +370,15 @@ public class EditProfileView extends Update {
 
 }
 
-class CreateCallback implements AsyncCallback<Void> {
+class CreateCallback implements AsyncCallback<Profile> {
 	@Override
 	public void onFailure(Throwable caught) {
 		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
 	}
 
 	@Override
-	public void onSuccess(Void result) {
-		// TODO Auto-generated method stub
+	public void onSuccess(Profile result) {
+		ClientsideSettings.setUserProfile(result);
 
 	}
 

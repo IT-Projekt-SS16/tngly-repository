@@ -1,6 +1,7 @@
 package de.hdm.core.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wishlist;
 import de.hdm.core.shared.bo.Profile;
@@ -33,4 +34,19 @@ public class InformationMapper {
 
 	    return informationMapper;
 	  }
+
+	public void delete(Profile profile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void edit(Profile profile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public ArrayList<Profile> searchForInformationValues(ArrayList<Profile> profiles) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

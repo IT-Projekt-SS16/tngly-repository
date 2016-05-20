@@ -3,6 +3,7 @@ package de.hdm.core.server.db;
 import java.sql.*;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wishlist;
+import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 
 public class ProfileVisitMapper {
@@ -209,4 +210,9 @@ public class ProfileVisitMapper {
 				    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
 				    return pv;
 				  }
+
+		public void delete(Profile profile) {
+			// TODO Auto-generated method stub
+			
+		}
 }

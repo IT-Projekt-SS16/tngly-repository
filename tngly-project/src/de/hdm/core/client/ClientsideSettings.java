@@ -1,5 +1,6 @@
 package de.hdm.core.client;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -22,6 +23,8 @@ public class ClientsideSettings extends CommonSettings {
 	 */
 
 	private static AdministrationServiceAsync administration = null;
+	
+	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
 	/**
 	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
@@ -91,6 +94,15 @@ public class ClientsideSettings extends CommonSettings {
 	 */
 	public static void setSearchProfile(SearchProfile searchProfile) {
 		ClientsideSettings.searchProfile = searchProfile;
+	}
+
+
+	public static ArrayList<Profile> getProfilesFoundAndCompared() {
+		return profilesFoundAndCompared;
+	}
+
+	public static void setProfilesFoundAndCompared(ArrayList<Profile> profilesFoundAndCompared) {
+		ClientsideSettings.profilesFoundAndCompared = profilesFoundAndCompared;
 	}
 
 

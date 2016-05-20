@@ -210,5 +210,10 @@ public class WishMapper {
 				    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
 				    return w;
 				  }
+
+		public void delete(Profile profile) {
+			// TODO Auto-generated method stub
+			
+		}
 	  
 }

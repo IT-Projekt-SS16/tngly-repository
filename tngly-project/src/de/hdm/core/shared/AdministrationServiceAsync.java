@@ -40,7 +40,7 @@ public interface AdministrationServiceAsync {
 	/**
 	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers am System.
 	 */
-	public void createProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void createProfile(Profile profile, AsyncCallback<Profile> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

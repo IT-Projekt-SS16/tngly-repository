@@ -1,10 +1,10 @@
 package de.hdm.core.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.server.db.InformationMapper;
 import de.hdm.core.server.db.ProfileBanMapper;
 import de.hdm.core.server.db.ProfileMapper;
@@ -13,7 +13,6 @@ import de.hdm.core.server.db.PropertyMapper;
 import de.hdm.core.server.db.WishMapper;
 import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
-import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
@@ -22,7 +21,6 @@ import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
-import de.hdm.core.shared.bo.Wishlist;
 
 /**
  * <p>
@@ -215,13 +213,12 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 * am System.
 	 */
 	@Override
-	public void createProfile(Profile profile) throws IllegalArgumentException {
+	public Profile createProfile(Profile profile) throws IllegalArgumentException {
+		Profile profileCreated = this.profileMapper.insert(profile);
 		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
 		// Benutzers
-//		CommonSettings.setUserProfile(profile);
-		// Übergabe des Benutzerprofils an den ProfilMapper zur weiteren
-		// Verarbeitung (Einfügen in DB)
-		this.profileMapper.insert(profile);
+		ServersideSettings.setUserProfile(profileCreated);
+		return profileCreated;
 	}
 
 	/**
@@ -232,10 +229,11 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public void editProfile(Profile profile) throws IllegalArgumentException {
 		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
 		// Benutzers
-//		CommonSettings.setUserProfile(profile);
+		ServersideSettings.setUserProfile(profile);
 		// ï¿½bergabe des Benutzerprofils an den ProfilMapper zur weiteren
 		// Verarbeitung (Update in DB)
 		this.profileMapper.edit(profile);
+		this.informationMapper.edit(profile);
 	}
 
 	/**
@@ -245,10 +243,11 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
 		// Übergabe des applikationsweiten Benutzerprofils an den ProfilMapper zur weiteren Verarbeitung (Löschen in DB)
+		this.profileBanMapper.delete(profile);
+		this.profileVisitMapper.delete(profile);
+		this.wishMapper.delete(profile);
+		this.informationMapper.delete(profile);
 		this.profileMapper.delete(profile);
-		/*
-		 * TODO: Aufruf der restlichen Mapper zum vollständigen Löschen aller Profileigenschaften
-		 */
 		// Löschen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
 		ServersideSettings.setUserProfile(null);
 	}
@@ -260,14 +259,16 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException {
 		ServersideSettings.setSearchProfile(searchProfile);
-		this.profileMapper.searchProfileByProfile(searchProfile);
-		/*
-		 * TODO: Aufruf der weiteren Mapper, um Liste mit vollständigen Profileigenschaften zu erhalten + 
-		 * Aufruf der Vergleichsmethode "compareProfiles" und abschließende Rückgabe der nach Ähnlichkeiten sortierten
-		 * Liste an Client
-		 */
-		ServersideSettings.setProfilesFoundAndCompared(null);
-		return null;
+		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
+		profiles = this.propertyMapper.searchForProperties(profiles);
+		profiles = this.informationMapper.searchForInformationValues(profiles);
+		Profile reference = ServersideSettings.getUserProfile();
+		for (Profile p : profiles){
+			p.equals(reference);
+		}
+		Collections.sort(profiles, Collections.reverseOrder());
+		ServersideSettings.setProfilesFoundAndCompared(profiles);
+		return profiles;
 	}
 
 	@Override

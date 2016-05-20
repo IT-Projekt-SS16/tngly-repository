@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 
 public class ProfileBanMapper {
@@ -212,4 +213,9 @@ public class ProfileBanMapper {
 				    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
 				    return pb;
 				  }
+
+		public void delete(Profile profile) {
+			// TODO Auto-generated method stub
+			
+		}
 }

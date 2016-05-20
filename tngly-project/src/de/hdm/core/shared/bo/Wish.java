@@ -1,9 +1,10 @@
 package de.hdm.core.shared.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Wish {
+public class Wish implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private static Wish wishlist = null;

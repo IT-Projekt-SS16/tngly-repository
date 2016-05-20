@@ -1,6 +1,7 @@
 package de.hdm.core.shared.bo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Selection extends Property implements Serializable{
 
@@ -10,24 +11,35 @@ public class Selection extends Property implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	// Items
-	private int items;
+	private ArrayList<String> items;
+	
+	//InformationValues from Information table
+	private ArrayList<String> informationValues;
 	
 	/*
 	 * Operations
 	 */
 	
 	// Get items
-	public int getItems()	{
+	public ArrayList<String> getItems()	{
 		return this.items;
 	}
 		
 	// Add item
-	public void addItem(int newItem)	{
-
+	public void addItem(String newItem)	{
+		this.items.add(newItem);
 	}
 		
 	// Delete item
-	public void deleteItem(int oldItem)	{
+	public void deleteItem(String oldItem)	{
+		this.items.remove(this.items.indexOf(oldItem));
+	}
 
+	public ArrayList<String> getInformationValues() {
+		return informationValues;
+	}
+
+	public void setInformationValues(ArrayList<String> informationValues) {
+		this.informationValues = informationValues;
 	}
 }

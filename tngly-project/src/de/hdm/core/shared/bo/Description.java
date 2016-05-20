@@ -8,7 +8,14 @@ public class Description extends Property implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/*
-	 *  To be done
-	 */
+	
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

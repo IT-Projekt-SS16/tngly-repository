@@ -1,12 +1,15 @@
 package de.hdm.editor.client;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 //import com.google.gwt.event.dom.client.KeyPressEvent;
 //import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,6 +18,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
+import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
 
 public class SearchByProfileView extends Update {
@@ -52,7 +56,7 @@ public class SearchByProfileView extends Update {
 		VerticalPanel verPanel = new VerticalPanel();
 
 		RootPanel.get("Details").add(verPanel);
-
+		
 		final TextBox tbfn = new TextBox();
 		final TextBox tbn = new TextBox();
 		final TextBox tbbh = new TextBox();
@@ -61,6 +65,13 @@ public class SearchByProfileView extends Update {
 		final TextBox tbHeightRangeFrom = new TextBox();
 		final TextBox tbHeightRangeTo = new TextBox();
 		// final TextBox tbmh = new TextBox();
+		
+		final CheckBox chkGenderAny = new CheckBox();
+		final CheckBox chkAgeAny = new CheckBox();
+		final CheckBox chkBodyHeightAny = new CheckBox();
+		final CheckBox chkHairColourAny = new CheckBox();
+		final CheckBox chkSmokerAny = new CheckBox();
+		final CheckBox chkConfessionAny = new CheckBox();
 
 		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(1);
@@ -177,6 +188,20 @@ public class SearchByProfileView extends Update {
 			genderBox.setItemSelected(index, true);
 			verPanel.add(genderBox);
 		}
+		verPanel.add(chkGenderAny);
+		Label anyCheck = new Label("Any");
+		verPanel.add(anyCheck);
+		chkGenderAny.addClickHandler(new ClickHandler() {
+		      @Override
+		      public void onClick(ClickEvent event) {
+		        boolean genderChecked = ((CheckBox) event.getSource()).getValue();
+		        if (genderChecked == true){
+		        	genderBox.setEnabled(false);
+		        } else{
+		        	genderBox.setEnabled(true);
+		        }
+		      }
+		    });
 
 		// Label dateOfBirth = new Label("Date of Birth:");
 		// verPanel.add(dateOfBirth);
@@ -202,6 +227,21 @@ public class SearchByProfileView extends Update {
 			tbAgeRangeTo.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeTo()));
 			verPanel.add(tbAgeRangeTo);
 		}
+		verPanel.add(chkAgeAny);
+		verPanel.add(anyCheck);
+		chkAgeAny.addClickHandler(new ClickHandler() {
+		      @Override
+		      public void onClick(ClickEvent event) {
+		        boolean ageChecked = ((CheckBox) event.getSource()).getValue();
+		        if (ageChecked == true){
+		        	tbAgeRangeFrom.setEnabled(false);
+		        	tbAgeRangeTo.setEnabled(false);
+		        } else{
+		        	tbAgeRangeFrom.setEnabled(true);
+		        	tbAgeRangeTo.setEnabled(true);
+		        }
+		      }
+		    });
 
 		// Label bodyHeight = new Label("Body Height:");
 		// verPanel.add(bodyHeight);
@@ -227,6 +267,21 @@ public class SearchByProfileView extends Update {
 			tbHeightRangeTo.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightTo()));
 			verPanel.add(tbHeightRangeTo);
 		}
+		verPanel.add(chkBodyHeightAny);
+		verPanel.add(anyCheck);
+		chkBodyHeightAny.addClickHandler(new ClickHandler() {
+		      @Override
+		      public void onClick(ClickEvent event) {
+		        boolean bodyHeightChecked = ((CheckBox) event.getSource()).getValue();
+		        if (bodyHeightChecked == true){
+		        	tbHeightRangeFrom.setEnabled(false);
+		        	tbHeightRangeTo.setEnabled(false);
+		        } else{
+		        	tbHeightRangeFrom.setEnabled(true);
+		        	tbHeightRangeTo.setEnabled(true);
+		        }
+		      }
+		    });
 
 		Label hairColour = new Label("Haircolour:");
 		verPanel.add(hairColour);
@@ -248,6 +303,19 @@ public class SearchByProfileView extends Update {
 			hairColourList.setItemSelected(index, true);
 			verPanel.add(hairColourList);
 		}
+		verPanel.add(chkHairColourAny);
+		verPanel.add(anyCheck);
+		chkHairColourAny.addClickHandler(new ClickHandler() {
+		      @Override
+		      public void onClick(ClickEvent event) {
+		        boolean hairColourChecked = ((CheckBox) event.getSource()).getValue();
+		        if (hairColourChecked == true){
+		        	hairColourList.setEnabled(false);
+		        } else{
+		        	hairColourList.setEnabled(true);
+		        }
+		      }
+		    });
 
 		Label isSmoking = new Label("Smoker:");
 		verPanel.add(isSmoking);
@@ -257,6 +325,19 @@ public class SearchByProfileView extends Update {
 			isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(), true);
 			verPanel.add(isSmokingBox);
 		}
+		verPanel.add(chkSmokerAny);
+		verPanel.add(anyCheck);
+		chkSmokerAny.addClickHandler(new ClickHandler() {
+		      @Override
+		      public void onClick(ClickEvent event) {
+		        boolean smokerChecked = ((CheckBox) event.getSource()).getValue();
+		        if (smokerChecked == true){
+		        	isSmokingBox.setEnabled(false);
+		        }else{
+		        	isSmokingBox.setEnabled(true);
+		        }
+		      }
+		    });
 
 		Label confession = new Label("Confession:");
 		verPanel.add(confession);
@@ -286,6 +367,19 @@ public class SearchByProfileView extends Update {
 			confessionBox.setItemSelected(index, true);
 			verPanel.add(confessionBox);
 		}
+		verPanel.add(chkConfessionAny);
+		verPanel.add(anyCheck);
+		chkConfessionAny.addClickHandler(new ClickHandler() {
+		      @Override
+		      public void onClick(ClickEvent event) {
+		        boolean confessionChecked = ((CheckBox) event.getSource()).getValue();
+		        if (confessionChecked == true){
+		        	confessionBox.setEnabled(false);
+		        } else{
+		        	confessionBox.setEnabled(true);
+		        }
+		      }
+		    });
 
 		Label myHobbiesSelectLabel = new Label("My Hobbies:");
 		verPanel.add(myHobbiesSelectLabel);
@@ -321,6 +415,13 @@ public class SearchByProfileView extends Update {
 
 		showProfilesButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				
+				boolean genderChecked = chkGenderAny.getValue();
+				boolean ageChecked = chkAgeAny.getValue();
+				boolean bodyHeightChecked = chkBodyHeightAny.getValue();
+				boolean hairColourChecked = chkHairColourAny.getValue();
+				boolean smokerChecked = chkSmokerAny.getValue();
+				boolean confessionChecked = chkConfessionAny.getValue();
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
@@ -342,53 +443,75 @@ public class SearchByProfileView extends Update {
 
 				logger.info("lastName CHECK");
 
+				if (genderChecked == false){
 				int selectedGenderIndex = genderBox.getSelectedIndex();
 				temp.setGender(genderBox.getItemText(selectedGenderIndex));
+				} else {
+					temp.setGender(null);
+				}
 
 				logger.info("gender CHECK");
 
 				logger.info("dateOfBirth CHECK");
 
-//				float f = Float.valueOf(tbbh.getText().trim()).floatValue();
-//				temp.setBodyHeight(f);
-				
+				// float f = Float.valueOf(tbbh.getText().trim()).floatValue();
+				// temp.setBodyHeight(f);
+
+				if (ageChecked == false){
 				temp.setAgeRangeFrom(Integer.parseInt(tbAgeRangeFrom.getText()));
 				temp.setAgeRangeTo(Integer.parseInt(tbAgeRangeTo.getText()));
+				} else{
+					temp.setAgeRangeFrom(0);
+					temp.setAgeRangeTo(0);
+				}
 
+				if (bodyHeightChecked == false){
 				temp.setBodyHeightFrom(Float.parseFloat(tbHeightRangeFrom.getText()));
 				temp.setBodyHeightTo(Float.parseFloat(tbHeightRangeTo.getText()));
-				
+				} else{
+					temp.setBodyHeightFrom(0f);
+					temp.setBodyHeightTo(0f);
+				}
+
 				logger.info("bodyHeight CHECK");
 
 				// temp.setHairColour(tbhc.getText());
+				if (hairColourChecked == false){
 				int selectedHairColourIndex = hairColourList.getSelectedIndex();
 				temp.setHairColour(hairColourList.getItemText(selectedHairColourIndex));
+				} else{
+					temp.setHairColour(null);
+				}
 
 				logger.info("HairColour CHECK");
 
+				if (smokerChecked == false){
 				int selectedIsSmokingIndex = isSmokingBox.getSelectedIndex();
 				if (isSmokingBox.getItemText(selectedIsSmokingIndex) == "Yes") {
 					temp.setIsSmoking(0);
 				} else {
 					temp.setIsSmoking(1);
 				}
+				} else{
+					temp.setIsSmoking(-1);
+				}
 
 				logger.info("isSmoking CHECK");
 
 				// temp.setConfession(tbc.getText());
+				if (confessionChecked == false){
 				int selectedConfessionIndex = confessionBox.getSelectedIndex();
 				temp.setConfession(confessionBox.getItemText(selectedConfessionIndex));
+				} else {
+					temp.setConfession(null);
+				}
 
 				logger.info("Confession CHECK");
 
 				ClientsideSettings.setSearchProfile(temp);
 				logger.info(ClientsideSettings.getSearchProfile().toString());
-				/*
-				 * TODO: Aufruf der Methode "searchAndCompareProfiles" der AdministrationService
-				 */
-				// ClientsideSettings.getAdministration().createProfile(temp,
-				// new CreateCallback());
-				
+
+				ClientsideSettings.getAdministration().searchAndCompareProfiles(temp, new CompareCallback());
 
 				Update update = new ShowProfilesView();
 
@@ -399,6 +522,18 @@ public class SearchByProfileView extends Update {
 
 			}
 		});
+	}
+}
+
+class CompareCallback implements AsyncCallback<ArrayList<Profile>> {
+	@Override
+	public void onFailure(Throwable caught) {
+		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+	}
+
+	@Override
+	public void onSuccess(ArrayList<Profile> result) {
+		ClientsideSettings.setProfilesFoundAndCompared(result);
 	}
 
 }
