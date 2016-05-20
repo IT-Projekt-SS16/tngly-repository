@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.sun.media.jfxmedia.logging.Logger;
 
+import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.server.db.InformationMapper;
 import de.hdm.core.server.db.ProfileBanMapper;
 import de.hdm.core.server.db.ProfileMapper;
@@ -268,6 +270,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 		Collections.sort(profiles, Collections.reverseOrder());
 		ServersideSettings.setProfilesFoundAndCompared(profiles);
+		ClientsideSettings.setProfilesFoundAndCompared(profiles);
+		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
 		return profiles;
 	}
 

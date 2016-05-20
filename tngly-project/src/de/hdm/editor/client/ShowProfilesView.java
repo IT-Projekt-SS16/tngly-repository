@@ -74,6 +74,8 @@ public class ShowProfilesView extends Update {
 	    
 	    profilesTable.removeAllRows();
 	    
+	    System.out.println("Tabelle wird aufgebaut");
+	    
 	    for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
 	      profilesTable.setWidget(i, 0, new CheckBox());
 	      profilesTable.setText(i, 1, ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
