@@ -49,7 +49,7 @@ public class EditProfileView extends Update {
 
 		if (ClientsideSettings.getUserProfile() == null) {
 			int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-			ClientsideSettings.getAdministration().findProfile(
+			ClientsideSettings.getAdministration().findProfileByName(
 					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), new FindCallback());
 		}
 
@@ -57,15 +57,13 @@ public class EditProfileView extends Update {
 
 		RootPanel.get("Details").add(verPanel);
 
-		TextBox tbu = new TextBox();
+
 		final TextBox tbfn = new TextBox();
 		final TextBox tbn = new TextBox();
 		final TextBox tbbh = new TextBox();
-		final TextBox tbhc = new TextBox();
-		final TextBox tbc = new TextBox();
 
 		final ListBox hairColourList = new ListBox(false);
-		hairColourList.setVisibleItemCount(5);
+		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
 		hairColourList.addItem("Brown");
 		hairColourList.addItem("Red");
@@ -73,12 +71,12 @@ public class EditProfileView extends Update {
 		hairColourList.addItem("Dark Blonde");
 
 		final ListBox isSmokingBox = new ListBox(false);
-		isSmokingBox.setVisibleItemCount(2);
-		isSmokingBox.addItem("yes");
+		isSmokingBox.setVisibleItemCount(1);
+		isSmokingBox.addItem("Yes");
 		isSmokingBox.addItem("No");
 
 		final ListBox confessionBox = new ListBox(false);
-		confessionBox.setVisibleItemCount(9);
+		confessionBox.setVisibleItemCount(1);
 		confessionBox.addItem("Atheistic");
 		confessionBox.addItem("Buddhistic");
 		confessionBox.addItem("Evangelic");
@@ -90,10 +88,24 @@ public class EditProfileView extends Update {
 		confessionBox.addItem("Other");
 
 		final ListBox genderBox = new ListBox(false);
-		genderBox.setVisibleItemCount(2);
-		genderBox.addItem("w");
-		genderBox.addItem("m");
+		genderBox.setVisibleItemCount(1);
+		genderBox.addItem("F");
+		genderBox.addItem("M");
 
+		final ListBox myHobbiesSelect = new ListBox(true);
+		myHobbiesSelect.setVisibleItemCount(11);
+		myHobbiesSelect.addItem("Handicraft");
+		myHobbiesSelect.addItem("Languages");
+		myHobbiesSelect.addItem("Singing");
+		myHobbiesSelect.addItem("Art");
+		myHobbiesSelect.addItem("Dancing");
+		myHobbiesSelect.addItem("Reading");
+		myHobbiesSelect.addItem("Computer");
+		myHobbiesSelect.addItem("Movies");
+		myHobbiesSelect.addItem("Cooking");
+		myHobbiesSelect.addItem("Music");
+		myHobbiesSelect.addItem("Fitness");
+		
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearArrowsVisible(true);
 		datePicker.setYearAndMonthDropdownVisible(true);
@@ -114,7 +126,7 @@ public class EditProfileView extends Update {
 
 		TextArea ta = new TextArea();
 		ta.setCharacterWidth(80);
-		ta.setVisibleLines(50);
+		ta.setVisibleLines(10);
 
 		// HorizontalPanel horizonPanel = new HorizontalPanel();
 		// Label firstWarning = new Label("Bitte füllen Sie alle nachfolgenden
@@ -156,7 +168,7 @@ public class EditProfileView extends Update {
 			verPanel.add(genderBox);
 		} else {
 			int index;
-			if (ClientsideSettings.getUserProfile().getGender() == "m") {
+			if (ClientsideSettings.getUserProfile().getGender() == "M") {
 				index = 1;
 			} else {
 				index = 0;
@@ -241,7 +253,36 @@ public class EditProfileView extends Update {
 			confessionBox.setItemSelected(index, true);
 			verPanel.add(confessionBox);
 		}
-
+		
+		Label myHobbiesSelectLabel = new Label("My Hobbies:");
+		verPanel.add(myHobbiesSelectLabel);
+		if (ClientsideSettings.getUserProfile() == null) {
+			verPanel.add(myHobbiesSelect);
+		} else {
+			int index;
+			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
+				index = 0;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
+				index = 1;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
+				index = 2;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
+				index = 3;
+			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
+				index = 4;
+			} else {
+				index = 5;
+			}
+			myHobbiesSelect.setItemSelected(index, true);
+			verPanel.add(myHobbiesSelect);
+			
+					
+		}
+		
+		Label selfDescriptionLabel = new Label("This is how I describe myself:");
+		verPanel.add(selfDescriptionLabel);
+		verPanel.add(ta);
+		
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStylePrimaryName("tngly-menubutton");
 		verPanel.add(saveProfilButton);
@@ -285,7 +326,7 @@ public class EditProfileView extends Update {
 
 				// temp.setHairColour(tbhc.getText());
 				int selectedHairColourIndex = hairColourList.getSelectedIndex();
-				temp.setGender(hairColourList.getItemText(selectedHairColourIndex));
+				temp.setHairColour(hairColourList.getItemText(selectedHairColourIndex));
 
 				logger.info("HairColour CHECK");
 
@@ -300,7 +341,7 @@ public class EditProfileView extends Update {
 
 				// temp.setConfession(tbc.getText());
 				int selectedConfessionIndex = confessionBox.getSelectedIndex();
-				temp.setGender(confessionBox.getItemText(selectedConfessionIndex));
+				temp.setConfession(confessionBox.getItemText(selectedConfessionIndex));
 
 				logger.info("Confession CHECK");
 
@@ -322,7 +363,7 @@ public class EditProfileView extends Update {
 				RootPanel.get("Details").add(update);
 
 				logger.info("Erfolgreicher Reswitch.");
-
+				
 			}
 		});
 	}
@@ -353,8 +394,6 @@ class FindCallback implements AsyncCallback<Profile> {
 	public void onSuccess(Profile result) {
 		ClientsideSettings.setUserProfile(result);
 		ClientsideSettings.getLogger().info("Result: " + result.toString());
-		System.out.println("Result: " + result.toString());
-		GWT.log("Result: " + result.toString());
 	}
 
 }

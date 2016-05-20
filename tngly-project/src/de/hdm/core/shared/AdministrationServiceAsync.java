@@ -1,11 +1,14 @@
 package de.hdm.core.shared;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.Property;
+import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wishlist;
@@ -22,16 +25,16 @@ public interface AdministrationServiceAsync {
 	 */
 	public void init(AsyncCallback<Void> callback) throws IllegalArgumentException;
 
-	/**
-	 * Login Daten werden mit der Datenbank abgeglichen
-	 */
-	public void loginUser(boolean isReportGen, AsyncCallback<User> callback) throws IllegalArgumentException;
-
-	/**
-	 * Durch den Logout wird die SessionID in der DB gespeichert und der
-	 * Benutzer wird ausgeloggt
-	 */
-	public void logoutUser(boolean isReportGen, AsyncCallback<String> callback) throws IllegalArgumentException;
+//	/**
+//	 * Login Daten werden mit der Datenbank abgeglichen
+//	 */
+//	public void loginUser(boolean isReportGen, AsyncCallback<User> callback) throws IllegalArgumentException;
+//
+//	/**
+//	 * Durch den Logout wird die SessionID in der DB gespeichert und der
+//	 * Benutzer wird ausgeloggt
+//	 */
+//	public void logoutUser(boolean isReportGen, AsyncCallback<String> callback) throws IllegalArgumentException;
 
 	/**
 	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers am System.
@@ -50,7 +53,9 @@ public interface AdministrationServiceAsync {
 	 */
 	public void deleteProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
-	public void findProfile(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
+	public void findProfileByName(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
+	
+	public void searchAndCompareProfiles(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

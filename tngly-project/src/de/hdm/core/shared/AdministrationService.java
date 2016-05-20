@@ -1,5 +1,7 @@
 package de.hdm.core.shared;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -7,6 +9,7 @@ import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.Property;
+import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wishlist;
@@ -24,16 +27,16 @@ public interface AdministrationService extends RemoteService {
 	 */
 	public void init() throws IllegalArgumentException;
 
-	/**
-	 * Login Daten werden mit der Datenbank abgeglichen
-	 */
-	public User loginUser(boolean isReportGen) throws IllegalArgumentException;
-
-	/**
-	 * Durch den Logout wird die SessionID in der DB gespeichert und der
-	 * Benutzer wird ausgeloggt
-	 */
-	public String logoutUser(boolean isReportGen) throws IllegalArgumentException;
+//	/**
+//	 * Login Daten werden mit der Datenbank abgeglichen
+//	 */
+//	public User loginUser(boolean isReportGen) throws IllegalArgumentException;
+//
+//	/**
+//	 * Durch den Logout wird die SessionID in der DB gespeichert und der
+//	 * Benutzer wird ausgeloggt
+//	 */
+//	public String logoutUser(boolean isReportGen) throws IllegalArgumentException;
 
 	/**
 	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers am System.
@@ -52,7 +55,9 @@ public interface AdministrationService extends RemoteService {
 	 */
 	public void deleteProfile(Profile profile) throws IllegalArgumentException;
 
-	public Profile findProfile(String userEmail) throws IllegalArgumentException;
+	public Profile findProfileByName(String userEmail) throws IllegalArgumentException;
+	
+	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException;
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

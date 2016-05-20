@@ -11,7 +11,7 @@
 	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />
 	<set-property name="gwt.logging.developmentModeHandler"
 		value="ENABLED" />
-
+	<set-property name="gwt.logging.hasWidgetsHandler" value="ENABLED" />
 
 	<!-- Inherit the default GWT style sheet. You can change -->
 	<!-- the theme of your GWT application by uncommenting -->
