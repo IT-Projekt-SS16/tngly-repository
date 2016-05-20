@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import de.hdm.core.shared.bo.Profile;
@@ -166,10 +168,14 @@ public class ProfileBanMapper {
 		        pb.setId(rs.getInt("maxid") + 1);
 
 		        stmt = con.createStatement();
-
+		        
+				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+				Date currentDate = new Date();
+				String date = mySQLformat.format(currentDate);
+		        
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO profileBans (id, banningProfileId, bannedProfileId, timestamp) "
-		            + "VALUES (" + pb.getId() + ",'" + pb.getBanningProfileId() + "','" + pb.getBannedProfileId() + "','" + pb.getTimestamp() + "')");
+		            + "VALUES (" + pb.getId() + ",'" + pb.getBanningProfileId() + "','" + pb.getBannedProfileId() + "','" + date + "')");
 		      }
 		    }
 		    catch (SQLException e) {
@@ -201,8 +207,14 @@ public class ProfileBanMapper {
 				    try {
 				      Statement stmt = con.createStatement();
 
+						SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+						Date currentDate = new Date();
+						String date = mySQLformat.format(currentDate);
+						
+						// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+				      
 				      stmt.executeUpdate("UPDATE profileBans " + "SET timestamp=\""
-				          + pb.getTimestamp() 
+				          + date
 				          + "WHERE id=" + pb.getId());
 
 				    }

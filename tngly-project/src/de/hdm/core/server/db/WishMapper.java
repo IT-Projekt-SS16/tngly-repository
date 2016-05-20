@@ -1,6 +1,8 @@
 package de.hdm.core.server.db;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wish;
 import de.hdm.core.shared.bo.Profile;
@@ -164,9 +166,15 @@ public class WishMapper {
 
 		        stmt = con.createStatement();
 
+				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+				Date currentDate = new Date();
+				String date = mySQLformat.format(currentDate);
+				
+				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+		        
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO wishes (id, wishingProfileId, wishedProfileId, timestamp) "
-		            + "VALUES (" + w.getId() + ",'" + w.getWishingProfileId() + "','" + w.getWishedProfileId() + "','" + w.getTimestamp() + "')");
+		            + "VALUES (" + w.getId() + ",'" + w.getWishingProfileId() + "','" + w.getWishedProfileId() + "','" + date + "')");
 		      }
 		    }
 		    catch (SQLException e) {
@@ -197,9 +205,15 @@ public class WishMapper {
 
 				    try {
 				      Statement stmt = con.createStatement();
-
+				      
+						SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+						Date currentDate = new Date();
+						String date = mySQLformat.format(currentDate);
+						
+						// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+				      
 				      stmt.executeUpdate("UPDATE wishes " + "SET timestamp=\""
-				          + w.getTimestamp() 
+				          + date
 				          + "WHERE id=" + w.getId());
 
 				    }

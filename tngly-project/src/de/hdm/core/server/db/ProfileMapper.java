@@ -142,7 +142,6 @@ public class ProfileMapper {
 				stmt = con.createStatement();
 				
 				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
-				// java.sql.Date date = new java.sql.Date(mySQLformat.parse(p.getDateOfBirth()).getTime());
 				String date = mySQLformat.format(p.getDateOfBirth());
 				
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
@@ -184,10 +183,13 @@ public class ProfileMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-
+			
+			SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+			String date = mySQLformat.format(p.getDateOfBirth());
+			
 			stmt.executeUpdate("UPDATE profiles " + "SET userName=\"" + p.getUserName() + "\", " + "name=\""
 					+ p.getName() + "\", " + "lastName=\"" + p.getLastName() + "\", " + "lastName=\"" + p.getLastName()
-					+ "\", " + "dateOfBirth=\"" + p.getDateOfBirth() + "\", " + "gender=\"" + p.getGender() + "\", "
+					+ "\", " + "dateOfBirth=\"" + date + "\", " + "gender=\"" + p.getGender() + "\", "
 					+ "bodyHeight=\"" + p.getBodyHeight() + "\", " + "hairColour=\"" + p.getHairColour() + "\", "
 					+ "confession=\"" + p.getConfession() + "\", " + "isSmoking=\"" + p.getIsSmoking() + "WHERE id="
 					+ p.getId());
@@ -311,7 +313,7 @@ public class ProfileMapper {
 				stringBuilder.append("isSmoking=" + searchProfile.getIsSmoking());
 			}
 
-			stringBuilder.append(" ORDER BY lastName");
+			stringBuilder.append(" ORDER BY id");
 
 			and = false;
 
@@ -352,6 +354,8 @@ public class ProfileMapper {
 				// false und * automatisch als true ausgegeben wird
 
 				p.setIsSmoking(rs.getInt("isSmoking"));
+				System.out.println(p.getName() + " " + p.getLastName());
+				System.out.println(p.getDateOfBirth());
 
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
 				profiles.add(p);

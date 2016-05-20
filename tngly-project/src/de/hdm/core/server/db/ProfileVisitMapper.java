@@ -1,6 +1,8 @@
 package de.hdm.core.server.db;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wishlist;
 import de.hdm.core.shared.bo.Profile;
@@ -164,9 +166,15 @@ public class ProfileVisitMapper {
 
 		        stmt = con.createStatement();
 
+				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+				Date currentDate = new Date();
+				String date = mySQLformat.format(currentDate);
+				
+				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+		        
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO profileVisits (id, visitingProfileId, visitedProfileId, timestamp) "
-		            + "VALUES (" + pv.getId() + ",'" + pv.getVisitingProfileId() + "','" + pv.getVisitedProfileId() + "','" + pv.getTimestamp() + "')");
+		            + "VALUES (" + pv.getId() + ",'" + pv.getVisitingProfileId() + "','" + pv.getVisitedProfileId() + "','" + date + "')");
 		      }
 		    }
 		    catch (SQLException e) {
@@ -198,8 +206,14 @@ public class ProfileVisitMapper {
 				    try {
 				      Statement stmt = con.createStatement();
 
+						SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+						Date currentDate = new Date();
+						String date = mySQLformat.format(currentDate);
+						
+						// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+				      
 				      stmt.executeUpdate("UPDATE profileVisits " + "SET timestamp=\""
-				          + pv.getTimestamp() 
+				          + date
 				          + "WHERE id=" + pv.getId());
 
 				    }

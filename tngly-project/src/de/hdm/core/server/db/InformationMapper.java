@@ -1,10 +1,12 @@
 package de.hdm.core.server.db;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wishlist;
 import de.hdm.core.shared.bo.Profile;
+import java.util.Date;
 
 public class InformationMapper {
 
@@ -41,7 +43,12 @@ public class InformationMapper {
 	}
 
 	public void edit(Profile profile) {
-		// TODO Auto-generated method stub
+		
+		SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+		Date currentDate = new Date();
+		String date = mySQLformat.format(currentDate);
+		
+		// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
 		
 	}
 
