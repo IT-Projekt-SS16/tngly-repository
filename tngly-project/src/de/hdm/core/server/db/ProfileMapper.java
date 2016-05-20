@@ -204,7 +204,7 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			// Statement ausfüllen und als Query an die DB schicken
-			StringBuilder stringBuilder;
+			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("SELECT id, userName, name, lastName, dateOfBirth, FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) AS age "
 					+ "gender, bodyHeight, hairColour, confession, isSmoking FROM profiles WHERE ");
 					
@@ -222,17 +222,17 @@ public class ProfileMapper {
 				else {and = false;}
 				
 				// Geburtsdatum
-				if (searchProfile.getAgeFrom() && searchProfile.getAgeTo() != null)	{
+				if (searchProfile.getAgeRangeFrom() != -1 && searchProfile.getAgeRangeTo() != -1)	{
 					if (and == true)	{
 						stringBuilder.append(" AND ");
 					}
 					else {}
 					
-						stringBuilder.append("FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) BETWEEN " + searchProfile.getAgeFrom + " AND " + searchProfile.getAgeTo);
+						stringBuilder.append("FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) BETWEEN " + searchProfile.getAgeRangeFrom() + " AND " + searchProfile.getAgeRangeTo());
 				}
 				
 				// Hier muss die Applikationslogik von Vornherein darauf achten, dass, wenn z.b. nur der von-Wert eingegeben wird, der bis-Wert automatisch aufgefüllt wird & vice versa
-				if (searchProfile.bodyHeightFrom() && searchProfile.bodyHeightTo != null)	{
+				if (searchProfile.getBodyHeightFrom() != 0.0 && searchProfile.getBodyHeightTo() != 0.0)	{
 					if (and == true)	{
 						stringBuilder.append(" AND ");
 					}
@@ -266,7 +266,7 @@ public class ProfileMapper {
 				
 				// Bekenntnis selektieren
 				
-				if (searchProfile.getHairColour() != null)	{
+				if (searchProfile.getConfession() != null)	{
 					if (and==true)	{
 						stringBuilder.append(" AND ");
 					}
@@ -281,7 +281,7 @@ public class ProfileMapper {
 					else { and = false;}
 				}
 				
-				if (searchProfile.getSmoking() != null)	{
+				if (searchProfile.getIsSmoking() != -1)	{
 					if (and==true)	{
 						stringBuilder.append(" AND ");
 					}
