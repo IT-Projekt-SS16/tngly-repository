@@ -7,53 +7,17 @@ import java.util.Date;
 public class Wish implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private static Wish wishlist = null;
-	private static ArrayList<Profile> arrayWishlist;
+	private Wish wish = new Wish();
+	public 
 	/**
-	 * Hier wird der Konstruktor fuer die Klasse Wishlist implementiert.
+	 * Hier wird der Konstruktor fuer die Klasse Wish implementiert.
 	 */
 	public Wish(){
 	}
-	/**
-	 * Um sicherzustellen, dass pro Profile-Instanz nur eine Wishlist-Instanz existiert
-	 * sollte eine Wishlist-Instanz nur ueber diese Methode erstellt werden.
-	 * @return
-	 */
-	public static Wish wishlist() {
-	    if (wishlist == null) {
-	    	wishlist = new Wish();
-	    	arrayWishlist = new ArrayList<Profile>();
-	    }
 
-	    return wishlist;
-	  }
-	/**
-	 * Diese Methode fuegt der ArrayList ein neues Profile-Objekt hinzu.
-	 */
-	public void addProfileToWishlist(Profile profile){
-		arrayWishlist.add(profile);
-	}
-	/**
-	 * Diese Methode gibt die ArrayList mit allen enthaltenen Profile-Objekten zurueck.
-	 * @return 
-	 */
-	public ArrayList<Profile> getWishlist(){
-		return arrayWishlist;
-	}
-	/**
-	 * Diese Methode prueft, ob ein bestimmtes Profile-Objekt in der Array-List
-	 * enthalten ist und loescht dieses.
-	 */
-	public void deleteProfileFromWishlist(Profile profile){
-		for(Profile p : arrayWishlist){
-			if(p.getUserName() == profile.getUserName()){
-				arrayWishlist.remove(p);
-			}
-		}
-	}
-	
-	public void deleteWishlist(Wish wishlist){
-		wishlist = null;
+	public void createWish(Profile wishingp, Profile wishedp){
+		wish.setWishingProfileId(wishingp.getId());
+		wish.setWishedProfileId(wishedp.getId());
 	}
 
 	

@@ -13,12 +13,13 @@ public class ProfileBan implements Serializable{
 	//Default-Konstruktor
 	public ProfileBan(){
 	}
-	//Einen ProfileBan erstellen und die 
-	public void createProfileBan(Profile p){
-		pb.setBannedProfileId(p.getId());
+	//Einen ProfileBan erstellen und die Profil IDs setzen
+	public void createProfileBan(Profile bannedp, Profile banningp){
+		pb.setBannedProfileId(bannedp.getId());
+		pb.setBanningProfileId(banningp.getId());
 	}
 	// The Ban´s ID
-			private int id;
+			private int id = 0;
 			
 			// The banning profile´s id
 			private int banningProfileId;

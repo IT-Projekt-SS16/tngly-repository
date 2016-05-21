@@ -23,6 +23,7 @@ import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
+import de.hdm.core.shared.bo.Wishlist;
 
 /**
  * <p>
@@ -276,18 +277,18 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public void addProfileToWishlist(Wish wishlist) throws IllegalArgumentException {
+	public void addWishToWishlist(Wish wish) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteProfileFromWishlist(Wish wishlist) throws IllegalArgumentException {
+	public void deleteWishFromWishlist(Wish wish) throws IllegalArgumentException {
 		
 
 	}
 	
-	public void deleteWishlist(Wish wishlist) throws IllegalArgumentException {
+	public void deleteWishlist(Wishlist wishlist) throws IllegalArgumentException {
 		
 	}
 
