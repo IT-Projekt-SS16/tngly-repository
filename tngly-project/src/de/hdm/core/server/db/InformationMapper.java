@@ -4,8 +4,10 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
-import de.hdm.core.shared.bo.Wishlist;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.Information;
+import de.hdm.core.shared.bo.Property;
+
 import java.util.Date;
 
 public class InformationMapper {
@@ -29,6 +31,9 @@ public class InformationMapper {
 	  }
 
 
+	  
+	  
+	  
 	  public static InformationMapper informationMapper() {
 	    if (informationMapper == null) {
 	    	informationMapper = new InformationMapper();
@@ -36,24 +41,110 @@ public class InformationMapper {
 
 	    return informationMapper;
 	  }
+	  
+	  public Information insert(Information in) {
+		  
+		    Connection con = DBConnection.connection();
 
-	public void delete(Profile profile) {
-		// TODO Auto-generated method stub
-		
-	}
+		    try {
+		      Statement stmt = con.createStatement();
 
-	public void edit(Profile profile) {
+		      /*
+		       * Zunächst schauen wir nach, welches der momentan höchste
+		       * Primärschlüsselwert ist.
+		       */
+		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+		          + "FROM information");
+
+		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		      if (rs.next()) {
+		        /*
+		         * c erhält den bisher maximalen, nun um 1 inkrementierten
+		         * Primärschlüssel.
+		         */
+		        in.setId(rs.getInt("maxid") + 1);
+
+		        stmt = con.createStatement();
+
+				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+				Date currentDate = new Date();
+				String date = mySQLformat.format(currentDate);
+				
+				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+		        
+		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		        stmt.executeUpdate("INSERT INTO information (id, value, propertyId, profileId, timestamp) "
+		            + "VALUES (" + in.getId() + ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId() + "','" + date + "')");
+		      }
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+
+		    return in;
+		  }
+
+	public Information edit(Information in) {
 		
-		SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
-		Date currentDate = new Date();
-		String date = mySQLformat.format(currentDate);
-		
-		// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+		Connection con = DBConnection.connection();
+
+	    try {
+	      Statement stmt = con.createStatement();
+	      
+			SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
+			Date currentDate = new Date();
+			String date = mySQLformat.format(currentDate);
+
+	      stmt.executeUpdate("UPDATE information " + "SET value=\"" + in.getValue() + "\", " + "timestamp=\""
+					+ date + " WHERE id=" + in.getId());
+
+	    }
+	    catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+
+	    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+	    return in;
 		
 	}
 
 	public ArrayList<Profile> searchForInformationValues(ArrayList<Profile> profiles) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void delete(Information in) {
+		
+		 Connection con = DBConnection.connection();
+	
+		    try {
+		      Statement stmt = con.createStatement();
+	
+		      stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		
+	}
+
+	public void edit(Profile profile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void delete(Profile profile) {
+
+		 Connection con = DBConnection.connection();
+			
+		    try {
+		      Statement stmt = con.createStatement();
+		
+		      stmt.executeUpdate("DELETE FROM information " + "WHERE profileId=" + profile.getId());
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		
 	}
 }
