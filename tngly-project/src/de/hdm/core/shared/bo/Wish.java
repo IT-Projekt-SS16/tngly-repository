@@ -8,13 +8,14 @@ public class Wish implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Wish wish = new Wish();
-	public 
 	/**
 	 * Hier wird der Konstruktor fuer die Klasse Wish implementiert.
 	 */
 	//Default-Konstruktor
 	public Wish(){
 	}
+	
+	
 	public void createWish(Profile wishingp, Profile wishedp){
 		wish.setWishingProfileId(wishingp.getId());
 		wish.setWishedProfileId(wishedp.getId());
