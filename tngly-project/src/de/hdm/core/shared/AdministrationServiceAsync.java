@@ -67,7 +67,6 @@ public interface AdministrationServiceAsync {
 	/**
 	 * Interne Methode zur L�schung von Wunschlisten bei der L�schung eines Profils durch den Benutzer.
 	 */
-	public void deleteWishlist(Wishlist wishlist, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	/**
 	 * Interne Methode zur Loeschung eines Profils von der Wishlist.
@@ -78,13 +77,13 @@ public interface AdministrationServiceAsync {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um f�r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verf�gen.
 	 */
-	public void createProfileBan(int profileId, AsyncCallback<ProfileBan> callback) throws IllegalArgumentException;
+	public void createProfileBan(ProfileBan pb, AsyncCallback<ProfileBan> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um die Kontaktsperre f�r ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
 	 */
-	public void deleteProfileBan(int profileId, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void deleteProfileBan(ProfileBan pb, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	public void createProperty(AsyncCallback<Property> callback) throws IllegalArgumentException;
 

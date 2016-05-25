@@ -66,11 +66,7 @@ public interface AdministrationService extends RemoteService {
 	 */
 	public void addWishToWishlist(Wish wish) throws IllegalArgumentException;
 
-	/**
-	 * Interne Methode zur L�schung von Wunschlisten bei der L�schung eines Profils durch den Benutzer.
-	 */
-	public void deleteWishlist(Wishlist wishlist) throws IllegalArgumentException;
-	
+
 	/**
 	 * Interne Methode zur Loeschung eines Profils von der Wishlist.
 	 */
@@ -80,13 +76,13 @@ public interface AdministrationService extends RemoteService {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um f�r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verf�gen.
 	 */
-	public ProfileBan createProfileBan(int profileId) throws IllegalArgumentException;
+	public ProfileBan createProfileBan(ProfileBan pb) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um die Kontaktsperre f�r ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
 	 */
-	public void deleteProfileBan(int profileId) throws IllegalArgumentException;
+	public void deleteProfileBan(ProfileBan pb) throws IllegalArgumentException;
 
 	public Property createProperty() throws IllegalArgumentException;
 

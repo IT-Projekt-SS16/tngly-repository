@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.sun.media.jfxmedia.logging.Logger;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.server.db.InformationMapper;
@@ -278,29 +277,26 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public void addWishToWishlist(Wish wish) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.wishMapper.insert(wish);
 
 	}
 
 	@Override
 	public void deleteWishFromWishlist(Wish wish) throws IllegalArgumentException {
-		
+		this.wishMapper.delete(wish);
 
 	}
 	
-	public void deleteWishlist(Wishlist wishlist) throws IllegalArgumentException {
-		
+
+	@Override
+	public ProfileBan createProfileBan(ProfileBan pb) throws IllegalArgumentException {
+		this.profileBanMapper.insert(pb);
+		return pb;
 	}
 
 	@Override
-	public ProfileBan createProfileBan(int profileId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteProfileBan(int profileId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void deleteProfileBan(ProfileBan pb) throws IllegalArgumentException {
+		this.profileBanMapper.delete(pb);
 
 	}
 

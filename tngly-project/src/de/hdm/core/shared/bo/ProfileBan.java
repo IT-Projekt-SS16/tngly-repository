@@ -18,6 +18,10 @@ public class ProfileBan implements Serializable{
 		pb.setBannedProfileId(bannedp.getId());
 		pb.setBanningProfileId(banningp.getId());
 	}
+	
+	public void deleteProfileBan(int profileId){
+		bannedProfileId = profileId;
+	}
 	// The Ban´s ID
 			private int id = 0;
 			
