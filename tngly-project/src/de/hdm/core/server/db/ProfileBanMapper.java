@@ -186,20 +186,7 @@ public class ProfileBanMapper {
 		  }
 
 
-		  public void delete(ProfileBan pb) {
-		    Connection con = DBConnection.connection();
-
-		    try {
-		      Statement stmt = con.createStatement();
-
-		      stmt.executeUpdate("DELETE FROM profileBans " + "WHERE id=" + pb.getId());
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
-		  }
-
-		public ProfileBan edit(ProfileBan pb) {
+		  public ProfileBan edit(ProfileBan pb) {
 			
 			// Diese Methode heißt nur zwecks der Konvention "edit" - aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
 				    Connection con = DBConnection.connection();
@@ -226,8 +213,31 @@ public class ProfileBanMapper {
 				    return pb;
 				  }
 
+		public void delete(ProfileBan pb) {
+		    Connection con = DBConnection.connection();
+		
+		    try {
+		      Statement stmt = con.createStatement();
+		
+		      stmt.executeUpdate("DELETE FROM profileBans " + "WHERE id=" + pb.getId());
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		  }
+
 		public void delete(Profile profile) {
-			// TODO Auto-generated method stub
+			
+			 Connection con = DBConnection.connection();
+				
+			    try {
+			      Statement stmt = con.createStatement();
+			
+			      stmt.executeUpdate("DELETE FROM profileBans " + "WHERE banningProfileId=" + profile.getId());
+			    }
+			    catch (SQLException e) {
+			      e.printStackTrace();
+			    }
 			
 		}
 }

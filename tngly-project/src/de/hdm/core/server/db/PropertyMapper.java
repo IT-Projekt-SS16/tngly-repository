@@ -159,20 +159,6 @@ public InfoPropertyConnection InfoPropertyConnection(InfoPropertyConnection i) {
     return i;
   }
 
-
-  public void delete(InfoPropertyConnection i) {
-    Connection con = DBConnection.connection();
-
-    try {
-      Statement stmt = con.createStatement();
-
-      stmt.executeUpdate("DELETE FROM infoPropertyConnections " + "WHERE id=" + i.getId());
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-
 public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
 	return profiles;
 	// TODO Auto-generated method stub

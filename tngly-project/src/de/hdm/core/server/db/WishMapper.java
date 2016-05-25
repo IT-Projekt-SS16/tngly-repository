@@ -185,20 +185,7 @@ public class WishMapper {
 		  }
 
 
-		  public void delete(Wish w) {
-		    Connection con = DBConnection.connection();
-
-		    try {
-		      Statement stmt = con.createStatement();
-
-		      stmt.executeUpdate("DELETE FROM wishes " + "WHERE id=" + w.getId());
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
-		  }
-
-		public Wish edit(Wish w) {
+		  public Wish edit(Wish w) {
 			
 			// Diese Methode heißt nur zwecks der Konvention "edit" - aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
 				    Connection con = DBConnection.connection();
@@ -225,8 +212,31 @@ public class WishMapper {
 				    return w;
 				  }
 
+		public void delete(Wish w) {
+		    Connection con = DBConnection.connection();
+		
+		    try {
+		      Statement stmt = con.createStatement();
+		
+		      stmt.executeUpdate("DELETE FROM wishes " + "WHERE id=" + w.getId());
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		  }
+
 		public void delete(Profile profile) {
-			// TODO Auto-generated method stub
+
+			 Connection con = DBConnection.connection();
+				
+			    try {
+			      Statement stmt = con.createStatement();
+			
+			      stmt.executeUpdate("DELETE FROM wishes " + "WHERE wishingProfileId=" + profile.getId());
+			    }
+			    catch (SQLException e) {
+			      e.printStackTrace();
+			    }
 			
 		}
 	  

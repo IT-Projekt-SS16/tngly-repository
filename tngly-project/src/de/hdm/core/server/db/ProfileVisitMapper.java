@@ -185,20 +185,7 @@ public class ProfileVisitMapper {
 		  }
 
 
-		  public void delete(ProfileVisit pv) {
-		    Connection con = DBConnection.connection();
-
-		    try {
-		      Statement stmt = con.createStatement();
-
-		      stmt.executeUpdate("DELETE FROM profileVisits " + "WHERE id=" + pv.getId());
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
-		  }
-
-		public ProfileVisit edit(ProfileVisit pv) {
+		  public ProfileVisit edit(ProfileVisit pv) {
 			
 			// Diese Methode heißt nur zwecks der Konvention "edit" - aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
 				    Connection con = DBConnection.connection();
@@ -225,8 +212,31 @@ public class ProfileVisitMapper {
 				    return pv;
 				  }
 
+		public void delete(ProfileVisit pv) {
+		    Connection con = DBConnection.connection();
+		
+		    try {
+		      Statement stmt = con.createStatement();
+		
+		      stmt.executeUpdate("DELETE FROM profileVisits " + "WHERE id=" + pv.getId());
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		  }
+
 		public void delete(Profile profile) {
-			// TODO Auto-generated method stub
+
+			 Connection con = DBConnection.connection();
+				
+			    try {
+			      Statement stmt = con.createStatement();
+			
+			      stmt.executeUpdate("DELETE FROM profileVisits " + "WHERE visitingProfileId=" + profile.getId());
+			    }
+			    catch (SQLException e) {
+			      e.printStackTrace();
+			    }
 			
 		}
 }

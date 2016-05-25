@@ -191,7 +191,7 @@ public class ProfileMapper {
 					+ p.getName() + "\", " + "lastName=\"" + p.getLastName() + "\", " + "lastName=\"" + p.getLastName()
 					+ "\", " + "dateOfBirth=\"" + date + "\", " + "gender=\"" + p.getGender() + "\", "
 					+ "bodyHeight=\"" + p.getBodyHeight() + "\", " + "hairColour=\"" + p.getHairColour() + "\", "
-					+ "confession=\"" + p.getConfession() + "\", " + "isSmoking=\"" + p.getIsSmoking() + "WHERE id="
+					+ "confession=\"" + p.getConfession() + "\", " + "isSmoking=\"" + p.getIsSmoking() + " WHERE id="
 					+ p.getId());
 
 		} catch (SQLException e) {
