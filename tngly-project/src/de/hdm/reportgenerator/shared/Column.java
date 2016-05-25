@@ -8,7 +8,6 @@ import java.io.Serializable;
  * Kopie z.B. vom Server an den Client übertragen werden.
  * 
  * @see Row
- * @author Thies
  */
 public class Column implements Serializable {
 
