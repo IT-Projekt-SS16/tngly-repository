@@ -70,16 +70,23 @@ public class ShowProfilesView extends Update {
 		profilesTable.getColumnFormatter().setWidth(0, "15px");
 	    contentTable.setWidget(1, 0, profilesTable);
 	    
-	    contentTableDecorator.add(contentTable);
+	    
 	    
 	    profilesTable.removeAllRows();
 	    
 	    System.out.println("Tabelle wird aufgebaut");
 	    
-	    for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-	      profilesTable.setWidget(i, 0, new CheckBox());
-	      profilesTable.setText(i, 1, ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-	    }
+	    contentTableDecorator.add(contentTable);
+	    
+
+//	    for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
+//	      profilesTable.setWidget(i, 0, new CheckBox());
+//	      profilesTable.setText(i, 1, ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
+//	      
+//	    }
+	    
+	    
+	    
 	    
 	    profilesTable.addClickHandler(new ClickHandler() {
 	        public void onClick(ClickEvent event) {
