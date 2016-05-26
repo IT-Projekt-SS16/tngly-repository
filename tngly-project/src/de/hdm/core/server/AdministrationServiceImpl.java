@@ -289,9 +289,12 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	
 
 	@Override
-	public ProfileBan createProfileBan(ProfileBan pb) throws IllegalArgumentException {
-		this.profileBanMapper.insert(pb);
-		return pb;
+	public ProfileBan createProfileBan(Profile bannedp, Profile banningp) throws IllegalArgumentException {
+			ProfileBan pb = new ProfileBan();
+			pb.setBannedProfileId(bannedp.getId());
+			pb.setBanningProfileId(banningp.getId());
+			pb.setId(1);
+			return this.profileBanMapper.insert(pb);
 	}
 
 	@Override

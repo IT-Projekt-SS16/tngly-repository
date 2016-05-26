@@ -77,7 +77,7 @@ public interface AdministrationServiceAsync {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um f�r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verf�gen.
 	 */
-	public void createProfileBan(ProfileBan pb, AsyncCallback<ProfileBan> callback) throws IllegalArgumentException;
+	public void createProfileBan(Profile bannedp, Profile banningp, AsyncCallback<ProfileBan> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

@@ -14,10 +14,7 @@ public class ProfileBan implements Serializable{
 	public ProfileBan(){
 	}
 	//Einen ProfileBan erstellen und die Profil IDs setzen
-	public void createProfileBan(Profile bannedp, Profile banningp){
-		pb.setBannedProfileId(bannedp.getId());
-		pb.setBanningProfileId(banningp.getId());
-	}
+
 	
 	public void deleteProfileBan(int profileId){
 		bannedProfileId = profileId;

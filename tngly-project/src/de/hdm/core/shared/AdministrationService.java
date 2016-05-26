@@ -76,7 +76,7 @@ public interface AdministrationService extends RemoteService {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um f�r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verf�gen.
 	 */
-	public ProfileBan createProfileBan(ProfileBan pb) throws IllegalArgumentException;
+	public ProfileBan createProfileBan(Profile bannedp, Profile banningp) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

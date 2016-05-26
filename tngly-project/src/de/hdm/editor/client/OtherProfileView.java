@@ -1,5 +1,11 @@
 package de.hdm.editor.client;
 
+import java.util.logging.Logger;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -7,10 +13,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileBan;
 
 public class OtherProfileView extends Update {
 
 	private Profile selectedProfile;
+	
+	
 
 	public OtherProfileView(Profile selectedProfile) {
 		this.selectedProfile = selectedProfile;
@@ -126,18 +135,17 @@ public class OtherProfileView extends Update {
 		banProfilButton.setStylePrimaryName("tngly-menubutton");
 		verPanel.add(banProfilButton);
 
-		// banProfilButton.addClickHandler(new ClickHandler() {
-		// public void onClick(ClickEvent event) {
-		// ClientsideSettings.getAdministration().deleteProfile(ClientsideSettings.getUserProfile(),
-		// new DeleteCallback());
-		// ClientsideSettings.setUserProfile(null);
-		// Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
-		// "_self", "");
-		//
-		// Logger logger = ClientsideSettings.getLogger();
-		// logger.info("Erfolgreich Profil gelöscht.");
-		// }
-		// });
+		banProfilButton.addClickHandler(new ClickHandler() {
+		public void onClick(ClickEvent event) {
+		ClientsideSettings.getAdministration().createProfileBan(selectedProfile, ClientsideSettings.getUserProfile(), new );
+		
+		Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
+		"_self", "");
+		
+		Logger logger = ClientsideSettings.getLogger();
+		logger.info("Erfolgreich Profil gelï¿½scht.");
+		}
+		});
 
 		final Button unbanProfilButton = new Button("Unban Profile");
 		unbanProfilButton.setStylePrimaryName("tngly-menubutton");
@@ -152,9 +160,35 @@ public class OtherProfileView extends Update {
 		// "_self", "");
 		//
 		// Logger logger = ClientsideSettings.getLogger();
-		// logger.info("Erfolgreich Profil gelöscht.");
+		// logger.info("Erfolgreich Profil gelï¿½scht.");
 		// }
 		// });
 
 	}
 }
+class DeleteCallback implements AsyncCallback<Void> {
+	@Override
+	public void onFailure(Throwable caught) {
+		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+	}
+
+	@Override
+	public void onSuccess(Void result) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+/**class CreateCallback implements AsyncCallback<ProfileBan> {
+	@Override
+	public void onFailure(Throwable caught) {
+		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+	}
+
+	@Override
+	public void onSuccess(ProfileBan pb) {
+		// TODO Auto-generated method stub
+
+	}
+
+}**/
