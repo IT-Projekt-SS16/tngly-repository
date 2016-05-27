@@ -13,12 +13,9 @@ public class ProfileBan implements Serializable{
 	//Default-Konstruktor
 	public ProfileBan(){
 	}
-	//Einen ProfileBan erstellen und die Profil IDs setzen
 
 	
-	public void deleteProfileBan(int profileId){
-		bannedProfileId = profileId;
-	}
+	
 	// The Ban´s ID
 			private int id = 0;
 			

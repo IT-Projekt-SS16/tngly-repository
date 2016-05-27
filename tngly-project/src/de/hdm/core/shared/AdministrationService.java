@@ -82,7 +82,7 @@ public interface AdministrationService extends RemoteService {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um die Kontaktsperre f�r ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
 	 */
-	public void deleteProfileBan(ProfileBan pb) throws IllegalArgumentException;
+	public void deleteProfileBan(Profile profile) throws IllegalArgumentException;
 
 	public Property createProperty() throws IllegalArgumentException;
 

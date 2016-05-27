@@ -298,8 +298,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public void deleteProfileBan(ProfileBan pb) throws IllegalArgumentException {
-		this.profileBanMapper.delete(pb);
+	public void deleteProfileBan(Profile profile) throws IllegalArgumentException {
+		this.profileBanMapper.delete(profile);
 
 	}
 

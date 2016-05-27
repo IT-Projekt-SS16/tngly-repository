@@ -83,7 +83,7 @@ public interface AdministrationServiceAsync {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um die Kontaktsperre f�r ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
 	 */
-	public void deleteProfileBan(ProfileBan pb, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void deleteProfileBan(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	public void createProperty(AsyncCallback<Property> callback) throws IllegalArgumentException;
 

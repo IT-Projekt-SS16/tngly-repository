@@ -137,7 +137,7 @@ public class OtherProfileView extends Update {
 
 		banProfilButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
-		ClientsideSettings.getAdministration().createProfileBan(selectedProfile, ClientsideSettings.getUserProfile(), new );
+		ClientsideSettings.getAdministration().createProfileBan(selectedProfile, ClientsideSettings.getUserProfile(), new CreateProfileBanCallback());
 		
 		Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
 		"_self", "");
@@ -151,22 +151,22 @@ public class OtherProfileView extends Update {
 		unbanProfilButton.setStylePrimaryName("tngly-menubutton");
 		verPanel.add(unbanProfilButton);
 
-		// banProfilButton.addClickHandler(new ClickHandler() {
-		// public void onClick(ClickEvent event) {
-		// ClientsideSettings.getAdministration().deleteProfile(ClientsideSettings.getUserProfile(),
-		// new DeleteCallback());
-		// ClientsideSettings.setUserProfile(null);
-		// Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
-		// "_self", "");
-		//
-		// Logger logger = ClientsideSettings.getLogger();
-		// logger.info("Erfolgreich Profil gel�scht.");
-		// }
-		// });
+		banProfilButton.addClickHandler(new ClickHandler() {
+		public void onClick(ClickEvent event) {
+		ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile,
+		new DeleteCallback());
+		ClientsideSettings.setUserProfile(null);
+		Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
+		"_self", "");
+		
+		Logger logger = ClientsideSettings.getLogger();
+		logger.info("Erfolgreich Profil gel�scht.");
+		}
+		});
 
 	}
 }
-class DeleteCallback implements AsyncCallback<Void> {
+/**class DeleteCallback implements AsyncCallback<Void> {
 	@Override
 	public void onFailure(Throwable caught) {
 		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -178,8 +178,8 @@ class DeleteCallback implements AsyncCallback<Void> {
 
 	}
 
-}
-/**class CreateCallback implements AsyncCallback<ProfileBan> {
+}**/
+class CreateProfileBanCallback implements AsyncCallback<ProfileBan> {
 	@Override
 	public void onFailure(Throwable caught) {
 		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -191,4 +191,4 @@ class DeleteCallback implements AsyncCallback<Void> {
 
 	}
 
-}**/
+}
