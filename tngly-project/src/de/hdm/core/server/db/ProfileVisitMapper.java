@@ -2,6 +2,7 @@ package de.hdm.core.server.db;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wishlist;
@@ -142,7 +143,7 @@ public class ProfileVisitMapper {
 			  }
 		  
 		 
-		  public ProfileVisit insert(ProfileVisit pv) {
+		  public ProfileVisit insert(ArrayList<ProfileVisit> visitedProfiles) {
 			  
 		    Connection con = DBConnection.connection();
 
@@ -162,7 +163,7 @@ public class ProfileVisitMapper {
 		         * c erh√§lt den bisher maximalen, nun um 1 inkrementierten
 		         * Prim√§rschl√ºssel.
 		         */
-		        pv.setId(rs.getInt("maxid") + 1);
+		        visitedProfiles.setId(rs.getInt("maxid") + 1);
 
 		        stmt = con.createStatement();
 
@@ -174,14 +175,14 @@ public class ProfileVisitMapper {
 		        
 		        // Jetzt erst erfolgt die tats√§chliche Einf√ºgeoperation
 		        stmt.executeUpdate("INSERT INTO profileVisits (id, visitingProfileId, visitedProfileId, timestamp) "
-		            + "VALUES (" + pv.getId() + ",'" + pv.getVisitingProfileId() + "','" + pv.getVisitedProfileId() + "','" + date + "')");
+		            + "VALUES (" + visitedProfiles.getId() + ",'" + visitedProfiles.getVisitingProfileId() + "','" + visitedProfiles.getVisitedProfileId() + "','" + date + "')");
 		      }
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 
-		    return pv;
+		    return visitedProfiles;
 		  }
 
 
@@ -212,13 +213,13 @@ public class ProfileVisitMapper {
 				    return pv;
 				  }
 
-		public void delete(ProfileVisit pv) {
+		public void delete(ArrayList<ProfileVisit> visitedProfiles) {
 		    Connection con = DBConnection.connection();
 		
 		    try {
 		      Statement stmt = con.createStatement();
 		
-		      stmt.executeUpdate("DELETE FROM profileVisits " + "WHERE id=" + pv.getId());
+		      stmt.executeUpdate("DELETE FROM profileVisits " + "WHERE id=" + visitedProfiles.getId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -238,5 +239,10 @@ public class ProfileVisitMapper {
 			      e.printStackTrace();
 			    }
 			
+		}
+
+		public Boolean wasProfileVisited(Profile p) {
+			// TODO ‹bergebene Profil mit ID auf Spalte "VisitedProfileID" in DB pr¸fen und falls in Spalte vorhanden: "true" zur¸ckgeben
+			return null;
 		}
 }

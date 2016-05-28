@@ -49,6 +49,8 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	// Is the person smoking? (e.g. yes, no)
 	private int isSmoking;
+	
+	private Boolean wasVisited;
 
 	private ArrayList<Wish> wishlist;
 
@@ -62,6 +64,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 		this.setBanlist(new ArrayList<ProfileBan>());
 		this.setDescriptionList(new ArrayList<Description>());
 		this.setSelectionList(new ArrayList<Selection>());
+		this.setWasVisited(false);
 	}
 
 	/*
@@ -209,6 +212,14 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	public void setSimiliarityToReference(int similiarityToReference) {
 		this.similiarityToReference = similiarityToReference;
+	}
+
+	public Boolean getWasVisited() {
+		return wasVisited;
+	}
+
+	public void setWasVisited(Boolean wasVisited) {
+		this.wasVisited = wasVisited;
 	}
 
 	public void equals(Profile p) {
