@@ -143,12 +143,14 @@ public class ProfileVisitMapper {
 			  }
 		  
 		 
-		  public ProfileVisit insert(ArrayList<ProfileVisit> visitedProfiles) {
+		  public void insert(ArrayList<ProfileVisit> visitedProfiles) {
 			  
 		    Connection con = DBConnection.connection();
 
+		      for (ProfileVisit p: visitedProfiles){
+		    
 		    try {
-		      Statement stmt = con.createStatement();
+			      Statement stmt = con.createStatement();
 
 		      /*
 		       * Zunächst schauen wir nach, welches der momentan höchste
@@ -163,7 +165,7 @@ public class ProfileVisitMapper {
 		         * c erhält den bisher maximalen, nun um 1 inkrementierten
 		         * Primärschlüssel.
 		         */
-		        visitedProfiles.setId(rs.getInt("maxid") + 1);
+		        p.setId(rs.getInt("maxid") + 1);
 
 		        stmt = con.createStatement();
 
@@ -175,15 +177,17 @@ public class ProfileVisitMapper {
 		        
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO profileVisits (id, visitingProfileId, visitedProfileId, timestamp) "
-		            + "VALUES (" + visitedProfiles.getId() + ",'" + visitedProfiles.getVisitingProfileId() + "','" + visitedProfiles.getVisitedProfileId() + "','" + date + "')");
+		            + "VALUES (" + p.getId() + ",'" + p.getVisitingProfileId() + "','" + p.getVisitedProfileId() + "','" + date + "')");
 		      }
 		    }
+		    
 		    catch (SQLException e) {
 		      e.printStackTrace();
-		    }
-
-		    return visitedProfiles;
+		    
 		  }
+		      }
+		  }
+		  
 
 
 		  public ProfileVisit edit(ProfileVisit pv) {
@@ -216,16 +220,18 @@ public class ProfileVisitMapper {
 		public void delete(ArrayList<ProfileVisit> visitedProfiles) {
 		    Connection con = DBConnection.connection();
 		
+		    for (ProfileVisit p: visitedProfiles){
+		    
 		    try {
 		      Statement stmt = con.createStatement();
 		
-		      stmt.executeUpdate("DELETE FROM profileVisits " + "WHERE id=" + visitedProfiles.getId());
+		      stmt.executeUpdate("DELETE FROM profileVisits " + "WHERE id=" + p.getId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 		  }
-
+		}
 		public void delete(Profile profile) {
 
 			 Connection con = DBConnection.connection();
@@ -242,7 +248,7 @@ public class ProfileVisitMapper {
 		}
 
 		public Boolean wasProfileVisited(Profile p) {
-			// TODO �bergebene Profil mit ID auf Spalte "VisitedProfileID" in DB pr�fen und falls in Spalte vorhanden: "true" zur�ckgeben
+			// TODO �bergebene Profil mit ID auf Spalte "VisitedProfileID" in DB pr�fen und falls in Spalte vorhanden: "true" zur�ckgeben
 			return null;
 		}
 }
