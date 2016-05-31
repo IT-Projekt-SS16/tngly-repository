@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 //import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -54,8 +55,17 @@ public class SearchByProfileView extends Update {
 		}
 
 		VerticalPanel verPanel = new VerticalPanel();
+		VerticalPanel verPanel2 = new VerticalPanel();
+		verPanel.setSpacing(10);
+		verPanel2.setSpacing(10);
+		
+		
+		HorizontalPanel horPanel = new HorizontalPanel();
+		horPanel.add(verPanel);
+		horPanel.add(verPanel2);
 
-		RootPanel.get("Details").add(verPanel);
+		
+		RootPanel.get("Details").add(horPanel);
 		
 		final TextBox tbfn = new TextBox();
 		final TextBox tbn = new TextBox();
@@ -318,15 +328,15 @@ public class SearchByProfileView extends Update {
 		    });
 
 		Label isSmoking = new Label("Smoker:");
-		verPanel.add(isSmoking);
+		verPanel2.add(isSmoking);
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel.add(isSmokingBox);
+			verPanel2.add(isSmokingBox);
 		} else {
 			isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(), true);
-			verPanel.add(isSmokingBox);
+			verPanel2.add(isSmokingBox);
 		}
-		verPanel.add(chkSmokerAny);
-		verPanel.add(anyCheck);
+		verPanel2.add(chkSmokerAny);
+		verPanel2.add(anyCheck);
 		chkSmokerAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -340,9 +350,9 @@ public class SearchByProfileView extends Update {
 		    });
 
 		Label confession = new Label("Confession:");
-		verPanel.add(confession);
+		verPanel2.add(confession);
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel.add(confessionBox);
+			verPanel2.add(confessionBox);
 		} else {
 			int index;
 			if (ClientsideSettings.getSearchProfile().getConfession() == "Atheistic") {
@@ -367,8 +377,8 @@ public class SearchByProfileView extends Update {
 			confessionBox.setItemSelected(index, true);
 			verPanel.add(confessionBox);
 		}
-		verPanel.add(chkConfessionAny);
-		verPanel.add(anyCheck);
+		verPanel2.add(chkConfessionAny);
+		verPanel2.add(anyCheck);
 		chkConfessionAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -382,9 +392,9 @@ public class SearchByProfileView extends Update {
 		    });
 
 		Label myHobbiesSelectLabel = new Label("My Hobbies:");
-		verPanel.add(myHobbiesSelectLabel);
+		verPanel2.add(myHobbiesSelectLabel);
 		if (ClientsideSettings.getUserProfile() == null) {
-			verPanel.add(myHobbiesSelect);
+			verPanel2.add(myHobbiesSelect);
 		} else {
 			int index;
 			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
@@ -401,7 +411,7 @@ public class SearchByProfileView extends Update {
 				index = 5;
 			}
 			myHobbiesSelect.setItemSelected(index, true);
-			verPanel.add(myHobbiesSelect);
+			verPanel2.add(myHobbiesSelect);
 
 		}
 
@@ -411,7 +421,7 @@ public class SearchByProfileView extends Update {
 
 		final Button showProfilesButton = new Button("Search");
 		showProfilesButton.setStylePrimaryName("tngly-menubutton");
-		verPanel.add(showProfilesButton);
+		verPanel2.add(showProfilesButton);
 
 		showProfilesButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
