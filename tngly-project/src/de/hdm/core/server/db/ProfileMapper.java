@@ -354,6 +354,7 @@ public class ProfileMapper {
 				// false und * automatisch als true ausgegeben wird
 
 				p.setIsSmoking(rs.getInt("isSmoking"));
+				System.out.println(p.getId());
 				System.out.println(p.getName() + " " + p.getLastName());
 				System.out.println(p.getDateOfBirth());
 
@@ -365,8 +366,11 @@ public class ProfileMapper {
 			return null;
 		}
 
+		for (int x = 0; x<profiles.size(); x++)	{
+		System.out.println(profiles.get(x).getId());
+		}
+		
 		return profiles;
-
 	}
 
 }

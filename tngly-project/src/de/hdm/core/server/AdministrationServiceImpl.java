@@ -215,11 +215,29 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException {
 		ServersideSettings.setSearchProfile(searchProfile);
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-		for (Profile p : profiles){
-			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(p));
+		
+		System.out.println("Line 219: Output ArrayList:");
+		
+		for (int x = 0; x<profiles.size(); x++)	{
+		System.out.println(profiles.get(x).getId());
+		System.out.println(profiles.get(x).getUserName());
+		System.out.println(profiles.get(x).getName());
+		System.out.println(profiles.get(x).getLastName());
+		System.out.println(profiles.get(x).getDateOfBirth());
+		System.out.println(profiles.get(x).getGender());
+		System.out.println("");
 		}
-		// profiles = this.propertyMapper.searchForProperties(profiles);
-		// profiles = this.informationMapper.searchForInformationValues(profiles);
+
+		
+		for (int x = 0; x<profiles.size(); x++){
+			Profile p = profiles.get(x);
+			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(p));
+			System.out.println(p.getId());
+			System.out.println(p.getWasVisited());
+		}
+		
+		profiles = this.propertyMapper.searchForProperties(profiles);
+		profiles = this.informationMapper.searchForInformationValues(profiles);
 		Profile reference = ServersideSettings.getUserProfile();
 		for (Profile p : profiles){
 			p.equals(reference);
