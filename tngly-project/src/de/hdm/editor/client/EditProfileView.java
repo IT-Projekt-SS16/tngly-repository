@@ -54,8 +54,16 @@ public class EditProfileView extends Update {
 		}
 
 		VerticalPanel verPanel = new VerticalPanel();
-
-		RootPanel.get("Details").add(verPanel);
+		VerticalPanel verPanel2 = new VerticalPanel();
+		verPanel.setSpacing(10);
+		verPanel2.setSpacing(10);
+		
+		
+		HorizontalPanel horPanel = new HorizontalPanel();
+		horPanel.add(verPanel);
+		horPanel.add(verPanel2);
+		
+		RootPanel.get("Details").add(horPanel);
 
 
 		final TextBox tbfn = new TextBox();
@@ -125,8 +133,8 @@ public class EditProfileView extends Update {
 		// });
 
 		TextArea ta = new TextArea();
-		ta.setCharacterWidth(80);
-		ta.setVisibleLines(10);
+		ta.setCharacterWidth(50);
+		ta.setVisibleLines(5);
 
 		// HorizontalPanel horizonPanel = new HorizontalPanel();
 		// Label firstWarning = new Label("Bitte f�llen Sie alle nachfolgenden
@@ -217,18 +225,18 @@ public class EditProfileView extends Update {
 		}
 
 		Label isSmoking = new Label("Smoker:");
-		verPanel.add(isSmoking);
+		verPanel2.add(isSmoking);
 		if (ClientsideSettings.getUserProfile() == null) {
-			verPanel.add(isSmokingBox);
+			verPanel2.add(isSmokingBox);
 		} else {
 			isSmokingBox.setItemSelected(ClientsideSettings.getUserProfile().getIsSmoking(), true);
-			verPanel.add(isSmokingBox);
+			verPanel2.add(isSmokingBox);
 		}
 
 		Label confession = new Label("Confession:");
-		verPanel.add(confession);
+		verPanel2.add(confession);
 		if (ClientsideSettings.getUserProfile() == null) {
-			verPanel.add(confessionBox);
+			verPanel2.add(confessionBox);
 		} else {
 			int index;
 			if (ClientsideSettings.getUserProfile().getConfession() == "Atheistic") {
@@ -251,13 +259,13 @@ public class EditProfileView extends Update {
 				index = 8;
 			}
 			confessionBox.setItemSelected(index, true);
-			verPanel.add(confessionBox);
+			verPanel2.add(confessionBox);
 		}
 		
 		Label myHobbiesSelectLabel = new Label("My Hobbies:");
-		verPanel.add(myHobbiesSelectLabel);
+		verPanel2.add(myHobbiesSelectLabel);
 		if (ClientsideSettings.getUserProfile() == null) {
-			verPanel.add(myHobbiesSelect);
+			verPanel2.add(myHobbiesSelect);
 		} else {
 			int index;
 			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
@@ -274,18 +282,18 @@ public class EditProfileView extends Update {
 				index = 5;
 			}
 			myHobbiesSelect.setItemSelected(index, true);
-			verPanel.add(myHobbiesSelect);
+			verPanel2.add(myHobbiesSelect);
 			
 					
 		}
 		
 		Label selfDescriptionLabel = new Label("This is how I describe myself:");
-		verPanel.add(selfDescriptionLabel);
-		verPanel.add(ta);
+		verPanel2.add(selfDescriptionLabel);
+		verPanel2.add(ta);
 		
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStylePrimaryName("tngly-menubutton");
-		verPanel.add(saveProfilButton);
+		verPanel2.add(saveProfilButton);
 
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
