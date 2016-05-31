@@ -332,9 +332,9 @@ public class EditProfileView extends Update {
 
 				int selectedIsSmokingIndex = isSmokingBox.getSelectedIndex();
 				if (isSmokingBox.getItemText(selectedIsSmokingIndex) == "Yes") {
-					temp.setIsSmoking(0);
-				} else {
 					temp.setIsSmoking(1);
+				} else {
+					temp.setIsSmoking(0);
 				}
 
 				logger.info("isSmoking CHECK");
