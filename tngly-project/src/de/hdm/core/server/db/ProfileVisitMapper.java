@@ -248,7 +248,33 @@ public class ProfileVisitMapper {
 		}
 
 		public Boolean wasProfileVisited(Profile p) {
-			// TODO �bergebene Profil mit ID auf Spalte "VisitedProfileID" in DB pr�fen und falls in Spalte vorhanden: "true" zur�ckgeben
-			return null;
-		}
+			
+			int id = p.getId();
+		
+			  // DB-Verbindung holen
+		    Connection con = DBConnection.connection();
+
+		    try {
+		      // Leeres SQL-Statement (JDBC) anlegen
+		      Statement stmt = con.createStatement();
+
+		      // Statement ausfüllen und als Query an die DB schicken
+		      ResultSet rs = stmt
+		          .executeQuery("SELECT id, visitedProfileId FROM profileVisits "
+		              + "WHERE id=" + id);
+		      int value = rs.getInt("visitedProfileId");
+		      
+		      if (value == 0){
+		    	  return false;
+		      }else{
+		    	  return true;
+		      }
+		    }
+		      
+			    catch (SQLException e) {
+				      e.printStackTrace();
+				      return null;
+				    }
+		    }
 }
+		     
