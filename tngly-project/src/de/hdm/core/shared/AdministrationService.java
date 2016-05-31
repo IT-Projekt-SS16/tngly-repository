@@ -58,13 +58,13 @@ public interface AdministrationService extends RemoteService {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu f�gen.
 	 */
-	public void addWishToWishlist(Wish wish) throws IllegalArgumentException;
+	public Wish addWishToWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException;
 
 
 	/**
 	 * Interne Methode zur Loeschung eines Profils von der Wishlist.
 	 */
-	public void deleteWishFromWishlist(Wish wish) throws IllegalArgumentException;
+	public void deleteWishFromWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

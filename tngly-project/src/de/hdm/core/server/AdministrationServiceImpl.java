@@ -239,13 +239,21 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public void addWishToWishlist(Wish wish) throws IllegalArgumentException {
-		this.wishMapper.insert(wish);
+	public Wish addWishToWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException {
+		Wish wish = new Wish();
+		wish.setWishedProfileId(wishedProfileId);
+		wish.setWishingProfileId(wishingProfileId);
+		wish.setId(1);
+		return this.wishMapper.insert(wish);
 
 	}
 
 	@Override
-	public void deleteWishFromWishlist(Wish wish) throws IllegalArgumentException {
+	public void deleteWishFromWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException {
+		Wish wish = new Wish();
+		wish.setWishedProfileId(wishedProfileId);
+		wish.setWishingProfileId(wishingProfileId);
+		wish.setId(1);
 		this.wishMapper.delete(wish);
 
 	}

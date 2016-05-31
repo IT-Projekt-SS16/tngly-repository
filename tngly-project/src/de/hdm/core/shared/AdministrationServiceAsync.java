@@ -67,7 +67,7 @@ public interface AdministrationServiceAsync {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um ein gesehenes Partnerprofil zu der Wunschliste des eigenen Profils hinzu zu f�gen.
 	 */
-	public void addWishToWishlist(Wish wish, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void addWishToWishlist(int wishedProfileId,int wishingProfileId, AsyncCallback<Wish> callback) throws IllegalArgumentException;
 
 	/**
 	 * Interne Methode zur L�schung von Wunschlisten bei der L�schung eines Profils durch den Benutzer.
@@ -76,7 +76,7 @@ public interface AdministrationServiceAsync {
 	/**
 	 * Interne Methode zur Loeschung eines Profils von der Wishlist.
 	 */
-	public void deleteWishFromWishlist(Wish wish, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void deleteWishFromWishlist(int wishedProfileId,int wishingProfileId, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

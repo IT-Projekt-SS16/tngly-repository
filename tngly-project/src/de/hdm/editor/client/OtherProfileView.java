@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
+import de.hdm.core.shared.bo.Wish;
 
 public class OtherProfileView extends Update {
 
@@ -103,33 +104,35 @@ public class OtherProfileView extends Update {
 		atfProfilButton.setStylePrimaryName("tngly-menubutton");
 		verPanel.add(atfProfilButton);
 
-		// atfProfilButton.addClickHandler(new ClickHandler() {
-		// public void onClick(ClickEvent event) {
-		// Update update = new EditProfileView();
-		//
-		// RootPanel.get("Details").clear();
-		// RootPanel.get("Details").add(update);
-		//
-		// Logger logger = ClientsideSettings.getLogger();
-		// logger.info("Erfolgreich View geswitcht.");
-		// }
-		// });
+		atfProfilButton.addClickHandler(new ClickHandler() {
+		public void onClick(ClickEvent event) {
+		ClientsideSettings.getAdministration().addWishToWishlist(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(), new CreateWishCallback());
+		Update update = new EditProfileView();
+		
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+		
+		Logger logger = ClientsideSettings.getLogger();
+		logger.info("Erfolgreich View geswitcht.");
+		}
+		});
 
 		final Button dffProfilButton = new Button("Delete from Favorites");
 		dffProfilButton.setStylePrimaryName("tngly-menubutton");
 		verPanel.add(dffProfilButton);
 
-		// atfProfilButton.addClickHandler(new ClickHandler() {
-		// public void onClick(ClickEvent event) {
-		// Update update = new EditProfileView();
-		//
-		// RootPanel.get("Details").clear();
-		// RootPanel.get("Details").add(update);
-		//
-		// Logger logger = ClientsideSettings.getLogger();
-		// logger.info("Erfolgreich View geswitcht.");
-		// }
-		// });
+		atfProfilButton.addClickHandler(new ClickHandler() {
+		public void onClick(ClickEvent event) {
+		ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
+		Update update = new EditProfileView();
+		
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+		
+		Logger logger = ClientsideSettings.getLogger();
+		logger.info("Erfolgreich View geswitcht.");
+		}
+		});
 
 		final Button banProfilButton = new Button("Ban Profile");
 		banProfilButton.setStylePrimaryName("tngly-menubutton");
@@ -187,6 +190,20 @@ class CreateProfileBanCallback implements AsyncCallback<ProfileBan> {
 
 	@Override
 	public void onSuccess(ProfileBan pb) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+class CreateWishCallback implements AsyncCallback<Wish> {
+	@Override
+	public void onFailure(Throwable caught) {
+		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+	}
+
+	@Override
+	public void onSuccess(Wish wish) {
 		// TODO Auto-generated method stub
 
 	}
