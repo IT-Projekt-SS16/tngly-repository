@@ -40,7 +40,7 @@ public class OtherProfileView extends Update {
 	@Override
 	protected void run() {
 
-		VerticalPanel verPanel = new VerticalPanel();
+		final VerticalPanel verPanel = new VerticalPanel();
 
 		RootPanel.get("Details").add(verPanel);
 
@@ -54,6 +54,7 @@ public class OtherProfileView extends Update {
 		// Label(ClientsideSettings.getUserProfile().getUserName());
 		// }
 		// verPanel.add(userNameValue);
+		
 
 		Label firstName = new Label("First Name:");
 		verPanel.add(firstName);
@@ -125,6 +126,12 @@ public class OtherProfileView extends Update {
 		public void onClick(ClickEvent event) {
 		ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
 		Update update = new EditProfileView();
+		
+		final Button backButton = new Button("Back");
+		backButton.setStylePrimaryName("tngly-menubutton");
+		verPanel.add(backButton);
+	
+		
 		
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(update);

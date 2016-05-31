@@ -198,6 +198,7 @@ public class SearchByProfileView extends Update {
 			genderBox.setItemSelected(index, true);
 			verPanel.add(genderBox);
 		}
+		
 		verPanel.add(chkGenderAny);
 		Label anyCheck = new Label("Any");
 		verPanel.add(anyCheck);
