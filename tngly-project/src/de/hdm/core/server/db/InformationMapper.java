@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Property;
+import de.hdm.core.shared.bo.Selection;
 
 import java.util.Date;
 
@@ -109,8 +111,67 @@ public class InformationMapper {
 	}
 
 	public ArrayList<Profile> searchForInformationValues(ArrayList<Profile> profiles) {
-		// TODO Auto-generated method stub
-		return null;
+
+		 // DB-Verbindung holen
+	    Connection con = DBConnection.connection();
+
+	   for (Profile p : profiles)	{
+		   for (Description d : p.getDescriptionList())	{
+			   
+			   try {
+				   // Leeres SQL-Statement (JDBC) anlegen
+				   Statement stmt = con.createStatement();
+
+				   // Statement ausfüllen und als Query an die DB schicken
+				   ResultSet rs = stmt
+						   .executeQuery("SELECT id, value, profileId, propertyId, timestamp FROM information"
+								   				+ "WHERE profileId=" + p.getId() + " AND propertyId=" + d.getId() );
+	      
+				   while (rs.next()) {
+					   Information i = new Information();
+					   i.setId(rs.getInt("id"));
+					   i.setValue(rs.getString("value"));
+					   i.setProfileId(rs.getInt("profileId"));
+					   i.setPropertyId(rs.getInt("propertyId"));
+					   d.getInformationValues().add(i);
+				   }
+			   }
+			   catch (SQLException e) {
+				   e.printStackTrace();
+				   return null;
+			   }
+			   
+			   for (Selection s : p.getSelectionList())	{
+				   
+				   try {
+					   // Leeres SQL-Statement (JDBC) anlegen
+					   Statement stmt = con.createStatement();
+
+					   // Statement ausfüllen und als Query an die DB schicken
+					   ResultSet rs = stmt
+							   .executeQuery("SELECT id, value, profileId, propertyId, timestamp FROM information"
+									   				+ "WHERE profileId=" + p.getId() + " AND propertyId=" + s.getId() );
+		      
+					   while (rs.next()) {
+						   Information i = new Information();
+						   i.setId(rs.getInt("id"));
+						   i.setValue(rs.getString("value"));
+						   i.setProfileId(rs.getInt("profileId"));
+						   i.setPropertyId(rs.getInt("propertyId"));
+						   d.getInformationValues().add(i);
+					   }
+				   }
+				   catch (SQLException e) {
+					   e.printStackTrace();
+					   return null;
+				   }
+		
+	
+
+	}
+   }
+  }
+	return profiles;
 	}
 
 	public void delete(Information in) {

@@ -156,11 +156,11 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		 * kommunizieren kann.
 		 */
 		this.profileMapper = ProfileMapper.profileMapper();
-		this.wishMapper = WishMapper.getWishMapper();
-		this.profileBanMapper = ProfileBanMapper.getProfileBanMapper();
-		this.informationMapper = InformationMapper.getInformationMapper();
-		this.propertyMapper = PropertyMapper.getPropertyMapper();
-		this.profileVisitMapper = ProfileVisitMapper.getProfileVisitMapper();
+		this.wishMapper = WishMapper.wishMapper();
+		this.profileBanMapper = ProfileBanMapper.profileBanMapper();
+		this.informationMapper = InformationMapper.informationMapper();
+		this.propertyMapper = PropertyMapper.propertyMapper();
+		this.profileVisitMapper = ProfileVisitMapper.profileVisitMapper();
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		ServersideSettings.setSearchProfile(searchProfile);
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
 		
-		System.out.println("Line 219: Output ArrayList:");
+		System.out.println("AdministrationServiceImpl: Output ArrayList:");
 		
 		for (int x = 0; x<profiles.size(); x++)	{
 		System.out.println(profiles.get(x).getId());
@@ -231,7 +231,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		
 		for (int x = 0; x<profiles.size(); x++){
 			Profile p = profiles.get(x);
+			
 			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(p));
+			
+			
 			System.out.println(p.getId());
 			System.out.println(p.getWasVisited());
 		}
@@ -239,9 +242,12 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
 		Profile reference = ServersideSettings.getUserProfile();
-		for (Profile p : profiles){
+		
+		for (int x = 0; x<profiles.size(); x++){
+			Profile p = profiles.get(x);
 			p.equals(reference);
 		}
+		
 		Collections.sort(profiles, Collections.reverseOrder());
 		ServersideSettings.setProfilesFoundAndCompared(profiles);
 		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
