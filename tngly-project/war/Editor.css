@@ -91,3 +91,12 @@ div#Trailer {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.label-Profile-Teaser-bold{
+   font-weight: bold;
+}
+
+.label-Profile-Teaser-regular{
+   font-weight: normal;
+}
+

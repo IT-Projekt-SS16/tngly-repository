@@ -513,12 +513,12 @@ public class SearchByProfileView extends Update {
 
 				ClientsideSettings.getAdministration().searchAndCompareProfiles(temp, new CompareCallback());
 
-				Update update = new ShowProfilesView();
-
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(update);
-
-				logger.info("Erfolgreicher Reswitch.");
+//				Update update = new ShowProfilesView();
+//
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(update);
+//
+//				logger.info("Erfolgreicher Reswitch.");
 
 			}
 		});
@@ -533,7 +533,13 @@ class CompareCallback implements AsyncCallback<ArrayList<Profile>> {
 
 	@Override
 	public void onSuccess(ArrayList<Profile> result) {
+		ClientsideSettings.getLogger().info("Profile-Liste Auf Client-Seite gesetzt");
 		ClientsideSettings.setProfilesFoundAndCompared(result);
+		ClientsideSettings.getLogger().info("Profiles Size:" + ClientsideSettings.getProfilesFoundAndCompared().size());
+		Update update = new ShowProfilesView();
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+		ClientsideSettings.getLogger().info("Erfolgreicher Reswitch.");
 	}
 
 }

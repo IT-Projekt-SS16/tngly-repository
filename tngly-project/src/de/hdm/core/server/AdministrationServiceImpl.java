@@ -17,6 +17,7 @@ import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
+import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
@@ -162,54 +163,6 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		this.profileVisitMapper = ProfileVisitMapper.getProfileVisitMapper();
 	}
 
-//	/**
-//	 * Login Daten werden mit der Datenbank abgeglichen
-//	 * 
-//	 */
-//	@Override
-//	public User loginUser(boolean isReportGen) throws IllegalArgumentException {
-//		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
-//				.getUserService();
-//
-//		if (userService.isUserLoggedIn()) {
-//			com.google.appengine.api.users.User user = userService.getCurrentUser();
-//
-//			User u = new User();
-//			u.setEmail(user.getEmail());
-//			u.setUserName(user.getNickname());
-//			u.setUserId(user.getUserId());
-//			u.setIsLoggedIn(true);
-//			return u;
-//		} else {
-//			User u = new User();
-//			u.setIsLoggedIn(false);
-//			if (isReportGen) {
-//				u.setLoginUrl(userService.createLoginURL(ServersideSettings.PAGE_URL_REPORT));
-//			} else {
-//				u.setLoginUrl(userService.createLoginURL(ServersideSettings.PAGE_URL_EDITOR));
-//			}
-//			return u;
-//		}
-//	}
-//
-//	/**
-//	 * Durch den Logout wird die SessionID in der DB gespeichert und der
-//	 * Benutzer wird ausgeloggt
-//	 */
-//	@Override
-//	public String logoutUser(boolean isReportGen) throws IllegalArgumentException {
-//		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
-//				.getUserService();
-//
-//		if (userService.isUserLoggedIn()) {
-//			if (isReportGen) {
-//				return userService.createLogoutURL(ServersideSettings.PAGE_URL_REPORT);
-//			}
-//			return userService.createLogoutURL(ServersideSettings.PAGE_URL_EDITOR);
-//		}
-//		return "http://www.google.de";
-//	}
-
 	/**
 	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers
 	 * am System.
@@ -262,6 +215,9 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException {
 		ServersideSettings.setSearchProfile(searchProfile);
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
+		for (Profile p : profiles){
+			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(p));
+		}
 		// profiles = this.propertyMapper.searchForProperties(profiles);
 		// profiles = this.informationMapper.searchForInformationValues(profiles);
 		Profile reference = ServersideSettings.getUserProfile();
@@ -270,9 +226,16 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 		Collections.sort(profiles, Collections.reverseOrder());
 		ServersideSettings.setProfilesFoundAndCompared(profiles);
-		ClientsideSettings.setProfilesFoundAndCompared(profiles);
 		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
 		return profiles;
+	}
+	
+	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
+		this.profileVisitMapper.insert(visitedProfiles);
+	}
+	
+	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
+		this.profileVisitMapper.delete(visitedProfiles);
 	}
 
 	@Override

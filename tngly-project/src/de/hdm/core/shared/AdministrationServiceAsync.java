@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
+import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
@@ -57,6 +58,10 @@ public interface AdministrationServiceAsync {
 	public void findProfileByName(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
 	
 	public void searchAndCompareProfiles(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
+	
+	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	
+	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
