@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -163,7 +164,7 @@ public class EditProfileView extends Update {
 			tbfn.setText(ClientsideSettings.getUserProfile().getName());
 			t.setWidget(0,1,tbfn);
 		}
-
+		
 		t.setText(1, 0, "Last Name:");
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(1,1,tbn);
@@ -299,6 +300,27 @@ public class EditProfileView extends Update {
 
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				
+				final String symbol = tbfn.getText().toUpperCase().trim();
+				if (!symbol.matches("^[A-Z]")) {
+				Window.alert("'" + symbol + "' is not a valid symbol.");
+				tbfn.selectAll();
+				return;
+				}
+				
+				final String symbol1 = tbn.getText().toUpperCase().trim();
+				if (!symbol1.matches("^[A-Z]")) {
+				Window.alert("'" + symbol1 + "' is not a valid symbol.");
+				tbn.selectAll();
+				return;
+				}
+				
+				final String symbol2 = tbbh.getText().toUpperCase().trim();
+				if (!symbol2.matches("^[0-9]")) {
+				Window.alert("'" + symbol2 + "' is not a valid symbol.");
+				tbbh.selectAll();
+				return;
+				}
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
