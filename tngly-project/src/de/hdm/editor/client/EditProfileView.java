@@ -67,7 +67,7 @@ public class EditProfileView extends Update {
 		
 		RootPanel.get("Details").add(horPanel);
 
-
+		final TextBox tbun = new TextBox();
 		final TextBox tbfn = new TextBox();
 		final TextBox tbn = new TextBox();
 		final TextBox tbbh = new TextBox();
@@ -156,28 +156,33 @@ public class EditProfileView extends Update {
 
 		FlexTable t = new FlexTable();
 		
-		t.setText(0,0,"First Name:");
+		
+		t.setText(0, 0, "Username");
+		t.setWidget(0,1,tbun);
+		
+		
+		t.setText(1,0,"First Name:");
 		
 		if (ClientsideSettings.getUserProfile() == null) {
-			t.setWidget(0,1,tbfn);
+			t.setWidget(1,1,tbfn);
 		} else {
 			tbfn.setText(ClientsideSettings.getUserProfile().getName());
-			t.setWidget(0,1,tbfn);
+			t.setWidget(1,1,tbfn);
 		}
 		
-		t.setText(1, 0, "Last Name:");
+		t.setText(2, 0, "Last Name:");
 		if (ClientsideSettings.getUserProfile() == null) {
-			t.setWidget(1,1,tbn);
+			t.setWidget(2,1,tbn);
 		} else {
 			tbn.setText(ClientsideSettings.getUserProfile().getLastName());
-			t.setWidget(1,1,tbn);
+			t.setWidget(2,1,tbn);
 		}
 
 		
 
-		t.setText(2, 0, "Gender");
+		t.setText(3, 0, "Gender");
 		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setWidget(2, 1, genderBox);
+			t.setWidget(3, 1, genderBox);
 		} else {
 			int index;
 			if (ClientsideSettings.getSearchProfile().getGender() == "M") {
@@ -186,28 +191,28 @@ public class EditProfileView extends Update {
 				index = 0;
 			}
 			genderBox.setItemSelected(index, true);
-			verPanel.add(genderBox);
+			t.setWidget(3, 1, genderBox);
 		}  
 
-		t.setText(3, 0, "Date of Birth:");
+		t.setText(4, 0, "Date of Birth:");
 		if (ClientsideSettings.getUserProfile() == null) {
-		t.setWidget(3,1,datePicker);
+		t.setWidget(4,1,datePicker);
 		} else {
 			datePicker.setValue(ClientsideSettings.getUserProfile().getDateOfBirth());
-			t.setWidget(3,1,datePicker);
+			t.setWidget(4,1,datePicker);
 		}
 
-		t.setText(4,0, "Body Height");
+		t.setText(5,0, "Body Height");
 		if (ClientsideSettings.getUserProfile() == null) {
-			t.setWidget(4,1,tbbh);
+			t.setWidget(5,1,tbbh);
 		} else {
 			tbbh.setText(Float.toString(ClientsideSettings.getUserProfile().getBodyHeight()));
-			t.setWidget(4,1,tbbh);
+			t.setWidget(5,1,tbbh);
 		}
 
-		t.setText(5, 0, "Haircolor:");;
+		t.setText(6, 0, "Haircolor:");;
 		if (ClientsideSettings.getUserProfile() == null) {
-			t.setWidget(5,1,hairColourList);
+			t.setWidget(6,1,hairColourList);
 		} else {
 			int index;
 			if (ClientsideSettings.getUserProfile().getHairColour() == "Black") {
@@ -222,20 +227,20 @@ public class EditProfileView extends Update {
 				index = 4;
 			}
 			hairColourList.setItemSelected(index, true);
-			t.setWidget(5,1,hairColourList);
+			t.setWidget(6,1,hairColourList);
 		}
 
-		t.setText(6, 0, "Smoker:");
+		t.setText(7, 0, "Smoker:");
 		if (ClientsideSettings.getUserProfile() == null) {
-			t.setWidget(6, 1, isSmokingBox);
+			t.setWidget(7, 1, isSmokingBox);
 		} else {
 			isSmokingBox.setItemSelected(ClientsideSettings.getUserProfile().getIsSmoking(), true);
-			t.setWidget(6, 1, isSmokingBox);
+			t.setWidget(7, 1, isSmokingBox);
 		}
 
-		t.setText(7, 0, "Confession");
+		t.setText(8, 0, "Confession");
 		if (ClientsideSettings.getUserProfile() == null) {
-		t.setWidget(7, 1, confessionBox);
+		t.setWidget(8, 1, confessionBox);
 		} else {
 			int index;
 			if (ClientsideSettings.getUserProfile().getConfession() == "Atheistic") {
@@ -258,12 +263,12 @@ public class EditProfileView extends Update {
 				index = 8;
 			}
 			confessionBox.setItemSelected(index, true);
-			t.setWidget(7, 1, confessionBox);
+			t.setWidget(8, 1, confessionBox);
 		}
 		
-		t.setText(8,0, "My Hobbies:");
+		t.setText(9,0, "My Hobbies:");
 		if (ClientsideSettings.getUserProfile() == null) {
-		t.setWidget(8, 1, myHobbiesSelect);
+		t.setWidget(9, 1, myHobbiesSelect);
 		} else {
 			int index;
 			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
@@ -280,13 +285,13 @@ public class EditProfileView extends Update {
 				index = 5;
 			}
 			myHobbiesSelect.setItemSelected(index, true);
-			t.setWidget(8, 1, myHobbiesSelect);
+			t.setWidget(9, 1, myHobbiesSelect);
 			
 					
 		}
 		
-		t.setText(9, 0, "This is how I describe myself:");
-		t.setWidget(9, 1, ta);
+		t.setText(10, 0, "This is how I describe myself:");
+		t.setWidget(10, 1, ta);
 		
 		
 		

@@ -63,9 +63,6 @@ public class SearchByProfileView extends Update {
 		HorizontalPanel horPanel = new HorizontalPanel();
 		horPanel.add(verPanel);
 		
-		final TextBox tbfn = new TextBox();
-		final TextBox tbn = new TextBox();
-		final TextBox tbbh = new TextBox();
 		final TextBox tbAgeRangeFrom = new TextBox();
 		final TextBox tbAgeRangeTo = new TextBox();
 		final TextBox tbHeightRangeFrom = new TextBox();
@@ -454,6 +451,8 @@ public class SearchByProfileView extends Update {
 				boolean hairColourChecked = chkHairColourAny.getValue();
 				boolean smokerChecked = chkSmokerAny.getValue();
 				boolean confessionChecked = chkConfessionAny.getValue();
+				
+				
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
@@ -467,11 +466,10 @@ public class SearchByProfileView extends Update {
 
 				logger.info("Profile+DateTimeFormat instantiiert");
 
-				temp.setName(tbfn.getText());
-
+				
 				logger.info("Name CHECK");
 
-				temp.setLastName(tbn.getText());
+		
 
 				logger.info("lastName CHECK");
 
