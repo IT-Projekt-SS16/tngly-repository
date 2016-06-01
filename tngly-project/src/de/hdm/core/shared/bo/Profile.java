@@ -239,9 +239,9 @@ public class Profile implements Serializable, Comparable<Profile> {
 		}
 		
 		for (Selection s : this.selectionList){
-			for (String i : s.getInformationValues()){
+			for (Information i : s.getInformationValues()){
 				for (Selection sp : p.selectionList){
-					for (String ip : sp.getInformationValues()){
+					for (Information ip : sp.getInformationValues()){
 						if (i == ip){
 							percentage = percentage + 4;
 						}
