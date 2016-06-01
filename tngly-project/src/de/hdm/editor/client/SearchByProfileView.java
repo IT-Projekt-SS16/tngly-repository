@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 //import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -55,17 +56,12 @@ public class SearchByProfileView extends Update {
 		}
 
 		VerticalPanel verPanel = new VerticalPanel();
-		VerticalPanel verPanel2 = new VerticalPanel();
 		verPanel.setSpacing(10);
-		verPanel2.setSpacing(10);
+		
 		
 		
 		HorizontalPanel horPanel = new HorizontalPanel();
 		horPanel.add(verPanel);
-		horPanel.add(verPanel2);
-
-		
-		RootPanel.get("Details").add(horPanel);
 		
 		final TextBox tbfn = new TextBox();
 		final TextBox tbn = new TextBox();
@@ -74,6 +70,16 @@ public class SearchByProfileView extends Update {
 		final TextBox tbAgeRangeTo = new TextBox();
 		final TextBox tbHeightRangeFrom = new TextBox();
 		final TextBox tbHeightRangeTo = new TextBox();
+		
+		
+		 
+			        
+			      
+		
+		RootPanel.get("Details").add(horPanel);
+		
+		
+		
 		// final TextBox tbmh = new TextBox();
 		
 		final CheckBox chkGenderAny = new CheckBox();
@@ -82,6 +88,7 @@ public class SearchByProfileView extends Update {
 		final CheckBox chkHairColourAny = new CheckBox();
 		final CheckBox chkSmokerAny = new CheckBox();
 		final CheckBox chkConfessionAny = new CheckBox();
+		
 
 		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(1);
@@ -126,6 +133,8 @@ public class SearchByProfileView extends Update {
 		myHobbiesSelect.addItem("Cooking");
 		myHobbiesSelect.addItem("Music");
 		myHobbiesSelect.addItem("Fitness");
+		
+		
 
 		// final DatePicker datePicker = new DatePicker();
 		// datePicker.setYearArrowsVisible(true);
@@ -149,7 +158,11 @@ public class SearchByProfileView extends Update {
 		TextArea ta = new TextArea();
 		ta.setCharacterWidth(80);
 		ta.setVisibleLines(50);
+		
+		
 
+		 
+	
 		// HorizontalPanel horizonPanel = new HorizontalPanel();
 		// Label firstWarning = new Label("Bitte füllen Sie alle nachfolgenden
 		// Felder vollständig aus!");
@@ -183,11 +196,12 @@ public class SearchByProfileView extends Update {
 		// tbn.setText(ClientsideSettings.getUserProfile().getLastName());
 		// verPanel.add(tbn);
 		// }
+		
+		FlexTable t = new FlexTable();
 
-		Label gender = new Label("Gender:");
-		verPanel.add(gender);
+		t.setText(0, 0, "Gender");
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel.add(genderBox);
+			t.setWidget(0, 1, genderBox);
 		} else {
 			int index;
 			if (ClientsideSettings.getSearchProfile().getGender() == "M") {
@@ -197,11 +211,12 @@ public class SearchByProfileView extends Update {
 			}
 			genderBox.setItemSelected(index, true);
 			verPanel.add(genderBox);
-		}
-		
-		verPanel.add(chkGenderAny);
-		Label anyCheck = new Label("Any");
-		verPanel.add(anyCheck);
+		}  
+		  
+		t.setText(0, 4, "Any:");
+		t.setWidget(0, 5, chkGenderAny);
+	
+
 		chkGenderAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -223,23 +238,23 @@ public class SearchByProfileView extends Update {
 		// verPanel.add(datePicker);
 		// }
 
-		Label lblAgeRange = new Label("Age Range:");
-		Label lblAgeRangeFrom = new Label("From ");
-		Label lblAgeRangeTo = new Label("To ");
-		verPanel.add(lblAgeRange);
+		
+		
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel.add(lblAgeRangeFrom);
-			verPanel.add(tbAgeRangeFrom);
-			verPanel.add(lblAgeRangeTo);
-			verPanel.add(tbAgeRangeTo);
+			t.setText(1, 0, "Age Range");
+			t.setText(2, 0, "From:");
+			t.setWidget(2, 1, tbAgeRangeFrom);
+			t.setText(2, 2, "To:");
+			t.setWidget(2, 3, tbAgeRangeTo);
 		} else {
 			tbAgeRangeFrom.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeFrom()));
-			verPanel.add(tbAgeRangeFrom);
+			t.setWidget(2, 1, tbAgeRangeFrom);
 			tbAgeRangeTo.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeTo()));
-			verPanel.add(tbAgeRangeTo);
+			t.setWidget(2, 3, tbAgeRangeTo);
 		}
-		verPanel.add(chkAgeAny);
-		verPanel.add(anyCheck);
+		t.setText(2, 4, "Any:");
+		t.setWidget(2, 5, chkAgeAny);
+		
 		chkAgeAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -263,23 +278,23 @@ public class SearchByProfileView extends Update {
 		// verPanel.add(tbbh);
 		// }
 
-		Label bodyHeight = new Label("Body Height Range:");
-		Label bodyHeightFrom = new Label("From ");
-		Label bodyHeightTo = new Label("To ");
-		verPanel.add(bodyHeight);
+
+
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel.add(bodyHeightFrom);
-			verPanel.add(tbHeightRangeFrom);
-			verPanel.add(bodyHeightTo);
-			verPanel.add(tbHeightRangeTo);
+			t.setText(3, 0, "Body Height:");
+			t.setWidget(4, 1, tbHeightRangeFrom);
+			t.setText(4, 0, "From");
+			t.setWidget(4,3,tbHeightRangeTo);
+			t.setText(4, 2, "To");
 		} else {
 			tbHeightRangeFrom.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightFrom()));
-			verPanel.add(tbHeightRangeFrom);
+			t.setWidget(4, 1, tbHeightRangeFrom);
 			tbHeightRangeTo.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightTo()));
-			verPanel.add(tbHeightRangeTo);
+			t.setWidget(4,3,tbHeightRangeTo);
 		}
-		verPanel.add(chkBodyHeightAny);
-		verPanel.add(anyCheck);
+		t.setText(4, 4, "Any:");
+		t.setWidget(4, 5,chkBodyHeightAny);
+		//verPanel.add(anyCheck);
 		chkBodyHeightAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -294,10 +309,10 @@ public class SearchByProfileView extends Update {
 		      }
 		    });
 
-		Label hairColour = new Label("Haircolour:");
-		verPanel.add(hairColour);
+		t.setText(5,0,"Haircolor");
+		
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel.add(hairColourList);
+			t.setWidget(5,1,hairColourList);
 		} else {
 			int index;
 			if (ClientsideSettings.getSearchProfile().getHairColour() == "Black") {
@@ -314,8 +329,9 @@ public class SearchByProfileView extends Update {
 			hairColourList.setItemSelected(index, true);
 			verPanel.add(hairColourList);
 		}
-		verPanel.add(chkHairColourAny);
-		verPanel.add(anyCheck);
+		t.setText(5,4, "Any:");
+		t.setWidget(5,5,chkHairColourAny);
+		//verPanel.add(anyCheck);
 		chkHairColourAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -328,16 +344,16 @@ public class SearchByProfileView extends Update {
 		      }
 		    });
 
-		Label isSmoking = new Label("Smoker:");
-		verPanel2.add(isSmoking);
+		t.setText(6, 0, "Smoker:");
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel2.add(isSmokingBox);
+			t.setWidget(6, 1, isSmokingBox);
 		} else {
 			isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(), true);
-			verPanel2.add(isSmokingBox);
+			t.setWidget(6, 1, isSmokingBox);
 		}
-		verPanel2.add(chkSmokerAny);
-		verPanel2.add(anyCheck);
+		t.setText(6, 4, "Any:");
+		t.setWidget(6,5,chkSmokerAny);
+		//verPanel.add(anyCheck);
 		chkSmokerAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -350,10 +366,9 @@ public class SearchByProfileView extends Update {
 		      }
 		    });
 
-		Label confession = new Label("Confession:");
-		verPanel2.add(confession);
+		t.setText(7, 0, "Confession:");
 		if (ClientsideSettings.getSearchProfile() == null) {
-			verPanel2.add(confessionBox);
+			t.setWidget(7, 1, confessionBox);
 		} else {
 			int index;
 			if (ClientsideSettings.getSearchProfile().getConfession() == "Atheistic") {
@@ -376,10 +391,11 @@ public class SearchByProfileView extends Update {
 				index = 8;
 			}
 			confessionBox.setItemSelected(index, true);
-			verPanel.add(confessionBox);
+			t.setWidget(7, 1, confessionBox);
 		}
-		verPanel2.add(chkConfessionAny);
-		verPanel2.add(anyCheck);
+		t.setText(7, 4, "Any:");
+		t.setWidget(7, 5,chkConfessionAny);
+		//verPanel.add(anyCheck);
 		chkConfessionAny.addClickHandler(new ClickHandler() {
 		      @Override
 		      public void onClick(ClickEvent event) {
@@ -392,10 +408,9 @@ public class SearchByProfileView extends Update {
 		      }
 		    });
 
-		Label myHobbiesSelectLabel = new Label("My Hobbies:");
-		verPanel2.add(myHobbiesSelectLabel);
+		t.setText(8, 0, "Hobbies:");
 		if (ClientsideSettings.getUserProfile() == null) {
-			verPanel2.add(myHobbiesSelect);
+			t.setWidget(8, 1, myHobbiesSelect);
 		} else {
 			int index;
 			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
@@ -412,17 +427,23 @@ public class SearchByProfileView extends Update {
 				index = 5;
 			}
 			myHobbiesSelect.setItemSelected(index, true);
-			verPanel2.add(myHobbiesSelect);
+			t.setWidget(8, 1, myHobbiesSelect);
 
 		}
+		verPanel.add(t);
+		RootPanel.get("Details").add(t);
+		
 
 		// Label myHobbiesLabel = new Label("Other Hobbies:");
 		// verPanel.add(myHobbiesLabel);
 		// verPanel.add(tbmh);
 
 		final Button showProfilesButton = new Button("Search");
-		showProfilesButton.setStylePrimaryName("tngly-menubutton");
-		verPanel2.add(showProfilesButton);
+		
+		
+		RootPanel.get("Details").add(showProfilesButton);
+		
+		
 
 		showProfilesButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -533,6 +554,9 @@ public class SearchByProfileView extends Update {
 
 			}
 		});
+		  
+		  
+		  
 	}
 }
 
