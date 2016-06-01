@@ -97,8 +97,8 @@ public class EditProfileView extends Update {
 
 		final ListBox genderBox = new ListBox(false);
 		genderBox.setVisibleItemCount(1);
-		genderBox.addItem("F");
-		genderBox.addItem("M");
+		genderBox.addItem("Female");
+		genderBox.addItem("Male");
 
 		final ListBox myHobbiesSelect = new ListBox(true);
 		myHobbiesSelect.setVisibleItemCount(11);
@@ -319,8 +319,18 @@ public class EditProfileView extends Update {
 				logger.info("lastName CHECK");
 
 				int selectedGenderIndex = genderBox.getSelectedIndex();
+				
+				if (genderBox.getItemText(selectedGenderIndex) == "Female")	{
+					temp.setGender("F");
+				}
+				if (genderBox.getItemText(selectedGenderIndex) == "Male")	{
+					temp.setGender("M");
+				}
+				
 				temp.setGender(genderBox.getItemText(selectedGenderIndex));
-
+				
+				
+				
 				logger.info("gender CHECK");
 
 				temp.setDateOfBirth(datePicker.getValue());
