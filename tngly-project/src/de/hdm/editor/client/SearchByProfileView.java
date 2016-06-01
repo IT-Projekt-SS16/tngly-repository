@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 //import com.google.gwt.event.dom.client.KeyPressEvent;
 //import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -452,7 +453,39 @@ public class SearchByProfileView extends Update {
 				boolean smokerChecked = chkSmokerAny.getValue();
 				boolean confessionChecked = chkConfessionAny.getValue();
 				
+				final TextBox tbAgeRangeFrom = new TextBox();
+				final TextBox tbAgeRangeTo = new TextBox();
+				final TextBox tbHeightRangeFrom = new TextBox();
+				final TextBox tbHeightRangeTo = new TextBox();
 				
+				final String symbol = tbAgeRangeFrom.getText().toUpperCase().trim();
+				if (!symbol.matches("^[0-9]")) {
+				Window.alert("'" + symbol + "' is not a valid symbol.");
+				tbAgeRangeFrom.selectAll();
+				return;
+				}
+				
+				final String symbol1 = tbAgeRangeTo.getText().toUpperCase().trim();
+				if (!symbol1.matches("^[0-9]")) {
+				Window.alert("'" + symbol1 + "' is not a valid symbol.");
+				tbAgeRangeTo.selectAll();
+				return;
+				}
+				
+				final String symbol2 = tbHeightRangeFrom.getText().toUpperCase().trim();
+				if (!symbol2.matches("^[0-9]")) {
+				Window.alert("'" + symbol2 + "' is not a valid symbol.");
+				tbHeightRangeFrom.selectAll();
+				return;
+				}
+				
+				final String symbol3 = tbHeightRangeFrom.getText().toUpperCase().trim();
+				if (!symbol3.matches("^[0-9]")) {
+				Window.alert("'" + symbol3 + "' is not a valid symbol.");
+				tbHeightRangeFrom.selectAll();
+				return;
+				}
+
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
