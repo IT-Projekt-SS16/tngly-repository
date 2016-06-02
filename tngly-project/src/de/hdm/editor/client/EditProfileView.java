@@ -68,9 +68,13 @@ public class EditProfileView extends Update {
 		RootPanel.get("Details").add(horPanel);
 
 		final TextBox tbun = new TextBox();
+		tbun.setPixelSize(120, 15);
 		final TextBox tbfn = new TextBox();
+		tbfn.setPixelSize(120, 15);
 		final TextBox tbn = new TextBox();
+		tbn.setPixelSize(120, 15);
 		final TextBox tbbh = new TextBox();
+		tbbh.setPixelSize(120, 15);
 
 		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(1);
@@ -79,11 +83,13 @@ public class EditProfileView extends Update {
 		hairColourList.addItem("Red");
 		hairColourList.addItem("Blonde");
 		hairColourList.addItem("Dark Blonde");
+		hairColourList.setPixelSize(130,25);
 
 		final ListBox isSmokingBox = new ListBox(false);
 		isSmokingBox.setVisibleItemCount(1);
 		isSmokingBox.addItem("Yes");
 		isSmokingBox.addItem("No");
+		isSmokingBox.setPixelSize(130,25);
 
 		final ListBox confessionBox = new ListBox(false);
 		confessionBox.setVisibleItemCount(1);
@@ -96,11 +102,13 @@ public class EditProfileView extends Update {
 		confessionBox.addItem("Jewish");
 		confessionBox.addItem("Orthodox");
 		confessionBox.addItem("Other");
+		confessionBox.setPixelSize(130,25);
 
 		final ListBox genderBox = new ListBox(false);
 		genderBox.setVisibleItemCount(1);
-		genderBox.addItem("F");
-		genderBox.addItem("M");
+		genderBox.addItem("Female");
+		genderBox.addItem("Male");
+		genderBox.setPixelSize(130,25);
 
 		final ListBox myHobbiesSelect = new ListBox(true);
 		myHobbiesSelect.setVisibleItemCount(11);
@@ -115,6 +123,9 @@ public class EditProfileView extends Update {
 		myHobbiesSelect.addItem("Cooking");
 		myHobbiesSelect.addItem("Music");
 		myHobbiesSelect.addItem("Fitness");
+		myHobbiesSelect.setPixelSize(130,130);
+		
+		
 		
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearArrowsVisible(true);
@@ -122,7 +133,7 @@ public class EditProfileView extends Update {
 		// show 51 years in the years dropdown. The range of years is centered
 		// on the selected date
 		datePicker.setVisibleYearCount(101);
-
+		datePicker.setYearAndMonthDropdownVisible(true);
 		// *** BEISPIEL ADDKEYHANDLER NOCH F�R ALLE �BERNEHMEN***
 
 		// tbfn.addKeyPressHandler(new KeyPressHandler() {
@@ -185,7 +196,7 @@ public class EditProfileView extends Update {
 			t.setWidget(3, 1, genderBox);
 		} else {
 			int index;
-			if (ClientsideSettings.getSearchProfile().getGender() == "M") {
+			if (ClientsideSettings.getSearchProfile().getGender() == "Male") {
 				index = 1;
 			} else {
 				index = 0;
@@ -193,7 +204,7 @@ public class EditProfileView extends Update {
 			genderBox.setItemSelected(index, true);
 			t.setWidget(3, 1, genderBox);
 		}  
-
+		
 		t.setText(4, 0, "Date of Birth:");
 		if (ClientsideSettings.getUserProfile() == null) {
 		t.setWidget(4,1,datePicker);
@@ -201,6 +212,7 @@ public class EditProfileView extends Update {
 			datePicker.setValue(ClientsideSettings.getUserProfile().getDateOfBirth());
 			t.setWidget(4,1,datePicker);
 		}
+		
 
 		t.setText(5,0, "Body Height");
 		if (ClientsideSettings.getUserProfile() == null) {
@@ -296,11 +308,10 @@ public class EditProfileView extends Update {
 		
 		
 		final Button saveProfilButton = new Button("Save");
-		verPanel2.add(saveProfilButton);
+		t.setWidget(11,1, saveProfilButton);
 		
 		verPanel.add(t);
 		RootPanel.get("Details").add(t);
-		RootPanel.get("Details").add(saveProfilButton);
 		
 
 		saveProfilButton.addClickHandler(new ClickHandler() {

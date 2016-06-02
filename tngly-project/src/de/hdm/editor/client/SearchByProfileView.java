@@ -115,8 +115,8 @@ public class SearchByProfileView extends Update {
 
 		final ListBox genderBox = new ListBox(false);
 		genderBox.setVisibleItemCount(1);
-		genderBox.addItem("F");
-		genderBox.addItem("M");
+		genderBox.addItem("Female");
+		genderBox.addItem("Male");
 
 		final ListBox myHobbiesSelect = new ListBox(true);
 		myHobbiesSelect.setVisibleItemCount(11);
@@ -202,7 +202,7 @@ public class SearchByProfileView extends Update {
 			t.setWidget(0, 1, genderBox);
 		} else {
 			int index;
-			if (ClientsideSettings.getSearchProfile().getGender() == "M") {
+			if (ClientsideSettings.getSearchProfile().getGender() == "Male") {
 				index = 1;
 			} else {
 				index = 0;
@@ -458,30 +458,30 @@ public class SearchByProfileView extends Update {
 				final TextBox tbHeightRangeFrom = new TextBox();
 				final TextBox tbHeightRangeTo = new TextBox();
 				
-				final String symbol = tbAgeRangeFrom.getText().toUpperCase().trim();
-				if (!symbol.matches("^[0-9]")) {
-				Window.alert("'" + symbol + "' is not a valid symbol.");
+				final String symbol4 = tbAgeRangeFrom.getText().toUpperCase().trim();
+				if (!symbol4.matches("^[0-9]")) {
+				Window.alert("'" + symbol4 + "' is not a valid symbol.");
 				tbAgeRangeFrom.selectAll();
 				return;
 				}
 				
-				final String symbol1 = tbAgeRangeTo.getText().toUpperCase().trim();
-				if (!symbol1.matches("^[0-9]")) {
-				Window.alert("'" + symbol1 + "' is not a valid symbol.");
+				final String symbol5 = tbAgeRangeTo.getText().toUpperCase().trim();
+				if (!symbol5.matches("^[0-9]")) {
+				Window.alert("'" + symbol5 + "' is not a valid symbol.");
 				tbAgeRangeTo.selectAll();
 				return;
 				}
 				
-				final String symbol2 = tbHeightRangeFrom.getText().toUpperCase().trim();
-				if (!symbol2.matches("^[0-9]")) {
-				Window.alert("'" + symbol2 + "' is not a valid symbol.");
+				final String symbol6 = tbHeightRangeFrom.getText().toUpperCase().trim();
+				if (!symbol6.matches("^[0-9]")) {
+				Window.alert("'" + symbol6 + "' is not a valid symbol.");
 				tbHeightRangeFrom.selectAll();
 				return;
 				}
 				
-				final String symbol3 = tbHeightRangeFrom.getText().toUpperCase().trim();
-				if (!symbol3.matches("^[0-9]")) {
-				Window.alert("'" + symbol3 + "' is not a valid symbol.");
+				final String symbol7 = tbHeightRangeFrom.getText().toUpperCase().trim();
+				if (!symbol7.matches("^[0-9]")) {
+				Window.alert("'" + symbol7 + "' is not a valid symbol.");
 				tbHeightRangeFrom.selectAll();
 				return;
 				}
