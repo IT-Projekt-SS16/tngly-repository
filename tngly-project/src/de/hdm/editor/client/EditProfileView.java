@@ -134,7 +134,6 @@ public class EditProfileView extends Update {
 		// on the selected date
 		datePicker.setVisibleYearCount(101);
 		datePicker.setYearAndMonthDropdownVisible(true);
-		// *** BEISPIEL ADDKEYHANDLER NOCH Fï¿½R ALLE ï¿½BERNEHMEN***
 
 		// tbfn.addKeyPressHandler(new KeyPressHandler() {
 
@@ -149,15 +148,6 @@ public class EditProfileView extends Update {
 		ta.setCharacterWidth(50);
 		ta.setVisibleLines(5);
 
-		// HorizontalPanel horizonPanel = new HorizontalPanel();
-		// Label firstWarning = new Label("Bitte fï¿½llen Sie alle nachfolgenden
-		// Felder vollstï¿½ndig aus!");
-		// firstWarning.setPixelSize(10, 10);
-		// horizonPanel.add(firstWarning);
-		// verPanel.add(horizonPanel);
-		// if (ClientsideSettings.getUserProfile() == null){
-		// verPanel.add(firstWarning);
-		// }
 
 		if (ClientsideSettings.getUserProfile() != null) {
 			logger.info("Result: " + ClientsideSettings.getUserProfile().getUserName());
@@ -318,25 +308,29 @@ public class EditProfileView extends Update {
 			public void onClick(ClickEvent event) {
 				
 				final String symbol = tbfn.getText().toUpperCase().trim();
-				if (!symbol.matches("^[A-Z]")) {
+				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol + "' is not a valid symbol.");
 				tbfn.selectAll();
 				return;
 				}
 				
 				final String symbol1 = tbn.getText().toUpperCase().trim();
-				if (!symbol1.matches("^[A-Z]")) {
+				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol1 + "' is not a valid symbol.");
 				tbn.selectAll();
 				return;
 				}
 				
 				final String symbol2 = tbbh.getText().toUpperCase().trim();
-				if (!symbol2.matches("^[0-9]")) {
+				if (!symbol2.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol2 + "' is not a valid symbol.");
 				tbbh.selectAll();
 				return;
 				}
+				
+				 if (ClientsideSettings.getUserProfile() == null){
+				 Window.alert("Bitte füllen Sie alle Felder aus");
+				 }
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
