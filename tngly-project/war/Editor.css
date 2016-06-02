@@ -18,6 +18,7 @@ div#TopLevelFrame{
 	background-size: 140%;
 	
 	
+	
 }
 
 
@@ -27,6 +28,15 @@ div#TopLevelFrame{
   width: 400px;
   background-color: #322323;
 
+}
+
+.tngly-button{
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 10em;
 }
 
 .tngly-menubutton {
@@ -51,8 +61,11 @@ div#Details {
 	min-height: 400px;
 	max-height: 1500px;
 	padding: 1em 1em;
-	border-top: 2px blue;
-	border-left: 2px blue;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black; 
+	border-color: #38373e;
 	background-color: #ffffff;
 	opacity: 0.9;
 	

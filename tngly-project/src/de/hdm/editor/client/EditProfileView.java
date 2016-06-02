@@ -160,7 +160,7 @@ public class EditProfileView extends Update {
 		
 		t.setText(0, 0, "Username");
 		t.setWidget(0,1,tbun);
-		t.setText(1, 1, "Bsp: Mustermann32");
+		t.setText(1, 1, "Example: Tngly32");
 		
 		t.setText(2,0,"First Name:");
 		
@@ -296,12 +296,13 @@ public class EditProfileView extends Update {
 		t.setWidget(11, 1, ta);
 		
 		
-		
-		final Button saveProfilButton = new Button("Save");
-		t.setWidget(12,1, saveProfilButton);
-		
 		verPanel.add(t);
 		RootPanel.get("Details").add(t);
+		
+		final Button saveProfilButton = new Button("Save");
+		saveProfilButton.setStyleName("tngly-button");
+		t.setWidget(12, 1, saveProfilButton);
+		
 		
 
 		saveProfilButton.addClickHandler(new ClickHandler() {
