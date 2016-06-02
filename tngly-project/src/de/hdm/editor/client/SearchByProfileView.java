@@ -458,33 +458,33 @@ public class SearchByProfileView extends Update {
 				final TextBox tbHeightRangeFrom = new TextBox();
 				final TextBox tbHeightRangeTo = new TextBox();
 				
-				final String symbol4 = tbAgeRangeFrom.getText().toUpperCase().trim();
-				if (!symbol4.matches("^[0-9A-Z\\.]{1,10}$")) {
-				Window.alert("'" + symbol4 + "' is not a valid symbol.");
-				tbAgeRangeFrom.selectAll();
-				return;
-				}
-				
-				final String symbol5 = tbAgeRangeTo.getText().toUpperCase().trim();
-				if (!symbol5.matches("^[0-9A-Z\\.]{1,10}$")) {
-				Window.alert("'" + symbol5 + "' is not a valid symbol.");
-				tbAgeRangeTo.selectAll();
-				return;
-				}
-				
-				final String symbol6 = tbHeightRangeFrom.getText().toUpperCase().trim();
-				if (!symbol6.matches("^[0-9A-Z\\.]{1,10}$")) {
-				Window.alert("'" + symbol6 + "' is not a valid symbol.");
-				tbHeightRangeFrom.selectAll();
-				return;
-				}
-				
-				final String symbol7 = tbHeightRangeFrom.getText().toUpperCase().trim();
-				if (!symbol7.matches("^[0-9A-Z\\.]{1,10}$")) {
-				Window.alert("'" + symbol7 + "' is not a valid symbol.");
-				tbHeightRangeFrom.selectAll();
-				return;
-				}
+//				final String symbol4 = tbAgeRangeFrom.getText().toUpperCase().trim();
+//				if (!symbol4.matches("^[0-9\\.]{1,10}$")) {
+//				Window.alert("'" + symbol4 + "' is not a valid symbol.");
+//				tbAgeRangeFrom.selectAll();
+//				return;
+//				}
+//				
+//				final String symbol5 = tbAgeRangeTo.getText().toUpperCase().trim();
+//				if (!symbol5.matches("^[0-9\\.]{1,10}$")) {
+//				Window.alert("'" + symbol5 + "' is not a valid symbol.");
+//				tbAgeRangeTo.selectAll();
+//				return;
+//				}
+//				
+//				final String symbol6 = tbHeightRangeFrom.getText().toUpperCase().trim();
+//				if (!symbol6.matches("^[0-9\\.]{1,10}$")) {
+//				Window.alert("'" + symbol6 + "' is not a valid symbol.");
+//				tbHeightRangeFrom.selectAll();
+//				return;
+//				}
+//				
+//				final String symbol7 = tbHeightRangeFrom.getText().toUpperCase().trim();
+//				if (!symbol7.matches("^[0-9\\.]{1,10}$")) {
+//				Window.alert("'" + symbol7 + "' is not a valid symbol.");
+//				tbHeightRangeFrom.selectAll();
+//				return;
+//				}
 
 
 				Logger logger = ClientsideSettings.getLogger();

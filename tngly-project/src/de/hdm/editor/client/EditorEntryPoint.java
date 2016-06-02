@@ -92,9 +92,10 @@ public class EditorEntryPoint implements EntryPoint {
 
 		HorizontalPanel horPanel = new HorizontalPanel();
 
+		
 		RootPanel.get("Navigator").add(horPanel);
 
-		final Button profileButton = new Button("Profile");
+		final Button profileButton = new Button("PROFILE");
 
 		profileButton.setStylePrimaryName("tngly-menubutton");
 
@@ -112,7 +113,7 @@ public class EditorEntryPoint implements EntryPoint {
 			}
 		});
 
-		final Button wishlistButton = new Button("Wishlist");
+		final Button wishlistButton = new Button("WISHLIST");
 		wishlistButton.setStylePrimaryName("tngly-menubutton");
 		horPanel.add(wishlistButton);
 
@@ -124,7 +125,7 @@ public class EditorEntryPoint implements EntryPoint {
 			}
 		});
 
-		final Button searchProfilButton = new Button("Search Profile");
+		final Button searchProfilButton = new Button("SEARCH PROFILE");
 		searchProfilButton.setStylePrimaryName("tngly-menubutton");
 		horPanel.add(searchProfilButton);
 
@@ -135,12 +136,12 @@ public class EditorEntryPoint implements EntryPoint {
 				RootPanel.get("Details").add(update);
 			}
 		});
+		
+		final Button reportButton = new Button("GO TO REPORT");
+		reportButton.setStylePrimaryName("tngly-menubutton");
+		horPanel.add(reportButton);
 
-		final Button banViewButton = new Button("Bans");
-		banViewButton.setStylePrimaryName("tngly-menubutton");
-		horPanel.add(banViewButton);
-
-		banViewButton.addClickHandler(new ClickHandler() {
+		reportButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Update update = new BanView();
 				RootPanel.get("Details").clear();
@@ -148,6 +149,20 @@ public class EditorEntryPoint implements EntryPoint {
 			}
 
 		});
+		
+		final Button signOutButton = new Button("SIGN OUT");
+		signOutButton.setStylePrimaryName("tngly-menubutton");
+		horPanel.add(signOutButton);
+
+		signOutButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Update update = new SearchProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+			}
+		});
+
+	
 
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 

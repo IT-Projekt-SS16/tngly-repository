@@ -307,30 +307,30 @@ public class EditProfileView extends Update {
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
-				final String symbol = tbfn.getText().toUpperCase().trim();
-				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
-				Window.alert("'" + symbol + "' is not a valid symbol.");
-				tbfn.selectAll();
-				return;
-				}
+//				final String symbol = tbfn.getText().toUpperCase().trim();
+//				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
+//				Window.alert("'" + symbol + "' is not a valid symbol.");
+//				tbfn.selectAll();
+//				return;
+//				}
+//				
+//				final String symbol1 = tbn.getText().toUpperCase().trim();
+//				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
+//				Window.alert("'" + symbol1 + "' is not a valid symbol.");
+//				tbn.selectAll();
+//				return;
+//				}
+//				
+//				final String symbol2 = tbbh.getText().toUpperCase().trim();
+//				if (!symbol2.matches("^[0-9A-Z\\.]{1,10}$")) {
+//				Window.alert("'" + symbol2 + "' is not a valid symbol.");
+//				tbbh.selectAll();
+//				return;
+//				}
 				
-				final String symbol1 = tbn.getText().toUpperCase().trim();
-				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
-				Window.alert("'" + symbol1 + "' is not a valid symbol.");
-				tbn.selectAll();
-				return;
-				}
-				
-				final String symbol2 = tbbh.getText().toUpperCase().trim();
-				if (!symbol2.matches("^[0-9A-Z\\.]{1,10}$")) {
-				Window.alert("'" + symbol2 + "' is not a valid symbol.");
-				tbbh.selectAll();
-				return;
-				}
-				
-				 if (ClientsideSettings.getUserProfile() == null){
-				 Window.alert("Bitte füllen Sie alle Felder aus");
-				 }
+//				 if (ClientsideSettings.getUserProfile() == null){
+//				 Window.alert("Bitte füllen Sie alle Felder aus");
+//				 }
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
