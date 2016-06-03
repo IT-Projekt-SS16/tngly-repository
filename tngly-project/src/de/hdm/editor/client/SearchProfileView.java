@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SearchProfileView extends Update{
 
@@ -16,14 +17,14 @@ public class SearchProfileView extends Update{
 
 	  protected void run() {
 		  
-		  HorizontalPanel horPanel = new HorizontalPanel();
+		  VerticalPanel verPanel = new VerticalPanel();
+		  verPanel.setSpacing(10);
 		  
-		  RootPanel.get("Details").add(horPanel);
-		  this.append("Here you will see your searchoptions");
+		  RootPanel.get("Details").add(verPanel);
 		  
 		  final Button searchByProfileButton = new Button("Search By Profile");
-		    searchByProfileButton.setStylePrimaryName("searchByProfileButton");
-		    horPanel.add(searchByProfileButton);
+		    searchByProfileButton.setStylePrimaryName("tngly-button-searchview");
+		    verPanel.add(searchByProfileButton);
 
 		    searchByProfileButton.addClickHandler(new ClickHandler() {
 		      public void onClick(ClickEvent event) {
@@ -35,8 +36,8 @@ public class SearchProfileView extends Update{
 		    });
 		    
 		    final Button searchBySimilarityButton = new Button("Search By Similarity");
-		    searchBySimilarityButton.setStylePrimaryName("searchBySimilarityButton");
-		    horPanel.add(searchBySimilarityButton);
+		    searchBySimilarityButton.setStylePrimaryName("tngly-button-searchview");
+		    verPanel.add(searchBySimilarityButton);
 
 		    searchBySimilarityButton.addClickHandler(new ClickHandler() {
 		      public void onClick(ClickEvent event) {

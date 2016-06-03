@@ -196,6 +196,7 @@ public class SearchByProfileView extends Update {
 		// }
 		
 		FlexTable t = new FlexTable();
+		t.setCellSpacing(5);
 
 		t.setText(0, 0, "Gender");
 		if (ClientsideSettings.getSearchProfile() == null) {
@@ -437,9 +438,8 @@ public class SearchByProfileView extends Update {
 		// verPanel.add(tbmh);
 
 		final Button showProfilesButton = new Button("Search");
-		
-		
-		RootPanel.get("Details").add(showProfilesButton);
+		showProfilesButton.setStyleName("tngly-button");
+		t.setWidget(9, 1, showProfilesButton);
 		
 		
 

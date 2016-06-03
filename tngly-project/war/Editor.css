@@ -13,7 +13,7 @@ html{
 
 
 div#TopLevelFrame{
-	background: url("http://www.fotos-hochladen.net/uploads/simplewallpapekmc9angpuo.jpg");
+	background: url("http://www.fotos-hochladen.net/uploads/simplewallpapenpgmf7wida.jpg");
 	background-repeat: no repeat;
 	background-size: 140%;
 	
@@ -30,12 +30,27 @@ div#TopLevelFrame{
 
 }
 
+.Table{
+
+	
+}
+
+
 .tngly-button{
 	background-color: #38373e;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
 	height: 2em;
+	width: 10em;
+}
+
+.tngly-button-searchview{
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
 	width: 10em;
 }
 
@@ -68,6 +83,8 @@ div#Details {
 	border-color: #38373e;
 	background-color: #ffffff;
 	opacity: 0.9;
+	color: #38373e;
+	font-weight: bold;
 	
 }
 
