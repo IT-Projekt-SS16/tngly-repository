@@ -160,7 +160,9 @@ public class EditProfileView extends Update {
 		
 		t.setText(0, 0, "Username");
 		t.setWidget(0,1,tbun);
-		t.setText(1, 1, "Example: Tngly32");
+		Label example = new Label("Example: Tngly32");
+		example.setStyleName("username-Example");
+		t.setWidget(1, 1, example);
 		
 		t.setText(2,0,"First Name:");
 		

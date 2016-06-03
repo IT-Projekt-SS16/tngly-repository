@@ -17,8 +17,12 @@ public class WishlistView extends Update{
 	  protected void run() {
 		  
 		  FlexTable t = new FlexTable();
-		  t.setStyleName("Table");
+		  t.setStyleName("Table-Wishlist");
 		  t.setCellSpacing(10);
+		  
+		  FlexTable t1 = new FlexTable();
+		  t1.setStyleName("Table-Wishlist");
+		  t1.setCellSpacing(10);
 		  
 		  
 		  Button deleteButton = new Button("Delete");
@@ -33,23 +37,36 @@ public class WishlistView extends Update{
 		  Button deleteButton3 = new Button("Delete");
 		  deleteButton3.setStyleName("tngly-button");
 		  
-		  t.setText(0, 0, "Philly Vanilli");
-		  t.setWidget(0, 1, deleteButton);
+		  t.setText(0, 0, "Mr. Tngly");
+		  t.setWidget(3, 0, deleteButton);
+		  
+		  t.setText(1, 0, "Age:");
+		  t.setText(2, 0, "Gender:" );
+		  t.setText(1, 1, "40");
+		  t.setText(2, 1, "Male");
+		  t.setText(1, 2, "Hobbies:");
+		  t.setText(2, 2, "Realname:");
+		  t.setText(1, 3, "Zucken");
+		  t.setText(2, 3, "Max Example");
 		  
 		  
-		  t.setText(1, 0, "Kevin Jaeger");
-		  t.setWidget(1, 1, deleteButton1);
+		  t1.setText(0, 0, "Kevina Hunter");
+		  t1.setWidget(3, 0, deleteButton1);
+		  
+		  t1.setText(1, 0, "Age:");
+		  t1.setText(2, 0, "Gender:" );
+		  t1.setText(1, 1, "17");
+		  t1.setText(2, 1, "Female");
+		  t1.setText(1, 2, "Hobbies:");
+		  t1.setText(2, 2, "Realname:");
+		  t1.setText(1, 3, "Auch Zucken");
+		  t1.setText(2, 3, "Maxine Example");
 		  
 		  
-		  t.setText(2, 0, "Hans Wurst");
-		  t.setWidget(2, 1,deleteButton2 );
-		  
-		  
-		  t.setText(3, 0, "Mr. Cheese");
-		  t.setWidget(3, 1, deleteButton3);
+		
 		  
 		  RootPanel.get("Details").add(t);
-		 
+		  RootPanel.get("Details").add(t1);
 			        
 			      }
 }

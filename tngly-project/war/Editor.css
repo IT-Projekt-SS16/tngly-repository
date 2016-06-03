@@ -30,11 +30,14 @@ div#TopLevelFrame{
 
 }
 
-.Table{
-
-	
+.Table-Wishlist{
+	border-bottom: 1px dotted black; 
 }
 
+.username-Example{
+	color: #a8a8a8;
+
+}
 
 .tngly-button{
 	background-color: #38373e;
