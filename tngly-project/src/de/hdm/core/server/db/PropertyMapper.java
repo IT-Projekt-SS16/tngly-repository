@@ -174,7 +174,7 @@ public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
       // Statement ausfüllen und als Query an die DB schicken
       ResultSet rs = stmt
           .executeQuery("SELECT id, textualDescription FROM properties"
-              + "WHERE type=description");
+              + "WHERE type LIKE description");
       
       while (rs.next()) {
       	Description pr = new Description();
@@ -185,7 +185,7 @@ public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
       
       ResultSet rs2 = stmt
               .executeQuery("SELECT id, textualDescription FROM properties"
-                  + "WHERE type=selection");
+                  + "WHERE type LIKE selection");
       
       while (rs.next()) {
         	Selection se = new Selection();
