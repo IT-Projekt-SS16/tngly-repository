@@ -110,7 +110,7 @@ public class ProfileView extends Update {
 //		verPanel.add(confessionValue);
 
 		final Button editProfilButton = new Button("Edit Profile");
-		editProfilButton.setStylePrimaryName("tngly-menubutton");
+		editProfilButton.setStylePrimaryName("tngly-button");
 		verPanel.add(editProfilButton);
 
 		editProfilButton.addClickHandler(new ClickHandler() {
@@ -126,7 +126,7 @@ public class ProfileView extends Update {
 		});
 		
 		final Button deleteProfilButton = new Button("Delete Profile");
-		deleteProfilButton.setStylePrimaryName("tngly-menubutton");
+		deleteProfilButton.setStylePrimaryName("tngly-button");
 		verPanel.add(deleteProfilButton);
 
 		deleteProfilButton.addClickHandler(new ClickHandler() {
