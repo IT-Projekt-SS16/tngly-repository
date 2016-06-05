@@ -1,4 +1,5 @@
 package de.hdm.core.server.db;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -8,14 +9,13 @@ import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Selection;
 
-
 public class PropertyMapper {
 
 	/**
 	 * Übernommen & angepasst von: @author Thies
 	 */
-	
-  public static PropertyMapper getPropertyMapper() {
+
+	public static PropertyMapper getPropertyMapper() {
 		return propertyMapper;
 	}
 
@@ -23,186 +23,171 @@ public class PropertyMapper {
 		PropertyMapper.propertyMapper = propertyMapper;
 	}
 
-  private static PropertyMapper propertyMapper = null;
+	private static PropertyMapper propertyMapper = null;
 
+	protected PropertyMapper() {
+	}
 
-  protected PropertyMapper() {
-  }
+	public static PropertyMapper propertyMapper() {
+		if (propertyMapper == null) {
+			propertyMapper = new PropertyMapper();
+		}
 
- 
-  public static PropertyMapper propertyMapper() {
-    if (propertyMapper == null) {
-      propertyMapper = new PropertyMapper();
-    }
+		return propertyMapper;
+	}
 
-    return propertyMapper;
-  }
+	public Property findByKey(int id) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
 
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
 
-  public Property findByKey(int id) {
-    // DB-Verbindung holen
-    Connection con = DBConnection.connection();
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("SELECT id, textualDescription FROM properties" + "WHERE id=" + id
+					+ " ORDER BY textualDescription");
 
-    try {
-      // Leeres SQL-Statement (JDBC) anlegen
-      Statement stmt = con.createStatement();
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
+			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Property p = new Property();
+				p.setId(rs.getInt("id"));
+				p.setTextualDescription(rs.getString("textualDescription"));
 
-      // Statement ausfüllen und als Query an die DB schicken
-      ResultSet rs = stmt
-          .executeQuery("SELECT id, textualDescription FROM properties"
-              + "WHERE id=" + id + " ORDER BY textualDescription");
+				return p;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-      /*
-       * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-       * werden. Prüfe, ob ein Ergebnis vorliegt.
-       */
-      if (rs.next()) {
-        // Ergebnis-Tupel in Objekt umwandeln
-        Property p = new Property();
-        p.setId(rs.getInt("id"));
-        p.setTextualDescription(rs.getString("textualDescription"));       
+		return null;
+	}
 
-        return p;
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-      return null;
-    }
+	public Vector<Property> findAll() {
+		Connection con = DBConnection.connection();
+		// Ergebnisvektor vorbereiten
+		Vector<Property> result = new Vector<Property>();
 
-    return null;
-  }
+		try {
+			Statement stmt = con.createStatement();
 
+			ResultSet rs = stmt.executeQuery("SELECT id, textualDescription FROM properties" + "ORDER BY id");
 
-  public Vector<Property> findAll() {
-    Connection con = DBConnection.connection();
-    // Ergebnisvektor vorbereiten
-    Vector<Property> result = new Vector<Property>();
+			// Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
+			// erstellt.
+			while (rs.next()) {
+				Property p = new Property();
+				p.setId(rs.getInt("id"));
+				p.setTextualDescription(rs.getString("textualDescription"));
 
-    try {
-      Statement stmt = con.createStatement();
+				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.addElement(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-      ResultSet rs = stmt.executeQuery("SELECT id, textualDescription FROM properties"
-           + "ORDER BY id");
+		// Ergebnisvektor zurückgeben
+		return result;
+	}
 
-      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
-      // erstellt.
-      while (rs.next()) {
-    	Property p = new Property();
-        p.setId(rs.getInt("id"));
-        p.setTextualDescription(rs.getString("textualDescription"));
+	public void delete(Property p) {
+		Connection con = DBConnection.connection();
 
-        // Hinzufügen des neuen Objekts zum Ergebnisvektor
-        result.addElement(p);
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
+		try {
+			Statement stmt = con.createStatement();
 
-    // Ergebnisvektor zurückgeben
-    return result;
-  }
+			stmt.executeUpdate("DELETE FROM properties " + "WHERE id=" + p.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-  
-  public void delete(Property p) {
-    Connection con = DBConnection.connection();
+	public void edit(Property userProperty) {
+		// TODO Auto-generated method stub
 
-    try {
-      Statement stmt = con.createStatement();
+	}
 
-      stmt.executeUpdate("DELETE FROM properties " + "WHERE id=" + p.getId());
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
+	// Verbindung zwischen Property und Information
 
-public void edit(Property userProperty) {
-	// TODO Auto-generated method stub
-	
+	public InfoPropertyConnection InfoPropertyConnection(InfoPropertyConnection i) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			/*
+			 * Zunächst schauen wir nach, welches der momentan höchste
+			 * Primärschlüsselwert ist.
+			 */
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM infoPropertyConnections ");
+
+			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			if (rs.next()) {
+				/*
+				 * i erhält den bisher maximalen, nun um 1 inkrementierten
+				 * Primärschlüssel.
+				 */
+				i.setId(rs.getInt("maxid") + 1);
+
+				stmt = con.createStatement();
+
+				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				stmt.executeUpdate("INSERT INTO infoPropertyConnections (id, informationId, propertyId) " + "VALUES ("
+						+ i.getId() + ",'" + i.getInformationId() + "','" + i.getPropertyId() + "')");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return i;
+	}
+
+	public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
+
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		for (Profile p : profiles) {
+			try {
+				// Leeres SQL-Statement (JDBC) anlegen
+				Statement stmt = con.createStatement();
+
+				// Statement ausfüllen und als Query an die DB schicken
+				String sql0 = "SELECT id, textualDescription FROM properties WHERE type ='description'";
+				ResultSet rs = stmt.executeQuery(sql0);
+
+				while (rs.next()) {
+					Description pr = new Description();
+					pr.setId(rs.getInt("id"));
+					pr.setTextualDescription(rs.getString("textualDescription"));
+					p.getDescriptionList().add(pr);
+				}
+
+				String sql1 = "SELECT id, textualDescription FROM properties WHERE type ='selection'";
+				ResultSet rs2 = stmt.executeQuery(sql1);
+
+				while (rs2.next()) {
+					Selection se = new Selection();
+					se.setId(rs2.getInt("id"));
+					se.setTextualDescription(rs2.getString("textualDescription"));
+					p.getSelectionList().add(se);
+				}
+
+			}
+
+			catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+
+		}
+		return profiles;
+	}
 }
-
- // Verbindung zwischen Property und Information
-
-public InfoPropertyConnection InfoPropertyConnection(InfoPropertyConnection i) {
-	  
-    Connection con = DBConnection.connection();
-
-    try {
-      Statement stmt = con.createStatement();
-
-      /*
-       * Zunächst schauen wir nach, welches der momentan höchste
-       * Primärschlüsselwert ist.
-       */
-      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-          + "FROM infoPropertyConnections ");
-
-      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-      if (rs.next()) {
-        /*
-         * i erhält den bisher maximalen, nun um 1 inkrementierten
-         * Primärschlüssel.
-         */
-        i.setId(rs.getInt("maxid") + 1);
-
-        stmt = con.createStatement();
-
-        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-        stmt.executeUpdate("INSERT INTO infoPropertyConnections (id, informationId, propertyId) "
-            + "VALUES (" + i.getId() + ",'" + i.getInformationId() + "','" + i.getPropertyId() + "')");
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-    return i;
-  }
-
-public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
-	
-	  // DB-Verbindung holen
-    Connection con = DBConnection.connection();
-
-   for (Profile p : profiles)	{
-    try {
-      // Leeres SQL-Statement (JDBC) anlegen
-      Statement stmt = con.createStatement();
-
-      // Statement ausfüllen und als Query an die DB schicken
-      ResultSet rs = stmt
-          .executeQuery("SELECT id, textualDescription FROM properties"
-              + "WHERE type LIKE description");
-      
-      while (rs.next()) {
-      	Description pr = new Description();
-          pr.setId(rs.getInt("id"));
-          pr.setTextualDescription(rs.getString("textualDescription"));
-          p.getDescriptionList().add(pr);
-        }
-      
-      ResultSet rs2 = stmt
-              .executeQuery("SELECT id, textualDescription FROM properties"
-                  + "WHERE type LIKE selection");
-      
-      while (rs.next()) {
-        	Selection se = new Selection();
-            se.setId(rs.getInt("id"));
-            se.setTextualDescription(rs.getString("textualDescription"));
-            p.getSelectionList().add(se);
-          }
-      
-    }
-    
-    catch (SQLException e) {
-      e.printStackTrace();
-      return null;
-    }
-	
-}
-return profiles;
-}
-}
-

@@ -43,8 +43,8 @@ public class ProfileMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
-					+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles " + "WHERE id="
-					+ id + " ORDER BY lastName");
+					+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles " + "WHERE userName='"
+					+ id + "' ORDER BY lastName");
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
