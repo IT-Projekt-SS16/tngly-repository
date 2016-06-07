@@ -8,10 +8,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -275,28 +277,56 @@ public class EditProfileView extends Update {
 		}
 		
 		t.setText(10,0, "Hobbies");
-		if (ClientsideSettings.getUserProfile() == null) {
-		t.setWidget(10, 1, myHobbiesSelect);
-		} else {
-			int index;
-			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
-				index = 0;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
-				index = 1;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
-				index = 2;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
-				index = 3;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
-				index = 4;
-			} else {
-				index = 5;
-			}
-			myHobbiesSelect.setItemSelected(index, true);
-			t.setWidget(10, 1, myHobbiesSelect);
-			
-					
-		}
+//		if (ClientsideSettings.getUserProfile() == null) {
+//		t.setWidget(10, 1, myHobbiesSelect);
+//		} else {
+//			int index;
+//			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
+//				index = 0;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
+//				index = 1;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
+//				index = 2;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
+//				index = 3;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
+//				index = 4;
+//			} else {
+//				index = 5;
+//			}
+//			myHobbiesSelect.setItemSelected(index, true);
+//			t.setWidget(10, 1, myHobbiesSelect);
+//			
+//					
+//		}
+//		
+		
+		RadioButton soccerButton = new RadioButton("Soccer");
+		RadioButton baseballButton = new RadioButton("Baseball");
+		RadioButton volleyballButton = new RadioButton("Volleyball");
+		RadioButton basketballButton = new RadioButton("Basketball");
+		RadioButton golfButton = new RadioButton("Golf");
+		
+		FlexTable t2 = new FlexTable();
+		
+		t2.setText(0, 0, "Soccer");
+		t2.setWidget(0, 1, soccerButton);
+		
+		t2.setText(1, 0, "Baseball");
+		t2.setWidget(1, 1, baseballButton);
+		
+		t2.setText(2, 0, "Volleyball");
+		t2.setWidget(2, 1, volleyballButton);
+		
+		t2.setText(3, 0, "Basketball");
+		t2.setWidget(3, 1, basketballButton);
+		
+		t2.setText(4, 0, "Golf");
+		t2.setWidget(4, 1, golfButton);
+		
+		t.setWidget(10, 1, t2);
+		
+		
 		
 		t.setText(11, 0, "This is how I describe myself");
 		t.setWidget(11, 1, ta);
