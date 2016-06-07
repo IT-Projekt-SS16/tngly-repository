@@ -58,15 +58,67 @@ div#TopLevelFrame{
 }
 
 .tngly-menubutton {
-	background: url("http://www.transparenttextures.com/patterns/asfalt-light.png");
-	background-size: 100%;
-	font-size: 14px;
-	font-weight: bold;
-	width: 10em;
-	height: 2em;
-	margin-bottom: 0em;
+background-color: #38373e;
+	color: #ffffff;
 	border:0px;
-	color: #efefef;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-Profilebutton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+.tngly-EditProfileButton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-WishlistButton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-searchProfilButton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-signoutButton {
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:1160px;
 }
 
 div#Header {
@@ -74,7 +126,7 @@ div#Header {
 }
 
 div#Details {
-	margin-left: 10em;
+	margin-left: 22em;
 	margin-right: 10em;
 	min-height: 400px;
 	max-height: 1500px;
@@ -94,10 +146,10 @@ div#Details {
 
 div#Navigator {
 	margin-left: 10em;
-	width: 1000px;
+	width: 50px;
 	height: 30px;
 	padding: 1em 1em;
-	background-color: #38373e;
+	
 }
 
 .tngly-headline {

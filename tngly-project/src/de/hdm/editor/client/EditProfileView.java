@@ -33,7 +33,7 @@ public class EditProfileView extends Update {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "EDIT VIEW";
+		return "";
 	}
 
 	/**
@@ -55,6 +55,8 @@ public class EditProfileView extends Update {
 					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), new FindCallback());
 		}
 
+		
+		
 		VerticalPanel verPanel = new VerticalPanel();
 		VerticalPanel verPanel2 = new VerticalPanel();
 		verPanel.setSpacing(10);
@@ -155,6 +157,8 @@ public class EditProfileView extends Update {
 			logger.info("Result: NULL");
 		}
 
+		
+		
 		FlexTable t = new FlexTable();
 		
 		
@@ -164,7 +168,7 @@ public class EditProfileView extends Update {
 		example.setStyleName("username-Example");
 		t.setWidget(1, 1, example);
 		
-		t.setText(2,0,"First Name:");
+		t.setText(2,0,"First Name");
 		
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(2,1,tbfn);
@@ -173,7 +177,7 @@ public class EditProfileView extends Update {
 			t.setWidget(2,1,tbfn);
 		}
 		
-		t.setText(3, 0, "Last Name:");
+		t.setText(3, 0, "Last Name");
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(3,1,tbn);
 		} else {
@@ -197,7 +201,7 @@ public class EditProfileView extends Update {
 			t.setWidget(4, 1, genderBox);
 		}  
 		
-		t.setText(5, 0, "Date of Birth:");
+		t.setText(5, 0, "Date of Birth");
 		if (ClientsideSettings.getUserProfile() == null) {
 		t.setWidget(5,1,datePicker);
 		} else {
@@ -214,7 +218,7 @@ public class EditProfileView extends Update {
 			t.setWidget(6,1,tbbh);
 		}
 
-		t.setText(7, 0, "Haircolor:");;
+		t.setText(7, 0, "Haircolor");;
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(7,1,hairColourList);
 		} else {
@@ -234,7 +238,7 @@ public class EditProfileView extends Update {
 			t.setWidget(7,1,hairColourList);
 		}
 
-		t.setText(8, 0, "Smoker:");
+		t.setText(8, 0, "Smoker");
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(8, 1, isSmokingBox);
 		} else {
@@ -270,7 +274,7 @@ public class EditProfileView extends Update {
 			t.setWidget(9, 1, confessionBox);
 		}
 		
-		t.setText(10,0, "My Hobbies:");
+		t.setText(10,0, "Hobbies");
 		if (ClientsideSettings.getUserProfile() == null) {
 		t.setWidget(10, 1, myHobbiesSelect);
 		} else {
@@ -294,7 +298,7 @@ public class EditProfileView extends Update {
 					
 		}
 		
-		t.setText(11, 0, "This is how I describe myself:");
+		t.setText(11, 0, "This is how I describe myself");
 		t.setWidget(11, 1, ta);
 		
 		
