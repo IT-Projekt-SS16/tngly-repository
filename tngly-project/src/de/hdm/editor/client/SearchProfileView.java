@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SearchProfileView extends Update{
 
 		protected String getHeadlineText() {
-	    return "Search View";
+	    return "";
 	  }
 
 	  protected void run() {

@@ -34,7 +34,7 @@ public class OtherProfileView extends Update {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "Other Profile View";
+		return "";
 	}
 
 	@Override

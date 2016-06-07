@@ -34,7 +34,7 @@ public class SearchByProfileView extends Update {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "Search By Profile View";
+		return "";
 	}
 
 	/**

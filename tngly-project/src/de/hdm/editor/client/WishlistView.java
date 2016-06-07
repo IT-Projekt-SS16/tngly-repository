@@ -3,6 +3,7 @@ package de.hdm.editor.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -10,11 +11,15 @@ public class WishlistView extends Update{
 
 
 	  protected String getHeadlineText() {
-	    return "Wishlist View";
+	    return "";
 	  }
 	 
 
 	  protected void run() {
+		  
+		
+		  final CheckBox checkBox1 = new CheckBox();
+		  final CheckBox checkBox2 = new CheckBox();
 		  
 		  FlexTable t = new FlexTable();
 		  t.setStyleName("Table-Wishlist");
@@ -28,17 +33,8 @@ public class WishlistView extends Update{
 		  Button deleteButton = new Button("Delete");
 		  deleteButton.setStyleName("tngly-button");
 		  
-		  Button deleteButton1 = new Button("Delete");
-		  deleteButton1.setStyleName("tngly-button");
-		  
-		  Button deleteButton2 = new Button("Delete");
-		  deleteButton2.setStyleName("tngly-button");
-		  
-		  Button deleteButton3 = new Button("Delete");
-		  deleteButton3.setStyleName("tngly-button");
 		  
 		  t.setText(0, 0, "Mr. Tngly");
-		  t.setWidget(3, 0, deleteButton);
 		  
 		  t.setText(1, 0, "Age:");
 		  t.setText(2, 0, "Gender:" );
@@ -48,10 +44,10 @@ public class WishlistView extends Update{
 		  t.setText(2, 2, "Realname:");
 		  t.setText(1, 3, "Zucken");
 		  t.setText(2, 3, "Max Example");
+		  t.setWidget(3, 0, checkBox1);
 		  
 		  
 		  t1.setText(0, 0, "Kevina Hunter");
-		  t1.setWidget(3, 0, deleteButton1);
 		  
 		  t1.setText(1, 0, "Age:");
 		  t1.setText(2, 0, "Gender:" );
@@ -62,12 +58,15 @@ public class WishlistView extends Update{
 		  t1.setText(1, 3, "Auch Zucken");
 		  t1.setText(2, 3, "Maxine Example");
 		  
+		  t1.setWidget(3, 0, checkBox2);
+		  
 		  
 		
 		  
 		  RootPanel.get("Details").add(t);
 		  RootPanel.get("Details").add(t1);
 			        
+		  RootPanel.get("Details").add(deleteButton);
 			      }
 }
 		    

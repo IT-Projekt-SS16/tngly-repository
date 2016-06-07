@@ -68,6 +68,30 @@ background-color: #38373e;
 	margin-top:4px;
 }
 
+.tngly-submenubutton{
+	font-size: 10px;
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-submenubuttonblack{
+	font-size: 10px;
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
 .tngly-Profilebutton {
 	background-color: #da714e;
 	color: #ffffff;
