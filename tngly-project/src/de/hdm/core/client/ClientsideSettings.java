@@ -26,21 +26,22 @@ public class ClientsideSettings extends CommonSettings {
 	
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
+	private static ArrayList<Profile> wishlist = null;
 	/**
-	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Instanz des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers.
 	 */
 	private static Profile userProfile = null;
 
 	/**
-	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche.
+	 * Instanz des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche.
 	 */
 	private static SearchProfile searchProfile = null;
 
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Rï¿½ckgeben des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
 	 * bereits zuvor angelegte Objekt zurueckgegeben.
 	 * </p>
@@ -55,7 +56,7 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Setzen des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Setzen des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
 	 * bereits zuvor angelegte Objekt ueberschrieben.
 	 * </p>
@@ -69,8 +70,8 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
+	 * Rï¿½ckgeben des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
 	 * das bereits zuvor angelegte Objekt zurueckgegeben.
 	 * </p>
 	 * 
@@ -84,8 +85,8 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Setzen des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
+	 * Setzen des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
 	 * das bereits zuvor angelegte Objekt ueberschrieben.
 	 * </p>
 	 * 
@@ -104,7 +105,14 @@ public class ClientsideSettings extends CommonSettings {
 	public static void setProfilesFoundAndCompared(ArrayList<Profile> profilesFoundAndCompared) {
 		ClientsideSettings.profilesFoundAndCompared = profilesFoundAndCompared;
 	}
+	
+	public static ArrayList<Profile> getWishlist(){
+		return wishlist;
+	}
 
+	public static void setWishlist(ArrayList<Profile> wishlist){
+		ClientsideSettings.wishlist = wishlist;
+	}
 
 	private static LoginInfo loginInfo = null;
 
@@ -161,7 +169,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * Beachten Sie, dass Sie den auszugebenden Log nun nicht mehr durch
 	 * bedarfsweise Einfuegen und Auskommentieren etwa von
 	 * <code>System.out.println(...);</code> steuern. Sie belassen kuenftig
-	 * saemtliches Logging im Code und können ohne abermaliges Kompilieren den
+	 * saemtliches Logging im Code und kï¿½nnen ohne abermaliges Kompilieren den
 	 * Log Level "von aussen" durch die Datei <code>logging.properties</code>
 	 * steuern. Sie finden diese Datei in Ihrem <code>war/WEB-INF</code>-Ordner.
 	 * Der dort standardmaessig vorgegebene Log Level ist <code>WARN</code>.
@@ -173,7 +181,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * 
 	 * Weitere Infos siehe Dokumentation zu Java Logging.
 	 * 
-	 * @return die Logger-Instanz für die Server-Seite
+	 * @return die Logger-Instanz fï¿½r die Server-Seite
 	 */
 	public static Logger getLogger() {
 		return log;
@@ -201,7 +209,7 @@ public class ClientsideSettings extends CommonSettings {
 	public static AdministrationServiceAsync getAdministration() {
 		// Gab es bislang noch keine Administration-Instanz, dann...
 		if (administration == null) {
-			// Zunächst instantiieren wir Administration
+			// Zunï¿½chst instantiieren wir Administration
 			administration = GWT.create(AdministrationService.class);
 
 			final AsyncCallback<Void> initAdministrationCallback = new AsyncCallback<Void>() {
@@ -218,16 +226,16 @@ public class ClientsideSettings extends CommonSettings {
 			administration.init(initAdministrationCallback);
 		}
 
-		// So, nun brauchen wir die Administration nur noch zurückzugeben.
+		// So, nun brauchen wir die Administration nur noch zurï¿½ckzugeben.
 
 		return administration;
 	}
 
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit eindeutigen aktuellen Benutzers. Bei
+	 * Rï¿½ckgeben des applikationsweit eindeutigen aktuellen Benutzers. Bei
 	 * wiederholtem Aufruf dieser Methode wird stets das bereits zuvor angelegte
-	 * Objekt zurückgegeben.
+	 * Objekt zurï¿½ckgegeben.
 	 * </p>
 	 * 
 	 * @return eindeutige Instanz des Typs <code>User</code>
@@ -242,7 +250,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * <p>
 	 * Setzen des applikationsweit eindeutigen aktuellen Benutzers. Bei
 	 * wiederholtem Aufruf dieser Methode wird stets das bereits zuvor angelegte
-	 * Objekt überschrieben.
+	 * Objekt ï¿½berschrieben.
 	 * </p>
 	 * 
 	 * @author Kevin Jaeger

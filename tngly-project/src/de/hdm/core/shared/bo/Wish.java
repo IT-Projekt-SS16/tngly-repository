@@ -23,13 +23,13 @@ public class Wish implements Serializable{
 
 	
 		// The Wish´s ID
-		private int id;
+		private int id = 0;
 		
 		// The wishing profile´s id
-		private int wishingProfileId;
+		private int wishingProfileId = 0;
 		
 		// The wished profile´s id
-		private int wishedProfileId;
+		private int wishedProfileId = 0;
 		
 		// The wish´s timestamp
 		private Date timestamp;
