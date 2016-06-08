@@ -66,11 +66,7 @@ public class EditProfileView extends Update {
 		verPanel2.setSpacing(10);
 		
 		
-		HorizontalPanel horPanel = new HorizontalPanel();
-		horPanel.add(verPanel);
-		horPanel.add(verPanel2);
 		
-		RootPanel.get("Details").add(horPanel);
 
 		final TextBox tbun = new TextBox();
 		tbun.setPixelSize(120, 15);
@@ -80,6 +76,7 @@ public class EditProfileView extends Update {
 		tbn.setPixelSize(120, 15);
 		final TextBox tbbh = new TextBox();
 		tbbh.setPixelSize(120, 15);
+		
 
 		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(1);
@@ -308,7 +305,9 @@ public class EditProfileView extends Update {
 		final CheckBox chkBasketball = new CheckBox();
 		final CheckBox chkGolf = new CheckBox();
 		
+		
 		FlexTable t2 = new FlexTable();
+		FlexTable t4 = new FlexTable();
 		
 		t2.setText(0, 0, "Soccer");
 		t2.setWidget(0, 1, chkSoccer);
@@ -327,14 +326,44 @@ public class EditProfileView extends Update {
 		
 		t.setWidget(10, 1, t2);
 		
-		
+		FlexTable t3 = new FlexTable();
 		
 		t.setText(11, 0, "This is how I describe myself");
 		t.setWidget(11, 1, ta);
 		
+		final CheckBox chkMetallica = new CheckBox();
+        final CheckBox chkFooFighters = new CheckBox();
+        final CheckBox chkTheBeatles = new CheckBox();
+		final CheckBox chkTheBaseballs = new CheckBox();
+		final CheckBox chkQueen = new CheckBox();
+		
+		
+		t3.setText(0,0, "Favourit Band(s)");
+		t3.setWidget(0, 1, t4);
+		t4.setText(0, 0, "Metallica");
+		t4.setWidget(0,1, chkMetallica);
+		t4.setText(1, 0, "Foo Fighters");
+		t4.setWidget(1, 1, chkFooFighters);
+		t4.setText(2, 0, "The Beatles");
+		t4.setWidget(2, 1, chkTheBeatles);
+		t4.setText(2, 0, "The Beatles");
+		t4.setWidget(2, 1, chkTheBeatles);
+		t4.setText(3,0, "The Baseballs");
+		t4.setWidget(3, 1, chkTheBaseballs);
+		t4.setText(4,0, "Queen");
+		t4.setWidget(4, 1, chkQueen);
+		
+		
 		
 		verPanel.add(t);
-		RootPanel.get("Details").add(t);
+		
+		verPanel2.add(t3);
+		
+		HorizontalPanel horPanel = new HorizontalPanel();
+		horPanel.add(verPanel);
+		horPanel.add(verPanel2);
+		
+		RootPanel.get("Details").add(horPanel);
 		
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStyleName("tngly-button");
