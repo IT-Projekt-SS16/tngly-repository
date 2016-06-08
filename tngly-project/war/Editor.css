@@ -3,62 +3,183 @@
 
 /** Example rules used by the template application (remove for your app) */
 html{
-	background: url("http://fs5.directupload.net/images/160420/ruc73jsz.jpg");
+	
 }
 
 .body{
-	weight: 200px;
+
 }
 
-div#Header {
-	margin-top: 170px;    
-	 
-}
+
 
 div#TopLevelFrame{
-	background-color: #e6e6e6;
+	background: url("http://www.fotos-hochladen.net/uploads/simplewallpapenpgmf7wida.jpg");
+	background-repeat: no repeat;
+	background-size: 140%;
+	
+	
+	
 }
+
+
 }
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
+  background-color: #322323;
 
 }
 
+.Table-Wishlist{
+	border-bottom: 1px dotted black; 
+}
+
+.username-Example{
+	color: #a8a8a8;
+
+}
+
+.tngly-button{
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 10em;
+}
+
+.tngly-button-searchview{
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+}
 
 .tngly-menubutton {
-	font-size: 100%;
+background-color: #38373e;
+	color: #ffffff;
+	border:0px;
 	font-weight: bold;
-	width: 15em;
 	height: 3em;
-	margin-bottom: 0em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-submenubutton{
+	font-size: 10px;
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-submenubuttonblack{
+	font-size: 10px;
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-Profilebutton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+.tngly-EditProfileButton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-WishlistButton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-searchProfilButton {
+	background-color: #da714e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.tngly-signoutButton {
+	background-color: #38373e;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:1160px;
+}
+
+div#Header {
+	height: 200px;
 }
 
 div#Details {
-	margin-left: 10em;
+	margin-left: 22em;
 	margin-right: 10em;
 	min-height: 400px;
 	max-height: 1500px;
 	padding: 1em 1em;
-	border-top: 2px blue;
-	border-left: 2px blue;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black; 
+	border-color: #38373e;
 	background-color: #ffffff;
+	opacity: 0.9;
+	color: #38373e;
+	font-weight: bold;
 	
 }
 
 
 div#Navigator {
 	margin-left: 10em;
-	width: 1242px;
-	min-height: 10px;
-	padding: 1em 3em;
-	background-color: #359aff;
+	width: 50px;
+	height: 30px;
+	padding: 1em 1em;
+	
 }
 
 .tngly-headline {
 	font-size: 12pt;
 	font-weight: bold;
-	color: #0080c0;
+	color: #38373e;
 	margin: 0px;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -72,16 +193,11 @@ div#Trailer {
 	margin: 0 auto; 
 	border-top: 1px dashed silver;
 	font-size: 80%;
+	color: #ffffff;
 	text-align: center;
+	
 }
 
-}
-
-.dialogVPanel {
-  margin: 5px;
-  width: 350px;
-  height: 250px;
-}
 
 .serverResponseLabelError {
   color: red;

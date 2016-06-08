@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wishlist;
+import de.hdm.core.server.ServersideSettings;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 
@@ -248,33 +249,48 @@ public class ProfileVisitMapper {
 		}
 
 		public Boolean wasProfileVisited(Profile p) {
-			
-			int id = p.getId();
 		
+			System.out.println("wasProfileVisited wird ausgeführt.");
+			
 			  // DB-Verbindung holen
 		    Connection con = DBConnection.connection();
-
+		    Vector<ProfileVisit> result = new Vector<ProfileVisit>();
+		    
 		    try {
 		      // Leeres SQL-Statement (JDBC) anlegen
 		      Statement stmt = con.createStatement();
 
 		      // Statement ausfüllen und als Query an die DB schicken
-		      ResultSet rs = stmt
-		          .executeQuery("SELECT id, visitedProfileId FROM profileVisits "
-		              + "WHERE id=" + id);
-		      int value = rs.getInt("visitedProfileId");
+		      ResultSet rs = stmt.executeQuery("SELECT id, visitedProfileId FROM profileVisits "
+		              + "WHERE visitedProfileId=" + p.getId());
 		      
-		      if (value == 0){
-		    	  return false;
-		      }else{
-		    	  return true;
-		      }
+		      while (rs.next()) {
+			        ProfileVisit pv = new ProfileVisit();
+			        pv.setId(rs.getInt("id"));
+			        pv.setVisitingProfileId(rs.getInt("visitingProfileId"));
+			        pv.setVisitedProfileId(rs.getInt("visitedProfileId"));
+			        pv.setTimestamp(rs.getDate("timestamp"));
+
+			        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+			        
+			        result.addElement(pv);
+			      }
 		    }
 		      
 			    catch (SQLException e) {
 				      e.printStackTrace();
 				      return null;
 				    }
+		    
+		    if (result.isEmpty())	{
+		    	return false;
 		    }
+		    
+		    else {return true;}
+		    
+		    
+		}
 }
+		    
+		    
 		     

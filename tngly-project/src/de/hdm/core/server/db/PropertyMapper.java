@@ -5,6 +5,8 @@ import java.util.Vector;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.InfoPropertyConnection;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.Description;
+import de.hdm.core.shared.bo.Selection;
 
 
 public class PropertyMapper {
@@ -160,10 +162,47 @@ public InfoPropertyConnection InfoPropertyConnection(InfoPropertyConnection i) {
   }
 
 public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
-	return profiles;
-	// TODO Auto-generated method stub
+	
+	  // DB-Verbindung holen
+    Connection con = DBConnection.connection();
+
+   for (Profile p : profiles)	{
+    try {
+      // Leeres SQL-Statement (JDBC) anlegen
+      Statement stmt = con.createStatement();
+
+      // Statement ausfüllen und als Query an die DB schicken
+      ResultSet rs = stmt
+          .executeQuery("SELECT id, textualDescription FROM properties"
+              + "WHERE type=description");
+      
+      while (rs.next()) {
+      	Description pr = new Description();
+          pr.setId(rs.getInt("id"));
+          pr.setTextualDescription(rs.getString("textualDescription"));
+          p.getDescriptionList().add(pr);
+        }
+      
+      ResultSet rs2 = stmt
+              .executeQuery("SELECT id, textualDescription FROM properties"
+                  + "WHERE type=selection");
+      
+      while (rs.next()) {
+        	Selection se = new Selection();
+            se.setId(rs.getInt("id"));
+            se.setTextualDescription(rs.getString("textualDescription"));
+            p.getSelectionList().add(se);
+          }
+      
+    }
+    
+    catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
 	
 }
- 
+return profiles;
+}
 }
 

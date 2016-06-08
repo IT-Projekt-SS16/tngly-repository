@@ -14,7 +14,7 @@ public class Selection extends Property implements Serializable{
 	private ArrayList<String> items;
 	
 	//InformationValues from Information table
-	private ArrayList<String> informationValues;
+	private ArrayList<Information> informationValues;
 	
 	/*
 	 * Operations
@@ -35,11 +35,11 @@ public class Selection extends Property implements Serializable{
 		this.items.remove(this.items.indexOf(oldItem));
 	}
 
-	public ArrayList<String> getInformationValues() {
+	public ArrayList<Information> getInformationValues() {
 		return informationValues;
 	}
 
-	public void setInformationValues(ArrayList<String> informationValues) {
+	public void setInformationValues(ArrayList<Information> informationValues) {
 		this.informationValues = informationValues;
 	}
 }
