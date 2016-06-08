@@ -338,7 +338,7 @@ public class EditProfileView extends Update {
 		final CheckBox chkQueen = new CheckBox();
 		
 		
-		t3.setText(0,0, "Favourit Band(s)");
+		t3.setText(0,0, "Favourite Band(s)");
 		t3.setWidget(0, 1, t4);
 		t4.setText(0, 0, "Metallica");
 		t4.setWidget(0,1, chkMetallica);
@@ -361,7 +361,7 @@ public class EditProfileView extends Update {
 		
 		FlexTable t5 = new FlexTable();
 		
-		t3.setText(1,0, "Favourit Movie(s)");
+		t3.setText(1,0, "Favourite Movie(s)");
 		t3.setWidget(1, 1, t5);
 		t5.setText(0, 0, "Titanic");
 		t5.setWidget(0,1, chkTitanic);
