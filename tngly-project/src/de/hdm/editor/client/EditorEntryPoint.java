@@ -181,7 +181,7 @@ public class EditorEntryPoint implements EntryPoint {
 				searchProfilButton.setStylePrimaryName("tngly-Profilebutton");
 				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
 				profileListsButton.setStylePrimaryName("tngly-menubutton");
-				Update update = new SearchProfileView();
+				Update update = new SearchByProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -224,7 +224,7 @@ public class EditorEntryPoint implements EntryPoint {
 
 		signOutButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Update update = new SearchProfileView();
+				Update update = new SearchByProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}

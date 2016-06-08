@@ -1,5 +1,6 @@
 package de.hdm.editor.client;
 
+import java.awt.Checkbox;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -301,28 +302,28 @@ public class EditProfileView extends Update {
 //		}
 //		
 		
-		RadioButton soccerButton = new RadioButton("Soccer");
-		RadioButton baseballButton = new RadioButton("Baseball");
-		RadioButton volleyballButton = new RadioButton("Volleyball");
-		RadioButton basketballButton = new RadioButton("Basketball");
-		RadioButton golfButton = new RadioButton("Golf");
+		final CheckBox chkSoccer = new CheckBox();
+		final CheckBox chkBaseball = new CheckBox();
+		final CheckBox chkVolleyball = new CheckBox();
+		final CheckBox chkBasketball = new CheckBox();
+		final CheckBox chkGolf = new CheckBox();
 		
 		FlexTable t2 = new FlexTable();
 		
 		t2.setText(0, 0, "Soccer");
-		t2.setWidget(0, 1, soccerButton);
+		t2.setWidget(0, 1, chkSoccer);
 		
 		t2.setText(1, 0, "Baseball");
-		t2.setWidget(1, 1, baseballButton);
+		t2.setWidget(1, 1, chkBaseball);
 		
 		t2.setText(2, 0, "Volleyball");
-		t2.setWidget(2, 1, volleyballButton);
+		t2.setWidget(2, 1, chkVolleyball);
 		
 		t2.setText(3, 0, "Basketball");
-		t2.setWidget(3, 1, basketballButton);
+		t2.setWidget(3, 1, chkBasketball);
 		
 		t2.setText(4, 0, "Golf");
-		t2.setWidget(4, 1, golfButton);
+		t2.setWidget(4, 1, chkGolf);
 		
 		t.setWidget(10, 1, t2);
 		
