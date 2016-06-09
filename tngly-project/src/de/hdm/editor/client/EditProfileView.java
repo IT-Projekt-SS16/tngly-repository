@@ -425,9 +425,7 @@ public class EditProfileView extends Update {
 				logger.info("getUserProfile war null.");
 				Profile temp = new Profile();
 
-				int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-
-				temp.setUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex));
+				temp.setUserName(tbun.getText());
 
 				logger.info("Profile+DateTimeFormat instantiiert");
 

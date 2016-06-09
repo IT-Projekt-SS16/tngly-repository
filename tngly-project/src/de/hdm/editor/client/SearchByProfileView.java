@@ -606,12 +606,12 @@ public class SearchByProfileView extends Update {
 
 				ClientsideSettings.getAdministration().searchAndCompareProfiles(temp, new CompareCallback());
 
-//				Update update = new ShowProfilesView();
-//
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(update);
-//
-//				logger.info("Erfolgreicher Reswitch.");
+				Update update = new ShowProfilesView();
+
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+
+				logger.info("Erfolgreicher Reswitch.");
 
 			}
 		});
