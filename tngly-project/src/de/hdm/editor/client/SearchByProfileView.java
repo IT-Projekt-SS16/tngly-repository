@@ -212,7 +212,8 @@ public class SearchByProfileView extends Update {
 			verPanel.add(genderBox);
 		}  
 		  
-	
+		t.setText(0, 4, "Any");
+		t.setWidget(0,5, chkGenderAny);
 
 		chkGenderAny.addClickHandler(new ClickHandler() {
 		      @Override
