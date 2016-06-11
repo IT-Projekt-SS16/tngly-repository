@@ -2,6 +2,7 @@ package de.hdm.core.server;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Logger;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -242,6 +243,15 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
 		Profile reference = ServersideSettings.getUserProfile();
+		
+		Logger logger = ClientsideSettings.getLogger();
+		logger.info("searchForProperties + searchForInformationValues ausgeführt:");
+		
+		for (int x = 0; x<profiles.size(); x++)	{
+			Profile p = profiles.get(x);
+			
+			logger.info("Informationen zB:" + p.getId());
+		}
 		
 		for (int x = 0; x<profiles.size(); x++){
 			Profile p = profiles.get(x);

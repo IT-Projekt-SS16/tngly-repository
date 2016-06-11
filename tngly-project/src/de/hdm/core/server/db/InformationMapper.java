@@ -27,6 +27,7 @@ public class InformationMapper {
 	}
 
 	private static InformationMapper informationMapper = null;
+	private ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
 
 	protected InformationMapper() {
 	}
@@ -116,7 +117,7 @@ public class InformationMapper {
 					Statement stmt = con.createStatement();
 
 					// Statement ausfüllen und als Query an die DB schicken
-					String sql0 = "SELECT id, value, profileId, propertyId, timestamp FROM information WHERE profileId="
+					String sql0 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 							+ p.getId() + " AND propertyId=" + d.getId();
 					ResultSet rs = stmt.executeQuery(sql0);
 					
@@ -128,8 +129,13 @@ public class InformationMapper {
 						i.setPropertyId(rs.getInt("propertyId"));
 					//	System.out.println(d.getInformationValues().toString());
 						
-						d.getInformationValues().add(i);
+						System.out.println("Informationsobjekt zum Adden initalisiert:");
+						System.out.println(i.getId() + " " + i.getValue() + " " + i.getProfileId() + " " + i.getPropertyId());
+						
+						informationValuesTemp.add(i);
 						}
+					
+					d.setInformationValues(informationValuesTemp);
 					
 
 					}
@@ -145,7 +151,7 @@ public class InformationMapper {
 						Statement stmt = con.createStatement();
 
 						// Statement ausfüllen und als Query an die DB schicken
-						String sql1 = "SELECT id, value, profileId, propertyId, timestamp FROM information WHERE profileId="
+						String sql1 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 								+ p.getId() + " AND propertyId=" + s.getId();
 						ResultSet rs = stmt.executeQuery(sql1);
 
@@ -155,8 +161,12 @@ public class InformationMapper {
 							i.setValue(rs.getString("value"));
 							i.setProfileId(rs.getInt("profileId"));
 							i.setPropertyId(rs.getInt("propertyId"));
-							s.getInformationValues().add(i);
+							
+							informationValuesTemp.add(i);
 						}
+						
+						s.setInformationValues(informationValuesTemp);
+						
 					} catch (SQLException e) {
 						e.printStackTrace();
 						return null;
