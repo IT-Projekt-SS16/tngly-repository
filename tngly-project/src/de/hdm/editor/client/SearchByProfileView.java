@@ -34,7 +34,7 @@ public class SearchByProfileView extends Update {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "Search By Profile View";
+		return "";
 	}
 
 	/**
@@ -212,9 +212,8 @@ public class SearchByProfileView extends Update {
 			verPanel.add(genderBox);
 		}  
 		  
-		t.setText(0, 4, "Any:");
-		t.setWidget(0, 5, chkGenderAny);
-	
+		t.setText(0, 4, "Any");
+		t.setWidget(0,5, chkGenderAny);
 
 		chkGenderAny.addClickHandler(new ClickHandler() {
 		      @Override
@@ -241,9 +240,9 @@ public class SearchByProfileView extends Update {
 		
 		if (ClientsideSettings.getSearchProfile() == null) {
 			t.setText(1, 0, "Age Range");
-			t.setText(2, 0, "From:");
+			t.setText(2, 0, "From");
 			t.setWidget(2, 1, tbAgeRangeFrom);
-			t.setText(2, 2, "To:");
+			t.setText(2, 2, "To");
 			t.setWidget(2, 3, tbAgeRangeTo);
 		} else {
 			tbAgeRangeFrom.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeFrom()));
@@ -251,7 +250,7 @@ public class SearchByProfileView extends Update {
 			tbAgeRangeTo.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeTo()));
 			t.setWidget(2, 3, tbAgeRangeTo);
 		}
-		t.setText(2, 4, "Any:");
+		t.setText(2, 4, "Any");
 		t.setWidget(2, 5, chkAgeAny);
 		
 		chkAgeAny.addClickHandler(new ClickHandler() {
@@ -280,7 +279,7 @@ public class SearchByProfileView extends Update {
 
 
 		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setText(3, 0, "Body Height:");
+			t.setText(3, 0, "Body Height");
 			t.setWidget(4, 1, tbHeightRangeFrom);
 			t.setText(4, 0, "From");
 			t.setWidget(4,3,tbHeightRangeTo);
@@ -291,7 +290,7 @@ public class SearchByProfileView extends Update {
 			tbHeightRangeTo.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightTo()));
 			t.setWidget(4,3,tbHeightRangeTo);
 		}
-		t.setText(4, 4, "Any:");
+		t.setText(4, 4, "Any");
 		t.setWidget(4, 5,chkBodyHeightAny);
 		//verPanel.add(anyCheck);
 		chkBodyHeightAny.addClickHandler(new ClickHandler() {
@@ -328,7 +327,7 @@ public class SearchByProfileView extends Update {
 			hairColourList.setItemSelected(index, true);
 			verPanel.add(hairColourList);
 		}
-		t.setText(5,4, "Any:");
+		t.setText(5,4, "Any");
 		t.setWidget(5,5,chkHairColourAny);
 		//verPanel.add(anyCheck);
 		chkHairColourAny.addClickHandler(new ClickHandler() {
@@ -343,14 +342,14 @@ public class SearchByProfileView extends Update {
 		      }
 		    });
 
-		t.setText(6, 0, "Smoker:");
+		t.setText(6, 0, "Smoker");
 		if (ClientsideSettings.getSearchProfile() == null) {
 			t.setWidget(6, 1, isSmokingBox);
 		} else {
 			isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(), true);
 			t.setWidget(6, 1, isSmokingBox);
 		}
-		t.setText(6, 4, "Any:");
+		t.setText(6, 4, "Any");
 		t.setWidget(6,5,chkSmokerAny);
 		//verPanel.add(anyCheck);
 		chkSmokerAny.addClickHandler(new ClickHandler() {
@@ -365,7 +364,7 @@ public class SearchByProfileView extends Update {
 		      }
 		    });
 
-		t.setText(7, 0, "Confession:");
+		t.setText(7, 0, "Confession");
 		if (ClientsideSettings.getSearchProfile() == null) {
 			t.setWidget(7, 1, confessionBox);
 		} else {
@@ -392,7 +391,7 @@ public class SearchByProfileView extends Update {
 			confessionBox.setItemSelected(index, true);
 			t.setWidget(7, 1, confessionBox);
 		}
-		t.setText(7, 4, "Any:");
+		t.setText(7, 4, "Any");
 		t.setWidget(7, 5,chkConfessionAny);
 		//verPanel.add(anyCheck);
 		chkConfessionAny.addClickHandler(new ClickHandler() {
@@ -407,28 +406,59 @@ public class SearchByProfileView extends Update {
 		      }
 		    });
 
-		t.setText(8, 0, "Hobbies:");
-		if (ClientsideSettings.getUserProfile() == null) {
-			t.setWidget(8, 1, myHobbiesSelect);
-		} else {
-			int index;
-			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
-				index = 0;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
-				index = 1;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
-				index = 2;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
-				index = 3;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
-				index = 4;
-			} else {
-				index = 5;
-			}
-			myHobbiesSelect.setItemSelected(index, true);
-			t.setWidget(8, 1, myHobbiesSelect);
-
-		}
+			
+			t.setText(10,0, "Hobbies");
+//			if (ClientsideSettings.getUserProfile() == null) {
+//			t.setWidget(10, 1, myHobbiesSelect);
+//			} else {
+//				int index;
+//				if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
+//					index = 0;
+//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
+//					index = 1;
+//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
+//					index = 2;
+//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
+//					index = 3;
+//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
+//					index = 4;
+//				} else {
+//					index = 5;
+//				}
+//				myHobbiesSelect.setItemSelected(index, true);
+//				t.setWidget(10, 1, myHobbiesSelect);
+//				
+//						
+//			}
+//			
+			
+			final CheckBox chkSoccer = new CheckBox();
+			final CheckBox chkBaseball = new CheckBox();
+			final CheckBox chkVolleyball = new CheckBox();
+			final CheckBox chkBasketball = new CheckBox();
+			final CheckBox chkGolf = new CheckBox();
+			
+			FlexTable t2 = new FlexTable();
+			
+			t2.setText(0, 0, "Soccer");
+			t2.setWidget(0, 1, chkSoccer);
+			
+			t2.setText(1, 0, "Baseball");
+			t2.setWidget(1, 1, chkBaseball);
+			
+			t2.setText(2, 0, "Volleyball");
+			t2.setWidget(2, 1, chkVolleyball);
+			
+			t2.setText(3, 0, "Basketball");
+			t2.setWidget(3, 1, chkBasketball);
+			
+			t2.setText(4, 0, "Golf");
+			t2.setWidget(4, 1, chkGolf);
+			
+			t.setWidget(10, 1, t2);
+			
+	
+		
 		verPanel.add(t);
 		RootPanel.get("Details").add(t);
 		
@@ -441,7 +471,7 @@ public class SearchByProfileView extends Update {
 		showProfilesButton.setStyleName("tngly-button");
 		t.setWidget(9, 1, showProfilesButton);
 		
-		
+		RootPanel.get("Details").add(showProfilesButton);
 
 		showProfilesButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

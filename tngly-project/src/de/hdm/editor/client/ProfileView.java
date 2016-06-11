@@ -24,7 +24,7 @@ public class ProfileView extends Update {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "Profile View";
+		return "";
 	}
 
 	@Override

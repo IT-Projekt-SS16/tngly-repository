@@ -1,5 +1,6 @@
 package de.hdm.editor.client;
 
+import java.awt.Checkbox;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -8,10 +9,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -33,7 +36,7 @@ public class EditProfileView extends Update {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "EDIT VIEW";
+		return "";
 	}
 
 	/**
@@ -55,17 +58,15 @@ public class EditProfileView extends Update {
 					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), new FindCallback());
 		}
 
+		
+		
 		VerticalPanel verPanel = new VerticalPanel();
 		VerticalPanel verPanel2 = new VerticalPanel();
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
 		
 		
-		HorizontalPanel horPanel = new HorizontalPanel();
-		horPanel.add(verPanel);
-		horPanel.add(verPanel2);
 		
-		RootPanel.get("Details").add(horPanel);
 
 		final TextBox tbun = new TextBox();
 		tbun.setPixelSize(120, 15);
@@ -75,6 +76,7 @@ public class EditProfileView extends Update {
 		tbn.setPixelSize(120, 15);
 		final TextBox tbbh = new TextBox();
 		tbbh.setPixelSize(120, 15);
+		
 
 		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(1);
@@ -155,6 +157,8 @@ public class EditProfileView extends Update {
 			logger.info("Result: NULL");
 		}
 
+		
+		
 		FlexTable t = new FlexTable();
 		
 		
@@ -164,7 +168,7 @@ public class EditProfileView extends Update {
 		example.setStyleName("username-Example");
 		t.setWidget(1, 1, example);
 		
-		t.setText(2,0,"First Name:");
+		t.setText(2,0,"First Name");
 		
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(2,1,tbfn);
@@ -173,7 +177,7 @@ public class EditProfileView extends Update {
 			t.setWidget(2,1,tbfn);
 		}
 		
-		t.setText(3, 0, "Last Name:");
+		t.setText(3, 0, "Last Name");
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(3,1,tbn);
 		} else {
@@ -197,7 +201,7 @@ public class EditProfileView extends Update {
 			t.setWidget(4, 1, genderBox);
 		}  
 		
-		t.setText(5, 0, "Date of Birth:");
+		t.setText(5, 0, "Date of Birth");
 		if (ClientsideSettings.getUserProfile() == null) {
 		t.setWidget(5,1,datePicker);
 		} else {
@@ -214,7 +218,7 @@ public class EditProfileView extends Update {
 			t.setWidget(6,1,tbbh);
 		}
 
-		t.setText(7, 0, "Haircolor:");;
+		t.setText(7, 0, "Haircolor");;
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(7,1,hairColourList);
 		} else {
@@ -234,7 +238,7 @@ public class EditProfileView extends Update {
 			t.setWidget(7,1,hairColourList);
 		}
 
-		t.setText(8, 0, "Smoker:");
+		t.setText(8, 0, "Smoker");
 		if (ClientsideSettings.getUserProfile() == null) {
 			t.setWidget(8, 1, isSmokingBox);
 		} else {
@@ -270,36 +274,116 @@ public class EditProfileView extends Update {
 			t.setWidget(9, 1, confessionBox);
 		}
 		
-		t.setText(10,0, "My Hobbies:");
-		if (ClientsideSettings.getUserProfile() == null) {
-		t.setWidget(10, 1, myHobbiesSelect);
-		} else {
-			int index;
-			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
-				index = 0;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
-				index = 1;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
-				index = 2;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
-				index = 3;
-			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
-				index = 4;
-			} else {
-				index = 5;
-			}
-			myHobbiesSelect.setItemSelected(index, true);
-			t.setWidget(10, 1, myHobbiesSelect);
-			
-					
-		}
+		t.setText(10,0, "Hobbies");
+//		if (ClientsideSettings.getUserProfile() == null) {
+//		t.setWidget(10, 1, myHobbiesSelect);
+//		} else {
+//			int index;
+//			if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
+//				index = 0;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
+//				index = 1;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
+//				index = 2;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
+//				index = 3;
+//			} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
+//				index = 4;
+//			} else {
+//				index = 5;
+//			}
+//			myHobbiesSelect.setItemSelected(index, true);
+//			t.setWidget(10, 1, myHobbiesSelect);
+//			
+//					
+//		}
+//		
 		
-		t.setText(11, 0, "This is how I describe myself:");
+		final CheckBox chkSoccer = new CheckBox();
+		final CheckBox chkBaseball = new CheckBox();
+		final CheckBox chkVolleyball = new CheckBox();
+		final CheckBox chkBasketball = new CheckBox();
+		final CheckBox chkGolf = new CheckBox();
+		
+		
+		FlexTable t2 = new FlexTable();
+		FlexTable t4 = new FlexTable();
+		
+		t2.setText(0, 0, "Soccer");
+		t2.setWidget(0, 1, chkSoccer);
+		
+		t2.setText(1, 0, "Baseball");
+		t2.setWidget(1, 1, chkBaseball);
+		
+		t2.setText(2, 0, "Volleyball");
+		t2.setWidget(2, 1, chkVolleyball);
+		
+		t2.setText(3, 0, "Basketball");
+		t2.setWidget(3, 1, chkBasketball);
+		
+		t2.setText(4, 0, "Golf");
+		t2.setWidget(4, 1, chkGolf);
+		
+		t.setWidget(10, 1, t2);
+		
+		FlexTable t3 = new FlexTable();
+		
+		t.setText(11, 0, "This is how I describe myself");
 		t.setWidget(11, 1, ta);
 		
+		final CheckBox chkMetallica = new CheckBox();
+        final CheckBox chkFooFighters = new CheckBox();
+        final CheckBox chkTheBeatles = new CheckBox();
+		final CheckBox chkTheBaseballs = new CheckBox();
+		final CheckBox chkQueen = new CheckBox();
+		
+		
+		t3.setText(0,0, "Favourite Band(s)");
+		t3.setWidget(0, 1, t4);
+		t4.setText(0, 0, "Metallica");
+		t4.setWidget(0,1, chkMetallica);
+		t4.setText(1, 0, "Foo Fighters");
+		t4.setWidget(1, 1, chkFooFighters);
+		t4.setText(2, 0, "The Beatles");
+		t4.setWidget(2, 1, chkTheBeatles);
+		t4.setText(2, 0, "The Beatles");
+		t4.setWidget(2, 1, chkTheBeatles);
+		t4.setText(3,0, "The Baseballs");
+		t4.setWidget(3, 1, chkTheBaseballs);
+		t4.setText(4,0, "Queen");
+		t4.setWidget(4, 1, chkQueen);
+		
+		final CheckBox chkTitanic = new CheckBox();
+        final CheckBox chkStarWars = new CheckBox();
+        final CheckBox chkTheHobbit = new CheckBox();
+		final CheckBox chkHarryPotter = new CheckBox();
+		final CheckBox chkTheRing = new CheckBox();
+		
+		FlexTable t5 = new FlexTable();
+		
+		t3.setText(1,0, "Favourite Movie(s)");
+		t3.setWidget(1, 1, t5);
+		t5.setText(0, 0, "Titanic");
+		t5.setWidget(0,1, chkTitanic);
+		t5.setText(1, 0, "StarWars");
+		t5.setWidget(1, 1, chkStarWars);
+		t5.setText(2, 0, "The Hobbit");
+		t5.setWidget(2, 1, chkTheHobbit);
+		t5.setText(2, 0, "HarryPotter");
+		t5.setWidget(2, 1, chkHarryPotter);
+		t5.setText(3,0, "The Ring");
+		t5.setWidget(3, 1, chkTheRing);
+			
 		
 		verPanel.add(t);
-		RootPanel.get("Details").add(t);
+		
+		verPanel2.add(t3);
+		
+		HorizontalPanel horPanel = new HorizontalPanel();
+		horPanel.add(verPanel);
+		horPanel.add(verPanel2);
+		
+		RootPanel.get("Details").add(horPanel);
 		
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStyleName("tngly-button");

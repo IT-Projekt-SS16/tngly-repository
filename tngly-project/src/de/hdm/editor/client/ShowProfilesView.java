@@ -22,7 +22,7 @@ import de.hdm.core.shared.bo.ProfileVisit;
 public class ShowProfilesView extends Update {
 
 	protected String getHeadlineText() {
-		return "Search Result";
+		return "";
 	}
 
 	@Override

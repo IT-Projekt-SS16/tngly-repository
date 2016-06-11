@@ -90,22 +90,51 @@ public class EditorEntryPoint implements EntryPoint {
 			}
 		});
 
-		HorizontalPanel horPanel = new HorizontalPanel();
+		VerticalPanel verPanel = new VerticalPanel();
+		HorizontalPanel logoutPanel = new HorizontalPanel();
+		
+		
+		RootPanel.get("Navigator").add(logoutPanel);
+		
+		RootPanel.get("Navigator").add(verPanel);
+		
+
+		final Button profileButton = new Button("MY PROFILE");
+		verPanel.add(profileButton);
+		
+		final Button editProfileButton = new Button("EDIT PROFILE");
+		editProfileButton.setStylePrimaryName("tngly-submenubutton");
+		verPanel.add(editProfileButton);
+
+		final Button profileListsButton = new Button("PROFILELISTS");
+		profileListsButton.setStylePrimaryName("tngly-menubutton");
+		verPanel.add(profileListsButton);
 
 		
-		RootPanel.get("Navigator").add(horPanel);
+		final Button wishlistButton = new Button("WISHLIST");
+		wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+		verPanel.add(wishlistButton);
+		
+		final Button banlistButton = new Button("BANLIST");
+		banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+		verPanel.add(banlistButton);
+		
+		final Button searchProfilButton = new Button("SEARCH PARTNER");
+		searchProfilButton.setStylePrimaryName("tngly-menubutton");
+		verPanel.add(searchProfilButton);
 
-		final Button profileButton = new Button("PROFILE");
 
-		profileButton.setStylePrimaryName("tngly-menubutton");
+		profileButton.setStylePrimaryName("tngly-EditProfileButton");
 
-		horPanel.add(profileButton);
-
+		
 		profileButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				/*
-				 * Showcase instantiieren.
-				 */
+				profileButton.setStylePrimaryName("tngly-Profilebutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				searchProfilButton.setStylePrimaryName("tngly-menubutton");
+				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
+				profileListsButton.setStylePrimaryName("tngly-menubutton");
 				Update update = new ProfileView();
 
 				RootPanel.get("Details").clear();
@@ -113,50 +142,89 @@ public class EditorEntryPoint implements EntryPoint {
 			}
 		});
 
-		final Button wishlistButton = new Button("WISHLIST");
-		wishlistButton.setStylePrimaryName("tngly-menubutton");
-		horPanel.add(wishlistButton);
-
-		wishlistButton.addClickHandler(new ClickHandler() {
+		profileListsButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				profileButton.setStylePrimaryName("tngly-menubutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubutton");
+				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				searchProfilButton.setStylePrimaryName("tngly-menubutton");
+				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
+				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
 				Update update = new WishlistView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
 		});
 
-		final Button searchProfilButton = new Button("SEARCH PROFILE");
-		searchProfilButton.setStylePrimaryName("tngly-menubutton");
-		horPanel.add(searchProfilButton);
+		
+		wishlistButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				profileButton.setStylePrimaryName("tngly-menubutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubutton");
+				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				searchProfilButton.setStylePrimaryName("tngly-menubutton");
+				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
+				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
+				Update update = new WishlistView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+			}
+		});
+
+	
 
 		searchProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Update update = new SearchProfileView();
+				profileButton.setStylePrimaryName("tngly-menubutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				searchProfilButton.setStylePrimaryName("tngly-Profilebutton");
+				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
+				profileListsButton.setStylePrimaryName("tngly-menubutton");
+				Update update = new SearchByProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
 		});
 		
-		final Button reportButton = new Button("GO TO REPORT");
-		reportButton.setStylePrimaryName("tngly-menubutton");
-		horPanel.add(reportButton);
-
-		reportButton.addClickHandler(new ClickHandler() {
+		banlistButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				profileButton.setStylePrimaryName("tngly-menubutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				banlistButton.setStylePrimaryName("tngly-submenubutton");
+				searchProfilButton.setStylePrimaryName("tngly-menubutton");
+				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
+				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
 				Update update = new BanView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
-
 		});
 		
+		
+		editProfileButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				profileButton.setStylePrimaryName("tngly-Profilebutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				searchProfilButton.setStylePrimaryName("tngly-menubutton");
+				editProfileButton.setStylePrimaryName("tngly-submenubutton");
+				profileListsButton.setStylePrimaryName("tngly-menubutton");
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+			}
+		});
+		
+	
+	
 		final Button signOutButton = new Button("SIGN OUT");
-		signOutButton.setStylePrimaryName("tngly-menubutton");
-		horPanel.add(signOutButton);
+		signOutButton.setStylePrimaryName("tngly-signoutButton");
+		logoutPanel.add(signOutButton);
 
 		signOutButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Update update = new SearchProfileView();
+				Update update = new SearchByProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -166,11 +234,9 @@ public class EditorEntryPoint implements EntryPoint {
 
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 
-		moduleLink.setHref(GWT.getHostPageBaseURL() + "Reportgenerator.html");
 
-		horPanel.add(signOutLink);
+		verPanel.add(signOutLink);
 
-		horPanel.add(moduleLink);
 		
 		Update update = new EditProfileView();
 		RootPanel.get("Details").clear();
