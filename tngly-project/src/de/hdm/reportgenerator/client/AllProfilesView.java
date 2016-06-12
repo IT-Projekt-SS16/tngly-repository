@@ -28,18 +28,18 @@ public class AllProfilesView extends UpdateReportGenerator {
 	 */
 	@Override
 	protected void run() {
-		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
-
-		if (ClientsideSettings.getUnseenOrAll()) {
-			reportGenerator.createAllProfilesReport("Unseen", new AllProfilesReportCallback());
-		} else {
-			reportGenerator.createAllProfilesReport("", new AllProfilesReportCallback());
-		}
-
-		this.append(ClientsideSettings.getAllProfilesReport());
+//		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
+//
+//		if (ClientsideSettings.getUnseenOrAll()) {
+//			reportGenerator.createAllProfilesReport("Unseen", new AllProfilesReportCallback());
+//		} else {
+//			reportGenerator.createAllProfilesReport("", new AllProfilesReportCallback());
+//		}
+//
+//		this.append(ClientsideSettings.getAllProfilesReport());
 	}
-
-}
+//
+//}
 
 class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
 
@@ -57,6 +57,8 @@ class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
 		}
 	}
 }
+}
+
 
 // BankAdministrationAsync bankVerwaltung =
 // ClientsideSettings.getBankVerwaltung();

@@ -90,7 +90,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 				/*
 				 * Showcase instantiieren.
 				 */
-				UpdateReportGenerator updateR = new SearchByProfileView();
+				UpdateReportGenerator updateR = new AllProfilesView();
 
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(updateR);
@@ -148,7 +148,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		RootPanel.get("Navigator").add(vp);
 		
-		UpdateReportGenerator updateR = new SearchByProfileView();
+		UpdateReportGenerator updateR = new AllProfilesView();
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(updateR);
 
