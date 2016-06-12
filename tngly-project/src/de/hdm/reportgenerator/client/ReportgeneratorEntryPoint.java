@@ -79,18 +79,18 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		RootPanel.get("Navigator").add(horPanel);
 
-		final Button allProfilesButton = new Button("All Profiles");
+		final Button queryProfilesButton = new Button("Query Profiles");
 
-		allProfilesButton.setStylePrimaryName("tngly-menubutton");
+		queryProfilesButton.setStylePrimaryName("tngly-menubutton");
 
-		horPanel.add(allProfilesButton);
+		horPanel.add(queryProfilesButton);
 
-		allProfilesButton.addClickHandler(new ClickHandler() {
+		queryProfilesButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				/*
 				 * Showcase instantiieren.
 				 */
-				UpdateReportGenerator updateR = new AllProfilesView();
+				UpdateReportGenerator updateR = new SearchByProfileView();
 
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(updateR);
@@ -142,13 +142,15 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		VerticalPanel vp = new VerticalPanel();
 
-		vp.add(new Label("I'm logged in to REPORTGENERATOR module!"));
-
 		vp.add(signOutLink);
 		
 		vp.add(moduleLink);
 
-		RootPanel.get("Details").add(vp);
+		RootPanel.get("Navigator").add(vp);
+		
+		UpdateReportGenerator updateR = new SearchByProfileView();
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(updateR);
 
 	}
 

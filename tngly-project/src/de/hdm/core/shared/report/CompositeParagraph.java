@@ -1,4 +1,4 @@
-package de.hdm.reportgenerator.shared;
+package de.hdm.core.shared.report;
 
 	import java.io.Serializable;
 	import java.util.Vector;

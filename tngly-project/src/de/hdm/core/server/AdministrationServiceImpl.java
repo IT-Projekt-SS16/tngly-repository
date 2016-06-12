@@ -271,6 +271,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
 		this.profileVisitMapper.delete(visitedProfiles);
 	}
+	
+	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException {
+		return this.profileVisitMapper.wasProfileVisited(profile);
+	}
 
 	@Override
 	public Wish addWishToWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException {

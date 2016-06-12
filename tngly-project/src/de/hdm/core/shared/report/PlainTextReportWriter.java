@@ -1,3 +1,4 @@
+package de.hdm.core.shared.report;
 //package de.hdm.reportgenerator.shared;
 //
 //
