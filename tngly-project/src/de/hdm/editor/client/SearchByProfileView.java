@@ -162,8 +162,8 @@ public class SearchByProfileView extends Update {
 		 
 	
 		// HorizontalPanel horizonPanel = new HorizontalPanel();
-		// Label firstWarning = new Label("Bitte füllen Sie alle nachfolgenden
-		// Felder vollständig aus!");
+		// Label firstWarning = new Label("Bitte fï¿½llen Sie alle nachfolgenden
+		// Felder vollstï¿½ndig aus!");
 		// firstWarning.setPixelSize(10, 10);
 		// horizonPanel.add(firstWarning);
 		// verPanel.add(horizonPanel);
@@ -547,12 +547,15 @@ public class SearchByProfileView extends Update {
 
 				logger.info("dateOfBirth CHECK");
 
-				// float f = Float.valueOf(tbbh.getText().trim()).floatValue();
-				// temp.setBodyHeight(f);
-
+				System.out.println("Line 553 executed");
+				
 				if (ageChecked == false){
 				temp.setAgeRangeFrom(Integer.parseInt(tbAgeRangeFrom.getText()));
 				temp.setAgeRangeTo(Integer.parseInt(tbAgeRangeTo.getText()));
+				
+				System.out.println("AgeRangeFrom: " + temp.getAgeRangeFrom());
+				System.out.println("AgeRangeTo: " + temp.getAgeRangeTo());
+				
 				} else{
 					temp.setAgeRangeFrom(0);
 					temp.setAgeRangeTo(0);
@@ -561,6 +564,10 @@ public class SearchByProfileView extends Update {
 				if (bodyHeightChecked == false){
 				temp.setBodyHeightFrom(Float.parseFloat(tbHeightRangeFrom.getText()));
 				temp.setBodyHeightTo(Float.parseFloat(tbHeightRangeTo.getText()));
+				
+				System.out.println("BodyHeightFrom: " + temp.getAgeRangeFrom());
+				System.out.println("BodyHeightTo: " + temp.getAgeRangeTo());
+				
 				} else{
 					temp.setBodyHeightFrom(0f);
 					temp.setBodyHeightTo(0f);

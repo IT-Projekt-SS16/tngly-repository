@@ -6,11 +6,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Logger;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import com.ibm.icu.util.Calendar;
 
+import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
 
@@ -32,6 +34,8 @@ public class ProfileMapper {
 
 		return profileMapper;
 	}
+	
+	Logger logger = ClientsideSettings.getLogger();
 
 	public Profile findByName(String id) {
 		// DB-Verbindung holen
@@ -255,6 +259,7 @@ public class ProfileMapper {
 			// Hier muss die Applikationslogik von Vornherein darauf achten,
 			// dass, wenn z.b. nur der von-Wert eingegeben wird, der bis-Wert
 			// automatisch aufgefüllt wird & vice versa
+			
 			if (searchProfile.getBodyHeightFrom() != 0f && searchProfile.getBodyHeightTo() != 0f) {
 				if (and == true) {
 					stringBuilder.append(" AND ");
@@ -322,6 +327,8 @@ public class ProfileMapper {
 			and = false;
 
 			String preparedStatement = stringBuilder.toString();
+	
+			logger.severe(preparedStatement);
 			System.out.println(preparedStatement);
 
 			ResultSet rs = stmt.executeQuery(preparedStatement);
