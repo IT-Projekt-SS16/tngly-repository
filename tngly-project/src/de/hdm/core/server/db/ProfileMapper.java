@@ -14,6 +14,7 @@ import com.ibm.icu.util.Calendar;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 
 /**
@@ -37,6 +38,51 @@ public class ProfileMapper {
 	
 	Logger logger = ClientsideSettings.getLogger();
 
+	 public Profile findByKey(int id) {
+		    // DB-Verbindung holen
+		    Connection con = DBConnection.connection();
+
+		    try {
+		      // Leeres SQL-Statement (JDBC) anlegen
+		      Statement stmt = con.createStatement();
+
+		      // Statement ausfüllen und als Query an die DB schicken
+		      ResultSet rs = stmt
+		          .executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
+							+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles " + "WHERE id='"
+							+ id + "' ORDER BY id");
+
+		      /*
+		       * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+		       * werden. Prüfe, ob ein Ergebnis vorliegt.
+		       */
+		      if (rs.next()) {
+		    	  
+		    	  Profile p = new Profile();
+					p.setId(rs.getInt("id"));
+					p.setUserName(rs.getString("userName"));
+					p.setName(rs.getString("name"));
+					p.setLastName(rs.getString("lastName"));
+					p.setDateOfBirth(rs.getDate("dateOfBirth"));
+					p.setGender(rs.getString("gender"));
+					p.setBodyHeight(rs.getFloat("bodyHeight"));
+					p.setHairColour(rs.getString("hairColour"));
+					p.setConfession(rs.getString("confession"));
+					p.setIsSmoking(rs.getInt("isSmoking"));
+
+		        return p;
+		      }
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		      return null;
+		    }
+
+		    return null;
+		  }
+	
+	
+	
 	public Profile findByName(String id) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
