@@ -109,11 +109,11 @@ public class ProfileVisitMapper {
 		    return result;
 		  }
 
-		  public Vector<ProfileVisit> findVisitedProfiles(int visitingProfileId) {
+		  public ArrayList<ProfileVisit> findVisitedProfiles(int visitingProfileId) {
 			  
 			    Connection con = DBConnection.connection();
 			    // Ergebnisvektor vorbereiten
-			    Vector<ProfileVisit> result = new Vector<ProfileVisit>();
+			    ArrayList<ProfileVisit> result = new ArrayList<ProfileVisit>();
 
 			    try {
 			      Statement stmt = con.createStatement();
@@ -132,7 +132,7 @@ public class ProfileVisitMapper {
 
 			        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 			        
-			        result.addElement(pv);
+			        result.add(pv);
 			      }
 			    }
 			    catch (SQLException e) {

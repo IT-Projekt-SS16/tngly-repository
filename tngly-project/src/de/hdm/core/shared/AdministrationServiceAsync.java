@@ -27,17 +27,6 @@ public interface AdministrationServiceAsync {
 	 */
 	public void init(AsyncCallback<Void> callback) throws IllegalArgumentException;
 
-//	/**
-//	 * Login Daten werden mit der Datenbank abgeglichen
-//	 */
-//	public void loginUser(boolean isReportGen, AsyncCallback<User> callback) throws IllegalArgumentException;
-//
-//	/**
-//	 * Durch den Logout wird die SessionID in der DB gespeichert und der
-//	 * Benutzer wird ausgeloggt
-//	 */
-//	public void logoutUser(boolean isReportGen, AsyncCallback<String> callback) throws IllegalArgumentException;
-
 	/**
 	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers am System.
 	 */
@@ -62,6 +51,8 @@ public interface AdministrationServiceAsync {
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	
+	public void wasProfileVisited(Profile profile, AsyncCallback<Boolean> callback) throws IllegalArgumentException;
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

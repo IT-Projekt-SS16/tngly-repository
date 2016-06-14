@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 
 public class ServersideSettings extends CommonSettings {
@@ -16,6 +17,8 @@ public class ServersideSettings extends CommonSettings {
 	public static final String PAGE_URL_REPORT = "http://OUR-APPENGINE-APPNAME.appspot.com/ReportGen.html";
 
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
+	
+	private static ArrayList<ProfileVisit> profilesVisited = null;
 	
 	/**
 	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
@@ -113,6 +116,14 @@ public class ServersideSettings extends CommonSettings {
 	
 	public static void setBanlist(ArrayList<Profile> banlist){
 		ServersideSettings.banlist = banlist;
+	}
+
+	public static ArrayList<ProfileVisit> getProfilesVisited() {
+		return profilesVisited;
+	}
+
+	public static void setProfilesVisited(ArrayList<ProfileVisit> profilesVisited) {
+		ServersideSettings.profilesVisited = profilesVisited;
 	}
 
 	/**

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-
 public class Profile implements Serializable, Comparable<Profile> {
 
 	/*
@@ -49,7 +48,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	// Is the person smoking? (e.g. yes, no)
 	private int isSmoking;
-	
+
 	private Boolean wasVisited;
 
 	private ArrayList<Wish> wishlist;
@@ -224,6 +223,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	public void equals(Profile p) {
 		int percentage = 0;
+		int addedPercentage = 100 / 7;
 		if (!(p instanceof Profile)) {
 			return;
 		}
@@ -231,37 +231,55 @@ public class Profile implements Serializable, Comparable<Profile> {
 		// Custom equality check here, so here you need to check only those
 		// fields which in your
 		// opinion will be unique in your objects
-		if (this.confession == p.confession){
-			percentage = percentage + 33;
-		}
-		else if (this.isSmoking == p.isSmoking){
-			percentage = percentage + 33;
-		}
-		
-		for (Selection s : this.selectionList){
-			for (Information i : s.getInformationValues()){
-				for (Selection sp : p.selectionList){
-					for (Information ip : sp.getInformationValues()){
-						if (i == ip){
-							percentage = percentage + 4;
+		// if (this.confession == p.confession){
+		// percentage = percentage + 33;
+		// }
+		// else if (this.isSmoking == p.isSmoking){
+		// percentage = percentage + 33;
+		// }
+
+		foo: for (Selection s : this.selectionList) {
+			for (Selection sp : p.selectionList) {
+		fooo:		for (Information i : s.getInformationValues()) {
+					for (Information ip : sp.getInformationValues()) {
+						if (i.getValue() == ip.getValue()) {
+							percentage = percentage + addedPercentage;
+							break foo;
+						}
+						else {
+							break fooo;
 						}
 					}
 				}
 			}
 		}
-		
+
+		foo: for (Description d : this.descriptionList) {
+			for (Information i : d.getInformationValues()) {
+				for (Description sp : p.descriptionList) {
+					for (Information ip : sp.getInformationValues()) {
+						if (i.getValue() == ip.getValue()) {
+							percentage = percentage + addedPercentage;
+							break foo;
+						}
+					}
+				}
+			}
+		}
+
 		this.similiarityToReference = percentage;
 	}
 
 	@Override
 	public String toString() {
 		Date dateBirth = this.dateOfBirth;
-		Date dateNow = new Date();  
-		int age = dateNow.getYear() - dateBirth.getYear(); 
-		
-		return this.userName + "\n" + this.name + " " + this.lastName + ", " + this.gender + ", " 
-		+ age + " (" + this.similiarityToReference + "%)";
-//		return super.toString() + " " + this.name + " " + this.lastName + " aka " + this.userName;
+		Date dateNow = new Date();
+		int age = dateNow.getYear() - dateBirth.getYear();
+
+		return this.userName + "\n" + this.name + " " + this.lastName + ", " + this.gender + ", " + age + " ("
+				+ this.similiarityToReference + "%)";
+		// return super.toString() + " " + this.name + " " + this.lastName + "
+		// aka " + this.userName;
 	}
 
 	@Override

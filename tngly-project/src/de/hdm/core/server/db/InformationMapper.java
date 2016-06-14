@@ -14,198 +14,200 @@ import java.util.Date;
 
 public class InformationMapper {
 
-
 	/**
 	 * Übernommen & angepasst von: @author Thies
 	 */
-	
-	  public static InformationMapper getInformationMapper() {
-			return informationMapper;
+
+	public static InformationMapper getInformationMapper() {
+		return informationMapper;
+	}
+
+	public static void setInformationMapper(InformationMapper informationMapper) {
+		InformationMapper.informationMapper = informationMapper;
+	}
+
+	private static InformationMapper informationMapper = null;
+	private ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
+
+	protected InformationMapper() {
+	}
+
+	public static InformationMapper informationMapper() {
+		if (informationMapper == null) {
+			informationMapper = new InformationMapper();
 		}
 
-		public static void setInformationMapper(InformationMapper informationMapper) {
-			InformationMapper.informationMapper = informationMapper;
-		}
+		return informationMapper;
+	}
 
-		  private static InformationMapper informationMapper = null;
+	public Information insert(Information in) {
 
-	  protected InformationMapper() {
-	  }
+		Connection con = DBConnection.connection();
 
+		try {
+			Statement stmt = con.createStatement();
 
-	  
-	  
-	  
-	  public static InformationMapper informationMapper() {
-	    if (informationMapper == null) {
-	    	informationMapper = new InformationMapper();
-	    }
+			/*
+			 * Zunächst schauen wir nach, welches der momentan höchste
+			 * Primärschlüsselwert ist.
+			 */
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM information");
 
-	    return informationMapper;
-	  }
-	  
-	  public Information insert(Information in) {
-		  
-		    Connection con = DBConnection.connection();
+			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			if (rs.next()) {
+				/*
+				 * c erhält den bisher maximalen, nun um 1 inkrementierten
+				 * Primärschlüssel.
+				 */
+				in.setId(rs.getInt("maxid") + 1);
 
-		    try {
-		      Statement stmt = con.createStatement();
-
-		      /*
-		       * Zunächst schauen wir nach, welches der momentan höchste
-		       * Primärschlüsselwert ist.
-		       */
-		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-		          + "FROM information");
-
-		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-		      if (rs.next()) {
-		        /*
-		         * c erhält den bisher maximalen, nun um 1 inkrementierten
-		         * Primärschlüssel.
-		         */
-		        in.setId(rs.getInt("maxid") + 1);
-
-		        stmt = con.createStatement();
+				stmt = con.createStatement();
 
 				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
 				Date currentDate = new Date();
 				String date = mySQLformat.format(currentDate);
-				
-				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
-		        
-		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO information (id, value, propertyId, profileId, timestamp) "
-		            + "VALUES (" + in.getId() + ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId() + "','" + date + "')");
-		      }
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
 
-		    return in;
-		  }
+				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+
+				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				stmt.executeUpdate("INSERT INTO information (id, value, propertyId, profileId, timestamp) " + "VALUES ("
+						+ in.getId() + ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId()
+						+ "','" + date + "')");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return in;
+	}
 
 	public Information edit(Information in) {
-		
+
 		Connection con = DBConnection.connection();
 
-	    try {
-	      Statement stmt = con.createStatement();
-	      
+		try {
+			Statement stmt = con.createStatement();
+
 			SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
 			Date currentDate = new Date();
 			String date = mySQLformat.format(currentDate);
 
-	      stmt.executeUpdate("UPDATE information " + "SET value=\"" + in.getValue() + "\", " + "timestamp=\""
-					+ date + " WHERE id=" + in.getId());
+			stmt.executeUpdate("UPDATE information " + "SET value=\"" + in.getValue() + "\", " + "timestamp=\"" + date
+					+ " WHERE id=" + in.getId());
 
-	    }
-	    catch (SQLException e) {
-	      e.printStackTrace();
-	    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-	    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
-	    return in;
-		
+		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+		return in;
+
 	}
 
 	public ArrayList<Profile> searchForInformationValues(ArrayList<Profile> profiles) {
 
-		 // DB-Verbindung holen
-	    Connection con = DBConnection.connection();
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
 
-	   for (Profile p : profiles)	{
-		   for (Description d : p.getDescriptionList())	{
-			   
-			   try {
-				   // Leeres SQL-Statement (JDBC) anlegen
-				   Statement stmt = con.createStatement();
+		for (Profile p : profiles) {
+			for (Description d : p.getDescriptionList()) {
 
-				   // Statement ausfüllen und als Query an die DB schicken
-				   ResultSet rs = stmt
-						   .executeQuery("SELECT id, value, profileId, propertyId, timestamp FROM information"
-								   				+ "WHERE profileId=" + p.getId() + " AND propertyId=" + d.getId() );
-	      
-				   while (rs.next()) {
-					   Information i = new Information();
-					   i.setId(rs.getInt("id"));
-					   i.setValue(rs.getString("value"));
-					   i.setProfileId(rs.getInt("profileId"));
-					   i.setPropertyId(rs.getInt("propertyId"));
-					   d.getInformationValues().add(i);
-				   }
-			   }
-			   catch (SQLException e) {
-				   e.printStackTrace();
-				   return null;
-			   }
-			   
-			   for (Selection s : p.getSelectionList())	{
-				   
-				   try {
-					   // Leeres SQL-Statement (JDBC) anlegen
-					   Statement stmt = con.createStatement();
+				try {
+					// Leeres SQL-Statement (JDBC) anlegen
+					Statement stmt = con.createStatement();
 
-					   // Statement ausfüllen und als Query an die DB schicken
-					   ResultSet rs = stmt
-							   .executeQuery("SELECT id, value, profileId, propertyId, timestamp FROM information"
-									   				+ "WHERE profileId=" + p.getId() + " AND propertyId=" + s.getId() );
-		      
-					   while (rs.next()) {
-						   Information i = new Information();
-						   i.setId(rs.getInt("id"));
-						   i.setValue(rs.getString("value"));
-						   i.setProfileId(rs.getInt("profileId"));
-						   i.setPropertyId(rs.getInt("propertyId"));
-						   d.getInformationValues().add(i);
-					   }
-				   }
-				   catch (SQLException e) {
-					   e.printStackTrace();
-					   return null;
-				   }
-		
-	
+					// Statement ausfüllen und als Query an die DB schicken
+					String sql0 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
+							+ p.getId() + " AND propertyId=" + d.getId();
+					ResultSet rs = stmt.executeQuery(sql0);
+					
+					while (rs.next()) {
+						Information i = new Information();
+						i.setId(rs.getInt("id"));
+						i.setValue(rs.getString("value"));
+						i.setProfileId(rs.getInt("profileId"));
+						i.setPropertyId(rs.getInt("propertyId"));
+					//	System.out.println(d.getInformationValues().toString());
+						
+						System.out.println("Informationsobjekt zum Adden initalisiert:");
+						System.out.println(i.getId() + " " + i.getValue() + " " + i.getProfileId() + " " + i.getPropertyId());
+						
+						informationValuesTemp.add(i);
+						}
+					
+					d.setInformationValues(informationValuesTemp);
+					
 
-	}
-   }
-  }
-	return profiles;
+					}
+				 catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+
+				for (Selection s : p.getSelectionList()) {
+
+					try {
+						// Leeres SQL-Statement (JDBC) anlegen
+						Statement stmt = con.createStatement();
+
+						// Statement ausfüllen und als Query an die DB schicken
+						String sql1 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
+								+ p.getId() + " AND propertyId=" + s.getId();
+						ResultSet rs = stmt.executeQuery(sql1);
+
+						while (rs.next()) {
+							Information i = new Information();
+							i.setId(rs.getInt("id"));
+							i.setValue(rs.getString("value"));
+							i.setProfileId(rs.getInt("profileId"));
+							i.setPropertyId(rs.getInt("propertyId"));
+							
+							informationValuesTemp.add(i);
+						}
+						
+						s.setInformationValues(informationValuesTemp);
+						
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return null;
+					}
+
+				}
+			}
+		}
+		return profiles;
 	}
 
 	public void delete(Information in) {
-		
-		 Connection con = DBConnection.connection();
-	
-		    try {
-		      Statement stmt = con.createStatement();
-	
-		      stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
-		
+
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void edit(Profile profile) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void delete(Profile profile) {
 
-		 Connection con = DBConnection.connection();
-			
-		    try {
-		      Statement stmt = con.createStatement();
-		
-		      stmt.executeUpdate("DELETE FROM information " + "WHERE profileId=" + profile.getId());
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
-		
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM information " + "WHERE profileId=" + profile.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

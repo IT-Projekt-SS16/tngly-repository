@@ -11,9 +11,13 @@ import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.LoginInfo;
+import de.hdm.core.shared.ReportGenerator;
+import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.User;
+import de.hdm.core.shared.report.AllProfilesReport;
 
 public class ClientsideSettings extends CommonSettings {
 
@@ -24,7 +28,15 @@ public class ClientsideSettings extends CommonSettings {
 
 	private static AdministrationServiceAsync administration = null;
 	
+	private static ReportGeneratorAsync reportGenerator = null;
+	
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
+	
+	private static ArrayList<ProfileVisit> profilesVisited = null;
+	
+	private static Boolean unseenOrAll = null;
+	
+	private static String allProfilesReport = null;
 	
 	private static ArrayList<Profile> wishlist = null;
 	
@@ -106,6 +118,33 @@ public class ClientsideSettings extends CommonSettings {
 
 	public static void setProfilesFoundAndCompared(ArrayList<Profile> profilesFoundAndCompared) {
 		ClientsideSettings.profilesFoundAndCompared = profilesFoundAndCompared;
+	}
+
+
+	public static ArrayList<ProfileVisit> getProfilesVisited() {
+		return profilesVisited;
+	}
+
+	public static void setProfilesVisited(ArrayList<ProfileVisit> profilesVisited) {
+		ClientsideSettings.profilesVisited = profilesVisited;
+	}
+
+
+	public static Boolean getUnseenOrAll() {
+		return unseenOrAll;
+	}
+
+	public static void setUnseenOrAll(Boolean unseenOrAll) {
+		ClientsideSettings.unseenOrAll = unseenOrAll;
+	}
+
+
+	public static String getAllProfilesReport() {
+		return allProfilesReport;
+	}
+
+	public static void setAllProfilesReport(String allProfilesReport) {
+		ClientsideSettings.allProfilesReport = allProfilesReport;
 	}
 	
 	public static ArrayList<Profile> getWishlist(){
@@ -240,6 +279,49 @@ public class ClientsideSettings extends CommonSettings {
 
 		return administration;
 	}
+	
+	/**
+	   * <p>
+	   * Anlegen und Auslesen des applikationsweit eindeutigen ReportGenerators.
+	   * Diese Methode erstellt den ReportGenerator, sofern dieser noch nicht
+	   * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
+	   * zuvor angelegte Objekt zurückgegeben.
+	   * </p>
+	   * 
+	   * <p>
+	   * Der Aufruf dieser Methode erfolgt im Client z.B. durch
+	   * <code>ReportGeneratorAsync reportGenerator = ClientSideSettings.getReportGenerator()</code>
+	   * .
+	   * </p>
+	   * 
+	   * @return eindeutige Instanz des Typs <code>BankAdministrationAsync</code>
+	   * @author Peter Thies
+	   * @since 28.02.2012
+	   */
+	  public static ReportGeneratorAsync getReportGenerator() {
+	    // Gab es bislang noch keine ReportGenerator-Instanz, dann...
+	    if (reportGenerator == null) {
+	      // Zunächst instantiieren wir ReportGenerator
+	      reportGenerator = GWT.create(ReportGenerator.class);
+
+	      final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
+	        public void onFailure(Throwable caught) {
+	          ClientsideSettings.getLogger().severe(
+	              "Der ReportGenerator konnte nicht initialisiert werden!");
+	        }
+
+	        public void onSuccess(Void result) {
+	          ClientsideSettings.getLogger().info(
+	              "Der ReportGenerator wurde initialisiert.");
+	        }
+	      };
+
+	      reportGenerator.init(initReportGeneratorCallback);
+	    }
+
+	    // So, nun brauchen wir den ReportGenerator nur noch zurückzugeben.
+	    return reportGenerator;
+	  }
 
 	/**
 	 * <p>

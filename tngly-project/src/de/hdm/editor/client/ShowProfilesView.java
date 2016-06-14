@@ -77,7 +77,9 @@ public class ShowProfilesView extends Update {
 		ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
 		ClientsideSettings.getLogger().info(list.toString());
 
-		refreshData(profilesTable);
+//		refreshData(profilesTable);
+		
+		
 
 		profilesTable.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -228,14 +230,14 @@ public class ShowProfilesView extends Update {
 		});
 	}
 
-	private void refreshData(final FlexTable profilesTable) {
-		for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-			profilesTable.setWidget(i, 0, new CheckBox());
-			Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-			if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-				lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-			}
-			profilesTable.setWidget(i, 1, lblProfileTeaser);
-		}
-	}
+//	private void refreshData(final FlexTable profilesTable) {
+//		for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
+//			profilesTable.setWidget(i, 0, new CheckBox());
+//			Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
+//			if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
+//				lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
+//			}
+//			profilesTable.setWidget(i, 1, lblProfileTeaser);
+//		}
+//	}
 }
