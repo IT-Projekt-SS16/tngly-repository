@@ -18,20 +18,24 @@ public class ServersideSettings extends CommonSettings {
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
 	/**
-	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Instanz des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers.
 	 */
 	private static Profile userProfile = null;
 
 	/**
-	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche.
+	 * Instanz des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche.
 	 */
 	private static SearchProfile searchProfile = null;
 	
+	private static ArrayList<Profile> wishlist = null;
+	
+	private static ArrayList<Profile> banlist = null;
+	
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Rï¿½ckgeben des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
 	 * bereits zuvor angelegte Objekt zurueckgegeben.
 	 * </p>
@@ -46,7 +50,7 @@ public class ServersideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Setzen des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Setzen des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
 	 * bereits zuvor angelegte Objekt ueberschrieben.
 	 * </p>
@@ -60,8 +64,8 @@ public class ServersideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
+	 * Rï¿½ckgeben des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
 	 * das bereits zuvor angelegte Objekt zurueckgegeben.
 	 * </p>
 	 * 
@@ -75,8 +79,8 @@ public class ServersideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Setzen des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
+	 * Setzen des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
 	 * das bereits zuvor angelegte Objekt ueberschrieben.
 	 * </p>
 	 * 
@@ -93,6 +97,22 @@ public class ServersideSettings extends CommonSettings {
 
 	public static void setProfilesFoundAndCompared(ArrayList<Profile> profilesFoundAndCompared) {
 		ServersideSettings.profilesFoundAndCompared = profilesFoundAndCompared;
+	}
+	
+	public static ArrayList<Profile> getWishlist(){
+		return wishlist;
+	}
+
+	public static void setWishlist(ArrayList<Profile> wishlist){
+		ServersideSettings.wishlist = wishlist;
+	}
+	
+	public static ArrayList<Profile> getBanlist(){
+		return banlist;
+	}
+	
+	public static void setBanlist(ArrayList<Profile> banlist){
+		ServersideSettings.banlist = banlist;
 	}
 
 	/**
@@ -135,12 +155,12 @@ public class ServersideSettings extends CommonSettings {
 	 * <code>WARN</code>. Dies wuerde bedeuten, dass Sie keine <code>INFO</code>
 	 * -Meldungen wohl aber <code>WARN</code>- und <code>SEVERE</code>-Meldungen
 	 * erhielten. Wenn Sie also auch Log des Levels <code>INFO</code> wollten,
-	 * müssten Sie in dieser Datei <code>.level = INFO</code> setzen.
+	 * mï¿½ssten Sie in dieser Datei <code>.level = INFO</code> setzen.
 	 * </p>
 	 * 
 	 * Weitere Infos siehe Dokumentation zu Java Logging.
 	 * 
-	 * @return die Logger-Instanz für die Server-Seite
+	 * @return die Logger-Instanz fï¿½r die Server-Seite
 	 */
 	public static Logger getLogger() {
 		return log;

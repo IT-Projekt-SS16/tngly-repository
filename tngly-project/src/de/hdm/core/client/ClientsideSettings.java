@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-
+import de.hdm.core.server.ServersideSettings;
 import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
@@ -27,6 +27,8 @@ public class ClientsideSettings extends CommonSettings {
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
 	private static ArrayList<Profile> wishlist = null;
+	
+	private static ArrayList<Profile> banlist = null;
 	/**
 	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
 	 * des Benutzers.
@@ -114,6 +116,14 @@ public class ClientsideSettings extends CommonSettings {
 		ClientsideSettings.wishlist = wishlist;
 	}
 
+	public static ArrayList<Profile> getBanlist(){
+		return banlist;
+	}
+	
+	public static void setBanlist(ArrayList<Profile> banlist){
+		ClientsideSettings.banlist = banlist;
+	}
+	
 	private static LoginInfo loginInfo = null;
 
 	public static LoginInfo getLoginInfo() {

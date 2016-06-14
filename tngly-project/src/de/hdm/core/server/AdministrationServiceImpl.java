@@ -282,19 +282,55 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	}
 	
+	public ArrayList<Profile> wishlist(int wishingpId) throws IllegalArgumentException {
+		
+		ArrayList<Profile> wishlist = this.wishMapper.findWishedProfiles(wishingpId);
+		
+		
+		System.out.println("AdministrationServiceImpl: Output ArrayList:");
+		
+		for (int x = 0; x<wishlist.size(); x++)	{
+		System.out.println(wishlist.get(x).getId());
+		System.out.println(wishlist.get(x).getUserName());
+		System.out.println(wishlist.get(x).getName());
+		System.out.println(wishlist.get(x).getLastName());
+		System.out.println(wishlist.get(x).getDateOfBirth());
+		System.out.println(wishlist.get(x).getGender());
+		System.out.println("");
+		}
+		
+		//profiles = this.propertyMapper.searchForProperties(profiles);
+		//profiles = this.informationMapper.searchForInformationValues(profiles);
+		//Profile reference = ServersideSettings.getUserProfile();
+		
+		/**for (int x = 0; x<profiles.size(); x++){
+			Profile p = profiles.get(x);
+			p.equals(reference);
+		}
+		
+		Collections.sort(profiles, Collections.reverseOrder());
+		ServersideSettings.setProfilesFoundAndCompared(profiles);
+		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");**/
+		return wishlist;
+	}
+	
 
 	@Override
-	public ProfileBan createProfileBan(Profile bannedp, Profile banningp) throws IllegalArgumentException {
+	public ProfileBan createProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException {
 			ProfileBan pb = new ProfileBan();
-			pb.setBannedProfileId(bannedp.getId());
-			pb.setBanningProfileId(banningp.getId());
+			pb.setBannedProfileId(bannedpId);
+			pb.setBanningProfileId(banningpId);
 			pb.setId(1);
 			return this.profileBanMapper.insert(pb);
 	}
 
 	@Override
-	public void deleteProfileBan(Profile profile) throws IllegalArgumentException {
-		this.profileBanMapper.delete(profile);
+	public void deleteProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException {
+		ProfileBan pb = new ProfileBan();
+		pb.setBannedProfileId(bannedpId);
+		pb.setBanningProfileId(banningpId);
+		pb.setId(1);
+		this.profileBanMapper.delete(pb);
 
 	}
 

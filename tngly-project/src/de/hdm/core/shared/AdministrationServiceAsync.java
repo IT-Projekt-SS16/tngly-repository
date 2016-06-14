@@ -82,13 +82,13 @@ public interface AdministrationServiceAsync {
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um f�r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verf�gen.
 	 */
-	public void createProfileBan(Profile bannedp, Profile banningp, AsyncCallback<ProfileBan> callback) throws IllegalArgumentException;
+	public void createProfileBan(int bannedpId, int banningpId, AsyncCallback<ProfileBan> callback) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um die Kontaktsperre f�r ein gesehenes Partnerprofil zum eigenen Profil zu entfernen.
 	 */
-	public void deleteProfileBan(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	public void deleteProfileBan(int bannedpId, int banningpId, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	public void createProperty(AsyncCallback<Property> callback) throws IllegalArgumentException;
 
