@@ -11,13 +11,8 @@ import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.LoginInfo;
-<<<<<<< HEAD
 import de.hdm.core.shared.ReportGenerator;
 import de.hdm.core.shared.ReportGeneratorAsync;
-=======
-//import de.hdm.core.shared.ReportGenerator;
-//import de.hdm.core.shared.ReportGeneratorAsync;
->>>>>>> refs/heads/master
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
@@ -33,11 +28,7 @@ public class ClientsideSettings extends CommonSettings {
 
 	private static AdministrationServiceAsync administration = null;
 	
-<<<<<<< HEAD
 	private static ReportGeneratorAsync reportGenerator = null;
-=======
-	// private static ReportGeneratorAsync reportGenerator = null;
->>>>>>> refs/heads/master
 	
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
@@ -47,12 +38,9 @@ public class ClientsideSettings extends CommonSettings {
 	
 	private static String allProfilesReport = null;
 	
-<<<<<<< HEAD
 	private static ArrayList<Profile> wishlist = null;
 	
 	private static ArrayList<Profile> banlist = null;
-=======
->>>>>>> refs/heads/master
 	/**
 	 * Instanz des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers.
@@ -132,32 +120,6 @@ public class ClientsideSettings extends CommonSettings {
 		ClientsideSettings.profilesFoundAndCompared = profilesFoundAndCompared;
 	}
 
-
-	public static ArrayList<ProfileVisit> getProfilesVisited() {
-		return profilesVisited;
-	}
-
-	public static void setProfilesVisited(ArrayList<ProfileVisit> profilesVisited) {
-		ClientsideSettings.profilesVisited = profilesVisited;
-	}
-
-
-	public static Boolean getUnseenOrAll() {
-		return unseenOrAll;
-	}
-
-	public static void setUnseenOrAll(Boolean unseenOrAll) {
-		ClientsideSettings.unseenOrAll = unseenOrAll;
-	}
-
-
-	public static String getAllProfilesReport() {
-		return allProfilesReport;
-	}
-
-	public static void setAllProfilesReport(String allProfilesReport) {
-		ClientsideSettings.allProfilesReport = allProfilesReport;
-	}
 
 
 	public static ArrayList<ProfileVisit> getProfilesVisited() {
@@ -324,8 +286,7 @@ public class ClientsideSettings extends CommonSettings {
 	   * Anlegen und Auslesen des applikationsweit eindeutigen ReportGenerators.
 	   * Diese Methode erstellt den ReportGenerator, sofern dieser noch nicht
 	   * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
-<<<<<<< HEAD
-	   * zuvor angelegte Objekt zurückgegeben.
+	   * zuvor angelegte Objekt zurï¿½ckgegeben.
 	   * </p>
 	   * 
 	   * <p>
@@ -341,7 +302,7 @@ public class ClientsideSettings extends CommonSettings {
 	  public static ReportGeneratorAsync getReportGenerator() {
 	    // Gab es bislang noch keine ReportGenerator-Instanz, dann...
 	    if (reportGenerator == null) {
-	      // Zunächst instantiieren wir ReportGenerator
+	      // Zunï¿½chst instantiieren wir ReportGenerator
 	      reportGenerator = GWT.create(ReportGenerator.class);
 
 	      final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
@@ -359,51 +320,10 @@ public class ClientsideSettings extends CommonSettings {
 	      reportGenerator.init(initReportGeneratorCallback);
 	    }
 
-	    // So, nun brauchen wir den ReportGenerator nur noch zurückzugeben.
-	    return reportGenerator;
-	  }
-=======
-	   * zuvor angelegte Objekt zurï¿½ckgegeben.
-	   * </p>
-	   * 
-	   * <p>
-	   * Der Aufruf dieser Methode erfolgt im Client z.B. durch
-	   * <code>ReportGeneratorAsync reportGenerator = ClientSideSettings.getReportGenerator()</code>
-	   * .
-	   * </p>
-	   * 
-	   * @return eindeutige Instanz des Typs <code>BankAdministrationAsync</code>
-	   * @author Peter Thies
-	   * @since 28.02.2012
-	   */
-	/*
-	 *   public static ReportGeneratorAsync getReportGenerator() {
-	 *    // Gab es bislang noch keine ReportGenerator-Instanz, dann...
-	    if (reportGenerator == null) {
-	      // Zunï¿½chst instantiieren wir ReportGenerator
-	      reportGenerator = GWT.create(ReportGenerator.class);
-
-	      final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
-	        public void onFailure(Throwable caught) {
-	          ClientsideSettings.getLogger().severe(
-	              "Der ReportGenerator konnte nicht initialisiert werden!");
-	        }
-
-	        public void onSuccess(Void result) {
-	          ClientsideSettings.getLogger().info(
-	              "Der ReportGenerator wurde initialisiert.");
-	        }
-	      };
-
-	     // reportGenerator.init(initReportGeneratorCallback);
-	    }
-
 	    // So, nun brauchen wir den ReportGenerator nur noch zurï¿½ckzugeben.
 	    return reportGenerator;
 	  }
-	 */
 
->>>>>>> refs/heads/master
 
 	/**
 	 * <p>

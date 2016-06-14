@@ -547,23 +547,19 @@ public class SearchByProfileView extends Update {
 				logger.info("gender CHECK");
 
 				logger.info("dateOfBirth CHECK");
-<<<<<<< HEAD
 
 				System.out.println("Line 553 executed");
-=======
+
 				
 				logger.info("What the Heck is happening here?");
 				
 			//	int arf = Integer.parseInt(tbAgeRangeFrom.getText());
 			//	int art = Integer.parseInt(tbAgeRangeTo.getText());
 				
->>>>>>> refs/heads/master
 				
 				if (ageChecked == false){
-<<<<<<< HEAD
 				temp.setAgeRangeFrom(Integer.parseInt(tbAgeRangeFrom.getText()));
 				temp.setAgeRangeTo(Integer.parseInt(tbAgeRangeTo.getText()));
-=======
 					
 					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
 					int art = Integer.parseInt(tbAgeRangeTo.getText());
@@ -572,7 +568,6 @@ public class SearchByProfileView extends Update {
 					logger.info("AgeRangeTo: " + art);
 					temp.setAgeRangeFrom(arf);
 					temp.setAgeRangeTo(art);
->>>>>>> refs/heads/master
 				
 				System.out.println("AgeRangeFrom: " + temp.getAgeRangeFrom());
 				System.out.println("AgeRangeTo: " + temp.getAgeRangeTo());
@@ -583,13 +578,11 @@ public class SearchByProfileView extends Update {
 				}
 
 				if (bodyHeightChecked == false){
-<<<<<<< HEAD
 				temp.setBodyHeightFrom(Float.parseFloat(tbHeightRangeFrom.getText()));
 				temp.setBodyHeightTo(Float.parseFloat(tbHeightRangeTo.getText()));
 				
 				System.out.println("BodyHeightFrom: " + temp.getAgeRangeFrom());
 				System.out.println("BodyHeightTo: " + temp.getAgeRangeTo());
-=======
 					float bhf = Float.parseFloat(tbHeightRangeFrom.getText().trim());
 					float bht = Float.parseFloat(tbHeightRangeTo.getText().trim());
 					
@@ -599,7 +592,6 @@ public class SearchByProfileView extends Update {
 				temp.setBodyHeightFrom(bhf);
 				temp.setBodyHeightTo(bht);
 				
->>>>>>> refs/heads/master
 				
 				} else{
 					temp.setBodyHeightFrom(0f);
