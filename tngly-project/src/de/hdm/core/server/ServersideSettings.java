@@ -20,6 +20,8 @@ public class ServersideSettings extends CommonSettings {
 	
 	private static ArrayList<ProfileVisit> profilesVisited = null;
 	
+	private static ArrayList<ProfileVisit> profilesVisited = null;
+	
 	/**
 	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
 	 * des Benutzers.
@@ -116,6 +118,14 @@ public class ServersideSettings extends CommonSettings {
 	
 	public static void setBanlist(ArrayList<Profile> banlist){
 		ServersideSettings.banlist = banlist;
+	}
+
+	public static ArrayList<ProfileVisit> getProfilesVisited() {
+		return profilesVisited;
+	}
+
+	public static void setProfilesVisited(ArrayList<ProfileVisit> profilesVisited) {
+		ServersideSettings.profilesVisited = profilesVisited;
 	}
 
 	public static ArrayList<ProfileVisit> getProfilesVisited() {

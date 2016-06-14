@@ -261,7 +261,7 @@ public class ProfileVisitMapper {
 		      Statement stmt = con.createStatement();
 
 		      // Statement ausfüllen und als Query an die DB schicken
-		      ResultSet rs = stmt.executeQuery("SELECT id, visitedProfileId FROM profileVisits "
+		      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId FROM profileVisits "
 		              + "WHERE visitedProfileId=" + p.getId());
 		      
 		      while (rs.next()) {

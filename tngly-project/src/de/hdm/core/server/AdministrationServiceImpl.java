@@ -275,6 +275,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException {
 		return this.profileVisitMapper.wasProfileVisited(profile);
 	}
+	
+	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException {
+		return this.profileVisitMapper.wasProfileVisited(profile);
+	}
 
 	@Override
 	public Wish addWishToWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException {
