@@ -147,7 +147,7 @@ public class OtherProfileView extends Update {
 
 		banProfilButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
-		ClientsideSettings.getAdministration().createProfileBan(selectedProfile, ClientsideSettings.getUserProfile(), new CreateProfileBanCallback());
+		ClientsideSettings.getAdministration().createProfileBan(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(), new CreateProfileBanCallback());
 		
 		Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
 		"_self", "");
@@ -163,7 +163,7 @@ public class OtherProfileView extends Update {
 
 		banProfilButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
-		ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile,
+		ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(),
 		new DeleteCallback());
 		ClientsideSettings.setUserProfile(null);
 		Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
