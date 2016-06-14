@@ -483,10 +483,13 @@ public class SearchByProfileView extends Update {
 				boolean smokerChecked = chkSmokerAny.getValue();
 				boolean confessionChecked = chkConfessionAny.getValue();
 				
-				final TextBox tbAgeRangeFrom = new TextBox();
-				final TextBox tbAgeRangeTo = new TextBox();
-				final TextBox tbHeightRangeFrom = new TextBox();
-				final TextBox tbHeightRangeTo = new TextBox();
+				Logger logger = ClientsideSettings.getLogger();
+				logger.info("Erfolgreich onClick ausgefuehrt.");
+				
+				//final TextBox tbAgeRangeFrom = new TextBox();
+				//final TextBox tbAgeRangeTo = new TextBox();
+				//final TextBox tbHeightRangeFrom = new TextBox();
+				//final TextBox tbHeightRangeTo = new TextBox();
 				
 //				final String symbol4 = tbAgeRangeFrom.getText().toUpperCase().trim();
 //				if (!symbol4.matches("^[0-9\\.]{1,10}$")) {
@@ -517,8 +520,6 @@ public class SearchByProfileView extends Update {
 //				}
 
 
-				Logger logger = ClientsideSettings.getLogger();
-				logger.info("Erfolgreich onClick ausgefuehrt.");
 
 				logger.info("getUserProfile war null.");
 				SearchProfile temp = new SearchProfile();
@@ -546,12 +547,22 @@ public class SearchByProfileView extends Update {
 				logger.info("gender CHECK");
 
 				logger.info("dateOfBirth CHECK");
-
-				System.out.println("Line 553 executed");
+				
+				logger.info("What the Heck is happening here?");
+				
+			//	int arf = Integer.parseInt(tbAgeRangeFrom.getText());
+			//	int art = Integer.parseInt(tbAgeRangeTo.getText());
+				
 				
 				if (ageChecked == false){
-				temp.setAgeRangeFrom(Integer.parseInt(tbAgeRangeFrom.getText()));
-				temp.setAgeRangeTo(Integer.parseInt(tbAgeRangeTo.getText()));
+					
+					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
+					int art = Integer.parseInt(tbAgeRangeTo.getText());
+					
+					logger.info("AgeRangeFrom: " + arf);
+					logger.info("AgeRangeTo: " + art);
+					temp.setAgeRangeFrom(arf);
+					temp.setAgeRangeTo(art);
 				
 				System.out.println("AgeRangeFrom: " + temp.getAgeRangeFrom());
 				System.out.println("AgeRangeTo: " + temp.getAgeRangeTo());
@@ -562,11 +573,15 @@ public class SearchByProfileView extends Update {
 				}
 
 				if (bodyHeightChecked == false){
-				temp.setBodyHeightFrom(Float.parseFloat(tbHeightRangeFrom.getText()));
-				temp.setBodyHeightTo(Float.parseFloat(tbHeightRangeTo.getText()));
+					float bhf = Float.parseFloat(tbHeightRangeFrom.getText().trim());
+					float bht = Float.parseFloat(tbHeightRangeTo.getText().trim());
+					
+					logger.info("BodyHeightFrom: " + bhf);
+					logger.info("BodyHeightTo: " + bht);
+					
+				temp.setBodyHeightFrom(bhf);
+				temp.setBodyHeightTo(bht);
 				
-				System.out.println("BodyHeightFrom: " + temp.getAgeRangeFrom());
-				System.out.println("BodyHeightTo: " + temp.getAgeRangeTo());
 				
 				} else{
 					temp.setBodyHeightFrom(0f);

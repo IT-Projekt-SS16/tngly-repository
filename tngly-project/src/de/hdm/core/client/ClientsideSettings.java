@@ -11,8 +11,8 @@ import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.LoginInfo;
-import de.hdm.core.shared.ReportGenerator;
-import de.hdm.core.shared.ReportGeneratorAsync;
+//import de.hdm.core.shared.ReportGenerator;
+//import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
@@ -28,7 +28,7 @@ public class ClientsideSettings extends CommonSettings {
 
 	private static AdministrationServiceAsync administration = null;
 	
-	private static ReportGeneratorAsync reportGenerator = null;
+	// private static ReportGeneratorAsync reportGenerator = null;
 	
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
@@ -39,20 +39,20 @@ public class ClientsideSettings extends CommonSettings {
 	private static String allProfilesReport = null;
 	
 	/**
-	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Instanz des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers.
 	 */
 	private static Profile userProfile = null;
 
 	/**
-	 * Instanz des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche.
+	 * Instanz des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche.
 	 */
 	private static SearchProfile searchProfile = null;
 
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Rï¿½ckgeben des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
 	 * bereits zuvor angelegte Objekt zurueckgegeben.
 	 * </p>
@@ -67,7 +67,7 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Setzen des applikationsweit (für Client und Server) eindeutigen Profil
+	 * Setzen des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
 	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
 	 * bereits zuvor angelegte Objekt ueberschrieben.
 	 * </p>
@@ -81,8 +81,8 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
+	 * Rï¿½ckgeben des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
 	 * das bereits zuvor angelegte Objekt zurueckgegeben.
 	 * </p>
 	 * 
@@ -96,8 +96,8 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Setzen des applikationsweit (für Client und Server) eindeutigen Profil
-	 * für die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
+	 * Setzen des applikationsweit (fï¿½r Client und Server) eindeutigen Profil
+	 * fï¿½r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
 	 * das bereits zuvor angelegte Objekt ueberschrieben.
 	 * </p>
 	 * 
@@ -200,7 +200,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * Beachten Sie, dass Sie den auszugebenden Log nun nicht mehr durch
 	 * bedarfsweise Einfuegen und Auskommentieren etwa von
 	 * <code>System.out.println(...);</code> steuern. Sie belassen kuenftig
-	 * saemtliches Logging im Code und können ohne abermaliges Kompilieren den
+	 * saemtliches Logging im Code und kï¿½nnen ohne abermaliges Kompilieren den
 	 * Log Level "von aussen" durch die Datei <code>logging.properties</code>
 	 * steuern. Sie finden diese Datei in Ihrem <code>war/WEB-INF</code>-Ordner.
 	 * Der dort standardmaessig vorgegebene Log Level ist <code>WARN</code>.
@@ -212,7 +212,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * 
 	 * Weitere Infos siehe Dokumentation zu Java Logging.
 	 * 
-	 * @return die Logger-Instanz für die Server-Seite
+	 * @return die Logger-Instanz fï¿½r die Server-Seite
 	 */
 	public static Logger getLogger() {
 		return log;
@@ -240,7 +240,7 @@ public class ClientsideSettings extends CommonSettings {
 	public static AdministrationServiceAsync getAdministration() {
 		// Gab es bislang noch keine Administration-Instanz, dann...
 		if (administration == null) {
-			// Zunächst instantiieren wir Administration
+			// Zunï¿½chst instantiieren wir Administration
 			administration = GWT.create(AdministrationService.class);
 
 			final AsyncCallback<Void> initAdministrationCallback = new AsyncCallback<Void>() {
@@ -257,7 +257,7 @@ public class ClientsideSettings extends CommonSettings {
 			administration.init(initAdministrationCallback);
 		}
 
-		// So, nun brauchen wir die Administration nur noch zurückzugeben.
+		// So, nun brauchen wir die Administration nur noch zurï¿½ckzugeben.
 
 		return administration;
 	}
@@ -267,7 +267,7 @@ public class ClientsideSettings extends CommonSettings {
 	   * Anlegen und Auslesen des applikationsweit eindeutigen ReportGenerators.
 	   * Diese Methode erstellt den ReportGenerator, sofern dieser noch nicht
 	   * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
-	   * zuvor angelegte Objekt zurückgegeben.
+	   * zuvor angelegte Objekt zurï¿½ckgegeben.
 	   * </p>
 	   * 
 	   * <p>
@@ -280,10 +280,11 @@ public class ClientsideSettings extends CommonSettings {
 	   * @author Peter Thies
 	   * @since 28.02.2012
 	   */
-	  public static ReportGeneratorAsync getReportGenerator() {
-	    // Gab es bislang noch keine ReportGenerator-Instanz, dann...
+	/*
+	 *   public static ReportGeneratorAsync getReportGenerator() {
+	 *    // Gab es bislang noch keine ReportGenerator-Instanz, dann...
 	    if (reportGenerator == null) {
-	      // Zunächst instantiieren wir ReportGenerator
+	      // Zunï¿½chst instantiieren wir ReportGenerator
 	      reportGenerator = GWT.create(ReportGenerator.class);
 
 	      final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
@@ -298,18 +299,20 @@ public class ClientsideSettings extends CommonSettings {
 	        }
 	      };
 
-	      reportGenerator.init(initReportGeneratorCallback);
+	     // reportGenerator.init(initReportGeneratorCallback);
 	    }
 
-	    // So, nun brauchen wir den ReportGenerator nur noch zurückzugeben.
+	    // So, nun brauchen wir den ReportGenerator nur noch zurï¿½ckzugeben.
 	    return reportGenerator;
 	  }
+	 */
+
 
 	/**
 	 * <p>
-	 * Rückgeben des applikationsweit eindeutigen aktuellen Benutzers. Bei
+	 * Rï¿½ckgeben des applikationsweit eindeutigen aktuellen Benutzers. Bei
 	 * wiederholtem Aufruf dieser Methode wird stets das bereits zuvor angelegte
-	 * Objekt zurückgegeben.
+	 * Objekt zurï¿½ckgegeben.
 	 * </p>
 	 * 
 	 * @return eindeutige Instanz des Typs <code>User</code>
@@ -324,7 +327,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * <p>
 	 * Setzen des applikationsweit eindeutigen aktuellen Benutzers. Bei
 	 * wiederholtem Aufruf dieser Methode wird stets das bereits zuvor angelegte
-	 * Objekt überschrieben.
+	 * Objekt ï¿½berschrieben.
 	 * </p>
 	 * 
 	 * @author Kevin Jaeger

@@ -277,15 +277,25 @@ public class ProfileMapper {
 							+ "gender, bodyHeight, hairColour, confession, isSmoking FROM `profiles`");
 
 			boolean and = false;
+			
+			// Wenn irgendein WHERE-Kriterium gesetzt wurde, dann wird auch ein WHERE ins Statement gesetzt.
+			
+			if(searchProfile.getGender() != null || searchProfile.getAgeRangeFrom() != 0 || searchProfile.getAgeRangeTo() != 0 ||
+					searchProfile.getBodyHeightFrom() != 0f || searchProfile.getBodyHeightTo() != 0f || searchProfile.getHairColour() != null ||
+					searchProfile.getConfession() != null || searchProfile.getIsSmoking() != -1)	{
+				
+				stringBuilder.append(" WHERE");
+				
+			}
 
 			if (searchProfile.getGender() != null) {
 				if (and == true) {
-					stringBuilder.append(" AND ");
+					stringBuilder.append(" AND");
 				}
 
 				else {
 				}
-				stringBuilder.append(" WHERE gender='" + searchProfile.getGender() + "'");
+				stringBuilder.append(" gender='" + searchProfile.getGender() + "'");
 				and = true;
 			} else {
 				and = false;
@@ -294,12 +304,12 @@ public class ProfileMapper {
 			// Geburtsdatum
 			if (searchProfile.getAgeRangeFrom() != 0 && searchProfile.getAgeRangeTo() != 0) {
 				if (and == true) {
-					stringBuilder.append(" AND ");
-				} else {
-				}
+					stringBuilder.append(" AND");
+				} else {}
 
-				stringBuilder.append("FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) BETWEEN "
+				stringBuilder.append(" FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) BETWEEN "
 						+ searchProfile.getAgeRangeFrom() + " AND " + searchProfile.getAgeRangeTo());
+				and = true;
 			}
 
 			// Hier muss die Applikationslogik von Vornherein darauf achten,
@@ -308,11 +318,11 @@ public class ProfileMapper {
 			
 			if (searchProfile.getBodyHeightFrom() != 0f && searchProfile.getBodyHeightTo() != 0f) {
 				if (and == true) {
-					stringBuilder.append(" AND ");
+					stringBuilder.append(" AND");
 				} else {
 				}
 
-				stringBuilder.append("bodyHeight BETWEEN " + searchProfile.getBodyHeightFrom() + " AND "
+				stringBuilder.append(" bodyHeight BETWEEN " + searchProfile.getBodyHeightFrom() + " AND "
 						+ searchProfile.getBodyHeightTo());
 				and = true;
 			} else {
@@ -331,7 +341,7 @@ public class ProfileMapper {
 				} else {
 				}
 
-				stringBuilder.append("hairColour='" + searchProfile.getHairColour() + "'");
+				stringBuilder.append(" hairColour='" + searchProfile.getHairColour() + "'");
 				and = true;
 			} else {
 				if (and == true) {
@@ -345,11 +355,11 @@ public class ProfileMapper {
 
 			if (searchProfile.getConfession() != null) {
 				if (and == true) {
-					stringBuilder.append(" AND ");
+					stringBuilder.append(" AND");
 				} else {
 				}
 
-				stringBuilder.append("confession='" + searchProfile.getConfession() + "'");
+				stringBuilder.append(" confession='" + searchProfile.getConfession() + "'");
 				and = true;
 			} else {
 				if (and == true) {
@@ -361,11 +371,11 @@ public class ProfileMapper {
 
 			if (searchProfile.getIsSmoking() != -1) {
 				if (and == true) {
-					stringBuilder.append(" AND ");
+					stringBuilder.append(" AND");
 				} else {
 				}
 
-				stringBuilder.append("isSmoking=" + searchProfile.getIsSmoking());
+				stringBuilder.append(" isSmoking=" + searchProfile.getIsSmoking());
 			}
 
 			stringBuilder.append(" ORDER BY id");
