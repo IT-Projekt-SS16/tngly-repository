@@ -108,6 +108,14 @@ public class ProfileView extends Update {
 		Label confessionValue = new Label(ClientsideSettings.getUserProfile().getConfession());
 		profile.setWidget(7, 1, confessionValue);
 //		verPanel.add(confessionValue);
+		
+		Label movie = new Label("Favorite Movie:");
+		profile.setWidget(8, 0, movie);
+//		verPanel.add();
+		Label movieValue = new Label(ClientsideSettings.getUserProfile().getMovie());
+		profile.setWidget(8, 1, movieValue);
+//		verPanel.add(movieValue);
+
 
 		final Button editProfilButton = new Button("Edit Profile");
 		editProfilButton.setStylePrimaryName("tngly-button");

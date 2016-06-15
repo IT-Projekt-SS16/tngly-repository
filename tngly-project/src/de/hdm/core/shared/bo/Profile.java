@@ -210,6 +210,10 @@ public class Profile implements Serializable, Comparable<Profile> {
 		this.movie = m;
 	}
 	
+	// Get person´s movie
+		public String getMovie() {
+			return this.movie;
+		}
 	// Return textual description of selected instance adding the real name and
 	// user name
 
