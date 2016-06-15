@@ -298,7 +298,6 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 	
 	public ArrayList<Profile> wishlist(int wishingpId) throws IllegalArgumentException {
-		
 		ArrayList<Profile> wishlist = this.wishMapper.findWishedProfiles(wishingpId);
 		
 		
