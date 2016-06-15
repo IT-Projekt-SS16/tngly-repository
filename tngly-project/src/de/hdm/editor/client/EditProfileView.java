@@ -356,8 +356,7 @@ public class EditProfileView extends Update {
 		final Button saveProfilButton = new Button("Save");
 		saveProfilButton.setStyleName("tngly-button");
 		t.setWidget(12, 1, saveProfilButton);
-		
-		
+			
 
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -440,6 +439,9 @@ public class EditProfileView extends Update {
 				int selectedConfessionIndex = confessionBox.getSelectedIndex();
 				temp.setConfession(confessionBox.getItemText(selectedConfessionIndex));
 
+				temp.setMovie(tBm.getText());
+				
+				
 				logger.info("Confession CHECK");
 
 				if (ClientsideSettings.getUserProfile() == null) {

@@ -48,6 +48,9 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	// Is the person smoking? (e.g. yes, no)
 	private int isSmoking;
+	
+	// The person´s movie
+		private String movie;
 
 	private Boolean wasVisited;
 
@@ -202,6 +205,11 @@ public class Profile implements Serializable, Comparable<Profile> {
 		this.isSmoking = isSmoking;
 	}
 
+	// Set person´s real (pre)name
+	public void setMovie(String m) {
+		this.movie = m;
+	}
+	
 	// Return textual description of selected instance adding the real name and
 	// user name
 
