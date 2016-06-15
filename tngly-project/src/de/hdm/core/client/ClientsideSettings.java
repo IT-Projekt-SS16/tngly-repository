@@ -11,8 +11,8 @@ import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.LoginInfo;
-import de.hdm.core.shared.ReportGenerator;
-import de.hdm.core.shared.ReportGeneratorAsync;
+//import de.hdm.core.shared.ReportGenerator;
+//import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
@@ -28,7 +28,8 @@ public class ClientsideSettings extends CommonSettings {
 
 	private static AdministrationServiceAsync administration = null;
 	
-	private static ReportGeneratorAsync reportGenerator = null;
+	
+	// private static ReportGeneratorAsync reportGenerator = null;
 	
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
@@ -299,7 +300,7 @@ public class ClientsideSettings extends CommonSettings {
 	   * @author Peter Thies
 	   * @since 28.02.2012
 	   */
-	  public static ReportGeneratorAsync getReportGenerator() {
+	  /**public static ReportGeneratorAsync getReportGenerator() {
 	    // Gab es bislang noch keine ReportGenerator-Instanz, dann...
 	    if (reportGenerator == null) {
 	      // Zun�chst instantiieren wir ReportGenerator
@@ -323,7 +324,7 @@ public class ClientsideSettings extends CommonSettings {
 	    // So, nun brauchen wir den ReportGenerator nur noch zur�ckzugeben.
 	    return reportGenerator;
 	  }
-
+	**/
 
 	/**
 	 * <p>

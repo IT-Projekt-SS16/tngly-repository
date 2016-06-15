@@ -558,8 +558,18 @@ public class SearchByProfileView extends Update {
 				
 				
 				if (ageChecked == false){
-				temp.setAgeRangeFrom(Integer.parseInt(tbAgeRangeFrom.getText()));
-				temp.setAgeRangeTo(Integer.parseInt(tbAgeRangeTo.getText()));
+					
+					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
+					int art = Integer.parseInt(tbAgeRangeTo.getText());
+					
+					logger.info("AgeRangeFrom: " + arf);
+					logger.info("AgeRangeTo: " + art);
+					temp.setAgeRangeFrom(arf);
+					temp.setAgeRangeTo(art);
+				
+				System.out.println("AgeRangeFrom: " + temp.getAgeRangeFrom());
+				System.out.println("AgeRangeTo: " + temp.getAgeRangeTo());
+				
 					
 					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
 					int art = Integer.parseInt(tbAgeRangeTo.getText());
@@ -578,8 +588,6 @@ public class SearchByProfileView extends Update {
 				}
 
 				if (bodyHeightChecked == false){
-				temp.setBodyHeightFrom(Float.parseFloat(tbHeightRangeFrom.getText()));
-				temp.setBodyHeightTo(Float.parseFloat(tbHeightRangeTo.getText()));
 				
 				System.out.println("BodyHeightFrom: " + temp.getAgeRangeFrom());
 				System.out.println("BodyHeightTo: " + temp.getAgeRangeTo());
