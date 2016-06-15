@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
@@ -110,12 +111,15 @@ public class ProfileBanMapper {
 		    return result;
 		  }
 
-		  public Vector<ProfileBan> findBannedProfiles(int banningProfileId) {
+		  public ArrayList<ProfileBan> findBannedProfiles(int banningProfileId) {
 			  
 			    Connection con = DBConnection.connection();
 			    // Ergebnisvektor vorbereiten
-			    Vector<ProfileBan> result = new Vector<ProfileBan>();
+			    ArrayList<ProfileBan> result = new ArrayList<ProfileBan>();
 
+			    ProfileMapper profileMapper = null;
+				  profileMapper = ProfileMapper.profileMapper();
+			    
 			    try {
 			      Statement stmt = con.createStatement();
 
@@ -130,10 +134,11 @@ public class ProfileBanMapper {
 			        pb.setBanningProfileId(rs.getInt("banningProfileId"));
 			        pb.setBannedProfileId(rs.getInt("bannedProfileId"));
 			        pb.setTimestamp(rs.getDate("timestamp"));
-
+			        pb.setBanningProfile(profileMapper.findByKey(pb.getBanningProfileId()));
+			        pb.setBannedProfile(profileMapper.findByKey(pb.getBanningProfileId()));
 			        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 			        
-			        result.addElement(pb);
+			        result.add(pb);
 			      }
 			    }
 			    catch (SQLException e) {
