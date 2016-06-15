@@ -28,6 +28,10 @@ public class ProfileBan implements Serializable{
 			// The ban´s timestamp
 			private Date timestamp;
 			
+			private Profile banningProfile;
+			
+			private Profile bannedProfile;
+			
 			/*
 			 * Get-/Set-Operations + toString
 			 */
@@ -72,6 +76,23 @@ public class ProfileBan implements Serializable{
 			public void setTimestamp(Date timestamp)	{
 				this.timestamp = timestamp;
 			}
+			
+			public Profile getBanningProfile()	{
+				return this.banningProfile;
+			}
+			
+			public void setBanningProfile(Profile banningProfile)	{
+				this.banningProfile = banningProfile;
+			}
+			
+			public Profile getBannedProfile()	{
+				return this.bannedProfile;
+			}
+			
+			public void setBannedProfile(Profile bannedProfile)	{
+				this.bannedProfile = bannedProfile;
+			}
+			
 			
 			@Override
 			public String toString() {

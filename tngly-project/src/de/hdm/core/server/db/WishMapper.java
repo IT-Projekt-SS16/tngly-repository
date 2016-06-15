@@ -2,6 +2,7 @@ package de.hdm.core.server.db;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wish;
@@ -36,7 +37,6 @@ public class WishMapper {
 
 	    return wishMapper;
 	  }
-	  
 	  
 	  public Wish findByKey(int id) {
 		    // DB-Verbindung holen
@@ -107,12 +107,15 @@ public class WishMapper {
 		    return result;
 		  }
 
-		  public Vector<Wish> findWishedProfiles(int wishingProfileId) {
+		  public ArrayList<Wish> findWishedProfiles(int wishingProfileId) {
 			  
 			    Connection con = DBConnection.connection();
 			    // Ergebnisvektor vorbereiten
-			    Vector<Wish> result = new Vector<Wish>();
-
+			    ArrayList<Wish> result = new ArrayList<Wish>();
+			    
+			    ProfileMapper profileMapper = null;
+				  profileMapper = ProfileMapper.profileMapper();
+				  
 			    try {
 			      Statement stmt = con.createStatement();
 
@@ -127,10 +130,12 @@ public class WishMapper {
 			        w.setWishingProfileId(rs.getInt("wishingProfileId"));
 			        w.setWishedProfileId(rs.getInt("wishedProfileId"));
 			        w.setTimestamp(rs.getDate("timestamp"));
-
+			        w.setWishingProfile(profileMapper.findByKey(w.getWishingProfileId()));
+			        w.setWishedProfile(profileMapper.findByKey(w.getWishedProfileId()));
+			        
 			        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 			        
-			        result.addElement(w);
+			        result.add(w);
 			      }
 			    }
 			    catch (SQLException e) {
