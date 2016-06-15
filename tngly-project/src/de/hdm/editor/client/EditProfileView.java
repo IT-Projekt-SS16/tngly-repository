@@ -331,49 +331,17 @@ public class EditProfileView extends Update {
 		t.setText(11, 0, "This is how I describe myself");
 		t.setWidget(11, 1, ta);
 		
-		final CheckBox chkMetallica = new CheckBox();
-        final CheckBox chkFooFighters = new CheckBox();
-        final CheckBox chkTheBeatles = new CheckBox();
-		final CheckBox chkTheBaseballs = new CheckBox();
-		final CheckBox chkQueen = new CheckBox();
+		final TextBox tBb = new TextBox();
+        final TextBox tBm = new TextBox();
 		
 		
 		t3.setText(0,0, "Favourite Band(s)");
-		t3.setWidget(0, 1, t4);
-		t4.setText(0, 0, "Metallica");
-		t4.setWidget(0,1, chkMetallica);
-		t4.setText(1, 0, "Foo Fighters");
-		t4.setWidget(1, 1, chkFooFighters);
-		t4.setText(2, 0, "The Beatles");
-		t4.setWidget(2, 1, chkTheBeatles);
-		t4.setText(2, 0, "The Beatles");
-		t4.setWidget(2, 1, chkTheBeatles);
-		t4.setText(3,0, "The Baseballs");
-		t4.setWidget(3, 1, chkTheBaseballs);
-		t4.setText(4,0, "Queen");
-		t4.setWidget(4, 1, chkQueen);
+		t3.setWidget(0, 1, tBb);
 		
-		final CheckBox chkTitanic = new CheckBox();
-        final CheckBox chkStarWars = new CheckBox();
-        final CheckBox chkTheHobbit = new CheckBox();
-		final CheckBox chkHarryPotter = new CheckBox();
-		final CheckBox chkTheRing = new CheckBox();
 		
-		FlexTable t5 = new FlexTable();
 		
 		t3.setText(1,0, "Favourite Movie(s)");
-		t3.setWidget(1, 1, t5);
-		t5.setText(0, 0, "Titanic");
-		t5.setWidget(0,1, chkTitanic);
-		t5.setText(1, 0, "StarWars");
-		t5.setWidget(1, 1, chkStarWars);
-		t5.setText(2, 0, "The Hobbit");
-		t5.setWidget(2, 1, chkTheHobbit);
-		t5.setText(2, 0, "HarryPotter");
-		t5.setWidget(2, 1, chkHarryPotter);
-		t5.setText(3,0, "The Ring");
-		t5.setWidget(3, 1, chkTheRing);
-			
+		t3.setWidget(1, 1, tBm);
 		
 		verPanel.add(t);
 		
