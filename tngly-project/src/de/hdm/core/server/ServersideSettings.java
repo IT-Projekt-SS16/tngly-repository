@@ -19,8 +19,7 @@ public class ServersideSettings extends CommonSettings {
 	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
 	private static ArrayList<ProfileVisit> profilesVisited = null;
-	
-	private static ArrayList<ProfileVisit> profilesVisited = null;
+
 	
 	
 	/**
@@ -130,13 +129,6 @@ public class ServersideSettings extends CommonSettings {
 		ServersideSettings.profilesVisited = profilesVisited;
 	}
 
-	public static ArrayList<ProfileVisit> getProfilesVisited() {
-		return profilesVisited;
-	}
-
-	public static void setProfilesVisited(ArrayList<ProfileVisit> profilesVisited) {
-		ServersideSettings.profilesVisited = profilesVisited;
-	}
 
 	/**
 	 * <p>

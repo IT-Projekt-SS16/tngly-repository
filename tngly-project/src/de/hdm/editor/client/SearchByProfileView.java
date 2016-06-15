@@ -559,20 +559,10 @@ public class SearchByProfileView extends Update {
 				
 				if (ageChecked == false){
 					
-					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
-					int art = Integer.parseInt(tbAgeRangeTo.getText());
-					
-					logger.info("AgeRangeFrom: " + arf);
-					logger.info("AgeRangeTo: " + art);
-					temp.setAgeRangeFrom(arf);
-					temp.setAgeRangeTo(art);
-				
-				System.out.println("AgeRangeFrom: " + temp.getAgeRangeFrom());
-				System.out.println("AgeRangeTo: " + temp.getAgeRangeTo());
 				
 					
 					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
-					int art = Integer.parseInt(tbAgeRangeTo.getText());
+					int  art = Integer.parseInt(tbAgeRangeTo.getText());
 					
 					logger.info("AgeRangeFrom: " + arf);
 					logger.info("AgeRangeTo: " + art);
