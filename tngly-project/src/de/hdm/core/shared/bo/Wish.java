@@ -34,6 +34,10 @@ public class Wish implements Serializable{
 		// The wish´s timestamp
 		private Date timestamp;
 		
+		private Profile wishingProfile;
+		
+		private Profile wishedProfile;
+		
 		/*
 		 * Get-/Set-Operations + toString
 		 */
@@ -77,6 +81,22 @@ public class Wish implements Serializable{
 		// Set timestamp
 		public void setTimestamp(Date timestamp)	{
 			this.timestamp = timestamp;
+		}
+		
+		public Profile getWishingProfile()	{
+			return this.wishingProfile;
+		}
+		
+		public void setWishingProfile(Profile wishingProfile)	{
+			this.wishingProfile = wishingProfile;
+		}
+		
+		public Profile getWishedProfile()	{
+			return this.wishedProfile;
+		}
+		
+		public void setWishedProfile(Profile wishedProfile)	{
+			this.wishedProfile = wishedProfile;
 		}
 		
 		@Override
