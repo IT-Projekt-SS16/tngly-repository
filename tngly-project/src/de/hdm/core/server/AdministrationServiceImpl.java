@@ -297,19 +297,19 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	}
 	
-	public ArrayList<Profile> wishlist(int wishingpId) throws IllegalArgumentException {
-		ArrayList<Profile> wishlist = this.wishMapper.findWishedProfiles(wishingpId);
+	public ArrayList<Wish> wishlist(int wishingpId) throws IllegalArgumentException {
+		ArrayList<Wish> wishlist = this.wishMapper.findWishedProfiles(wishingpId);
 		
 		
 		System.out.println("AdministrationServiceImpl: Output ArrayList:");
 		
 		for (int x = 0; x<wishlist.size(); x++)	{
 		System.out.println(wishlist.get(x).getId());
-		System.out.println(wishlist.get(x).getUserName());
-		System.out.println(wishlist.get(x).getName());
-		System.out.println(wishlist.get(x).getLastName());
-		System.out.println(wishlist.get(x).getDateOfBirth());
-		System.out.println(wishlist.get(x).getGender());
+		System.out.println(wishlist.get(x).getWishedProfile().getUserName());
+		System.out.println(wishlist.get(x).getWishedProfile().getName());
+		System.out.println(wishlist.get(x).getWishedProfile().getLastName());
+		System.out.println(wishlist.get(x).getWishedProfile().getDateOfBirth());
+		System.out.println(wishlist.get(x).getWishedProfile().getGender());
 		System.out.println("");
 		}
 		
@@ -346,6 +346,24 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		pb.setId(1);
 		this.profileBanMapper.delete(pb);
 
+	}
+	
+	public ArrayList<ProfileBan> bans(int banningpId) throws IllegalArgumentException {
+		ArrayList<ProfileBan> bans = this.profileBanMapper.findBannedProfiles(banningpId);
+		
+		
+		System.out.println("AdministrationServiceImpl: Output ArrayList:");
+		
+		for (int x = 0; x<bans.size(); x++)	{
+		System.out.println(bans.get(x).getId());
+		System.out.println(bans.get(x).getBannedProfile().getUserName());
+		System.out.println(bans.get(x).getBannedProfile().getName());
+		System.out.println(bans.get(x).getBannedProfile().getLastName());
+		System.out.println(bans.get(x).getBannedProfile().getDateOfBirth());
+		System.out.println(bans.get(x).getBannedProfile().getGender());
+		System.out.println("");
+		}
+		return bans;
 	}
 
 	@Override

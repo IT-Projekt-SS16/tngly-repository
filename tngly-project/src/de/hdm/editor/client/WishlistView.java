@@ -1,9 +1,14 @@
 package de.hdm.editor.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -15,8 +20,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.hdm.core.client.ClientsideSettings;
+import de.hdm.core.server.AdministrationServiceImpl;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.ProfileVisit;
+import de.hdm.core.shared.bo.Wish;
 
 public class WishlistView extends Update{
 
@@ -27,14 +35,13 @@ public class WishlistView extends Update{
 	 
 
 	  protected void run() {
-		  this.append("Here you will see your list of banned profiles");
+		  this.append("Here you will see your list of wished profiles");
 
 			FlexTable contentTable = new FlexTable();
-			//final Button markAsSeenButton;
-			//final Button markAsUnseenButton;
-			final FlexTable wishesTable = new FlexTable();
+			final Button removeButton;
+			CellTable<Wish> wishTable = new CellTable();
 
-			DecoratorPanel contentTableDecorator = new DecoratorPanel();
+			/**DecoratorPanel contentTableDecorator = new DecoratorPanel();
 			contentTableDecorator.setWidth("100%");
 			contentTableDecorator.setWidth("18em");
 
@@ -44,7 +51,7 @@ public class WishlistView extends Update{
 
 			contentTableDecorator.add(contentTable);
 			RootPanel.get("Details").add(contentTableDecorator);
-
+			 **/
 			// Create the menu
 			//
 			HorizontalPanel hPanel = new HorizontalPanel();
@@ -55,29 +62,81 @@ public class WishlistView extends Update{
 			//hPanel.add(markAsSeenButton);
 			//markAsUnseenButton = new Button("Mark as unseen");
 			//hPanel.add(markAsUnseenButton);
-			contentTable.getCellFormatter().addStyleName(0, 0, "profiles-ListMenu");
-			contentTable.setWidget(0, 0, hPanel);
+			removeButton = new Button("Remove");
+			hPanel.add(removeButton);
+			//contentTable.getCellFormatter().addStyleName(0, 0, "profiles-ListMenu");
+			//contentTable.setWidget(0, 0, hPanel);
 			// vPanel.add(hPanel);
 
 			ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
 
 			// Create the profiles list
 			//
-			wishesTable.setCellSpacing(0);
+			/**wishesTable.setCellSpacing(0);
 			wishesTable.setCellPadding(0);
 			wishesTable.setWidth("100%");
 			wishesTable.addStyleName("profiles-ListContents");
 			wishesTable.getColumnFormatter().setWidth(0, "15px");
 			contentTable.setWidget(1, 0, wishesTable);
-
+			
 			wishesTable.removeAllRows();
-
+			**/
+			
 			ClientsideSettings.getLogger().info("Wishlist wird aufgebaut");
-			ArrayList<Profile> list = ClientsideSettings.getWishlist();
+			ArrayList<Wish> list = ClientsideSettings.getWishlist();
 			ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
 			ClientsideSettings.getLogger().info(list.toString());
+			
+		    // Add a text column to show the username.
+		    TextColumn<Wish> userNameColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish w) {
+		        return w.getWishedProfile().getUserName();
+		      }
+		    };
+		    wishTable.addColumn(userNameColumn, "Username");
+		    
+		    // Add a text column to show the name.
+		    TextColumn<Wish> nameColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish w) {
+		        return w.getWishedProfile().getName();
+		      }
+		    };
+		    wishTable.addColumn(nameColumn, "Name");
+		    
+		    // Add a text column to show the lastname.
+		    TextColumn<Wish> lastNameColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish w) {
+		        return w.getWishedProfile().getLastName();
+		      }
+		    };
+		    wishTable.addColumn(lastNameColumn, "Lastname");
+		    
+		    
+		    // Add a text column to show the gender.
+		    TextColumn<Wish> genderColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish w) {
+		        return w.getWishedProfile().getGender();
+		      }
+		    };
+		    wishTable.addColumn(genderColumn, "Gender");
+		    
+		 // Add a date column to show the birthday.
+		    DateCell dateCell = new DateCell();
+		    Column<Wish, Date> dateColumn = new Column<Wish, Date>(dateCell) {
+		      @Override
+		      public Date getValue(Wish w) {
+		        return w.getWishedProfile().getDateOfBirth();
+		      }
+		    };
+		    wishTable.addColumn(dateColumn, "Birthday");
 
-			refreshData(wishesTable);
+			/**refreshData(wishesTable);
+			
+			
 
 			wishesTable.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
@@ -87,7 +146,7 @@ public class WishlistView extends Update{
 					
 					ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
 
-					/**if (selectedRow >= 0) {
+					if (selectedRow >= 0) {
 						ProfileVisit pv = new ProfileVisit();
 						pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
 						pv.setVisitedProfileId(ClientsideSettings.getWishlist().get(selectedRow).getId());
@@ -102,7 +161,7 @@ public class WishlistView extends Update{
 							}
 						});
 						**/
-						Profile selectedProfile = ClientsideSettings.getWishlist().get(selectedRow);
+						Profile selectedProfile = ClientsideSettings.getWishlist().get(selectedRow).getWishedProfile();
 						//selectedProfile.setWasVisited(true);
 						Update update = new OtherProfileView(selectedProfile);
 
@@ -112,7 +171,7 @@ public class WishlistView extends Update{
 
 				}
 
-				private int getClickedRow(ClickEvent event) {
+				/**private int getClickedRow(ClickEvent event) {
 					int selectedRow = -1;
 					HTMLTable.Cell cell = wishesTable.getCellForEvent(event);
 
@@ -128,7 +187,7 @@ public class WishlistView extends Update{
 				}
 			});
 
-			/**markAsSeenButton.addClickHandler(new ClickHandler() {
+			markAsSeenButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					ArrayList<Integer> selectedRows = this.getSelectedRows();
 					ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
@@ -151,21 +210,9 @@ public class WishlistView extends Update{
 						}
 					});
 					this.refreshData(profilesTable);
-				}
+				}**/
 
-				private ArrayList<Integer> getSelectedRows() {
-					ArrayList<Integer> selectedRows = new ArrayList<Integer>();
-
-					for (int i = 0; i < profilesTable.getRowCount(); ++i) {
-						CheckBox checkBox = (CheckBox) profilesTable.getWidget(i, 0);
-						if (checkBox.getValue()) {
-							selectedRows.add(i);
-						}
-					}
-
-					return selectedRows;
-				}
-				
+				/**
 				private void refreshData(final FlexTable profilesTable) {
 					for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
 						profilesTable.setWidget(i, 0, new CheckBox());
@@ -178,30 +225,32 @@ public class WishlistView extends Update{
 				}
 			});**/
 
-			/**markAsUnseenButton.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					ArrayList<Integer> selectedRows = this.getSelectedRows();
+			//removeButton.addClickHandler(new ClickHandler() {
+				//public void onClick(ClickEvent event) {
+					//ArrayList<Integer> selectedRows = this.getSelectedRows();
 					
-					for (int i = 0; i < selectedRows.size(); ++i) {
-						ClientsideSettings.deleteWishFromWishlist(ClientsideSettings.getWishlist().get(i).getId());
-					}
-					ClientsideSettings.getAdministration().deleteProfileVisit(pvs, new AsyncCallback<Void>() {
-						public void onSuccess(Void result) {
+					//for (int i = 0; i < selectedRows.size(); ++i) {
+						
+						
+						//ClientsideSettings.getAdministration().deleteWishFromWishlist(ClientsideSettings.getUserProfile().getId(), ClientsideSettings.getWishlist().get(i).getId(), new DeleteCallback());
+					//}
+					//ClientsideSettings.getAdministration().deleteProfileVisit(pvs, new AsyncCallback<Void>() {
+					//	public void onSuccess(Void result) {
 
-						}
+					//	}
 
-						public void onFailure(Throwable caught) {
-							ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-						}
-					});
-					this.refreshData(profilesTable);
+						//public void onFailure(Throwable caught) {
+							//ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+						//}
+					//});
+					//this.refreshData(wishTable);
 				}
 
-				private ArrayList<Integer> getSelectedRows() {
+				/**private ArrayList<Integer> getSelectedRows() {
 					ArrayList<Integer> selectedRows = new ArrayList<Integer>();
 
-					for (int i = 0; i < profilesTable.getRowCount(); ++i) {
-						CheckBox checkBox = (CheckBox) profilesTable.getWidget(i, 0);
+					for (int i = 0; i < wishesTable.getRowCount(); ++i) {
+						CheckBox checkBox = (CheckBox) wishesTable.getWidget(i, 0);
 						if (checkBox.getValue()) {
 							selectedRows.add(i);
 						}
@@ -212,29 +261,19 @@ public class WishlistView extends Update{
 				
 				private void refreshData(final FlexTable wishesTable) {
 					for (int i = 0; i < ClientsideSettings.getWishlist().size(); ++i) {
-						profilesTable.setWidget(i, 0, new CheckBox());
+						wishesTable.setWidget(i, 0, new CheckBox());
 						Label lblProfileTeaser = new Label(ClientsideSettings.getWishlist().get(i).toString());
 						if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
 							lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
 						}
-						profilesTable.setWidget(i, 1, lblProfileTeaser);
+						wishesTable.setWidget(i, 1, lblProfileTeaser);
 					}
 				}
-			});**/
+			});
 		}
 
-		private void refreshData(final FlexTable wishesTable) {
-			for (int i = 0; i < ClientsideSettings.getWishlist().size(); ++i) {
-				wishesTable.setWidget(i, 0, new CheckBox());
-				Label lblProfileTeaser = new Label(ClientsideSettings.getWishlist().get(i).toString());
-				if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-					lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-				}
-				wishesTable.setWidget(i, 1, lblProfileTeaser);
-			}
-		}
 		
-		  /**final CheckBox checkBox1 = new CheckBox();
+		  final CheckBox checkBox1 = new CheckBox();
 		  final CheckBox checkBox2 = new CheckBox();
 		  
 		  FlexTable t = new FlexTable();
@@ -284,7 +323,6 @@ public class WishlistView extends Update{
 			        
 		  RootPanel.get("Details").add(deleteButton);
 		  **/
-			      }
 
 		    
 	 

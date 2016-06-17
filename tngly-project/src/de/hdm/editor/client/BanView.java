@@ -1,15 +1,33 @@
 package de.hdm.editor.client;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Set;
+
+import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Text;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.core.client.ClientsideSettings;
+import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileBan;
 
 public class BanView extends Update{
 
@@ -20,17 +38,92 @@ public class BanView extends Update{
 	 
 
 	  protected void run() {
-
+		  this.append("Here you will see your list of banned profiles");
+		  final Button removeButton;
+		  ArrayList<ProfileBan> banList = ClientsideSettings.getBanlist();
+		  
 		
-//		  DataGrid wishlistGrid = new DataGrid();
-//		    wishlistGrid.setWidth("100%");
+		  DataGrid bansGrid = new DataGrid<ProfileBan>();
+		  bansGrid.setWidth("100%");
+		   
+		  
+		  bansGrid.setEmptyTableWidget(new Label("You do not have a ban"));
 //		  
-//		   wishlistGrid.setEmptyTableWidget(new Label("You do not have a wish"));
-//		  
 		  
+		  CellTable<ProfileBan> banTable = new CellTable<ProfileBan>();
+		    //table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		  
+		// Add a selection model to handle user selection.
+		    final MultiSelectionModel<ProfileBan> selectionModel = new MultiSelectionModel<ProfileBan>();
+		    banTable.setSelectionModel(selectionModel);
+		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		      public void onSelectionChange(SelectionChangeEvent event) {
+		        Set<ProfileBan> selected = selectionModel.getSelectedSet();
+		        //if (selected != null) {
+		        //  Window.alert("You selected: " + selected.size + "Profiles");
+		        //}
+		      }
+		    });
 		  
-		  
+
+		  Column<ProfileBan, Boolean> checkColumn =
+			        new Column<ProfileBan, Boolean>(new CheckboxCell(true, false)) {
+			          @Override
+			          public Boolean getValue(ProfileBan pb) {
+			            // Get the value from the selection model.
+			            return selectionModel.isSelected(pb);
+			          }
+			        };
+			    bansGrid.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
+			    bansGrid.setColumnWidth(checkColumn, 40, Unit.PX);
+			    
+		    // Add a text column to show the username.
+		    TextColumn<ProfileBan> userNameColumn = new TextColumn<ProfileBan>() {
+		      @Override
+		      public String getValue(ProfileBan pb) {
+		        return pb.getBannedProfile().getUserName();
+		      }
+		    };
+		    banTable.addColumn(userNameColumn, "Username");
+
+		    // Add a text column to show the name.
+		    TextColumn<ProfileBan> nameColumn = new TextColumn<ProfileBan>() {
+		      @Override
+		      public String getValue(ProfileBan pb) {
+		        return pb.getBannedProfile().getName();
+		      }
+		    };
+		    banTable.addColumn(nameColumn, "Name");
+		    
+		    // Add a text column to show the lastname.
+		    TextColumn<ProfileBan> lastNameColumn = new TextColumn<ProfileBan>() {
+		      @Override
+		      public String getValue(ProfileBan pb) {
+		        return pb.getBannedProfile().getLastName();
+		      }
+		    };
+		    banTable.addColumn(lastNameColumn, "LastName");
+		    
+		 // Add a date column to show the birthday.
+		    DateCell dateCell = new DateCell();
+		    Column<ProfileBan, Date> dateColumn = new Column<ProfileBan, Date>(dateCell) {
+		      @Override
+		      public Date getValue(ProfileBan pb) {
+		        return pb.getBannedProfile().getDateOfBirth();
+		      }
+		    };
+		    banTable.addColumn(dateColumn, "Birthday");
+		    
+		    // Add a text column to show the gender.
+		    TextColumn<ProfileBan> genderColumn = new TextColumn<ProfileBan>() {
+		      @Override
+		      public String getValue(ProfileBan pb) {
+		        return pb.getBannedProfile().getGender();
+		      }
+		    };
+		    banTable.addColumn(genderColumn, "Gender");
+		    
+		 
 		  
 //		  final CheckBox checkBox1 = new CheckBox();
 //		  final CheckBox checkBox2 = new CheckBox();

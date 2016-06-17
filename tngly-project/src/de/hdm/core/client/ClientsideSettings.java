@@ -14,9 +14,11 @@ import de.hdm.core.shared.LoginInfo;
 //import de.hdm.core.shared.ReportGenerator;
 //import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.User;
+import de.hdm.core.shared.bo.Wish;
 import de.hdm.core.shared.report.AllProfilesReport;
 
 public class ClientsideSettings extends CommonSettings {
@@ -39,9 +41,9 @@ public class ClientsideSettings extends CommonSettings {
 	
 	private static String allProfilesReport = null;
 	
-	private static ArrayList<Profile> wishlist = null;
+	private static ArrayList<Wish> wishlist = null;
 	
-	private static ArrayList<Profile> banlist = null;
+	private static ArrayList<ProfileBan> bans = null;
 	/**
 	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
 	 * des Benutzers.
@@ -149,20 +151,20 @@ public class ClientsideSettings extends CommonSettings {
 		ClientsideSettings.allProfilesReport = allProfilesReport;
 	}
 	
-	public static ArrayList<Profile> getWishlist(){
+	public static ArrayList<Wish> getWishlist(){
 		return wishlist;
 	}
 
-	public static void setWishlist(ArrayList<Profile> wishlist){
+	public static void setWishlist(ArrayList<Wish> wishlist){
 		ClientsideSettings.wishlist = wishlist;
 	}
 
-	public static ArrayList<Profile> getBanlist(){
-		return banlist;
+	public static ArrayList<ProfileBan> getBanlist(){
+		return bans;
 	}
 	
-	public static void setBanlist(ArrayList<Profile> banlist){
-		ClientsideSettings.banlist = banlist;
+	public static void setBanlist(ArrayList<ProfileBan> bans){
+		ClientsideSettings.bans = bans;
 	}
 	
 	private static LoginInfo loginInfo = null;

@@ -16,7 +16,7 @@ public class Wish implements Serializable{
 	}
 	
 	
-	public void createWish(int wishingpId, int wishedpId){
+	public Wish(int wishingpId, int wishedpId){
 		wish.setWishingProfileId(wishingpId);
 		wish.setWishedProfileId(wishedpId);
 	}
