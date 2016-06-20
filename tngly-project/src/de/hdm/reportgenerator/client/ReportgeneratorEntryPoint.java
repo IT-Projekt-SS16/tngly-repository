@@ -79,62 +79,12 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		RootPanel.get("Navigator").add(horPanel);
 
-		final Button queryProfilesButton = new Button("Query Profiles");
-
-		queryProfilesButton.setStylePrimaryName("tngly-menubutton");
-
-		horPanel.add(queryProfilesButton);
-
-		queryProfilesButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				/*
-				 * Showcase instantiieren.
-				 */
 				UpdateReportGenerator updateR = new SearchByProfileViewR();
 
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(updateR);
-			}
-		});
-//
-//		final Button wishlistButton = new Button("Wishlist");
-//		wishlistButton.setStylePrimaryName("tngly-menubutton");
-//		horPanel.add(wishlistButton);
-//
-//		wishlistButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				Update update = new WishlistView();
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(update);
-//			}
-//		});
-//
-//		final Button searchProfilButton = new Button("Search Profile");
-//		searchProfilButton.setStylePrimaryName("tngly-menubutton");
-//		horPanel.add(searchProfilButton);
-//
-//		searchProfilButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				Update update = new SearchProfileView();
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(update);
-//			}
-//		});
-//
-//		final Button banViewButton = new Button("Bans");
-//		banViewButton.setStylePrimaryName("tngly-menubutton");
-//		horPanel.add(banViewButton);
-//
-//		banViewButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				Update update = new BanView();
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(update);
-//			}
-//
-//		});
-//		
 		
+
 		
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		
@@ -148,9 +98,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		RootPanel.get("Navigator").add(vp);
 		
-		UpdateReportGenerator updateR = new AllProfilesView();
-		RootPanel.get("Details").clear();
-		RootPanel.get("Details").add(updateR);
+		
 
 	}
 
