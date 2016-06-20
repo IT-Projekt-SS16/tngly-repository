@@ -161,12 +161,12 @@ public class WishlistView extends Update{
 							}
 						});
 						**/
-						Profile selectedProfile = ClientsideSettings.getWishlist().get(selectedRow).getWishedProfile();
-						//selectedProfile.setWasVisited(true);
-						Update update = new OtherProfileView(selectedProfile);
-
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(update);
+//						Profile selectedProfile = ClientsideSettings.getWishlist().get(selectedRow).getWishedProfile();
+//						//selectedProfile.setWasVisited(true);
+//						Update update = new OtherProfileView(selectedProfile);
+//
+//						RootPanel.get("Details").clear();
+//						RootPanel.get("Details").add(update);
 					
 
 				}
