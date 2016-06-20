@@ -90,7 +90,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 				/*
 				 * Showcase instantiieren.
 				 */
-				UpdateReportGenerator updateR = new SearchByProfileView();
+				UpdateReportGenerator updateR = new SearchByProfileViewR();
 
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(updateR);
