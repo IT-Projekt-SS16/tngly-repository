@@ -441,6 +441,8 @@ public class EditProfileView extends Update {
 
 				temp.setMovie(tBm.getText());
 				
+				temp.setBand(tBb.getText());
+				
 				
 				logger.info("Confession CHECK");
 

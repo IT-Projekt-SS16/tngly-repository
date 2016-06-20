@@ -115,6 +115,13 @@ public class ProfileView extends Update {
 		Label movieValue = new Label(ClientsideSettings.getUserProfile().getMovie());
 		profile.setWidget(8, 1, movieValue);
 //		verPanel.add(movieValue);
+		
+		Label band = new Label("Favorite Band:");
+		profile.setWidget(9, 0, band);
+//		verPanel.add();
+		Label bandValue = new Label(ClientsideSettings.getUserProfile().getBand());
+		profile.setWidget(9, 1, bandValue);
+//		verPanel.add(movieValue);
 
 
 		final Button editProfilButton = new Button("Edit Profile");

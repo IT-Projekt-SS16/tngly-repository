@@ -50,7 +50,11 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private int isSmoking;
 	
 	// The person´s movie
-		private String movie;
+	private String movie;
+	
+	private String band;
+		
+		
 
 	private Boolean wasVisited;
 
@@ -210,10 +214,18 @@ public class Profile implements Serializable, Comparable<Profile> {
 		this.movie = m;
 	}
 	
+	public void setBand(String b) {
+		this.band = b;
+	}
+	
 	// Get person´s movie
-		public String getMovie() {
-			return this.movie;
-		}
+	public String getMovie() {
+		return this.movie;
+	}
+	
+	public String getBand() {
+		return this.band;
+	}
 	// Return textual description of selected instance adding the real name and
 	// user name
 
