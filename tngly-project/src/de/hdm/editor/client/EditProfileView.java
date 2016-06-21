@@ -105,6 +105,7 @@ public class EditProfileView extends Update {
 		confessionBox.addItem("Orthodox");
 		confessionBox.addItem("Other");
 		confessionBox.setPixelSize(130,25);
+	
 
 		final ListBox genderBox = new ListBox(false);
 		genderBox.setVisibleItemCount(1);
@@ -127,7 +128,31 @@ public class EditProfileView extends Update {
 		myHobbiesSelect.addItem("Fitness");
 		myHobbiesSelect.setPixelSize(130,130);
 		
+		final ListBox eraBox = new ListBox(false);
+		eraBox.setVisibleItemCount(1);
+		eraBox.addItem("Example1");
+		eraBox.addItem("Example2");
+		eraBox.addItem("Example3");
+		eraBox.addItem("Example4");
+		eraBox.addItem("Example5");
+		eraBox.addItem("Example6");
+		eraBox.addItem("Example7");
+		eraBox.addItem("Example8");
+		eraBox.addItem("Example9");
+		eraBox.setPixelSize(130,25);
 		
+		final ListBox subcultureBox = new ListBox(false);
+		subcultureBox.setVisibleItemCount(1);
+		subcultureBox.addItem("Example1");
+		subcultureBox.addItem("Example2");
+		subcultureBox.addItem("Example3");
+		subcultureBox.addItem("Example4");
+		subcultureBox.addItem("Example5");
+		subcultureBox.addItem("Example6");
+		subcultureBox.addItem("Example7");
+		subcultureBox.addItem("Example8");
+		subcultureBox.addItem("Example9");
+		subcultureBox.setPixelSize(130,25);
 		
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearArrowsVisible(true);
@@ -335,13 +360,65 @@ public class EditProfileView extends Update {
         final TextBox tBm = new TextBox();
 		
 		
-		t3.setText(0,0, "Favourite Band(s)");
+		t3.setText(0,0, "Favorite Band");
 		t3.setWidget(0, 1, tBb);
 		
 		
-		
-		t3.setText(1,0, "Favourite Movie(s)");
+		t3.setText(1,0, "Favorite Movie");
 		t3.setWidget(1, 1, tBm);
+		
+		
+		t3.setText(2, 0, "Favorite era");
+		if (ClientsideSettings.getUserProfile() == null) {
+		t3.setWidget(2, 1, eraBox);
+		} else {
+			int index;
+			if (ClientsideSettings.getUserProfile().getConfession() == "Stone Age") {
+				index = 0;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Ancient Times") {
+				index = 1;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Early Middle Ages") {
+				index = 2;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Late Middle Ages") {
+				index = 3;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Renaissance") {
+				index = 4;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Industrial Age") {
+				index = 5;
+			} else if (ClientsideSettings.getUserProfile().getConfession() == "Modern Age") {
+				index = 6;
+			}
+			//eraBox.setItemSelected(index, true);
+			t3.setWidget(2, 1, eraBox);
+		}
+		
+		
+		t3.setText(3, 0, "I associate myself with this subculture");	
+		if (ClientsideSettings.getUserProfile() == null) {
+			t3.setWidget(3, 1, subcultureBox);
+			} else {
+				int index;
+				if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 0;
+				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 1;
+				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 2;
+				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 3;
+				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 4;
+				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 5;
+				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 6;
+				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
+					index = 7;
+				}
+				//subcultureBox.setItemSelected(index, true);
+				t3.setWidget(3, 1, subcultureBox);
+			}
+		
 		
 		verPanel.add(t);
 		
