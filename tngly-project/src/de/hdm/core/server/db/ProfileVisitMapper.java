@@ -250,7 +250,7 @@ public class ProfileVisitMapper {
 
 		public Boolean wasProfileVisited(Profile p) {
 		
-			System.out.println("wasProfileVisited wird ausgeführt.");
+//			System.out.println("wasProfileVisited wird ausgeführt.");
 			
 			  // DB-Verbindung holen
 		    Connection con = DBConnection.connection();

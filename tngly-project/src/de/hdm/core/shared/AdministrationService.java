@@ -47,7 +47,7 @@ public interface AdministrationService extends RemoteService {
 	 */
 	public void deleteProfile(Profile profile) throws IllegalArgumentException;
 
-	public Profile findProfileByName(String userEmail) throws IllegalArgumentException;
+	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException;
 	
 	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException;
 	
@@ -56,6 +56,8 @@ public interface AdministrationService extends RemoteService {
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException;
 	
 	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException;
+	
+	public void checkUserProfile() throws IllegalArgumentException;
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

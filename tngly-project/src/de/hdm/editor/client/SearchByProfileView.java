@@ -50,11 +50,11 @@ public class SearchByProfileView extends Update {
 
 		logger.info(ClientsideSettings.getLoginInfo().getEmailAddress());
 
-		if (ClientsideSettings.getUserProfile() == null) {
-			int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-			ClientsideSettings.getAdministration().findProfileByName(
-					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), new FindCallback());
-		}
+//		if (ClientsideSettings.getUserProfile() == null) {
+//			int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+//			ClientsideSettings.getAdministration().findProfileByName(
+//					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), new FindCallback());
+//		}
 
 		VerticalPanel verPanel = new VerticalPanel();
 		verPanel.setSpacing(10);

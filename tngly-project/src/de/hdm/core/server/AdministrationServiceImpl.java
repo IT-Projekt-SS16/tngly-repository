@@ -193,12 +193,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Aufruf dieser Methode durch den Benutzer, 
-	 * um das eigene Profil endgï¿½ltig aus dem System zu lï¿½schen.
+	 * Aufruf dieser Methode durch den Benutzer, um das eigene Profil
+	 * endgï¿½ltig aus dem System zu lï¿½schen.
 	 */
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
-		// ï¿½bergabe des applikationsweiten Benutzerprofils an den ProfilMapper zur weiteren Verarbeitung (Lï¿½schen in DB)
+		// ï¿½bergabe des applikationsweiten Benutzerprofils an den ProfilMapper
+		// zur weiteren Verarbeitung (Lï¿½schen in DB)
 		this.profileBanMapper.delete(profile);
 		this.profileVisitMapper.delete(profile);
 		this.wishMapper.delete(profile);
@@ -207,78 +208,102 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		// Lï¿½schen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
 		ServersideSettings.setUserProfile(null);
 	}
-	
-	public Profile findProfileByName(String userEmail) throws IllegalArgumentException {
-		return this.profileMapper.findByName(userEmail);
+
+	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
+		Profile profile = this.profileMapper.findByName(userEmail);
+		ArrayList<Profile> profiles = new ArrayList<Profile>();
+		profiles.add(profile);
+		profiles = this.propertyMapper.searchForProperties(profiles);
+		profiles = this.informationMapper.searchForInformationValues(profiles);
+		return profiles.get(0);
 	}
-	
+
+	@Override
+	public void checkUserProfile() throws IllegalArgumentException {
+		// Abfrage des aktuell eingelogten Benutzers
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+				.getUserService();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+
+		Profile temp = this.profileMapper.findByName(userName);
+
+		/*
+		 * Überprüfung ob der eingelogte Benutezr bereits in der Datenbank
+		 * vorhanden ist, aonsten wird er erzeugt.
+		 */
+		if (temp == null) {
+			this.createProfile(this.profileMapper.findByName(userName));
+		}
+
+	}
+
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException {
 		ServersideSettings.setSearchProfile(searchProfile);
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-		
+
 		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-		
-		for (int x = 0; x<profiles.size(); x++)	{
-		System.out.println(profiles.get(x).getId());
-		System.out.println(profiles.get(x).getUserName());
-		System.out.println(profiles.get(x).getName());
-		System.out.println(profiles.get(x).getLastName());
-		System.out.println(profiles.get(x).getDateOfBirth());
-		System.out.println(profiles.get(x).getGender());
-		System.out.println("");
+
+		// for (int x = 0; x<profiles.size(); x++) {
+		// System.out.println(profiles.get(x).getId());
+		// System.out.println(profiles.get(x).getUserName());
+		// System.out.println(profiles.get(x).getName());
+		// System.out.println(profiles.get(x).getLastName());
+		// System.out.println(profiles.get(x).getDateOfBirth());
+		// System.out.println(profiles.get(x).getGender());
+		// System.out.println("");
+		// }
+
+		for (int x = 0; x < profiles.size(); x++) {
+			Profile p = profiles.get(x);
+
+			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(p));
+
+			// System.out.println(p.getId());
+			// System.out.println(p.getWasVisited());
 		}
 
-		
-		for (int x = 0; x<profiles.size(); x++){
-			Profile p = profiles.get(x);
-			
-			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(p));
-			
-			
-			System.out.println(p.getId());
-			System.out.println(p.getWasVisited());
-		}
-		
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
 		Profile reference = ServersideSettings.getUserProfile();
-		
+
 		Logger logger = ClientsideSettings.getLogger();
 		logger.info("searchForProperties + searchForInformationValues ausgefÃ¼hrt:");
-		
-		for (int x = 0; x<profiles.size(); x++)	{
-			Profile p = profiles.get(x);
-			
-			logger.info("Informationen zB:" + p.getId());
-		}
-		
-		for (int x = 0; x<profiles.size(); x++){
+
+		// for (int x = 0; x<profiles.size(); x++) {
+		// Profile p = profiles.get(x);
+		//
+		// logger.info("Informationen zB:" + p.getId());
+		// }
+
+		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
 			p.equals(reference);
 		}
-		
+
 		Collections.sort(profiles, Collections.reverseOrder());
 		ServersideSettings.setProfilesFoundAndCompared(profiles);
 		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
 		return profiles;
 	}
-	
+
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
 		this.profileVisitMapper.insert(visitedProfiles);
 	}
-	
+
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
 		this.profileVisitMapper.delete(visitedProfiles);
 	}
-	
+
 	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException {
 		return this.profileVisitMapper.wasProfileVisited(profile);
 	}
 
-
 	@Override
-	public Wish addWishToWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException {
+	public Wish addWishToWishlist(int wishedProfileId, int wishingProfileId) throws IllegalArgumentException {
 		Wish wish = new Wish();
 		wish.setWishedProfileId(wishedProfileId);
 		wish.setWishingProfileId(wishingProfileId);
@@ -288,7 +313,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public void deleteWishFromWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException {
+	public void deleteWishFromWishlist(int wishedProfileId, int wishingProfileId) throws IllegalArgumentException {
 		Wish wish = new Wish();
 		wish.setWishedProfileId(wishedProfileId);
 		wish.setWishingProfileId(wishingProfileId);
@@ -296,46 +321,46 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		this.wishMapper.delete(wish);
 
 	}
-	
+
 	public ArrayList<Wish> wishlist(int wishingpId) throws IllegalArgumentException {
 		ArrayList<Wish> wishlist = this.wishMapper.findWishedProfiles(wishingpId);
-		
-		
+
 		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-		
-		for (int x = 0; x<wishlist.size(); x++)	{
-		System.out.println(wishlist.get(x).getId());
-		System.out.println(wishlist.get(x).getWishedProfile().getUserName());
-		System.out.println(wishlist.get(x).getWishedProfile().getName());
-		System.out.println(wishlist.get(x).getWishedProfile().getLastName());
-		System.out.println(wishlist.get(x).getWishedProfile().getDateOfBirth());
-		System.out.println(wishlist.get(x).getWishedProfile().getGender());
-		System.out.println("");
+
+		for (int x = 0; x < wishlist.size(); x++) {
+			System.out.println(wishlist.get(x).getId());
+			System.out.println(wishlist.get(x).getWishedProfile().getUserName());
+			System.out.println(wishlist.get(x).getWishedProfile().getName());
+			System.out.println(wishlist.get(x).getWishedProfile().getLastName());
+			System.out.println(wishlist.get(x).getWishedProfile().getDateOfBirth());
+			System.out.println(wishlist.get(x).getWishedProfile().getGender());
+			System.out.println("");
 		}
-		
-		//profiles = this.propertyMapper.searchForProperties(profiles);
-		//profiles = this.informationMapper.searchForInformationValues(profiles);
-		//Profile reference = ServersideSettings.getUserProfile();
-		
-		/**for (int x = 0; x<profiles.size(); x++){
-			Profile p = profiles.get(x);
-			p.equals(reference);
-		}
-		
-		Collections.sort(profiles, Collections.reverseOrder());
-		ServersideSettings.setProfilesFoundAndCompared(profiles);
-		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");**/
+
+		// profiles = this.propertyMapper.searchForProperties(profiles);
+		// profiles =
+		// this.informationMapper.searchForInformationValues(profiles);
+		// Profile reference = ServersideSettings.getUserProfile();
+
+		/**
+		 * for (int x = 0; x<profiles.size(); x++){ Profile p = profiles.get(x);
+		 * p.equals(reference); }
+		 * 
+		 * Collections.sort(profiles, Collections.reverseOrder());
+		 * ServersideSettings.setProfilesFoundAndCompared(profiles);
+		 * System.out.println(
+		 * "Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
+		 **/
 		return wishlist;
 	}
-	
 
 	@Override
 	public ProfileBan createProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException {
-			ProfileBan pb = new ProfileBan();
-			pb.setBannedProfileId(bannedpId);
-			pb.setBanningProfileId(banningpId);
-			pb.setId(1);
-			return this.profileBanMapper.insert(pb);
+		ProfileBan pb = new ProfileBan();
+		pb.setBannedProfileId(bannedpId);
+		pb.setBanningProfileId(banningpId);
+		pb.setId(1);
+		return this.profileBanMapper.insert(pb);
 	}
 
 	@Override
@@ -347,21 +372,20 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		this.profileBanMapper.delete(pb);
 
 	}
-	
+
 	public ArrayList<ProfileBan> bans(int banningpId) throws IllegalArgumentException {
 		ArrayList<ProfileBan> bans = this.profileBanMapper.findBannedProfiles(banningpId);
-		
-		
+
 		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-		
-		for (int x = 0; x<bans.size(); x++)	{
-		System.out.println(bans.get(x).getId());
-		System.out.println(bans.get(x).getBannedProfile().getUserName());
-		System.out.println(bans.get(x).getBannedProfile().getName());
-		System.out.println(bans.get(x).getBannedProfile().getLastName());
-		System.out.println(bans.get(x).getBannedProfile().getDateOfBirth());
-		System.out.println(bans.get(x).getBannedProfile().getGender());
-		System.out.println("");
+
+		for (int x = 0; x < bans.size(); x++) {
+			System.out.println(bans.get(x).getId());
+			System.out.println(bans.get(x).getBannedProfile().getUserName());
+			System.out.println(bans.get(x).getBannedProfile().getName());
+			System.out.println(bans.get(x).getBannedProfile().getLastName());
+			System.out.println(bans.get(x).getBannedProfile().getDateOfBirth());
+			System.out.println(bans.get(x).getBannedProfile().getGender());
+			System.out.println("");
 		}
 		return bans;
 	}

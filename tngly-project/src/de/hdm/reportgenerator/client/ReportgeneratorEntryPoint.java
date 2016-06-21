@@ -79,7 +79,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		RootPanel.get("Navigator").add(horPanel);
 
-				UpdateReportGenerator updateR = new SearchByProfileViewR();
+				UpdateReportGenerator updateR = new SearchByProfileView();
 
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(updateR);

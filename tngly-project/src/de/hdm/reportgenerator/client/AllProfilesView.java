@@ -10,6 +10,22 @@ import de.hdm.core.shared.report.HTMLReportWriter;
 
 public class AllProfilesView extends UpdateReportGenerator {
 
+	private String reportText = null;
+	
+	private ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
+	
+	public AllProfilesView(String reportText){
+		this.setReportText(reportText);
+	}
+	
+	public String getReportText() {
+		return reportText;
+	}
+
+	public void setReportText(String reportText) {
+		this.reportText = reportText;
+	}
+
 	/**
 	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
 	 * Methode zu erstellen ist.
@@ -28,6 +44,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 	 */
 	@Override
 	protected void run() {
+		
 //		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 //
 //		if (ClientsideSettings.getUnseenOrAll()) {
@@ -36,28 +53,28 @@ public class AllProfilesView extends UpdateReportGenerator {
 //			reportGenerator.createAllProfilesReport("", new AllProfilesReportCallback());
 //		}
 //
-//		this.append(ClientsideSettings.getAllProfilesReport());
+		this.append(this.reportText);
 	}
 //
+}
+
+//class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
+//
+//	@Override
+//	public void onFailure(Throwable caught) {
+//		ClientsideSettings.getLogger().severe("Fehler bei der Abfrage " + caught.getMessage());
+//	}
+//
+//	@Override
+//	public void onSuccess(AllProfilesReport report) {
+//		if (report != null) {
+//			HTMLReportWriter writer = new HTMLReportWriter();
+//			writer.process(report);
+//			ClientsideSettings.setAllProfilesReport(writer.getReportText());
+//		}
+//	}
 //}
-
-class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
-
-	@Override
-	public void onFailure(Throwable caught) {
-		ClientsideSettings.getLogger().severe("Fehler bei der Abfrage " + caught.getMessage());
-	}
-
-	@Override
-	public void onSuccess(AllProfilesReport report) {
-		if (report != null) {
-			HTMLReportWriter writer = new HTMLReportWriter();
-			writer.process(report);
-			ClientsideSettings.setAllProfilesReport(writer.getReportText());
-		}
-	}
-}
-}
+//}
 
 
 // BankAdministrationAsync bankVerwaltung =

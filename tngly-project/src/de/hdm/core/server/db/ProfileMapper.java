@@ -433,9 +433,9 @@ public class ProfileMapper {
 			return null;
 		}
 
-		for (int x = 0; x<profiles.size(); x++)	{
-		System.out.println(profiles.get(x).getId());
-		}
+//		for (int x = 0; x<profiles.size(); x++)	{
+//		System.out.println(profiles.get(x).getId());
+//		}
 		
 		return profiles;
 	}

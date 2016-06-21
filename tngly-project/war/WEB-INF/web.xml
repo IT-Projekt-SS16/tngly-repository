@@ -39,6 +39,16 @@
 		<url-pattern>/editor/administration</url-pattern>
 		<url-pattern>/reportgenerator/administration</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>reportgenerator</servlet-name>
+		<servlet-class>de.hdm.core.server.ReportGeneratorImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>reportgenerator</servlet-name>
+		<url-pattern>/reportgenerator/reportgenerator</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 

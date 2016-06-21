@@ -44,7 +44,7 @@ public interface AdministrationServiceAsync {
 	 */
 	public void deleteProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
-	public void findProfileByName(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
+	public void getProfileByUserName(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
 	
 	public void searchAndCompareProfiles(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
 	
@@ -53,6 +53,8 @@ public interface AdministrationServiceAsync {
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	public void wasProfileVisited(Profile profile, AsyncCallback<Boolean> callback) throws IllegalArgumentException;
+	
+	public void checkUserProfile(AsyncCallback<Void> callback);
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
@@ -107,5 +109,4 @@ public interface AdministrationServiceAsync {
 
 	public void deleteInformation(Description description, AsyncCallback<Void> callback)
 			throws IllegalArgumentException;
-
 }
