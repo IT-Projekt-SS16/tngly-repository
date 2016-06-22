@@ -372,29 +372,42 @@ public class EditProfileView extends Update {
 		t3.setWidget(1, 1, tBm);
 		
 		
-		t3.setText(2, 0, "Favorite era");
-		if (ClientsideSettings.getUserProfile() == null) {
-		t3.setWidget(2, 1, eraBox);
-		} else {
-			int index;
-			if (ClientsideSettings.getUserProfile().getConfession() == "Stone Age") {
-				index = 0;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Ancient Times") {
-				index = 1;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Early Middle Ages") {
-				index = 2;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Late Middle Ages") {
-				index = 3;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Renaissance") {
-				index = 4;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Industrial Age") {
-				index = 5;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Modern Age") {
-				index = 6;
-			}
-			//eraBox.setItemSelected(index, true);
-			t3.setWidget(2, 1, eraBox);
-		}
+		final CheckBox chkStoneAge = new CheckBox();
+		final CheckBox chkAncientTimes = new CheckBox();
+		final CheckBox chkEarlyMiddleAges = new CheckBox();
+		final CheckBox chkLateMiddleAges = new CheckBox();
+		final CheckBox chkRenaissance = new CheckBox();
+		final CheckBox chkIndusrialAge = new CheckBox();
+		final CheckBox chkModernAge = new CheckBox();
+		
+		FlexTable t5 = new FlexTable();
+		
+		t3.setText(2,0, "Favorite Era");
+		
+		t5.setText(0, 0, "Stone Age");
+		t5.setWidget(0, 1, chkStoneAge);
+		
+		t5.setText(1, 0, "Ancient Times");
+		t5.setWidget(1, 1, chkAncientTimes);
+		
+		t5.setText(2, 0, "Early Middle Ages");
+		t5.setWidget(2, 1, chkEarlyMiddleAges);
+		
+		t5.setText(3, 0, "Late Middle Ages");
+		t5.setWidget(3, 1, chkLateMiddleAges);
+		
+		t5.setText(4, 0, "Renaissance");
+		t5.setWidget(4, 1, chkRenaissance);
+		
+		t5.setText(5, 0, "IndusrialAge");
+		t5.setWidget(5, 1, chkIndusrialAge);
+		
+		t5.setText(5, 0, "ModernAge");
+		t5.setWidget(5, 1, chkModernAge);
+		
+		t3.setWidget(2, 1, t5);
+		
+		
 		
 		
 		t3.setText(3, 0, "I associate myself with this subculture");	
