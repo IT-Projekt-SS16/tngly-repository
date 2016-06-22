@@ -105,6 +105,7 @@ public class EditProfileView extends Update {
 		confessionBox.addItem("Orthodox");
 		confessionBox.addItem("Other");
 		confessionBox.setPixelSize(130,25);
+	
 
 		final ListBox genderBox = new ListBox(false);
 		genderBox.setVisibleItemCount(1);
@@ -127,7 +128,31 @@ public class EditProfileView extends Update {
 		myHobbiesSelect.addItem("Fitness");
 		myHobbiesSelect.setPixelSize(130,130);
 		
+		final ListBox eraBox = new ListBox(false);
+		eraBox.setVisibleItemCount(1);
+		eraBox.addItem("Stone Age");
+		eraBox.addItem("Ancient Times");
+		eraBox.addItem("Example3");
+		eraBox.addItem("Example4");
+		eraBox.addItem("Example5");
+		eraBox.addItem("Example6");
+		eraBox.addItem("Example7");
+		eraBox.addItem("Example8");
+		eraBox.addItem("Example9");
+		eraBox.setPixelSize(130,25);
 		
+		final ListBox subcultureBox = new ListBox(false);
+		subcultureBox.setVisibleItemCount(1);
+		subcultureBox.addItem("Example1");
+		subcultureBox.addItem("Example2");
+		subcultureBox.addItem("Example3");
+		subcultureBox.addItem("Example4");
+		subcultureBox.addItem("Example5");
+		subcultureBox.addItem("Example6");
+		subcultureBox.addItem("Example7");
+		subcultureBox.addItem("Example8");
+		subcultureBox.addItem("Example9");
+		subcultureBox.setPixelSize(130,25);
 		
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearArrowsVisible(true);
@@ -299,30 +324,34 @@ public class EditProfileView extends Update {
 //		}
 //		
 		
-		final CheckBox chkSoccer = new CheckBox();
-		final CheckBox chkBaseball = new CheckBox();
 		final CheckBox chkVolleyball = new CheckBox();
-		final CheckBox chkBasketball = new CheckBox();
-		final CheckBox chkGolf = new CheckBox();
+		final CheckBox chkFootball = new CheckBox();
+		final CheckBox chkWatchPeople = new CheckBox();
+		final CheckBox chkIT = new CheckBox();
+		final CheckBox chkHandball = new CheckBox();
+		final CheckBox chkPP = new CheckBox();
 		
 		
 		FlexTable t2 = new FlexTable();
 		FlexTable t4 = new FlexTable();
 		
-		t2.setText(0, 0, "Soccer");
-		t2.setWidget(0, 1, chkSoccer);
+		t2.setText(0, 0, "Volleyball");
+		t2.setWidget(0, 1, chkVolleyball);
 		
-		t2.setText(1, 0, "Baseball");
-		t2.setWidget(1, 1, chkBaseball);
+		t2.setText(1, 0, "Football");
+		t2.setWidget(1, 1, chkFootball);
 		
-		t2.setText(2, 0, "Volleyball");
-		t2.setWidget(2, 1, chkVolleyball);
+		t2.setText(2, 0, "Watch People");
+		t2.setWidget(2, 1, chkWatchPeople);
 		
-		t2.setText(3, 0, "Basketball");
-		t2.setWidget(3, 1, chkBasketball);
+		t2.setText(3, 0, "Not working at the IT-Project");
+		t2.setWidget(3, 1, chkIT);
 		
-		t2.setText(4, 0, "Golf");
-		t2.setWidget(4, 1, chkGolf);
+		t2.setText(4, 0, "Handball");
+		t2.setWidget(4, 1, chkHandball);
+		
+		t2.setText(5, 0, "Pocket Pool");
+		t2.setWidget(5, 1, chkPP);
 		
 		t.setWidget(10, 1, t2);
 		
@@ -335,13 +364,76 @@ public class EditProfileView extends Update {
         final TextBox tBm = new TextBox();
 		
 		
-		t3.setText(0,0, "Favourite Band(s)");
+		t3.setText(0,0, "Favorite Band");
 		t3.setWidget(0, 1, tBb);
 		
 		
-		
-		t3.setText(1,0, "Favourite Movie(s)");
+		t3.setText(1,0, "Favorite Movie");
 		t3.setWidget(1, 1, tBm);
+		
+		
+		final CheckBox chkStoneAge = new CheckBox();
+		final CheckBox chkAncientTimes = new CheckBox();
+		final CheckBox chkEarlyMiddleAges = new CheckBox();
+		final CheckBox chkLateMiddleAges = new CheckBox();
+		final CheckBox chkRenaissance = new CheckBox();
+		final CheckBox chkIndusrialAge = new CheckBox();
+		final CheckBox chkModernAge = new CheckBox();
+		
+		FlexTable t5 = new FlexTable();
+		
+		t3.setText(2,0, "Favorite Era");
+		
+		t5.setText(0, 0, "Stone Age");
+		t5.setWidget(0, 1, chkStoneAge);
+		
+		t5.setText(1, 0, "Ancient Times");
+		t5.setWidget(1, 1, chkAncientTimes);
+		
+		t5.setText(2, 0, "Early Middle Ages");
+		t5.setWidget(2, 1, chkEarlyMiddleAges);
+		
+		t5.setText(3, 0, "Late Middle Ages");
+		t5.setWidget(3, 1, chkLateMiddleAges);
+		
+		t5.setText(4, 0, "Renaissance");
+		t5.setWidget(4, 1, chkRenaissance);
+		
+		t5.setText(5, 0, "IndusrialAge");
+		t5.setWidget(5, 1, chkIndusrialAge);
+		
+		t5.setText(5, 0, "ModernAge");
+		t5.setWidget(5, 1, chkModernAge);
+		
+		t3.setWidget(2, 1, t5);
+		
+		final CheckBox chkBringing = new CheckBox();
+		final CheckBox chkEnjoying = new CheckBox();
+		final CheckBox chkBeing = new CheckBox();
+		final CheckBox chkSolving = new CheckBox();
+		final CheckBox chkKeeping = new CheckBox();
+		
+		
+		FlexTable t7 = new FlexTable();
+		
+		t3.setText(3, 0, "I associate myself with this subculture");	
+		
+		t7.setText(0, 0, "bringing creativity into a relationship");
+		t7.setWidget(0, 1, chkBringing);
+		
+		t7.setText(1, 0, "enjoying the simple things");
+		t7.setWidget(1, 1, chkEnjoying);
+		
+		t7.setText(2, 0, "being romantic");
+		t7.setWidget(2, 1, chkBeing);
+		
+		t7.setText(3, 0, "solving conflicts quickly");
+		t7.setWidget(3, 1, chkSolving);
+		
+		t7.setText(4, 0, "keeping calm in chaotic situations");
+		t7.setWidget(4, 1, chkKeeping);
+			
+		t3.setWidget(3, 1, t7);
 		
 		verPanel.add(t);
 		
@@ -361,19 +453,23 @@ public class EditProfileView extends Update {
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
-//				final String symbol = tbfn.getText().toUpperCase().trim();
-//				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
-//				Window.alert("'" + symbol + "' is not a valid symbol.");
-//				tbfn.selectAll();
-//				return;
-//				}
-//				
-//				final String symbol1 = tbn.getText().toUpperCase().trim();
-//				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
-//				Window.alert("'" + symbol1 + "' is not a valid symbol.");
-//				tbn.selectAll();
-//				return;
-//				}
+				final String symbol = tbfn.getText().toUpperCase().trim();
+				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
+				Window.alert("'" + symbol + "' is not a valid symbol.");
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				return;
+				}
+			
+				final String symbol1 = tbn.getText().toUpperCase().trim();
+				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
+				Window.alert("'" + symbol1 + "' is not a valid symbol.");
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				return;
+				}
 //				
 //				final String symbol2 = tbbh.getText().toUpperCase().trim();
 //				if (!symbol2.matches("^[0-9A-Z\\.]{1,10}$")) {

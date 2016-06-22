@@ -58,8 +58,6 @@ class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
 	}
 }
 }
-
-
 // BankAdministrationAsync bankVerwaltung =
 // ClientsideSettings.getBankVerwaltung();
 
