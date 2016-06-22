@@ -66,7 +66,8 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		});
 
 	}
-
+	
+	
 	private void loadReportgenerator() {
 
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {

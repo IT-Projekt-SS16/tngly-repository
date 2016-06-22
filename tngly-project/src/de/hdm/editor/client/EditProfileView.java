@@ -324,30 +324,34 @@ public class EditProfileView extends Update {
 //		}
 //		
 		
-		final CheckBox chkSoccer = new CheckBox();
-		final CheckBox chkBaseball = new CheckBox();
 		final CheckBox chkVolleyball = new CheckBox();
-		final CheckBox chkBasketball = new CheckBox();
-		final CheckBox chkGolf = new CheckBox();
+		final CheckBox chkFootball = new CheckBox();
+		final CheckBox chkWatchPeople = new CheckBox();
+		final CheckBox chkIT = new CheckBox();
+		final CheckBox chkHandball = new CheckBox();
+		final CheckBox chkPP = new CheckBox();
 		
 		
 		FlexTable t2 = new FlexTable();
 		FlexTable t4 = new FlexTable();
 		
-		t2.setText(0, 0, "Soccer");
-		t2.setWidget(0, 1, chkSoccer);
+		t2.setText(0, 0, "Volleyball");
+		t2.setWidget(0, 1, chkVolleyball);
 		
-		t2.setText(1, 0, "Baseball");
-		t2.setWidget(1, 1, chkBaseball);
+		t2.setText(1, 0, "Football");
+		t2.setWidget(1, 1, chkFootball);
 		
-		t2.setText(2, 0, "Volleyball");
-		t2.setWidget(2, 1, chkVolleyball);
+		t2.setText(2, 0, "Watch People");
+		t2.setWidget(2, 1, chkWatchPeople);
 		
-		t2.setText(3, 0, "Basketball");
-		t2.setWidget(3, 1, chkBasketball);
+		t2.setText(3, 0, "Not working at the IT-Project");
+		t2.setWidget(3, 1, chkIT);
 		
-		t2.setText(4, 0, "Golf");
-		t2.setWidget(4, 1, chkGolf);
+		t2.setText(4, 0, "Handball");
+		t2.setWidget(4, 1, chkHandball);
+		
+		t2.setText(5, 0, "Pocket Pool");
+		t2.setWidget(5, 1, chkPP);
 		
 		t.setWidget(10, 1, t2);
 		
