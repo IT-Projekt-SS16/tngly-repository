@@ -407,7 +407,34 @@ public class EditProfileView extends Update {
 		
 		t3.setWidget(2, 1, t5);
 		
-
+		final CheckBox chkBringing = new CheckBox();
+		final CheckBox chkEnjoying = new CheckBox();
+		final CheckBox chkBeing = new CheckBox();
+		final CheckBox chkSolving = new CheckBox();
+		final CheckBox chkKeeping = new CheckBox();
+		
+		
+		FlexTable t7 = new FlexTable();
+		
+		t3.setText(3, 0, "I associate myself with this subculture");	
+		
+		t7.setText(0, 0, "bringing creativity into a relationship");
+		t7.setWidget(0, 1, chkBringing);
+		
+		t7.setText(1, 0, "enjoying the simple things");
+		t7.setWidget(1, 1, chkEnjoying);
+		
+		t7.setText(2, 0, "being romantic");
+		t7.setWidget(2, 1, chkBeing);
+		
+		t7.setText(3, 0, "solving conflicts quickly");
+		t7.setWidget(3, 1, chkSolving);
+		
+		t7.setText(4, 0, "keeping calm in chaotic situations");
+		t7.setWidget(4, 1, chkKeeping);
+			
+		t3.setWidget(3, 1, t7);
+		
 		verPanel.add(t);
 		
 		verPanel2.add(t3);
