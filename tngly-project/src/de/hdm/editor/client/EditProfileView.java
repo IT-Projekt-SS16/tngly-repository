@@ -130,8 +130,8 @@ public class EditProfileView extends Update {
 		
 		final ListBox eraBox = new ListBox(false);
 		eraBox.setVisibleItemCount(1);
-		eraBox.addItem("Example1");
-		eraBox.addItem("Example2");
+		eraBox.addItem("Stone Age");
+		eraBox.addItem("Ancient Times");
 		eraBox.addItem("Example3");
 		eraBox.addItem("Example4");
 		eraBox.addItem("Example5");
@@ -442,19 +442,23 @@ public class EditProfileView extends Update {
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
-//				final String symbol = tbfn.getText().toUpperCase().trim();
-//				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
-//				Window.alert("'" + symbol + "' is not a valid symbol.");
-//				tbfn.selectAll();
-//				return;
-//				}
-//				
-//				final String symbol1 = tbn.getText().toUpperCase().trim();
-//				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
-//				Window.alert("'" + symbol1 + "' is not a valid symbol.");
-//				tbn.selectAll();
-//				return;
-//				}
+				final String symbol = tbfn.getText().toUpperCase().trim();
+				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
+				Window.alert("'" + symbol + "' is not a valid symbol.");
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				return;
+				}
+			
+				final String symbol1 = tbn.getText().toUpperCase().trim();
+				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
+				Window.alert("'" + symbol1 + "' is not a valid symbol.");
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				return;
+				}
 //				
 //				final String symbol2 = tbbh.getText().toUpperCase().trim();
 //				if (!symbol2.matches("^[0-9A-Z\\.]{1,10}$")) {
