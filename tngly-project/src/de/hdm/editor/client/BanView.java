@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.cell.client.TextInputCell;
+import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Text;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -23,6 +29,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.core.client.ClientsideSettings;
@@ -36,22 +43,22 @@ public class BanView extends Update{
 	    return "";
 	  }
 	 
+	  private final ArrayList<ProfileBan> banList = ClientsideSettings.getBanlist();
 
 	  protected void run() {
 		  this.append("Here you will see your list of banned profiles");
 		  final Button removeButton;
-		  ArrayList<ProfileBan> banList = ClientsideSettings.getBanlist();
-		  
+			  
+			    
 		
-		  DataGrid bansGrid = new DataGrid<ProfileBan>();
-		  bansGrid.setWidth("100%");
+		  DataGrid<ProfileBan> bansTable = new DataGrid<ProfileBan>();
+		  bansTable.setWidth("100%");
 		   
 		  
-		  bansGrid.setEmptyTableWidget(new Label("You do not have a ban"));
-//		  
+		  bansTable.setEmptyTableWidget(new Label("You do not have a ban"));	  
 		  
 		  CellTable<ProfileBan> banTable = new CellTable<ProfileBan>();
-		    //table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		    banTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		  
 		// Add a selection model to handle user selection.
 		    final MultiSelectionModel<ProfileBan> selectionModel = new MultiSelectionModel<ProfileBan>();
@@ -59,13 +66,12 @@ public class BanView extends Update{
 		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 		      public void onSelectionChange(SelectionChangeEvent event) {
 		        Set<ProfileBan> selected = selectionModel.getSelectedSet();
-		        //if (selected != null) {
-		        //  Window.alert("You selected: " + selected.size + "Profiles");
-		        //}
+		        if (selected != null) {
+		          Window.alert("You selected: " + selected.size() + "Profiles");
+		        }
 		      }
 		    });
 		  
-
 		  Column<ProfileBan, Boolean> checkColumn =
 			        new Column<ProfileBan, Boolean>(new CheckboxCell(true, false)) {
 			          @Override
@@ -74,8 +80,8 @@ public class BanView extends Update{
 			            return selectionModel.isSelected(pb);
 			          }
 			        };
-			    bansGrid.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
-			    bansGrid.setColumnWidth(checkColumn, 40, Unit.PX);
+			   bansTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
+			    bansTable.setColumnWidth(checkColumn, 40, Unit.PX);
 			    
 		    // Add a text column to show the username.
 		    TextColumn<ProfileBan> userNameColumn = new TextColumn<ProfileBan>() {
@@ -123,8 +129,21 @@ public class BanView extends Update{
 		    };
 		    banTable.addColumn(genderColumn, "Gender");
 		    
-		 
+		}	  
+	  
+	  
+
+		    
+		 // Push data into the CellList.
+		    bansTable.setRowCount(banList.size(), true);
+		    bansTable.setRowData(0, banList);
+
+		 // Add the widgets to the root panel.
+		    RootPanel.get().add(bansTable);
 		  
+	  
+	  }
+
 //		  final CheckBox checkBox1 = new CheckBox();
 //		  final CheckBox checkBox2 = new CheckBox();
 //		  
@@ -175,8 +194,8 @@ public class BanView extends Update{
 //			        
 //		  RootPanel.get("Details").add(deleteButton);
 			        
-			      }
-}
+			      
+
 		    
 	 
 		    
