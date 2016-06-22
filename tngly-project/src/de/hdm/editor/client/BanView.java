@@ -57,12 +57,11 @@ public class BanView extends Update{
 		  
 		  bansTable.setEmptyTableWidget(new Label("You do not have a ban"));	  
 		  
-		  CellTable<ProfileBan> banTable = new CellTable<ProfileBan>();
-		    banTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		  
 		  
 		// Add a selection model to handle user selection.
 		    final MultiSelectionModel<ProfileBan> selectionModel = new MultiSelectionModel<ProfileBan>();
-		    banTable.setSelectionModel(selectionModel);
+		    bansTable.setSelectionModel(selectionModel);
 		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 		      public void onSelectionChange(SelectionChangeEvent event) {
 		        Set<ProfileBan> selected = selectionModel.getSelectedSet();
@@ -90,7 +89,7 @@ public class BanView extends Update{
 		        return pb.getBannedProfile().getUserName();
 		      }
 		    };
-		    banTable.addColumn(userNameColumn, "Username");
+		    bansTable.addColumn(userNameColumn, "Username");
 
 		    // Add a text column to show the name.
 		    TextColumn<ProfileBan> nameColumn = new TextColumn<ProfileBan>() {
@@ -99,7 +98,7 @@ public class BanView extends Update{
 		        return pb.getBannedProfile().getName();
 		      }
 		    };
-		    banTable.addColumn(nameColumn, "Name");
+		    bansTable.addColumn(nameColumn, "Name");
 		    
 		    // Add a text column to show the lastname.
 		    TextColumn<ProfileBan> lastNameColumn = new TextColumn<ProfileBan>() {
@@ -108,7 +107,7 @@ public class BanView extends Update{
 		        return pb.getBannedProfile().getLastName();
 		      }
 		    };
-		    banTable.addColumn(lastNameColumn, "LastName");
+		    bansTable.addColumn(lastNameColumn, "LastName");
 		    
 		 // Add a date column to show the birthday.
 		    DateCell dateCell = new DateCell();
@@ -118,7 +117,7 @@ public class BanView extends Update{
 		        return pb.getBannedProfile().getDateOfBirth();
 		      }
 		    };
-		    banTable.addColumn(dateColumn, "Birthday");
+		    bansTable.addColumn(dateColumn, "Birthday");
 		    
 		    // Add a text column to show the gender.
 		    TextColumn<ProfileBan> genderColumn = new TextColumn<ProfileBan>() {
@@ -127,7 +126,7 @@ public class BanView extends Update{
 		        return pb.getBannedProfile().getGender();
 		      }
 		    };
-		    banTable.addColumn(genderColumn, "Gender");
+		    bansTable.addColumn(genderColumn, "Gender");
 		    
 			  
 	  

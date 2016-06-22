@@ -2,13 +2,20 @@ package de.hdm.editor.client;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
+import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -18,6 +25,8 @@ import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.server.AdministrationServiceImpl;
@@ -33,13 +42,102 @@ public class WishlistView extends Update{
 	    return "";
 	  }
 	 
+	  private final ArrayList<Wish> wishList = ClientsideSettings.getWishlist();
 
 	  protected void run() {
 		  this.append("Here you will see your list of wished profiles");
 
-			FlexTable contentTable = new FlexTable();
-			final Button removeButton;
-			CellTable<Wish> wishTable = new CellTable();
+		  DataGrid<Wish> wishTable = new DataGrid<Wish>();
+		  wishTable.setWidth("100%");
+		   
+		  
+		  wishTable.setEmptyTableWidget(new Label("You do not have a ban"));	  
+		  
+		  
+		// Add a selection model to handle user selection.
+		    final MultiSelectionModel<Wish> selectionModel = new MultiSelectionModel<Wish>();
+		    wishTable.setSelectionModel(selectionModel);
+		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		      public void onSelectionChange(SelectionChangeEvent event) {
+		        Set<Wish> selected = selectionModel.getSelectedSet();
+		        if (selected != null) {
+		          Window.alert("You selected: " + selected.size() + "Profiles");
+		        }
+		      }
+		    });
+		  
+		  Column<Wish, Boolean> checkColumn =
+			        new Column<Wish, Boolean>(new CheckboxCell(true, false)) {
+			          @Override
+			          public Boolean getValue(Wish wish) {
+			            // Get the value from the selection model.
+			            return selectionModel.isSelected(wish);
+			          }
+			        };
+			   wishTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
+			    wishTable.setColumnWidth(checkColumn, 40, Unit.PX);
+			    
+		    // Add a text column to show the username.
+		    TextColumn<Wish> userNameColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish wish) {
+		        return wish.getWishedProfile().getUserName();
+		      }
+		    };
+		    wishTable.addColumn(userNameColumn, "Username");
+
+		    // Add a text column to show the name.
+		    TextColumn<Wish> nameColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish wish) {
+		        return wish.getWishedProfile().getName();
+		      }
+		    };
+		    wishTable.addColumn(nameColumn, "Name");
+		    
+		    // Add a text column to show the lastname.
+		    TextColumn<Wish> lastNameColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish wish) {
+		        return wish.getWishedProfile().getLastName();
+		      }
+		    };
+		    wishTable.addColumn(lastNameColumn, "LastName");
+		    
+		 // Add a date column to show the birthday.
+		    DateCell dateCell = new DateCell();
+		    Column<Wish, Date> dateColumn = new Column<Wish, Date>(dateCell) {
+		      @Override
+		      public Date getValue(Wish wish) {
+		        return wish.getWishedProfile().getDateOfBirth();
+		      }
+		    };
+		    wishTable.addColumn(dateColumn, "Birthday");
+		    
+		    // Add a text column to show the gender.
+		    TextColumn<Wish> genderColumn = new TextColumn<Wish>() {
+		      @Override
+		      public String getValue(Wish wish) {
+		        return wish.getWishedProfile().getGender();
+		      }
+		    };
+		    wishTable.addColumn(genderColumn, "Gender");
+		    
+			  
+	  
+	  
+
+		    
+		 // Push data into the CellList.
+		    wishTable.setRowCount(wishList.size(), true);
+		    wishTable.setRowData(0, wishList);
+
+		 // Add the widgets to the root panel.
+		    RootPanel.get().add(wishTable);
+		  
+	  
+	  
+	
 
 			/**DecoratorPanel contentTableDecorator = new DecoratorPanel();
 			contentTableDecorator.setWidth("100%");
@@ -62,8 +160,8 @@ public class WishlistView extends Update{
 			//hPanel.add(markAsSeenButton);
 			//markAsUnseenButton = new Button("Mark as unseen");
 			//hPanel.add(markAsUnseenButton);
-			removeButton = new Button("Remove");
-			hPanel.add(removeButton);
+			//removeButton = new Button("Remove");
+			//hPanel.add(removeButton);
 			//contentTable.getCellFormatter().addStyleName(0, 0, "profiles-ListMenu");
 			//contentTable.setWidget(0, 0, hPanel);
 			// vPanel.add(hPanel);
@@ -86,54 +184,11 @@ public class WishlistView extends Update{
 			ArrayList<Wish> list = ClientsideSettings.getWishlist();
 			ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
 			ClientsideSettings.getLogger().info(list.toString());
-			
-		    // Add a text column to show the username.
-		    TextColumn<Wish> userNameColumn = new TextColumn<Wish>() {
-		      @Override
-		      public String getValue(Wish w) {
-		        return w.getWishedProfile().getUserName();
-		      }
-		    };
-		    wishTable.addColumn(userNameColumn, "Username");
-		    
-		    // Add a text column to show the name.
-		    TextColumn<Wish> nameColumn = new TextColumn<Wish>() {
-		      @Override
-		      public String getValue(Wish w) {
-		        return w.getWishedProfile().getName();
-		      }
-		    };
-		    wishTable.addColumn(nameColumn, "Name");
-		    
-		    // Add a text column to show the lastname.
-		    TextColumn<Wish> lastNameColumn = new TextColumn<Wish>() {
-		      @Override
-		      public String getValue(Wish w) {
-		        return w.getWishedProfile().getLastName();
-		      }
-		    };
-		    wishTable.addColumn(lastNameColumn, "Lastname");
-		    
-		    
-		    // Add a text column to show the gender.
-		    TextColumn<Wish> genderColumn = new TextColumn<Wish>() {
-		      @Override
-		      public String getValue(Wish w) {
-		        return w.getWishedProfile().getGender();
-		      }
-		    };
-		    wishTable.addColumn(genderColumn, "Gender");
-		    
-		 // Add a date column to show the birthday.
-		    DateCell dateCell = new DateCell();
-		    Column<Wish, Date> dateColumn = new Column<Wish, Date>(dateCell) {
-		      @Override
-		      public Date getValue(Wish w) {
-		        return w.getWishedProfile().getDateOfBirth();
-		      }
-		    };
-		    wishTable.addColumn(dateColumn, "Birthday");
+			}
+			}
 
+						
+		   
 			/**refreshData(wishesTable);
 			
 			
@@ -169,7 +224,7 @@ public class WishlistView extends Update{
 //						RootPanel.get("Details").add(update);
 					
 
-				}
+				
 
 				/**private int getClickedRow(ClickEvent event) {
 					int selectedRow = -1;
@@ -244,7 +299,7 @@ public class WishlistView extends Update{
 						//}
 					//});
 					//this.refreshData(wishTable);
-				}
+
 
 				/**private ArrayList<Integer> getSelectedRows() {
 					ArrayList<Integer> selectedRows = new ArrayList<Integer>();
