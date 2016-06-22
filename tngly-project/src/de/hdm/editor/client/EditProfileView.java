@@ -407,36 +407,7 @@ public class EditProfileView extends Update {
 		
 		t3.setWidget(2, 1, t5);
 		
-		
-		
-		
-		t3.setText(3, 0, "I associate myself with this subculture");	
-		if (ClientsideSettings.getUserProfile() == null) {
-			t3.setWidget(3, 1, subcultureBox);
-			} else {
-				int index;
-				if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 0;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 1;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 2;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 3;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 4;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 5;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 6;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 7;
-				}
-				//subcultureBox.setItemSelected(index, true);
-				t3.setWidget(3, 1, subcultureBox);
-			}
-		
-		
+
 		verPanel.add(t);
 		
 		verPanel2.add(t3);
