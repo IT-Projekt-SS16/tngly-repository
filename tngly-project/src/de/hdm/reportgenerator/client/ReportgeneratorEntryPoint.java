@@ -99,7 +99,6 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		RootPanel.get("Navigator").add(vp);
 		
 		
-
 	}
 
 	private void loadLogin() {
@@ -113,7 +112,5 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		loginPanel.add(signInLink);
 
 		RootPanel.get("Details").add(loginPanel);
-
 	}
-
 }
