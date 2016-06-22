@@ -129,7 +129,7 @@ public class BanView extends Update{
 		    };
 		    banTable.addColumn(genderColumn, "Gender");
 		    
-		}	  
+			  
 	  
 	  
 
@@ -143,6 +143,7 @@ public class BanView extends Update{
 		  
 	  
 	  }
+}
 
 //		  final CheckBox checkBox1 = new CheckBox();
 //		  final CheckBox checkBox2 = new CheckBox();
