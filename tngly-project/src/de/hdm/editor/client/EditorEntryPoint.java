@@ -68,10 +68,10 @@ public class EditorEntryPoint implements EntryPoint {
 				loginInfo = result;
 
 				ClientsideSettings.setLoginInfo(result);
-				adminService.checkUserProfile(checkUserProfileCallback());
 
 				if (loginInfo.isLoggedIn()) {
 
+					adminService.checkUserProfile(checkUserProfileCallback());
 					loadEditor();
 
 				} else {
