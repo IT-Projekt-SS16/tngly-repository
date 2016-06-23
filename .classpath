@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/Lorena/Documents/Studium/IT-Projekt SS 16/mysql-connector-java-5.1.39-bin.jar"/>
 	<classpathentry kind="output" path="tngly-project/war/WEB-INF/classes"/>
 </classpath>

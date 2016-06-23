@@ -71,6 +71,7 @@ public interface AdministrationService extends RemoteService {
 	 */
 	public void deleteWishFromWishlist(int wishedProfileId,int wishingProfileId) throws IllegalArgumentException;
 
+	public ArrayList<Wish> getWishlist() throws IllegalArgumentException;
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um f�r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verf�gen.
@@ -83,6 +84,8 @@ public interface AdministrationService extends RemoteService {
 	 */
 	public void deleteProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException;
 
+	public ArrayList<ProfileBan> getBanlist() throws IllegalArgumentException;
+	
 	public Property createProperty() throws IllegalArgumentException;
 
 	public void editProperty(Property property) throws IllegalArgumentException;

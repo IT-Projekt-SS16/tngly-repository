@@ -25,11 +25,13 @@ import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.server.AdministrationServiceImpl;
+import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.ProfileVisit;
@@ -41,12 +43,19 @@ public class WishlistView extends Update{
 	  protected String getHeadlineText() {
 	    return "";
 	  }
-	 
+	  
+	  private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	  private final ArrayList<Wish> wishList = ClientsideSettings.getWishlist();
+	  private ListDataProvider<Wish> dataProvider = new ListDataProvider<Wish>();
+
+	 
 
 	  protected void run() {
 		  this.append("Here you will see your list of wished profiles");
+		  //ClientsideSettings.getLogger().severe("Callback wird angefragt");
+		  adminService.getWishlist(getWishlistCallback());
 
+		  //ClientsideSettings.getLogger().info("DataGrid wird aufgebaut");
 		  DataGrid<Wish> wishTable = new DataGrid<Wish>();
 		  wishTable.setWidth("100%");
 		   
@@ -133,7 +142,7 @@ public class WishlistView extends Update{
 		    wishTable.setRowData(0, wishList);
 
 		 // Add the widgets to the root panel.
-		    RootPanel.get().add(wishTable);
+		    RootPanel.get("Details").add(wishTable);
 		  
 	  
 	  
@@ -185,6 +194,24 @@ public class WishlistView extends Update{
 			ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
 			ClientsideSettings.getLogger().info(list.toString());
 			}
+	  
+	  private AsyncCallback<ArrayList<Wish>> getWishlistCallback() {
+			AsyncCallback<ArrayList<Wish>> asyncCallback = new AsyncCallback<ArrayList<Wish>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+				}
+
+				@Override 
+				public void onSuccess(ArrayList<Wish> result) {
+					ClientsideSettings.getLogger().severe("Success: " + result.getClass().getSimpleName());
+					dataProvider.setList(result);
+				}
+			};
+			return asyncCallback;
+		}
+	  
 			}
 
 						

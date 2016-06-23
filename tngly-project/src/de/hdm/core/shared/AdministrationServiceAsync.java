@@ -71,6 +71,7 @@ public interface AdministrationServiceAsync {
 	 */
 	public void deleteWishFromWishlist(int wishedProfileId,int wishingProfileId, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
+	public void getWishlist(AsyncCallback<ArrayList<Wish>> callback) throws IllegalArgumentException;
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
 	 * um f�r ein gesehenes Partnerprofil eine Kontaktsperre zum eigenen Profil zu verf�gen.
@@ -83,6 +84,8 @@ public interface AdministrationServiceAsync {
 	 */
 	public void deleteProfileBan(int bannedpId, int banningpId, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
+	public void getBanlist(AsyncCallback<ArrayList<ProfileBan>> callback) throws IllegalArgumentException;
+	
 	public void createProperty(AsyncCallback<Property> callback) throws IllegalArgumentException;
 
 	public void editProperty(Property property, AsyncCallback<Void> callback) throws IllegalArgumentException;
