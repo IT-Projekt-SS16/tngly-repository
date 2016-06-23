@@ -4,23 +4,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import com.google.appengine.api.utils.SystemProperty;
-//
 /**
  * Verwalten einer Verbindung zur Datenbank.
- * <p>
+ * 
  * <b>Vorteil:</b> Sehr einfacher Verbindungsaufbau zur Datenbank.
  * <p>
  * <b>Nachteil:</b> Durch die Singleton-Eigenschaft der Klasse kann nur auf eine
  * fest vorgegebene Datenbank zugegriffen werden.
  * <p>
- * In der Praxis kommen die meisten Anwendungen mit einer einzigen Datenbank
- * aus. Eine flexiblere Variante für mehrere gleichzeitige
- * Datenbank-Verbindungen wäre sicherlich leistungsfähiger. Dies würde
- * allerdings den Rahmen dieses Projekts sprengen bzw. die Software unnötig
- * verkomplizieren, da dies für diesen Anwendungsfall nicht erforderlich ist.
  * 
- * @author Thies
+ * Da die Einrichtung von mehreren Datenbank-Verbindungen den Rahmen dieses Projekts
+ * sprengen bzw. die Software unnötig verkomplizieren würde, haben wir eine einzige
+ * Datenbank mit einer einzigen Verbindung eingerichtet.
+ * 
+ * Kommentare inspiriert und abgewandelt von @author Thies
  */
+
 public class DBConnection {
 
     /**
@@ -31,9 +30,8 @@ public class DBConnection {
      * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
      * speichert die einzige Instanz dieser Klasse.
      * 
-     * @see AccountMapper.accountMapper()
-     * @see CustomerMapper.customerMapper()
      */
+	
     private static Connection con = null;
 
     /**
@@ -45,11 +43,12 @@ public class DBConnection {
      */
     private static String googleUrl = "jdbc:google:mysql://173.194.237.74:3306/tnglyDB?user=root";
 
-   // private static String googleUrl = "jdbc:google:mysql://173.194.226.20/tnglyDB?user=phil&password=goat"; 
-   // private static String googleUrl = "jdbc:google:mysql://173.194.226.20/tnglyDB?user=root";
-   // private static String googleUrl = "jdbc:google:mysql://our-dominion-125909:it-projekt-2/tnglyDB";
-   // private static String googleUrl = "jdbc:google:mysql://173.194.226.20?user=root";
-
+    /**
+     *   Die localUrl würde normalerweise benutzt werden, um in einer komplett auf dem Rechner
+     *   laufenden Entwicklungsumgebung zu testen. Wir haben von Anfang an direkt auf der Live-DB
+     *   von Google Cloud SQL entwickelt, um unter möglichst realistischen Bedingungen zu arbeiten.
+     */
+    
     private static String localUrl = "jdbc:mysql://173.194.237.74:3306/tnglyDB?user=root";
 
     /**
@@ -73,42 +72,70 @@ public class DBConnection {
      * eine neue Verbindung aufzubauen. Dies würde allerdings ebenfalls den
      * Rahmen dieses Projekts sprengen.
      * 
-     * @return DAS <code>DBConncetion</code>-Objekt.
+     * @return DAS <code>DBConnection</code>-Objekt.
      * @see con
      */
+    
     public static Connection connection() {
-        // Wenn es bisher keine Conncetion zur DB gab, ...
+    	
+        /**
+         *  Wenn es bisher keine Conncetion zur DB gab, ...
+         */
+    	
         if (con == null) {
+        	
+        	/**
+        	 * Je nach Entwicklungsumgebung wird url benutzt, um entweder die Verbindung zur lokalen DB
+        	 * oder zur remote DB zu übergeben.
+        	 */
+        	
             String url = null;
-            String user = "phil";
-            String password = "goat";
+            
+            /**
+             * Zugangsdaten für einen Nicht-root-Account zur Cloud SQL, der vollen Zugriff auf die DB hat.
+             */
+    
+             String user = "phil";
+             String password = "goat";    
+            
             try {
                 if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
-                    // Load the class that provides the new
-                    // "jdbc:google:mysql://" prefix.
+                    /** Load the class that provides the new
+                     *	"jdbc:google:mysql://" prefix.
+                     */
                     Class.forName("com.mysql.jdbc.GoogleDriver");
                     url = googleUrl;
                 } else {
-                    // Local MySQL instance to use during development.
+                    /**
+                     *  Local MySQL instance to use during development.
+                     */
                     Class.forName("com.mysql.jdbc.Driver");
                     url = localUrl;
                 }
-                /*
-                 * Dann erst kann uns der DriverManager eine Verbindung mit den
-                 * oben in der Variable url angegebenen Verbindungsinformationen
-                 * aufbauen.
+
+                /**
+                 * Hier gibt der DriverManager eine Verbindung, hergestellt durch die angegebene
+                 * URL und den User-Account mit vollem Zugriff zurück
                  * 
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
                 con = DriverManager.getConnection(url, user, password);
-            } catch (Exception e) {
+            } 
+            
+            /**
+             * Falls die Verbindung fehlschlägt, soll die dazugehörige Exception ausgegeben werden.
+             */
+           
+            catch (Exception e) {
                 con = null;
                 e.printStackTrace();
             }
         }
 
-        // Zurückgegeben der Verbindung
+        /**
+         *  Zurückgegeben der Verbindung
+         */
         return con;
     }
 
