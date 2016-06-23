@@ -366,23 +366,28 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	}
 
-	public ArrayList<ProfileBan> bans(int banningpId) throws IllegalArgumentException {
-		ArrayList<ProfileBan> bans = this.profileBanMapper.findBannedProfiles(banningpId);
-
+	public ArrayList<ProfileBan> getBanlist() throws IllegalArgumentException {
+		com.google.appengine.api.users.UserService userservice = com.google.appengine.api.users.UserServiceFactory.getUserService();
+		com.google.appengine.api.users.User user = userservice.getCurrentUser();
+		int atIndex = user.getEmail().indexOf("@");
+		String username = user.getEmail().substring(0, atIndex);
+		Profile currentUser = this.profileMapper.findByName(username);
+		ArrayList<ProfileBan> banList = this.profileBanMapper.findBannedProfiles(currentUser.getId());
+		
+		
 		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-
-		for (int x = 0; x < bans.size(); x++) {
-			System.out.println(bans.get(x).getId());
-			System.out.println(bans.get(x).getBannedProfile().getUserName());
-			System.out.println(bans.get(x).getBannedProfile().getName());
-			System.out.println(bans.get(x).getBannedProfile().getLastName());
-			System.out.println(bans.get(x).getBannedProfile().getDateOfBirth());
-			System.out.println(bans.get(x).getBannedProfile().getGender());
-			System.out.println("");
+		
+		for (int x = 0; x<banList.size(); x++)	{
+		System.out.println(banList.get(x).getId());
+		System.out.println(banList.get(x).getBannedProfile().getUserName());
+		System.out.println(banList.get(x).getBannedProfile().getName());
+		System.out.println(banList.get(x).getBannedProfile().getLastName());
+		System.out.println(banList.get(x).getBannedProfile().getDateOfBirth());
+		System.out.println(banList.get(x).getBannedProfile().getGender());
+		System.out.println("");
 		}
-		return bans;
+		return banList;
 	}
-
 	@Override
 	public Property createProperty() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
