@@ -4,11 +4,8 @@ package de.hdm.reportgenerator.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -17,11 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.core.client.LoginService;
 import de.hdm.core.client.LoginServiceAsync;
 import de.hdm.core.shared.LoginInfo;
-//import de.hdm.editor.client.BanView;
-//import de.hdm.editor.client.ProfileView;
-//import de.hdm.editor.client.SearchProfileView;
-//import de.hdm.editor.client.Update;
-//import de.hdm.editor.client.WishlistView;
+
 
 public class ReportgeneratorEntryPoint implements EntryPoint {
 
@@ -66,7 +59,8 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		});
 
 	}
-
+	
+	
 	private void loadReportgenerator() {
 
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -99,7 +93,6 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		RootPanel.get("Navigator").add(vp);
 		
 		
-
 	}
 
 	private void loadLogin() {
@@ -113,7 +106,5 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		loginPanel.add(signInLink);
 
 		RootPanel.get("Details").add(loginPanel);
-
 	}
-
 }

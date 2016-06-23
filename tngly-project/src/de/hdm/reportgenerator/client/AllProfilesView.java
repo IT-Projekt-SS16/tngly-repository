@@ -58,6 +58,8 @@ public class AllProfilesView extends UpdateReportGenerator {
 //
 }
 
+
+
 //class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
 //
 //	@Override
@@ -74,9 +76,6 @@ public class AllProfilesView extends UpdateReportGenerator {
 //		}
 //	}
 //}
-//}
-
-
 // BankAdministrationAsync bankVerwaltung =
 // ClientsideSettings.getBankVerwaltung();
 

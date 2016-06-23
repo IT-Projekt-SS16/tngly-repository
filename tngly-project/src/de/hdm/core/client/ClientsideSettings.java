@@ -6,22 +6,18 @@ import java.util.logging.Logger;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.hdm.core.server.ServersideSettings;
 import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.LoginInfo;
 import de.hdm.core.shared.ReportGenerator;
 import de.hdm.core.shared.ReportGeneratorAsync;
-//import de.hdm.core.shared.ReportGenerator;
-//import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
-import de.hdm.core.shared.report.AllProfilesReport;
 
 public class ClientsideSettings extends CommonSettings {
 

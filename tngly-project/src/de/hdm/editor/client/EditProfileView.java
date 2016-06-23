@@ -4,13 +4,12 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -20,7 +19,6 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
-import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 
 public class EditProfileView extends Update {
@@ -66,6 +64,27 @@ public class EditProfileView extends Update {
 	private final CheckBox chkVolleyball = new CheckBox();
 	private final CheckBox chkBasketball = new CheckBox();
 	private final CheckBox chkGolf = new CheckBox();
+	
+//	private final CheckBox chkVolleyball = new CheckBox();
+	private final CheckBox chkFootball = new CheckBox();
+	private final CheckBox chkWatchPeople = new CheckBox();
+	private final CheckBox chkIT = new CheckBox();
+	private final CheckBox chkHandball = new CheckBox();
+	private final CheckBox chkPP = new CheckBox();
+	
+	private final CheckBox chkStoneAge = new CheckBox();
+	private final CheckBox chkAncientTimes = new CheckBox();
+	private final CheckBox chkEarlyMiddleAges = new CheckBox();
+	private final CheckBox chkLateMiddleAges = new CheckBox();
+	private final CheckBox chkRenaissance = new CheckBox();
+	private final CheckBox chkIndusrialAge = new CheckBox();
+	private final CheckBox chkModernAge = new CheckBox();
+	
+	private final CheckBox chkBringing = new CheckBox();
+	private final CheckBox chkEnjoying = new CheckBox();
+	private final CheckBox chkBeing = new CheckBox();
+	private final CheckBox chkSolving = new CheckBox();
+	private final CheckBox chkKeeping = new CheckBox();
 	
 	private final Button saveProfilButton = new Button("Save");
 
@@ -134,8 +153,8 @@ public class EditProfileView extends Update {
 		genderBox.setPixelSize(130,25);
 		
 		eraBox.setVisibleItemCount(1);
-		eraBox.addItem("Example1");
-		eraBox.addItem("Example2");
+		eraBox.addItem("Stone Age");
+		eraBox.addItem("Ancient Times");
 		eraBox.addItem("Example3");
 		eraBox.addItem("Example4");
 		eraBox.addItem("Example5");
@@ -200,20 +219,26 @@ public class EditProfileView extends Update {
 		
 		t.setText(10,0, "Hobbies");
 		
-		t2.setText(0, 0, "Soccer");
-		t2.setWidget(0, 1, chkSoccer);
+		FlexTable t2 = new FlexTable();
+		FlexTable t4 = new FlexTable();
 		
-		t2.setText(1, 0, "Baseball");
-		t2.setWidget(1, 1, chkBaseball);
+		t2.setText(0, 0, "Volleyball");
+		t2.setWidget(0, 1, chkVolleyball);
 		
-		t2.setText(2, 0, "Volleyball");
-		t2.setWidget(2, 1, chkVolleyball);
+		t2.setText(1, 0, "Football");
+		t2.setWidget(1, 1, chkFootball);
 		
-		t2.setText(3, 0, "Basketball");
-		t2.setWidget(3, 1, chkBasketball);
+		t2.setText(2, 0, "Watch People");
+		t2.setWidget(2, 1, chkWatchPeople);
 		
-		t2.setText(4, 0, "Golf");
-		t2.setWidget(4, 1, chkGolf);
+		t2.setText(3, 0, "Not working at the IT-Project");
+		t2.setWidget(3, 1, chkIT);
+		
+		t2.setText(4, 0, "Handball");
+		t2.setWidget(4, 1, chkHandball);
+		
+		t2.setText(5, 0, "Pocket Pool");
+		t2.setWidget(5, 1, chkPP);
 		
 		t.setWidget(10, 1, t2);
 		
@@ -229,58 +254,53 @@ public class EditProfileView extends Update {
 		t3.setText(1,0, "Favourite Movie");
 		t3.setWidget(1, 1, tBm);
 		
+		FlexTable t5 = new FlexTable();
 		
-		t3.setText(2, 0, "Favorite era");
-		if (ClientsideSettings.getUserProfile() == null) {
-		t3.setWidget(2, 1, eraBox);
-		} else {
-			int index;
-			if (ClientsideSettings.getUserProfile().getConfession() == "Stone Age") {
-				index = 0;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Ancient Times") {
-				index = 1;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Early Middle Ages") {
-				index = 2;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Late Middle Ages") {
-				index = 3;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Renaissance") {
-				index = 4;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Industrial Age") {
-				index = 5;
-			} else if (ClientsideSettings.getUserProfile().getConfession() == "Modern Age") {
-				index = 6;
-			}
-			//eraBox.setItemSelected(index, true);
-			t3.setWidget(2, 1, eraBox);
-		}
+		t3.setText(2,0, "Favorite Era");
 		
+		t5.setText(0, 0, "Stone Age");
+		t5.setWidget(0, 1, chkStoneAge);
+		
+		t5.setText(1, 0, "Ancient Times");
+		t5.setWidget(1, 1, chkAncientTimes);
+		
+		t5.setText(2, 0, "Early Middle Ages");
+		t5.setWidget(2, 1, chkEarlyMiddleAges);
+		
+		t5.setText(3, 0, "Late Middle Ages");
+		t5.setWidget(3, 1, chkLateMiddleAges);
+		
+		t5.setText(4, 0, "Renaissance");
+		t5.setWidget(4, 1, chkRenaissance);
+		
+		t5.setText(5, 0, "IndusrialAge");
+		t5.setWidget(5, 1, chkIndusrialAge);
+		
+		t5.setText(5, 0, "ModernAge");
+		t5.setWidget(5, 1, chkModernAge);
+		
+		t3.setWidget(2, 1, t5);
+		
+		FlexTable t7 = new FlexTable();
 		
 		t3.setText(3, 0, "I associate myself with this subculture");	
-		if (ClientsideSettings.getUserProfile() == null) {
-			t3.setWidget(3, 1, subcultureBox);
-			} else {
-				int index;
-				if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 0;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 1;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 2;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 3;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 4;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 5;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 6;
-				} else if (ClientsideSettings.getUserProfile().getConfession() == "Example1") {
-					index = 7;
-				}
-				//subcultureBox.setItemSelected(index, true);
-				t3.setWidget(3, 1, subcultureBox);
-			}
 		
+		t7.setText(0, 0, "bringing creativity into a relationship");
+		t7.setWidget(0, 1, chkBringing);
+		
+		t7.setText(1, 0, "enjoying the simple things");
+		t7.setWidget(1, 1, chkEnjoying);
+		
+		t7.setText(2, 0, "being romantic");
+		t7.setWidget(2, 1, chkBeing);
+		
+		t7.setText(3, 0, "solving conflicts quickly");
+		t7.setWidget(3, 1, chkSolving);
+		
+		t7.setText(4, 0, "keeping calm in chaotic situations");
+		t7.setWidget(4, 1, chkKeeping);
+			
+		t3.setWidget(3, 1, t7);
 		
 		verPanel.add(t);
 		verPanel2.add(t3);
@@ -296,6 +316,36 @@ public class EditProfileView extends Update {
 		t.setWidget(12, 1, saveProfilButton);
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				final String symbol = tbfn.getText().toUpperCase().trim();
+				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
+				Window.alert("'" + symbol + "' is not a valid symbol.");
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				return;
+				}
+			
+				final String symbol1 = tbn.getText().toUpperCase().trim();
+				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
+				Window.alert("'" + symbol1 + "' is not a valid symbol.");
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				return;
+				}
+//				
+//				final String symbol2 = tbbh.getText().toUpperCase().trim();
+//				if (!symbol2.matches("^[0-9A-Z\\.]{1,10}$")) {
+//				Window.alert("'" + symbol2 + "' is not a valid symbol.");
+//				tbbh.selectAll();
+//				return;
+//				}
+				
+//				 if (ClientsideSettings.getUserProfile() == null){
+//				 Window.alert("Bitte f�llen Sie alle Felder aus");
+//				 }
+
+				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
 				Profile temp = new Profile();
 
