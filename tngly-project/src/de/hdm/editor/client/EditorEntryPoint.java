@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.client.LoginService;
 import de.hdm.core.client.LoginServiceAsync;
+import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.LoginInfo;
 
 public class EditorEntryPoint implements EntryPoint {
@@ -34,6 +35,8 @@ public class EditorEntryPoint implements EntryPoint {
 	 */
 	private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
+	private final AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
+	
 	/**
 	 * This is the entry point method.
 	 */
@@ -68,6 +71,7 @@ public class EditorEntryPoint implements EntryPoint {
 
 				if (loginInfo.isLoggedIn()) {
 
+					adminService.checkUserProfile(checkUserProfileCallback());
 					loadEditor();
 
 				} else {
@@ -80,6 +84,22 @@ public class EditorEntryPoint implements EntryPoint {
 
 		});
 
+	}
+
+	private AsyncCallback<Void> checkUserProfileCallback() {
+		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				ClientsideSettings.getLogger().severe("Success CheckUserProfileCallback: " + result.getClass().getSimpleName());
+			}
+		};
+		return asyncCallback;
 	}
 
 	private void loadEditor() {

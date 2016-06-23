@@ -129,8 +129,8 @@ public class InformationMapper {
 						i.setPropertyId(rs.getInt("propertyId"));
 					//	System.out.println(d.getInformationValues().toString());
 						
-						System.out.println("Informationsobjekt zum Adden initalisiert:");
-						System.out.println(i.getId() + " " + i.getValue() + " " + i.getProfileId() + " " + i.getPropertyId());
+//						System.out.println("Informationsobjekt zum Adden initalisiert:");
+//						System.out.println(i.getId() + " " + i.getValue() + " " + i.getProfileId() + " " + i.getPropertyId());
 						
 						informationValuesTemp.add(i);
 						}

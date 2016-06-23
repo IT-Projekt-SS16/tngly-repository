@@ -211,9 +211,36 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		// L�schen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
 		ServersideSettings.setUserProfile(null);
 	}
-	
-	public Profile findProfileByName(String userEmail) throws IllegalArgumentException {
-		return this.profileMapper.findByName(userEmail);
+
+	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
+		Profile profile = this.profileMapper.findByName(userEmail);
+		ArrayList<Profile> profiles = new ArrayList<Profile>();
+		profiles.add(profile);
+		profiles = this.propertyMapper.searchForProperties(profiles);
+		profiles = this.informationMapper.searchForInformationValues(profiles);
+		return profiles.get(0);
+	}
+
+	@Override
+	public void checkUserProfile() throws IllegalArgumentException {
+		// Abfrage des aktuell eingelogten Benutzers
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+				.getUserService();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+
+		Profile temp = this.profileMapper.findByName(userName);
+
+		/*
+		 * �berpr�fung ob der eingelogte Benutezr bereits in der Datenbank
+		 * vorhanden ist, aonsten wird er erzeugt.
+		 */
+		if (temp == null) {
+			this.createProfile(this.profileMapper.findByName(userName));
+		}
+
 	}
 	
 	@Override
