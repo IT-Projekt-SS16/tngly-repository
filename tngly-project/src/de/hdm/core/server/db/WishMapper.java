@@ -38,25 +38,37 @@ public class WishMapper {
 	    return wishMapper;
 	  }
 	  
+		/**
+		 * FindByKey-Methode. Hierbei wird ein Wish-Objekt anhand der ID gefunden und zurückgegeben.
+		 */
+	  
 	  public Wish findByKey(int id) {
-		    // DB-Verbindung holen
+		    /**
+		     *  DB-Verbindung holen
+		     */
 		    Connection con = DBConnection.connection();
 
 		    try {
-		      // Leeres SQL-Statement (JDBC) anlegen
+		      /**
+		       *  Leeres SQL-Statement (JDBC) anlegen
+		       */
 		      Statement stmt = con.createStatement();
 
-		      // Statement ausfüllen und als Query an die DB schicken
+		      /**
+		       *  Statement ausfüllen und als Query an die DB schicken
+		       */
 		      ResultSet rs = stmt
 		          .executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes "
 		              + "WHERE id=" + id + " ORDER BY id");
 
-		      /*
+		      /**
 		       * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
 		       * werden. Prüfe, ob ein Ergebnis vorliegt.
 		       */
 		      if (rs.next()) {
-		        // Ergebnis-Tupel in Objekt umwandeln
+		        /**
+		         *  Ergebnis-Tupel in Objekt umwandeln
+		         */
 		        Wish w = new Wish();
 		        w.setId(rs.getInt("id"));
 		        w.setWishingProfileId(rs.getInt("wishingProfileId"));
@@ -73,10 +85,16 @@ public class WishMapper {
 
 		    return null;
 		  }
-
+	  
+		/**
+		 * FindAll-Methode. Hierbei werden in einem Vektor alle ProfileVisit-Objekte ausgegeben.
+		 */
+	  
 		  public Vector<Wish> findAll() {
 		    Connection con = DBConnection.connection();
-		    // Ergebnisvektor vorbereiten
+		    /**
+		     *  Ergebnisvektor vorbereiten
+		     */
 		    Vector<Wish> result = new Vector<Wish>();
 
 		    try {
@@ -85,8 +103,10 @@ public class WishMapper {
 		      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes"
 		           + "ORDER BY id");
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
-		      // erstellt.
+		      /**
+		       *  Für jeden Eintrag im Suchergebnis wird nun ein Wish-Objekt erstellt.
+		       */
+		      
 		      while (rs.next()) {
 		        Wish w = new Wish();
 		        w.setId(rs.getInt("id"));
@@ -94,7 +114,9 @@ public class WishMapper {
 		        w.setWishedProfileId(rs.getInt("wishedProfileId"));
 		        w.setTimestamp(rs.getDate("timestamp"));
 
-		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        /**
+		         *  Hinzufügen des neuen Objekts zum Ergebnisvektor
+		         */
 		        
 		        result.addElement(w);
 		      }
@@ -103,14 +125,23 @@ public class WishMapper {
 		      e.printStackTrace();
 		    }
 
-		    // Ergebnisvektor zurückgeben
+		    /**
+		     *  Ergebnisvektor zurückgeben
+		     */
 		    return result;
 		  }
 
+			/**
+			 * FindWishedProfiles-Methode. Hierbei werden durch die ID eines Profiles alle dazu gehörigen
+			 * Wish-Objekte gefunden und zurückgegeben.
+			 */
+		  
 		  public ArrayList<Wish> findWishedProfiles(int wishingProfileId) {
 			  
 			    Connection con = DBConnection.connection();
-			    // Ergebnisvektor vorbereiten
+			    /**
+			     *  Ergebnisvektor vorbereiten
+			     */
 			    ArrayList<Wish> result = new ArrayList<Wish>();
 			    
 			    ProfileMapper profileMapper = null;
@@ -122,8 +153,10 @@ public class WishMapper {
 			      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes"
 			           + "WHERE wishingProfileId=" + wishingProfileId + "ORDER BY timestamp");
 
-			      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
-			      // erstellt.
+			      /**
+			       *  Für jeden Eintrag im Suchergebnis wird nun ein Wish-Objekt erstellt.
+			       */
+			      
 			      while (rs.next()) {
 			        Wish w = new Wish();
 			        w.setId(rs.getInt("id"));
@@ -133,7 +166,9 @@ public class WishMapper {
 			        w.setWishingProfile(profileMapper.findByKey(w.getWishingProfileId()));
 			        w.setWishedProfile(profileMapper.findByKey(w.getWishedProfileId()));
 			        
-			        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+			        /**
+			         *  Hinzufügen des neuen Objekts zum Ergebnisvektor
+			         */
 			        
 			        result.add(w);
 			      }
@@ -142,29 +177,42 @@ public class WishMapper {
 			      e.printStackTrace();
 			    }
 
-			    // Ergebnisvektor zurückgeben
+			    /**
+			     *  Ergebnisvektor zurückgeben
+			     */
 			    return result;
 			  }
 		  
-		 
+			/**
+			 * Insert-Methode. Ein Wish-Objekt w wird übergeben und die zugehörigen Werte
+			 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt in die Datenbank einzutragen.
+			 * 
+			 */
+		  
 		  public Wish insert(Wish w) {
+			  
+				/**
+				 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+				 */
 			  
 		    Connection con = DBConnection.connection();
 
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      /*
+		      /**
 		       * Zunächst schauen wir nach, welches der momentan höchste
 		       * Primärschlüsselwert ist.
 		       */
 		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
 		          + "FROM wishes ");
 
-		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		      /**
+		       *  Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		       */
 		      if (rs.next()) {
-		        /*
-		         * c erhält den bisher maximalen, nun um 1 inkrementierten
+		        /**
+		         * w erhält den bisher maximalen, nun um 1 inkrementierten
 		         * Primärschlüssel.
 		         */
 		        w.setId(rs.getInt("maxid") + 1);
@@ -177,7 +225,9 @@ public class WishMapper {
 				
 				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
 		        
-		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		        /**
+		         *  Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		         */
 		        stmt.executeUpdate("INSERT INTO wishes (id, wishingProfileId, wishedProfileId, timestamp) "
 		            + "VALUES (" + w.getId() + ",'" + w.getWishingProfileId() + "','" + w.getWishedProfileId() + "','" + date + "')");
 		      }
@@ -189,10 +239,19 @@ public class WishMapper {
 		    return w;
 		  }
 
+			/**
+			 *  Edit-Methode. Diese Methode heißt nur zwecks der Konvention "edit" -
+			 *  aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
+			 * @param w
+			 * @return
+			 */
 
 		  public Wish edit(Wish w) {
 			
-			// Diese Methode heißt nur zwecks der Konvention "edit" - aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
+				/**
+				 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+				 */
+			  
 				    Connection con = DBConnection.connection();
 
 				    try {
@@ -202,7 +261,9 @@ public class WishMapper {
 						Date currentDate = new Date();
 						String date = mySQLformat.format(currentDate);
 						
-						// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+						/**
+						 *  insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
+						 */
 				      
 				      stmt.executeUpdate("UPDATE wishes " + "SET timestamp=\""
 				          + date
@@ -213,10 +274,16 @@ public class WishMapper {
 				      e.printStackTrace();
 				    }
 
-				    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+				    /**
+				     *  Um Analogie zu insert(Wish w) zu wahren, geben wir w zurück
+				     */
 				    return w;
 				  }
 
+			/** 
+			 *  Delete-Methode. Ein Wish-Objekt wird übergeben und dieses aus der DB gelöscht.
+			 */
+		  
 		public void delete(Wish w) {
 		    Connection con = DBConnection.connection();
 		
@@ -230,6 +297,13 @@ public class WishMapper {
 		    }
 		  }
 
+		/**
+		 * Delete-Methode für Profile. Ein Profilobjekt profile wird übergeben und die zugehörigen Werte
+		 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um alle Wish-Objekte zu entfernen,
+		 * die mit diesem Profil verknüpft sind.
+		 * 
+		 */	
+		
 		public void delete(Profile profile) {
 
 			 Connection con = DBConnection.connection();

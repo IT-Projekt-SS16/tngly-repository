@@ -36,24 +36,35 @@ public class PropertyMapper {
 		return propertyMapper;
 	}
 
+	/**
+	 * FindByKey-Methode. Hierbei wird ein Property-Objekt anhand der ID gefunden und zurückgegeben.
+	 */
+	
 	public Property findByKey(int id) {
-		// DB-Verbindung holen
+		
+		/**
+		 *  DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+		
 		Connection con = DBConnection.connection();
 
 		try {
-			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			// Statement ausfüllen und als Query an die DB schicken
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken
+			 */
 			ResultSet rs = stmt.executeQuery("SELECT id, textualDescription FROM properties" + "WHERE id=" + id
 					+ " ORDER BY textualDescription");
 
-			/*
+			/**
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
 			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
+				/**
+				 *  Ergebnis-Tupel in Objekt umwandeln
+				 */
 				Property p = new Property();
 				p.setId(rs.getInt("id"));
 				p.setTextualDescription(rs.getString("textualDescription"));
@@ -68,40 +79,78 @@ public class PropertyMapper {
 		return null;
 	}
 
+	/**
+	 * FindAll-Methode. Hierbei werden in einem Vektor alle Profiles ausgegeben.
+	 */
+	
 	public Vector<Property> findAll() {
+		
+		/**
+		 * DB-Verbindung holen
+		 */
+		
 		Connection con = DBConnection.connection();
-		// Ergebnisvektor vorbereiten
+		
+		 /** 
+		  * Ergebnisvektor vorbereiten
+		  */
+		
 		Vector<Property> result = new Vector<Property>();
 
 		try {
+			/**
+			 * Erzeugen eines neuen SQL-Statements.
+			 */
 			Statement stmt = con.createStatement();
 
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken.
+			 */
+			
 			ResultSet rs = stmt.executeQuery("SELECT id, textualDescription FROM properties" + "ORDER BY id");
 
-			// Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
-			// erstellt.
+			/**
+			 *  Für jeden Eintrag im Suchergebnis wird nun ein Property-Objekt erstellt.
+			 */
 			while (rs.next()) {
 				Property p = new Property();
 				p.setId(rs.getInt("id"));
 				p.setTextualDescription(rs.getString("textualDescription"));
 
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				/**
+				 *  Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 */
 				result.addElement(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		// Ergebnisvektor zurückgeben
+		/**
+		 *  Ergebnisvektor zurückgeben
+		 */
 		return result;
 	}
 
+	/** 
+	 *  Delete-Methode. Ein Profile-Objekt wird übergeben und dieses aus der DB gelöscht.
+	 */
+	
 	public void delete(Property p) {
+		
+		/**
+		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+		
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken
+			 */
+			
 			stmt.executeUpdate("DELETE FROM properties " + "WHERE id=" + p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -113,7 +162,11 @@ public class PropertyMapper {
 
 	}
 
-	// Verbindung zwischen Property und Information
+	/**
+	 *  Verbindung zwischen Property und Information
+	 * @param i
+	 * @return
+	 */
 
 	public InfoPropertyConnection InfoPropertyConnection(InfoPropertyConnection i) {
 
@@ -149,17 +202,29 @@ public class PropertyMapper {
 		return i;
 	}
 
+	/**
+	 * SearchForProperties-Methode. Eine ArrayList mit Profil-Objekten wird übergeben, in denen nach allen Properties gesucht wird.
+	 * @param profiles
+	 * @return
+	 */
+	
 	public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
 
-		// DB-Verbindung holen
+		/**
+		 *  DB-Verbindung holen
+		 */
 		Connection con = DBConnection.connection();
 
 		for (Profile p : profiles) {
 			try {
-				// Leeres SQL-Statement (JDBC) anlegen
+				/**
+				 *  Leeres SQL-Statement (JDBC) anlegen
+				 */
 				Statement stmt = con.createStatement();
 
-				// Statement ausfüllen und als Query an die DB schicken
+				/**
+				 * Statement ausfüllen und als Query an die DB schicken
+				 */
 				String sql0 = "SELECT id, textualDescription FROM properties WHERE type ='description'";
 				ResultSet rs = stmt.executeQuery(sql0);
 

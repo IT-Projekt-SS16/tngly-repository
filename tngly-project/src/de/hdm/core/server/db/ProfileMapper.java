@@ -38,21 +38,28 @@ public class ProfileMapper {
 	
 	Logger logger = ClientsideSettings.getLogger();
 
+	/**
+	 * FindByKey-Methode. Hierbei wird ein Profil anhand der ID gefunden und zurückgegeben.
+	 */
+	
 	 public Profile findByKey(int id) {
-		    // DB-Verbindung holen
+			/**
+			 *  DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+			 */
 		    Connection con = DBConnection.connection();
 
 		    try {
-		      // Leeres SQL-Statement (JDBC) anlegen
 		      Statement stmt = con.createStatement();
 
-		      // Statement ausfüllen und als Query an die DB schicken
+		      /**
+		       *  Statement ausfüllen und als Query an die DB schicken
+		       */
 		      ResultSet rs = stmt
 		          .executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
 							+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles " + "WHERE id='"
 							+ id + "' ORDER BY id");
 
-		      /*
+		      /**
 		       * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
 		       * werden. Prüfe, ob ein Ergebnis vorliegt.
 		       */
@@ -81,27 +88,34 @@ public class ProfileMapper {
 		    return null;
 		  }
 	
-	
+		/**
+		 * FindByName-Methode. Hierbei wird ein Profil anhand des Namens gefunden und zurückgegeben.
+		 */
 	
 	public Profile findByName(String id) {
-		// DB-Verbindung holen
+		/**
+		 *  DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
 		Connection con = DBConnection.connection();
 
 		try {
-			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			// Statement ausfüllen und als Query an die DB schicken
+			 /**
+			  * Statement ausfüllen und als Query an die DB schicken
+			  */
 			ResultSet rs = stmt.executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
 					+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles " + "WHERE userName='"
 					+ id + "' ORDER BY lastName");
 
-			/*
+			 /**
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
 			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
+				/**
+				 *  Ergebnis-Tupel in Objekt umwandeln
+				 */
 				Profile p = new Profile();
 				p.setId(rs.getInt("id"));
 				p.setUserName(rs.getString("userName"));
@@ -128,19 +142,34 @@ public class ProfileMapper {
 		return null;
 	}
 
+	/**
+	 * FindAll-Methode. Hierbei werden in einem Vektor alle Profiles ausgegeben.
+	 */
+	
 	public Vector<Profile> findAll() {
 		Connection con = DBConnection.connection();
-		// Ergebnisvektor vorbereiten
+		 /** 
+		  * Ergebnisvektor vorbereiten
+		  */
 		Vector<Profile> result = new Vector<Profile>();
-
+		
+		/**
+		 * Erzeugen eines neuen SQL-Statements.
+		 */
+		
 		try {
 			Statement stmt = con.createStatement();
 
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken.
+			 */
+			
 			ResultSet rs = stmt.executeQuery("SELECT id, userName, name, lastName, dateOfBirth,"
 					+ " gender, bodyHeight, hairColour, confession, isSmoking FROM profiles" + "ORDER BY id");
 
-			// Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
-			// erstellt.
+			 /**
+			  * Für jeden Eintrag im Suchergebnis wird nun ein Profile-Objekt erstellt.
+			  */
 			while (rs.next()) {
 				Profile p = new Profile();
 				p.setId(rs.getInt("id"));
@@ -158,43 +187,64 @@ public class ProfileMapper {
 
 				p.setIsSmoking(rs.getInt("isSmoking"));
 
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 /**
+				  *  Hinzufügen des neuen Objekts zum Ergebnisvektor
+				  */
 				result.addElement(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		// Ergebnisvektor zurückgeben
+		 /**
+		  *  Ergebnisvektor zurückgeben
+		  */
 		return result;
 	}
 
+	/**
+	 * Insert-Methode. Ein Profile-Objekt p wird übergeben und die zugehörigen Werte
+	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt in die Datenbank einzutragen.
+	 * 
+	 */
+	
 	public Profile insert(Profile p) {
+		
+
+		 
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			/*
+			 /**
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM profiles ");
 
-			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			 /**
+			  *  Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			  */
 			if (rs.next()) {
-				/*
-				 * c erhält den bisher maximalen, nun um 1 inkrementierten
+				 /**
+				 * p erhält den bisher maximalen, nun um 1 inkrementierten
 				 * Primärschlüssel.
 				 */
 				p.setId(rs.getInt("maxid") + 1);
 
+				/**
+				 * Erzeugen eines neuen SQL-Statements.
+				 */
+				
 				stmt = con.createStatement();
 				
 				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
 				String date = mySQLformat.format(p.getDateOfBirth());
 				
-				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				 /**
+				  *  Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				  */
 				stmt.executeUpdate(
 						"INSERT INTO profiles (id, userName, name, lastName, gender, dateOfBirth, bodyHeight, hairColour, confession, isSmoking) "
 								+ "VALUES (" + p.getId() + ",'" + p.getUserName() + "','" + p.getName() + "','"
@@ -219,20 +269,44 @@ public class ProfileMapper {
 
 	}
 
+	/** 
+	 *  Delete-Methode. Ein Profile-Objekt wird übergeben und dieses aus der DB gelöscht.
+	 */
+	
 	public void delete(Profile p) {
+		
+		/**
+		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+		
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken
+			 */
+			
 			stmt.executeUpdate("DELETE FROM profiles " + "WHERE id=" + p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Edit-Methode. Ein Informationsobjekt in wird übergeben und die zugehörigen Werte
+	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um die Werte des Objekts in der Datenbank
+	 * zu aktualisieren.
+	 * 
+	 */	
+	
 	public Profile edit(Profile p) {
 
+		/**
+		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+				
 		Connection con = DBConnection.connection();
 
 		try {
@@ -240,6 +314,10 @@ public class ProfileMapper {
 			
 			SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
 			String date = mySQLformat.format(p.getDateOfBirth());
+			
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken
+			 */
 			
 			stmt.executeUpdate("UPDATE profiles " + "SET userName=\"" + p.getUserName() + "\", " + "name=\""
 					+ p.getName() + "\", " + "lastName=\"" + p.getLastName() + "\", " + "lastName=\"" + p.getLastName()
@@ -252,25 +330,31 @@ public class ProfileMapper {
 			e.printStackTrace();
 		}
 
-		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+		 /**
+		  *  Um Analogie zu insert(Profile p) zu wahren, geben wir p zurück
+		  */
 		return p;
 	}
 
-	/*
-	 * TODO: Umschreiben der nachfolgenden Methode zur Ausgabe von Profile nach
-	 * Vorgabe des "Suchprofils"
+	/** 
+	 * SearchByProfile-Methode. Ein SearchProfile wird übergeben, anhand dessen ähnliche Profile
+	 * in einer ArrayList ausgegeben werden.
 	 */
+	
 	public ArrayList<Profile> searchProfileByProfile(SearchProfile searchProfile) {
-		// DB-Verbindung holen
+		/**
+		 *  DB-Verbindung holen und Erzeugen einer neuen ArrayList & eines SQL-Statements.
+		 */
 		Connection con = DBConnection.connection();
 
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 
 		try {
-			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			// Statement ausfüllen und als Query an die DB schicken
+			 /**
+			  *  Statement ausfüllen und als Query an die DB schicken
+			  */
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder
 					.append("SELECT id, userName, name, lastName, dateOfBirth, FLOOR((DATEDIFF(NOW(), dateOfBirth) / 365.25)) AS age, "
@@ -278,7 +362,9 @@ public class ProfileMapper {
 
 			boolean and = false;
 			
-			// Wenn irgendein WHERE-Kriterium gesetzt wurde, dann wird auch ein WHERE ins Statement gesetzt.
+			 /**
+			  *  Wenn irgendein WHERE-Kriterium gesetzt wurde, dann wird auch ein WHERE ins Statement gesetzt.
+			  */
 			
 			if(searchProfile.getGender() != null || searchProfile.getAgeRangeFrom() != 0 || searchProfile.getAgeRangeTo() != 0 ||
 					searchProfile.getBodyHeightFrom() != 0f || searchProfile.getBodyHeightTo() != 0f || searchProfile.getHairColour() != null ||
@@ -301,7 +387,9 @@ public class ProfileMapper {
 				and = false;
 			}
 
-			// Geburtsdatum
+			 /**
+			  *  Geburtsdatum
+			  */
 			if (searchProfile.getAgeRangeFrom() != 0 && searchProfile.getAgeRangeTo() != 0) {
 				if (and == true) {
 					stringBuilder.append(" AND");
@@ -312,9 +400,10 @@ public class ProfileMapper {
 				and = true;
 			}
 
-			// Hier muss die Applikationslogik von Vornherein darauf achten,
-			// dass, wenn z.b. nur der von-Wert eingegeben wird, der bis-Wert
-			// automatisch aufgefüllt wird & vice versa
+			 /** Hier muss die Applikationslogik von Vornherein darauf achten,
+			  *  dass, wenn z.b. nur der von-Wert eingegeben wird, der bis-Wert
+			  *  automatisch aufgefüllt wird & vice versa
+			  */ 
 			
 			if (searchProfile.getBodyHeightFrom() != 0f && searchProfile.getBodyHeightTo() != 0f) {
 				if (and == true) {
@@ -333,7 +422,9 @@ public class ProfileMapper {
 				}
 			}
 
-			// Haarfarbe selektieren
+			/**
+			 *  Haarfarbe selektieren
+			 */
 
 			if (searchProfile.getHairColour() != null) {
 				if (and == true) {
@@ -351,7 +442,9 @@ public class ProfileMapper {
 				}
 			}
 
-			// Bekenntnis selektieren
+			/**
+			 *  Bekenntnis selektieren
+			 */
 
 			if (searchProfile.getConfession() != null) {
 				if (and == true) {
@@ -400,7 +493,7 @@ public class ProfileMapper {
 			// + "isSmoking=" + searchProfile.getIsSmoking() + " ORDER BY
 			// lastName");
 
-			/*
+			/**
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
 			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
@@ -425,7 +518,9 @@ public class ProfileMapper {
 				System.out.println(p.getName() + " " + p.getLastName());
 				System.out.println(p.getDateOfBirth());
 
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				/**
+				 *  Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 */
 				profiles.add(p);
 			}
 		} catch (SQLException e) {
