@@ -40,25 +40,30 @@ public class InformationMapper {
 		return informationMapper;
 	}
 
+	/*
+	 * Insert-Methode. Ein Informationsobjekt in wird übergeben und die zugehörigen Werte
+	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt in die Datenbank einzutragen.
+	 * 
+	 */
+	
 	public Information insert(Information in) {
+		
+		// Erzeugen einer Datenbankverbindung & eines neuen SQL-Statements.
 
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			/*
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
-			 */
+
+			// Der aktuell höchste Primärschlüsselwert wird gesucht...
+
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM information");
 
-			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
-				/*
-				 * c erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
-				 */
+
+			// und um 1 erhöht.
+
 				in.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
@@ -69,7 +74,7 @@ public class InformationMapper {
 
 				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
 
-				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				// Jetzt erst erfolgt die tatsächliche Einfügeoperation.
 				stmt.executeUpdate("INSERT INTO information (id, value, propertyId, profileId, timestamp) " + "VALUES ("
 						+ in.getId() + ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId()
 						+ "','" + date + "')");
@@ -81,8 +86,17 @@ public class InformationMapper {
 		return in;
 	}
 
+	/*
+	 * Edit-Methode. Ein Informationsobjekt in wird übergeben und die zugehörigen Werte
+	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um die Werte des Objekts in der Datenbank
+	 * zu aktualisieren.
+	 * 
+	 */	
+	
 	public Information edit(Information in) {
-
+		
+		// Erzeugen einer Datenbankverbindung & eines neuen SQL-Statements.
+		
 		Connection con = DBConnection.connection();
 
 		try {
@@ -91,7 +105,9 @@ public class InformationMapper {
 			SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
 			Date currentDate = new Date();
 			String date = mySQLformat.format(currentDate);
-
+			
+			//Ausführung des Statements mit den im Informations-Objekt enthaltenen Werten.
+			
 			stmt.executeUpdate("UPDATE information " + "SET value=\"" + in.getValue() + "\", " + "timestamp=\"" + date
 					+ " WHERE id=" + in.getId());
 
@@ -99,7 +115,7 @@ public class InformationMapper {
 			e.printStackTrace();
 		}
 
-		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+		// Um Analogie zu insert(Information in) zu wahren, geben wir in zurück.
 		return in;
 
 	}
