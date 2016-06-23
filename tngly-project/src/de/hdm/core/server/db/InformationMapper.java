@@ -40,7 +40,7 @@ public class InformationMapper {
 		return informationMapper;
 	}
 
-	/*
+	/**
 	 * Insert-Methode. Ein Informationsobjekt in wird übergeben und die zugehörigen Werte
 	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt in die Datenbank einzutragen.
 	 * 
@@ -48,21 +48,26 @@ public class InformationMapper {
 	
 	public Information insert(Information in) {
 		
-		// Erzeugen einer Datenbankverbindung & eines neuen SQL-Statements.
-
+		/**
+		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
 
-			// Der aktuell höchste Primärschlüsselwert wird gesucht...
+			/**
+			 *  Der aktuell höchste Primärschlüsselwert wird gesucht...
+			 */
 
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM information");
 
 			if (rs.next()) {
 
-			// und um 1 erhöht.
+				/**
+				 *  und um 1 erhöht.
+				 */
 
 				in.setId(rs.getInt("maxid") + 1);
 
@@ -74,7 +79,9 @@ public class InformationMapper {
 
 				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
 
-				// Jetzt erst erfolgt die tatsächliche Einfügeoperation.
+				/**
+				 *  Statement ausfüllen und als Query an die DB schicken
+				 */
 				stmt.executeUpdate("INSERT INTO information (id, value, propertyId, profileId, timestamp) " + "VALUES ("
 						+ in.getId() + ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId()
 						+ "','" + date + "')");
@@ -86,7 +93,7 @@ public class InformationMapper {
 		return in;
 	}
 
-	/*
+	/**
 	 * Edit-Methode. Ein Informationsobjekt in wird übergeben und die zugehörigen Werte
 	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um die Werte des Objekts in der Datenbank
 	 * zu aktualisieren.
@@ -95,7 +102,9 @@ public class InformationMapper {
 	
 	public Information edit(Information in) {
 		
-		// Erzeugen einer Datenbankverbindung & eines neuen SQL-Statements.
+		/**
+		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
 		
 		Connection con = DBConnection.connection();
 
@@ -106,7 +115,9 @@ public class InformationMapper {
 			Date currentDate = new Date();
 			String date = mySQLformat.format(currentDate);
 			
-			//Ausführung des Statements mit den im Informations-Objekt enthaltenen Werten.
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken
+			 */
 			
 			stmt.executeUpdate("UPDATE information " + "SET value=\"" + in.getValue() + "\", " + "timestamp=\"" + date
 					+ " WHERE id=" + in.getId());
@@ -115,24 +126,32 @@ public class InformationMapper {
 			e.printStackTrace();
 		}
 
-		// Um Analogie zu insert(Information in) zu wahren, geben wir in zurück.
+		/**
+		 *  Um Analogie zu insert(Information in) zu wahren, geben wir in zurück.
+		 */
 		return in;
 
 	}
 
 	public ArrayList<Profile> searchForInformationValues(ArrayList<Profile> profiles) {
 
-		// DB-Verbindung holen
+		/**
+		 *  DB-Verbindung holen
+		 */
 		Connection con = DBConnection.connection();
 
 		for (Profile p : profiles) {
 			for (Description d : p.getDescriptionList()) {
 
 				try {
-					// Leeres SQL-Statement (JDBC) anlegen
+					/**
+					 *  Leeres SQL-Statement (JDBC) anlegen
+					 */
 					Statement stmt = con.createStatement();
 
-					// Statement ausfüllen und als Query an die DB schicken
+					/**
+					 *  Statement ausfüllen und als Query an die DB schicken
+					 */
 					String sql0 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 							+ p.getId() + " AND propertyId=" + d.getId();
 					ResultSet rs = stmt.executeQuery(sql0);
@@ -163,10 +182,14 @@ public class InformationMapper {
 				for (Selection s : p.getSelectionList()) {
 
 					try {
-						// Leeres SQL-Statement (JDBC) anlegen
+						/**
+						 *  Leeres SQL-Statement (JDBC) anlegen
+						 */
 						Statement stmt = con.createStatement();
 
-						// Statement ausfüllen und als Query an die DB schicken
+						/**
+						 * Statement ausfüllen und als Query an die DB schicken
+						 */
 						String sql1 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 								+ p.getId() + " AND propertyId=" + s.getId();
 						ResultSet rs = stmt.executeQuery(sql1);
@@ -194,13 +217,28 @@ public class InformationMapper {
 		return profiles;
 	}
 
+	
+	/**
+	 * Delete-Methode. Ein Informationsobjekt in wird übergeben und die zugehörigen Werte
+	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt aus der Datenbank zu entfernen.
+	 * 
+	 */	
+	
 	public void delete(Information in) {
-
+		
+		/**
+		 *  DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+		
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken. Löschung erfolgt.
+			 */
+			
 			stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,13 +251,28 @@ public class InformationMapper {
 
 	}
 
+	/**
+	 * Delete-Methode für Profile. Ein Profilobjekt profile wird übergeben und die zugehörigen Werte
+	 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um alle Informationsobjekte zu entfernen,
+	 * die mit diesem Profil verknüpft sind.
+	 * 
+	 */		
+	
 	public void delete(Profile profile) {
 
+		/**
+		 *  DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+		
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken. Löschung erfolgt.
+			 */
+			
 			stmt.executeUpdate("DELETE FROM information " + "WHERE profileId=" + profile.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
