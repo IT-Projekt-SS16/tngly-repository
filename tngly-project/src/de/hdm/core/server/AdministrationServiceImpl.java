@@ -136,6 +136,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 * Datenbank abgleicht.
 	 */
 	private PropertyMapper propertyMapper = null;
+	
+	private ArrayList<Wish> wishlist = null;
 
 	/**
 	 * No-Argument Konstruktor
@@ -231,7 +233,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile temp = this.profileMapper.findByName(userName);
 
 		/*
-		 * Überprüfung ob der eingelogte Benutezr bereits in der Datenbank
+		 * ï¿½berprï¿½fung ob der eingelogte Benutezr bereits in der Datenbank
 		 * vorhanden ist, aonsten wird er erzeugt.
 		 */
 		if (temp == null) {
@@ -322,35 +324,26 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	}
 
-	public ArrayList<Wish> wishlist(int wishingpId) throws IllegalArgumentException {
-		ArrayList<Wish> wishlist = this.wishMapper.findWishedProfiles(wishingpId);
-
+	public ArrayList<Wish> getWishlist(){
+		com.google.appengine.api.users.UserService userservice = com.google.appengine.api.users.UserServiceFactory.getUserService();
+		com.google.appengine.api.users.User user = userservice.getCurrentUser();
+		int atIndex = user.getEmail().indexOf("@");
+		String username = user.getEmail().substring(0, atIndex);
+		Profile currentUser = this.profileMapper.findByName(username);
+		this.wishlist = this.wishMapper.findWishedProfiles(currentUser.getId());
+		
 		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-
-		for (int x = 0; x < wishlist.size(); x++) {
-			System.out.println(wishlist.get(x).getId());
-			System.out.println(wishlist.get(x).getWishedProfile().getUserName());
-			System.out.println(wishlist.get(x).getWishedProfile().getName());
-			System.out.println(wishlist.get(x).getWishedProfile().getLastName());
-			System.out.println(wishlist.get(x).getWishedProfile().getDateOfBirth());
-			System.out.println(wishlist.get(x).getWishedProfile().getGender());
-			System.out.println("");
+		
+		for (int x = 0; x<wishlist.size(); x++)	{
+		System.out.println(wishlist.get(x).getId());
+		System.out.println(wishlist.get(x).getWishedProfile().getUserName());
+		System.out.println(wishlist.get(x).getWishedProfile().getName());
+		System.out.println(wishlist.get(x).getWishedProfile().getLastName());
+		System.out.println(wishlist.get(x).getWishedProfile().getDateOfBirth());
+		System.out.println(wishlist.get(x).getWishedProfile().getGender());
+		System.out.println("");
 		}
-
-		// profiles = this.propertyMapper.searchForProperties(profiles);
-		// profiles =
-		// this.informationMapper.searchForInformationValues(profiles);
-		// Profile reference = ServersideSettings.getUserProfile();
-
-		/**
-		 * for (int x = 0; x<profiles.size(); x++){ Profile p = profiles.get(x);
-		 * p.equals(reference); }
-		 * 
-		 * Collections.sort(profiles, Collections.reverseOrder());
-		 * ServersideSettings.setProfilesFoundAndCompared(profiles);
-		 * System.out.println(
-		 * "Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
-		 **/
+		
 		return wishlist;
 	}
 
