@@ -46,6 +46,7 @@ div#TopLevelFrame{
 	font-weight: bold;
 	height: 2em;
 	width: 10em;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
 .tngly-button-searchview{
@@ -55,10 +56,11 @@ div#TopLevelFrame{
 	font-weight: bold;
 	height: 3em;
 	width: 10em;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
 .tngly-menubutton {
-background-color: #38373e;
+background-color: #808080;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
@@ -66,11 +68,12 @@ background-color: #38373e;
 	width: 10em;
 	margin-left:10px;
 	margin-top:4px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
 .tngly-submenubutton{
 	font-size: 10px;
-	background-color: #da714e;
+	background-color: #c0c0c0;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
@@ -78,12 +81,13 @@ background-color: #38373e;
 	width: 10em;
 	margin-left:10px;
 	margin-top:4px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
 
 .tngly-submenubuttonblack{
 	font-size: 10px;
-	background-color: #38373e;
+	background-color: #515151;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
@@ -91,10 +95,11 @@ background-color: #38373e;
 	width: 10em;
 	margin-left:10px;
 	margin-top:4px;
+	
 }
 
 .tngly-Profilebutton {
-	background-color: #da714e;
+	background-color: #535353;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
@@ -104,7 +109,7 @@ background-color: #38373e;
 	margin-top:4px;
 }
 .tngly-EditProfileButton {
-	background-color: #da714e;
+	background-color: #535353;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
