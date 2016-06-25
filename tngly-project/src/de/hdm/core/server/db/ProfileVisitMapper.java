@@ -357,7 +357,7 @@ public class ProfileVisitMapper {
 		      /**
 		       *  Statement ausfüllen und als Query an die DB schicken
 		       */
-		      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId FROM profileVisits "
+		      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits "
 		              + "WHERE visitedProfileId=" + p.getId());
 		      
 		      while (rs.next()) {
@@ -388,7 +388,4 @@ public class ProfileVisitMapper {
 		    
 		    
 		}
-}
-		    
-		    
-		     
+}     
