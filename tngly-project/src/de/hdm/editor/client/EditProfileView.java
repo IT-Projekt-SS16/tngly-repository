@@ -108,8 +108,7 @@ public class EditProfileView extends Update {
 	protected void run() {
 		
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-		adminService.getProfileByUserName(
-				ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), getCurrentUserProfileCallback());
+		adminService.getProfileByUserName(getCurrentUserProfileCallback());
 		
 		logger.info("Erfolgreich Profile-Edit-View geswitcht.");
 		logger.info(ClientsideSettings.getLoginInfo().getEmailAddress());

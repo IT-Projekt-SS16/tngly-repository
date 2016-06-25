@@ -44,7 +44,7 @@ public interface AdministrationServiceAsync {
 	 */
 	public void deleteProfile(Profile profile, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
-	public void getProfileByUserName(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
+	public void getProfileByUserName(AsyncCallback<Profile> callback) throws IllegalArgumentException;
 	
 	public void searchAndCompareProfiles(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
 	

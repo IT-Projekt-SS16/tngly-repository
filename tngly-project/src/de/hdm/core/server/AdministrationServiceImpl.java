@@ -212,8 +212,15 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		ServersideSettings.setUserProfile(null);
 	}
 
-	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
-		Profile profile = this.profileMapper.findByName(userEmail);
+	public Profile getProfileByUserName() throws IllegalArgumentException {
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+				.getUserService();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+		
+		Profile profile = this.profileMapper.findByName(userName);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 		profiles.add(profile);
 		profiles = this.propertyMapper.searchForProperties(profiles);
@@ -377,6 +384,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		int atIndex = user.getEmail().indexOf("@");
 		String username = user.getEmail().substring(0, atIndex);
 		Profile currentUser = this.profileMapper.findByName(username);
+		System.out.println("Aktueller Nutzer:" + currentUser);
 		ArrayList<ProfileBan> banList = this.profileBanMapper.findBannedProfiles(currentUser.getId());
 		
 		
