@@ -319,6 +319,7 @@ public class EditProfileView extends Update {
 				final String symbol = tbfn.getText().toUpperCase().trim();
 				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol + "' is not a valid symbol.");
+				
 				Update update = new EditProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -411,6 +412,7 @@ public class EditProfileView extends Update {
 							logger.info("if-getAdministration wurde aufgerufen");
 				}
 
+			
 				Update update = new ProfileView();
 
 				RootPanel.get("Details").clear();

@@ -204,7 +204,17 @@ div#Trailer {
 	
 }
 
-
+ .textbox { 
+    background: white; 
+    border: 1px solid #ffa853; 
+    border-radius: 5px; 
+    box-shadow: 0 0 5px 3px #ffa853; 
+    color: #666; 
+    outline: none; 
+    height:23px; 
+    width: 275px; 
+  } 
+ 
 .serverResponseLabelError {
   color: red;
 }
