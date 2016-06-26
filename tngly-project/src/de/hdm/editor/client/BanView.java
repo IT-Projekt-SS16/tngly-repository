@@ -92,7 +92,7 @@ public class BanView extends Update{
 
 	  protected void run() {
 		  this.append("Here you will see your list of banned profiles");
-		  //adminService.getBanlist(getBanlistCallback());
+		  adminService.getBanlist(getBanlistCallback());
 		  
 		 
 		  public Widget onInitialize() {
@@ -103,9 +103,6 @@ public class BanView extends Update{
 			    
 		  bansTable.setEmptyTableWidget(new Label(constants.cwDataGridEmpty()));	  
 		  
-		  ListHandler<ProfileBan> sortHandler =
-			        new ListHandler<ProfileBan>(adminService.getBanlist(getBanlistCallback()));
-			    bansTable.addColumnSortHandler(sortHandler);
 			    
 			    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 			    pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
@@ -124,15 +121,14 @@ public class BanView extends Update{
 		      }
 		    });
 		    
-		  initTableColumns(selectionModel, sortHandler);
+		  initTableColumns(selectionModel);
 		  
 		  dataProvider.addDataDisplay(bansTable);
 		  
 		  Binder uiBinder = GWT.create(Binder.class);
 		  return uiBinder.createAndBindUi(this);
 		 }    
-		  private void initTableColumns(final SelectionModel<ProfileBan> selectionModel,
-				  ListHandler<ProfileBan> sortHandler){
+		  private void initTableColumns(final SelectionModel<ProfileBan> selectionModel){
 		  Column<ProfileBan, Boolean> checkColumn =
 			        new Column<ProfileBan, Boolean>(new CheckboxCell(true, false)) {
 			          @Override
