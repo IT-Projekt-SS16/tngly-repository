@@ -148,6 +148,7 @@ public class InformationMapper {
 					 *  Leeres SQL-Statement (JDBC) anlegen
 					 */
 					Statement stmt = con.createStatement();
+					ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
 
 					/**
 					 *  Statement ausfüllen und als Query an die DB schicken
@@ -185,8 +186,8 @@ public class InformationMapper {
 						/**
 						 *  Leeres SQL-Statement (JDBC) anlegen
 						 */
-						Statement stmt = con.createStatement();
-
+						Statement stmt = con.createStatement();	
+						ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
 						/**
 						 * Statement ausfüllen und als Query an die DB schicken
 						 */

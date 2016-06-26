@@ -1,5 +1,6 @@
 package de.hdm.editor.client;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -446,9 +447,19 @@ public class EditProfileView extends Update {
 					index = 0;
 				}
 				genderBox.setItemSelected(index, true);
-				datePicker.setValue(result.getDateOfBirth());
-				tbbh.setText(Float.toString(result.getBodyHeight()));
 				
+				Date dob = result.getDateOfBirth();
+
+				datePicker.setValue(dob);
+				
+				datePicker.setCurrentMonth(dob);
+				
+				float bh = result.getBodyHeight();
+				
+				float bhFormatted = (float) (Math.round(bh*100) / 100.0);
+					
+				tbbh.setText(Float.toString(bhFormatted));
+	
 				if (result.getHairColour() == "Black") {
 					index = 0;
 				} else if (result.getHairColour() == "Brown") {
