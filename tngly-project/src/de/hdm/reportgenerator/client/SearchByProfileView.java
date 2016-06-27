@@ -43,7 +43,7 @@ public class SearchByProfileView extends UpdateReportGenerator {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "";
+		return "Search for Report";
 	}
 
 	/**

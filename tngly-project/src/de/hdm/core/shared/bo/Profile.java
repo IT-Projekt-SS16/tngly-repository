@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.google.gwt.view.client.ProvidesKey;
+
 public class Profile implements Serializable, Comparable<Profile> {
 
 	/*
@@ -16,6 +18,8 @@ public class Profile implements Serializable, Comparable<Profile> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public static final ProvidesKey<Profile> KEY_PROVIDER = null;
 
 	private int similiarityToReference;
 

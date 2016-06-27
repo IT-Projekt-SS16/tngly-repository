@@ -72,7 +72,7 @@ public class EditorEntryPoint implements EntryPoint {
 
 				if (loginInfo.isLoggedIn()) {
 
-					adminService.checkUserProfile(checkUserProfileCallback());
+//					adminService.checkUserProfile(checkUserProfileCallback());
 					loadEditor();
 
 				} else {
@@ -110,6 +110,8 @@ public class EditorEntryPoint implements EntryPoint {
 				logger.log(Level.ALL, "Ex caught!", e);
 			}
 		});
+		
+		RootPanel.get("Preloader").setVisible(false);
 
 		VerticalPanel verPanel = new VerticalPanel();
 		HorizontalPanel logoutPanel = new HorizontalPanel();

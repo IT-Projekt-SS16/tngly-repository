@@ -613,14 +613,14 @@ public class SearchByProfileView extends Update {
 				ClientsideSettings.setSearchProfile(temp);
 				logger.info(ClientsideSettings.getSearchProfile().toString());
 
-				ClientsideSettings.getAdministration().searchAndCompareProfiles(null, temp, new CompareCallback());
+//				ClientsideSettings.getAdministration().searchAndCompareProfiles(null, temp, new CompareCallback());
 
-//				Update update = new ShowProfilesView();
-//
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(update);
-//
-//				logger.info("Erfolgreicher Reswitch.");
+				Update update = new ShowProfilesCellTableView(temp);
+
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+
+				logger.info("Erfolgreicher Reswitch.");
 
 			}
 		});
