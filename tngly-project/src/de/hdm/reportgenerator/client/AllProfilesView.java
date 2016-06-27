@@ -1,29 +1,34 @@
 package de.hdm.reportgenerator.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.*;
 import de.hdm.core.shared.bo.*;
 import de.hdm.core.shared.report.AllProfilesReport;
+import de.hdm.core.shared.report.HTMLProfilesReport;
 import de.hdm.core.shared.report.HTMLReportWriter;
+import de.hdm.editor.client.ShowProfilesView;
+import de.hdm.editor.client.Update;
 
 public class AllProfilesView extends UpdateReportGenerator {
-
-	private String reportText = null;
+	
+	private Profile searchProfile = new Profile();
+	private Boolean unseenChecked = null;
 	
 	private ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
+	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	
-	public AllProfilesView(String reportText){
-		this.setReportText(reportText);
-	}
+	private ScrollPanel scrollPanel = new ScrollPanel();
 	
-	public String getReportText() {
-		return reportText;
-	}
-
-	public void setReportText(String reportText) {
-		this.reportText = reportText;
+	public AllProfilesView(Boolean unseenChecked, SearchProfile searchProfile){
+		this.searchProfile = searchProfile;
+		this.unseenChecked = unseenChecked;
+		adminService.searchAndCompareProfiles(unseenChecked, searchProfile, new CompareCallback());
 	}
 
 	/**
@@ -52,12 +57,25 @@ public class AllProfilesView extends UpdateReportGenerator {
 //		} else {
 //			reportGenerator.createAllProfilesReport("", new AllProfilesReportCallback());
 //		}
-
-		this.append(this.reportText);
-	}
 //
-}
+//		this.append(this.reportText);
+	}
+	
+	class CompareCallback implements AsyncCallback<ArrayList<Profile>> {
+		@Override
+		public void onFailure(Throwable caught) {
+			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+		}
 
+		@Override
+		public void onSuccess(ArrayList<Profile> result) {
+			scrollPanel.setSize("100%", "100%");
+			RootPanel.get("Details").add(scrollPanel);
+			scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
+		}
+
+	}
+}
 
 
 //class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {

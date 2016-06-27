@@ -82,7 +82,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 * Nun werden sämtliche Konten des Kunden ausgelesen und deren Kto.-Nr.
 		 * und Kontostand sukzessive in die Tabelle eingetragen.
 		 */
-		ArrayList<Profile> profiles = this.getAdministrationService().searchAndCompareProfiles(searchProfile);
+//		ArrayList<Profile> profiles = this.getAdministrationService().searchAndCompareProfiles(searchProfile);
 
 		/*
 		 * Datum der Erstellung hinzufügen. new Date() erzeugt autom. einen
@@ -170,178 +170,178 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 * Konto-Informationen.
 			 */
 
-			foo: for (Profile p : profiles) {
-				if (this.administrationService.wasProfileVisited(p)) {
-					break foo;
-				}
-
-				Date dateBirth = p.getDateOfBirth();
-				Date dateNow = new Date();
-				int age = dateNow.getYear() - dateBirth.getYear();
-
-				// Eine leere Zeile anlegen.
-				Row profileRow = new Row();
-
-				// Erste Spalte: Kontonummer hinzufügen
-				profileRow.addColumn(new Column(p.getName()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getLastName()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getGender()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(String.valueOf(age)));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(String.valueOf(p.getBodyHeight())));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getHairColour()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				if (p.getIsSmoking() == 0) {
-					profileRow.addColumn(new Column("YES"));
-				} else {
-					profileRow.addColumn(new Column("NO"));
-				}
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getConfession()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultHobbies = new StringBuffer();
-				for (Information i : p.getSelectionList().get(1).getInformationValues()) {
-					resultHobbies.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultHobbies.toString()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow
-						.addColumn(new Column(p.getDescriptionList().get(1).getInformationValues().get(1).getValue()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow
-						.addColumn(new Column(p.getDescriptionList().get(2).getInformationValues().get(1).getValue()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultEra = new StringBuffer();
-				for (Information i : p.getSelectionList().get(2).getInformationValues()) {
-					resultEra.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultEra.toString()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultCulture = new StringBuffer();
-				for (Information i : p.getSelectionList().get(3).getInformationValues()) {
-					resultCulture.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultCulture.toString()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow
-						.addColumn(new Column(p.getDescriptionList().get(3).getInformationValues().get(1).getValue()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultPoints = new StringBuffer();
-				for (Information i : p.getSelectionList().get(4).getInformationValues()) {
-					resultPoints.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultPoints.toString()));
-
-				// und schließlich die Zeile dem Report hinzufügen.
-				result.addRow(profileRow);
-			}
-		} else {
-			// Jeder Report hat einen Titel (Bezeichnung / Überschrift).
-			result.setTitle("Search Results - All Profiles");
-
-			/*
-			 * Ab hier erfolgt ein zeilenweises Hinzufügen von
-			 * Konto-Informationen.
-			 */
-
-			for (Profile p : profiles) {
-
-				Date dateBirth = p.getDateOfBirth();
-				Date dateNow = new Date();
-				int age = dateNow.getYear() - dateBirth.getYear();
-
-				// Eine leere Zeile anlegen.
-				Row profileRow = new Row();
-
-				// Erste Spalte: Kontonummer hinzufügen
-				profileRow.addColumn(new Column(p.getName()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getLastName()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getGender()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(String.valueOf(age)));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(String.valueOf(p.getBodyHeight())));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getHairColour()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				if (p.getIsSmoking() == 0) {
-					profileRow.addColumn(new Column("YES"));
-				} else {
-					profileRow.addColumn(new Column("NO"));
-				}
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow.addColumn(new Column(p.getConfession()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultHobbies = new StringBuffer();
-				for (Information i : p.getSelectionList().get(0).getInformationValues()) {
-					resultHobbies.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultHobbies.toString()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow
-						.addColumn(new Column(p.getDescriptionList().get(0).getInformationValues().get(0).getValue()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow
-						.addColumn(new Column(p.getDescriptionList().get(1).getInformationValues().get(1).getValue()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultEra = new StringBuffer();
-				for (Information i : p.getSelectionList().get(1).getInformationValues()) {
-					resultEra.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultEra.toString()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultCulture = new StringBuffer();
-				for (Information i : p.getSelectionList().get(2).getInformationValues()) {
-					resultCulture.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultCulture.toString()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				profileRow
-						.addColumn(new Column(p.getDescriptionList().get(2).getInformationValues().get(2).getValue()));
-
-				// Zweite Spalte: Kontostand hinzufügen
-				StringBuffer resultPoints = new StringBuffer();
-				for (Information i : p.getSelectionList().get(3).getInformationValues()) {
-					resultPoints.append(i.getValue() + "\n");
-				}
-				profileRow.addColumn(new Column(resultPoints.toString()));
-
-				// und schließlich die Zeile dem Report hinzufügen.
-				result.addRow(profileRow);
-			}
+//			foo: for (Profile p : profiles) {
+//				if (this.administrationService.wasProfileVisited(p)) {
+//					break foo;
+//				}
+//
+//				Date dateBirth = p.getDateOfBirth();
+//				Date dateNow = new Date();
+//				int age = dateNow.getYear() - dateBirth.getYear();
+//
+//				// Eine leere Zeile anlegen.
+//				Row profileRow = new Row();
+//
+//				// Erste Spalte: Kontonummer hinzufügen
+//				profileRow.addColumn(new Column(p.getName()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getLastName()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getGender()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(String.valueOf(age)));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(String.valueOf(p.getBodyHeight())));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getHairColour()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				if (p.getIsSmoking() == 0) {
+//					profileRow.addColumn(new Column("YES"));
+//				} else {
+//					profileRow.addColumn(new Column("NO"));
+//				}
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getConfession()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultHobbies = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(1).getInformationValues()) {
+//					resultHobbies.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultHobbies.toString()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow
+//						.addColumn(new Column(p.getDescriptionList().get(1).getInformationValues().get(1).getValue()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow
+//						.addColumn(new Column(p.getDescriptionList().get(2).getInformationValues().get(1).getValue()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultEra = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(2).getInformationValues()) {
+//					resultEra.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultEra.toString()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultCulture = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(3).getInformationValues()) {
+//					resultCulture.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultCulture.toString()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow
+//						.addColumn(new Column(p.getDescriptionList().get(3).getInformationValues().get(1).getValue()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultPoints = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(4).getInformationValues()) {
+//					resultPoints.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultPoints.toString()));
+//
+//				// und schließlich die Zeile dem Report hinzufügen.
+//				result.addRow(profileRow);
+//			}
+//		} else {
+//			// Jeder Report hat einen Titel (Bezeichnung / Überschrift).
+//			result.setTitle("Search Results - All Profiles");
+//
+//			/*
+//			 * Ab hier erfolgt ein zeilenweises Hinzufügen von
+//			 * Konto-Informationen.
+//			 */
+//
+//			for (Profile p : profiles) {
+//
+//				Date dateBirth = p.getDateOfBirth();
+//				Date dateNow = new Date();
+//				int age = dateNow.getYear() - dateBirth.getYear();
+//
+//				// Eine leere Zeile anlegen.
+//				Row profileRow = new Row();
+//
+//				// Erste Spalte: Kontonummer hinzufügen
+//				profileRow.addColumn(new Column(p.getName()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getLastName()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getGender()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(String.valueOf(age)));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(String.valueOf(p.getBodyHeight())));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getHairColour()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				if (p.getIsSmoking() == 0) {
+//					profileRow.addColumn(new Column("YES"));
+//				} else {
+//					profileRow.addColumn(new Column("NO"));
+//				}
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow.addColumn(new Column(p.getConfession()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultHobbies = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(0).getInformationValues()) {
+//					resultHobbies.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultHobbies.toString()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow
+//						.addColumn(new Column(p.getDescriptionList().get(0).getInformationValues().get(0).getValue()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow
+//						.addColumn(new Column(p.getDescriptionList().get(1).getInformationValues().get(1).getValue()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultEra = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(1).getInformationValues()) {
+//					resultEra.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultEra.toString()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultCulture = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(2).getInformationValues()) {
+//					resultCulture.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultCulture.toString()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				profileRow
+//						.addColumn(new Column(p.getDescriptionList().get(2).getInformationValues().get(2).getValue()));
+//
+//				// Zweite Spalte: Kontostand hinzufügen
+//				StringBuffer resultPoints = new StringBuffer();
+//				for (Information i : p.getSelectionList().get(3).getInformationValues()) {
+//					resultPoints.append(i.getValue() + "\n");
+//				}
+//				profileRow.addColumn(new Column(resultPoints.toString()));
+//
+//				// und schließlich die Zeile dem Report hinzufügen.
+//				result.addRow(profileRow);
+//			}
 		}
 
 		/*

@@ -46,7 +46,7 @@ public interface AdministrationServiceAsync {
 
 	public void getProfileByUserName(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
 	
-	public void searchAndCompareProfiles(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
+	public void searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
 	
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	

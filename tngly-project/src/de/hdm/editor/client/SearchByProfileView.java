@@ -682,7 +682,7 @@ FlexTable t7 = new FlexTable();
 				ClientsideSettings.setSearchProfile(temp);
 				logger.info(ClientsideSettings.getSearchProfile().toString());
 
-				ClientsideSettings.getAdministration().searchAndCompareProfiles(temp, new CompareCallback());
+				ClientsideSettings.getAdministration().searchAndCompareProfiles(null, temp, new CompareCallback());
 
 //				Update update = new ShowProfilesView();
 //

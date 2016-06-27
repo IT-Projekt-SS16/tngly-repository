@@ -21,13 +21,19 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
+import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.report.AllProfilesReport;
 import de.hdm.core.shared.report.HTMLReportWriter;
+import de.hdm.editor.client.ShowProfilesView;
+import de.hdm.editor.client.Update;
 
 public class SearchByProfileView extends UpdateReportGenerator {
+	
+	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
+	private ReportGeneratorAsync reportgenerator = ClientsideSettings.getReportGenerator();
 
 	/**
 	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
@@ -51,7 +57,8 @@ public class SearchByProfileView extends UpdateReportGenerator {
 		Logger logger = ClientsideSettings.getLogger();
 		logger.info("Erfolgreich Search-By-Profile-View geswitcht.");
 
-		ReportGeneratorAsync reportgenerator = ClientsideSettings.getReportGenerator();
+		
+		
 
 		// logger.info(ClientsideSettings.getLoginInfo().getEmailAddress());
 
@@ -602,16 +609,17 @@ public class SearchByProfileView extends UpdateReportGenerator {
 				ClientsideSettings.setSearchProfile(temp);
 				logger.info(ClientsideSettings.getSearchProfile().toString());
 
-				ClientsideSettings.getReportGenerator().createAllProfilesReport(unseenChecked, temp,
-						new AllProfilesReportCallback());
+//				ClientsideSettings.getReportGenerator().createAllProfilesReport(unseenChecked, temp,
+//						new AllProfilesReportCallback());
+				
 				ClientsideSettings.getLogger().info("Report AllProfiles erstellen...");
 
-				// Update update = new ShowProfilesView();
-				//
-				// RootPanel.get("Details").clear();
-				// RootPanel.get("Details").add(update);
-				//
-				// logger.info("Erfolgreicher Reswitch.");
+				 UpdateReportGenerator update = new AllProfilesView(unseenChecked, temp);
+				
+				 RootPanel.get("Details").clear();
+				 RootPanel.get("Details").add(update);
+				
+				 logger.info("Erfolgreicher Reswitch.");
 
 			}
 		});
@@ -649,25 +657,25 @@ public class SearchByProfileView extends UpdateReportGenerator {
 // }
 // }
 
-class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
-
-	@Override
-	public void onFailure(Throwable caught) {
-		ClientsideSettings.getLogger().severe("Fehler bei der Abfrage " + caught.getMessage());
-	}
-
-	@Override
-	public void onSuccess(AllProfilesReport result) {
-		System.out.println("Callback Success");
-		HTMLReportWriter writer = new HTMLReportWriter();
-		if (result != null) {
-			writer.process(result);
-			ClientsideSettings.setAllProfilesReport(writer.getReportText());
-			ClientsideSettings.getLogger().info("Report in HTML umgewandelt");
-		}
-		UpdateReportGenerator update = new AllProfilesView(writer.getReportText());
-		RootPanel.get("Details").clear();
-		RootPanel.get("Details").add(update);
-		ClientsideSettings.getLogger().info("Erfolgreicher Reswitch.");
-	}
-}
+//class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
+//
+//	@Override
+//	public void onFailure(Throwable caught) {
+//		ClientsideSettings.getLogger().severe("Fehler bei der Abfrage " + caught.getMessage());
+//	}
+//
+//	@Override
+//	public void onSuccess(AllProfilesReport result) {
+//		System.out.println("Callback Success");
+//		HTMLReportWriter writer = new HTMLReportWriter();
+//		if (result != null) {
+//			writer.process(result);
+//			ClientsideSettings.setAllProfilesReport(writer.getReportText());
+//			ClientsideSettings.getLogger().info("Report in HTML umgewandelt");
+//		}
+//		UpdateReportGenerator update = new AllProfilesView(writer.getReportText());
+//		RootPanel.get("Details").clear();
+//		RootPanel.get("Details").add(update);
+//		ClientsideSettings.getLogger().info("Erfolgreicher Reswitch.");
+//	}
+//}

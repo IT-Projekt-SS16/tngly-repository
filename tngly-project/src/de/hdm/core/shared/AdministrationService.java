@@ -49,7 +49,7 @@ public interface AdministrationService extends RemoteService {
 
 	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException;
 	
-	public ArrayList<Profile> searchAndCompareProfiles(SearchProfile searchProfile) throws IllegalArgumentException;
+	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException;
 	
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException;
 	
