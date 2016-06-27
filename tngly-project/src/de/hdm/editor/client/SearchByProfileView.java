@@ -59,10 +59,16 @@ public class SearchByProfileView extends Update {
 		VerticalPanel verPanel = new VerticalPanel();
 		verPanel.setSpacing(10);
 		
+
+		
+		
+		
 		
 		
 		HorizontalPanel horPanel = new HorizontalPanel();
+		
 		horPanel.add(verPanel);
+		
 		
 		final TextBox tbAgeRangeFrom = new TextBox();
 		final TextBox tbAgeRangeTo = new TextBox();
@@ -70,9 +76,6 @@ public class SearchByProfileView extends Update {
 		final TextBox tbHeightRangeTo = new TextBox();
 		
 		
-		 
-			        
-			      
 		
 		RootPanel.get("Details").add(horPanel);
 		
@@ -87,6 +90,26 @@ public class SearchByProfileView extends Update {
 		final CheckBox chkSmokerAny = new CheckBox();
 		final CheckBox chkConfessionAny = new CheckBox();
 		
+		final CheckBox chkVolleyball = new CheckBox();
+		final CheckBox chkFootball = new CheckBox();
+		final CheckBox chkWatchPeople = new CheckBox();
+		final CheckBox chkIT = new CheckBox();
+		final CheckBox chkHandball = new CheckBox();
+		final CheckBox chkPP = new CheckBox();
+		
+		final CheckBox chkStoneAge = new CheckBox();
+		final CheckBox chkAncientTimes = new CheckBox();
+		final CheckBox chkEarlyMiddleAges = new CheckBox();
+		final CheckBox chkLateMiddleAges = new CheckBox();
+		final CheckBox chkRenaissance = new CheckBox();
+		final CheckBox chkIndusrialAge = new CheckBox();
+		final CheckBox chkModernAge = new CheckBox();
+		
+		final CheckBox chkBringing = new CheckBox();
+		final CheckBox chkEnjoying = new CheckBox();
+		final CheckBox chkBeing = new CheckBox();
+		final CheckBox chkSolving = new CheckBox();
+		final CheckBox chkKeeping = new CheckBox();
 
 		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(1);
@@ -133,7 +156,6 @@ public class SearchByProfileView extends Update {
 		myHobbiesSelect.addItem("Fitness");
 		
 		
-
 		// final DatePicker datePicker = new DatePicker();
 		// datePicker.setYearArrowsVisible(true);
 		// datePicker.setYearAndMonthDropdownVisible(true);
@@ -407,61 +429,87 @@ public class SearchByProfileView extends Update {
 		    });
 
 			
-			t.setText(10,0, "Hobbies");
-//			if (ClientsideSettings.getUserProfile() == null) {
-//			t.setWidget(10, 1, myHobbiesSelect);
-//			} else {
-//				int index;
-//				if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer") {
-//					index = 0;
-//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Baseball") {
-//					index = 1;
-//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Volleyball") {
-//					index = 2;
-//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Basketball") {
-//					index = 3;
-//				} else if (ClientsideSettings.getUserProfile().getHairColour() == "Golf") {
-//					index = 4;
-//				} else {
-//					index = 5;
-//				}
-//				myHobbiesSelect.setItemSelected(index, true);
-//				t.setWidget(10, 1, myHobbiesSelect);
-//				
-//						
-//			}
-//			
-			
-			final CheckBox chkSoccer = new CheckBox();
-			final CheckBox chkBaseball = new CheckBox();
-			final CheckBox chkVolleyball = new CheckBox();
-			final CheckBox chkBasketball = new CheckBox();
-			final CheckBox chkGolf = new CheckBox();
-			
+			t.setText(8,0, "Hobbies");
+
 			FlexTable t2 = new FlexTable();
 			
-			t2.setText(0, 0, "Soccer");
-			t2.setWidget(0, 1, chkSoccer);
+			t2.setText(0, 0, "Volleyball");
+			t2.setWidget(0, 1, chkVolleyball);
 			
-			t2.setText(1, 0, "Baseball");
-			t2.setWidget(1, 1, chkBaseball);
+			t2.setText(1, 0, "Football");
+			t2.setWidget(1, 1, chkFootball);
 			
-			t2.setText(2, 0, "Volleyball");
-			t2.setWidget(2, 1, chkVolleyball);
+			t2.setText(2, 0, "Watch People");
+			t2.setWidget(2, 1, chkWatchPeople);
 			
-			t2.setText(3, 0, "Basketball");
-			t2.setWidget(3, 1, chkBasketball);
+			t2.setText(3, 0, "Not working at the IT-Project");
+			t2.setWidget(3, 1, chkIT);
 			
-			t2.setText(4, 0, "Golf");
-			t2.setWidget(4, 1, chkGolf);
+			t2.setText(4, 0, "Handball");
+			t2.setWidget(4, 1, chkHandball);
 			
-			t.setWidget(10, 1, t2);
+			t2.setText(5, 0, "Pocket Pool");
+			t2.setWidget(5, 1, chkPP);
+			
+			t.setWidget(8, 1, t2);
 			
 	
 		
-		verPanel.add(t);
-		RootPanel.get("Details").add(t);
 		
+		
+		
+		
+		
+		t.setText(9,0, "Favorite Era");
+		
+		FlexTable t5 = new FlexTable();
+
+		t5.setText(0, 0, "Stone Age");
+		t5.setWidget(0, 1, chkStoneAge);
+		
+		t5.setText(1, 0, "Ancient Times");
+		t5.setWidget(1, 1, chkAncientTimes);
+		
+		t5.setText(2, 0, "Early Middle Ages");
+		t5.setWidget(2, 1, chkEarlyMiddleAges);
+		
+		t5.setText(3, 0, "Late Middle Ages");
+		t5.setWidget(3, 1, chkLateMiddleAges);
+		
+		t5.setText(4, 0, "Renaissance");
+		t5.setWidget(4, 1, chkRenaissance);
+		
+		t5.setText(5, 0, "IndusrialAge");
+		t5.setWidget(5, 1, chkIndusrialAge);
+		
+		t5.setText(5, 0, "ModernAge");
+		t5.setWidget(5, 1, chkModernAge);
+		
+		t.setWidget(9, 1, t5);
+		
+FlexTable t7 = new FlexTable();
+		
+		t.setText(10, 0, "Favorite Subculture");	
+		
+		t7.setText(0, 0, "bringing creativity into a relationship");
+		t7.setWidget(0, 1, chkBringing);
+		
+		t7.setText(1, 0, "enjoying the simple things");
+		t7.setWidget(1, 1, chkEnjoying);
+		
+		t7.setText(2, 0, "being romantic");
+		t7.setWidget(2, 1, chkBeing);
+		
+		t7.setText(3, 0, "solving conflicts quickly");
+		t7.setWidget(3, 1, chkSolving);
+		
+		t7.setText(4, 0, "keeping calm in chaotic situations");
+		t7.setWidget(4, 1, chkKeeping);
+			
+		t.setWidget(10, 1, t7);
+		
+		
+		verPanel.add(t);
 
 		// Label myHobbiesLabel = new Label("Other Hobbies:");
 		// verPanel.add(myHobbiesLabel);
@@ -469,7 +517,7 @@ public class SearchByProfileView extends Update {
 
 		final Button showProfilesButton = new Button("Search");
 		showProfilesButton.setStyleName("tngly-button");
-		t.setWidget(9, 1, showProfilesButton);
+		t.setWidget(11, 1, showProfilesButton);
 		
 		RootPanel.get("Details").add(showProfilesButton);
 

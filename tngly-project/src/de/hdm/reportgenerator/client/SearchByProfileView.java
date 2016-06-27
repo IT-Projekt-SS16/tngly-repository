@@ -139,7 +139,7 @@ public class SearchByProfileView extends UpdateReportGenerator {
 		// // on the selected date
 		// datePicker.setVisibleYearCount(101);
 
-		// *** BEISPIEL ADDKEYHANDLER NOCH F�R ALLE �BERNEHMEN***
+		// *** BEISPIEL ADDKEYHANDLER NOCH FUER ALLE UBERNEHMEN***
 
 		// tbfn.addKeyPressHandler(new KeyPressHandler() {
 
@@ -189,7 +189,7 @@ public class SearchByProfileView extends UpdateReportGenerator {
 		// }
 
 		FlexTable t = new FlexTable();
-		t.setCellSpacing(5);
+		t.setCellSpacing (5);
 
 		t.setText(0, 0, "Gender");
 		if (ClientsideSettings.getSearchProfile() == null) {
@@ -220,14 +220,14 @@ public class SearchByProfileView extends UpdateReportGenerator {
 			}
 		});
 
-		// Label dateOfBirth = new Label("Date of Birth:");
-		// verPanel.add(dateOfBirth);
-		// if (ClientsideSettings.getUserProfile() == null) {
-		// verPanel.add(datePicker);
-		// } else {
-		// datePicker.setValue(ClientsideSettings.getUserProfile().getDateOfBirth());
-		// verPanel.add(datePicker);
-		// }
+//		 Label dateOfBirth = new Label("Date of Birth:");
+//		 verPanel.add(dateOfBirth);
+//		 if (ClientsideSettings.getUserProfile() == null) {
+//		 verPanel.add(datePicker);
+//		 } else {
+//		 datePicker.setValue(ClientsideSettings.getUserProfile().getDateOfBirth());
+//		 verPanel.add(datePicker);
+//		 }
 
 		if (ClientsideSettings.getSearchProfile() == null) {
 			t.setText(1, 0, "Age Range");
@@ -469,7 +469,7 @@ public class SearchByProfileView extends UpdateReportGenerator {
 		RootPanel.get("Details").add(showProfilesButton);
 
 		showProfilesButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+			public void onClick (ClickEvent event) {
 
 				boolean genderChecked = chkGenderAny.getValue();
 				boolean ageChecked = chkAgeAny.getValue();

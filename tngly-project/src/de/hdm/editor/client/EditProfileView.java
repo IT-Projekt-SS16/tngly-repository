@@ -60,13 +60,7 @@ public class EditProfileView extends Update {
 	private FlexTable t3 = new FlexTable();
 	private FlexTable t4 = new FlexTable();
 	
-	private final CheckBox chkSoccer = new CheckBox();
-	private final CheckBox chkBaseball = new CheckBox();
 	private final CheckBox chkVolleyball = new CheckBox();
-	private final CheckBox chkBasketball = new CheckBox();
-	private final CheckBox chkGolf = new CheckBox();
-	
-//	private final CheckBox chkVolleyball = new CheckBox();
 	private final CheckBox chkFootball = new CheckBox();
 	private final CheckBox chkWatchPeople = new CheckBox();
 	private final CheckBox chkIT = new CheckBox();
@@ -90,12 +84,12 @@ public class EditProfileView extends Update {
 	private final Button saveProfilButton = new Button("Save");
 
 	/**
-	 * Jeder Showcase besitzt eine einleitende Ãœberschrift, die durch diese
+	 * Jede View besitzt eine einleitende Überschrift, die durch diese
 	 * Methode zu erstellen ist.
 	 * 
 	 * @see Showcase#getHeadlineText()
 	 */
-	@Override
+	
 	protected String getHeadlineText() {
 		return "";
 	}
@@ -117,6 +111,10 @@ public class EditProfileView extends Update {
 		
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
+		
+		/**
+		 * Instanziierung aller relevanten Eingabemöglichkeiten = Textboxen, Checkboxen, DatePicker usw. 
+		 */
 
 		tbun.setPixelSize(120, 15);
 		tbfn.setPixelSize(120, 15);
@@ -152,34 +150,10 @@ public class EditProfileView extends Update {
 		genderBox.addItem("Female");
 		genderBox.addItem("Male");
 		genderBox.setPixelSize(130,25);
-		
-		eraBox.setVisibleItemCount(1);
-		eraBox.addItem("Stone Age");
-		eraBox.addItem("Ancient Times");
-		eraBox.addItem("Example3");
-		eraBox.addItem("Example4");
-		eraBox.addItem("Example5");
-		eraBox.addItem("Example6");
-		eraBox.addItem("Example7");
-		eraBox.addItem("Example8");
-		eraBox.addItem("Example9");
-		eraBox.setPixelSize(130,25);
-		
-		subcultureBox.setVisibleItemCount(1);
-		subcultureBox.addItem("Example1");
-		subcultureBox.addItem("Example2");
-		subcultureBox.addItem("Example3");
-		subcultureBox.addItem("Example4");
-		subcultureBox.addItem("Example5");
-		subcultureBox.addItem("Example6");
-		subcultureBox.addItem("Example7");
-		subcultureBox.addItem("Example8");
-		subcultureBox.addItem("Example9");
-		subcultureBox.setPixelSize(130,25);
 
 		datePicker.setYearArrowsVisible(true);
 		datePicker.setYearAndMonthDropdownVisible(false);
-		// show 51 years in the years dropdown. The range of years is centered on the selected date
+		// Zeigt 51 years in the years dropdown. The range of years is centered on the selected date
 		datePicker.setVisibleYearCount(101);
 		datePicker.setYearAndMonthDropdownVisible(true);
 
@@ -221,7 +195,6 @@ public class EditProfileView extends Update {
 		t.setText(10,0, "Hobbies");
 		
 		FlexTable t2 = new FlexTable();
-		FlexTable t4 = new FlexTable();
 		
 		t2.setText(0, 0, "Volleyball");
 		t2.setWidget(0, 1, chkVolleyball);
@@ -317,7 +290,12 @@ public class EditProfileView extends Update {
 		t.setWidget(12, 1, saveProfilButton);
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				
 				final String symbol = tbfn.getText().toUpperCase().trim();
+				 if (ClientsideSettings.getUserProfile() == null){
+				 Window.alert("Please insert a First Name");
+				 }
+				 else{
 				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol + "' is not a valid symbol.");
 				
@@ -326,7 +304,9 @@ public class EditProfileView extends Update {
 				RootPanel.get("Details").add(update);
 				return;
 				}
-			
+				 }
+				 
+				 
 				final String symbol1 = tbn.getText().toUpperCase().trim();
 				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol1 + "' is not a valid symbol.");
@@ -343,9 +323,7 @@ public class EditProfileView extends Update {
 //				return;
 //				}
 				
-//				 if (ClientsideSettings.getUserProfile() == null){
-//				 Window.alert("Bitte fï¿½llen Sie alle Felder aus");
-//				 }
+
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");

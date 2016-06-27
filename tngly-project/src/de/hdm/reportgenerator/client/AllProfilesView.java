@@ -52,7 +52,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 //		} else {
 //			reportGenerator.createAllProfilesReport("", new AllProfilesReportCallback());
 //		}
-//
+
 		this.append(this.reportText);
 	}
 //
