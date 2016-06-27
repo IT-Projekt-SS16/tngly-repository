@@ -602,11 +602,6 @@ public class SearchByProfileView extends UpdateReportGenerator {
 				ClientsideSettings.setSearchProfile(temp);
 				logger.info(ClientsideSettings.getSearchProfile().toString());
 
-				// ClientsideSettings.setUnseenOrAll(unseenChecked);
-
-				// ClientsideSettings.getAdministration().searchAndCompareProfiles(temp,
-				// new CompareCallback());
-
 				ClientsideSettings.getReportGenerator().createAllProfilesReport(unseenChecked, temp,
 						new AllProfilesReportCallback());
 				ClientsideSettings.getLogger().info("Report AllProfiles erstellen...");
