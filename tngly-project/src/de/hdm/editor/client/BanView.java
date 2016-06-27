@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
@@ -55,11 +56,9 @@ public class BanView extends Update{
 	  protected String getHeadlineText() {
 	    return "";
 	  }
+	 
 	  
-	  interface Binder extends UiBinder<Widget, CwDataGrid> {
-	  }
-	  
-	  public static interface CwConstants extends Constants {
+	  public interface CwConstants extends Constants {
 		    String cwDataGridColumnAddress();
 
 		    String cwDataGridColumnAge();
@@ -81,27 +80,24 @@ public class BanView extends Update{
 	  private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	  private ArrayList<ProfileBan> banList = null;
 	  private ListDataProvider<ProfileBan> dataProvider = new ListDataProvider<ProfileBan>();
-	  private final CwConstants constants;
 	  
 	  @UiField(provided = true)
-	  DataGrid<ProfileBan> bansTable;
+	  CellTable<ProfileBan> bansTable;
 	  
 	  @UiField(provided = true)
 	  SimplePager pager;
 
 
-	  protected void run() {
+	  public void onModuleLoad() {
 		  this.append("Here you will see your list of banned profiles");
 		  adminService.getBanlist(getBanlistCallback());
 		  
 		 
-		  public Widget onInitialize() {
-		  bansTable = new DataGrid<ProfileBan>();
-		  bansTable.setWidth("100%");
+		  bansTable = new CellTable<ProfileBan>();
 		  
 		  bansTable.setAutoHeaderRefreshDisabled(true);
 			    
-		  bansTable.setEmptyTableWidget(new Label(constants.cwDataGridEmpty()));	  
+		  bansTable.setEmptyTableWidget(new Label("Empty"));	  
 		  
 			    
 			    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -123,10 +119,8 @@ public class BanView extends Update{
 		    
 		  initTableColumns(selectionModel);
 		  
-		  dataProvider.addDataDisplay(bansTable);
 		  
-		  Binder uiBinder = GWT.create(Binder.class);
-		  return uiBinder.createAndBindUi(this);
+		  
 		 }    
 		  private void initTableColumns(final SelectionModel<ProfileBan> selectionModel){
 		  Column<ProfileBan, Boolean> checkColumn =
@@ -187,16 +181,20 @@ public class BanView extends Update{
 		    };
 		    bansTable.addColumn(genderColumn, "Gender");
 		    
-		    
+		  }
+		  
+		  public void run() {
 	  
 
+			dataProvider.addDataDisplay(bansTable);
 		    
 		 // Push data into the CellList.
 		    bansTable.setRowCount(banList.size(), true);
 		    bansTable.setRowData(0, banList);
 
-		 // Add the widgets to the root panel.
-		    RootPanel.get("Details").add(bansTable);
+		 // Add the widgets to the root panel
+		    RootPanel.get().add(bansTable);
+		    
 		  
 	  
 	  }
