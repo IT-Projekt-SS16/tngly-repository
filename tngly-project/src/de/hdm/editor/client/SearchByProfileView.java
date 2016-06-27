@@ -427,87 +427,6 @@ public class SearchByProfileView extends Update {
 		        }
 		      }
 		    });
-
-			
-			t.setText(8,0, "Hobbies");
-
-			FlexTable t2 = new FlexTable();
-			
-			t2.setText(0, 0, "Volleyball");
-			t2.setWidget(0, 1, chkVolleyball);
-			
-			t2.setText(1, 0, "Football");
-			t2.setWidget(1, 1, chkFootball);
-			
-			t2.setText(2, 0, "Watch People");
-			t2.setWidget(2, 1, chkWatchPeople);
-			
-			t2.setText(3, 0, "Not working at the IT-Project");
-			t2.setWidget(3, 1, chkIT);
-			
-			t2.setText(4, 0, "Handball");
-			t2.setWidget(4, 1, chkHandball);
-			
-			t2.setText(5, 0, "Pocket Pool");
-			t2.setWidget(5, 1, chkPP);
-			
-			t.setWidget(8, 1, t2);
-			
-	
-		
-		
-		
-		
-		
-		
-		t.setText(9,0, "Favorite Era");
-		
-		FlexTable t5 = new FlexTable();
-
-		t5.setText(0, 0, "Stone Age");
-		t5.setWidget(0, 1, chkStoneAge);
-		
-		t5.setText(1, 0, "Ancient Times");
-		t5.setWidget(1, 1, chkAncientTimes);
-		
-		t5.setText(2, 0, "Early Middle Ages");
-		t5.setWidget(2, 1, chkEarlyMiddleAges);
-		
-		t5.setText(3, 0, "Late Middle Ages");
-		t5.setWidget(3, 1, chkLateMiddleAges);
-		
-		t5.setText(4, 0, "Renaissance");
-		t5.setWidget(4, 1, chkRenaissance);
-		
-		t5.setText(5, 0, "IndusrialAge");
-		t5.setWidget(5, 1, chkIndusrialAge);
-		
-		t5.setText(5, 0, "ModernAge");
-		t5.setWidget(5, 1, chkModernAge);
-		
-		t.setWidget(9, 1, t5);
-		
-FlexTable t7 = new FlexTable();
-		
-		t.setText(10, 0, "Favorite Subculture");	
-		
-		t7.setText(0, 0, "bringing creativity into a relationship");
-		t7.setWidget(0, 1, chkBringing);
-		
-		t7.setText(1, 0, "enjoying the simple things");
-		t7.setWidget(1, 1, chkEnjoying);
-		
-		t7.setText(2, 0, "being romantic");
-		t7.setWidget(2, 1, chkBeing);
-		
-		t7.setText(3, 0, "solving conflicts quickly");
-		t7.setWidget(3, 1, chkSolving);
-		
-		t7.setText(4, 0, "keeping calm in chaotic situations");
-		t7.setWidget(4, 1, chkKeeping);
-			
-		t.setWidget(10, 1, t7);
-		
 		
 		verPanel.add(t);
 
@@ -539,13 +458,7 @@ FlexTable t7 = new FlexTable();
 				//final TextBox tbHeightRangeFrom = new TextBox();
 				//final TextBox tbHeightRangeTo = new TextBox();
 				
-//				final String symbol4 = tbAgeRangeFrom.getText().toUpperCase().trim();
-//				if (!symbol4.matches("^[0-9\\.]{1,10}$")) {
-//				Window.alert("'" + symbol4 + "' is not a valid symbol.");
-//				tbAgeRangeFrom.selectAll();
-//				return;
-//				}
-//				
+
 //				final String symbol5 = tbAgeRangeTo.getText().toUpperCase().trim();
 //				if (!symbol5.matches("^[0-9\\.]{1,10}$")) {
 //				Window.alert("'" + symbol5 + "' is not a valid symbol.");
@@ -625,6 +538,24 @@ FlexTable t7 = new FlexTable();
 					temp.setAgeRangeTo(0);
 				}
 
+				final String symbol4 = tbAgeRangeFrom.getText().toUpperCase().trim();
+				 if (temp.getAgeRangeFrom() == 0){
+				 Window.alert("Please insert an Age Range between 16 and 99");
+				 Update update = new SearchByProfileView();
+				 RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(update);
+				 } else {
+				 
+				if (!symbol4.matches("^[0-9\\.]{1,10}$")) {
+				Window.alert("'" + symbol4 + "' is not a valid symbol.");
+				tbAgeRangeFrom.selectAll();
+				Update update = new SearchByProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				
+				return;
+				}
+				}
 				if (bodyHeightChecked == false){
 				
 				System.out.println("BodyHeightFrom: " + temp.getAgeRangeFrom());

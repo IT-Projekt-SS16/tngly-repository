@@ -25,6 +25,9 @@ public class EditProfileView extends Update {
 	
 	private static final Logger logger = ClientsideSettings.getLogger();
 
+	/**
+	 * Instanziierung aller relevanten Eingabemöglichkeiten = Textboxen, Checkboxen, DatePicker usw. 
+	 */
 	private Boolean existsUserInDB = null;
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	private Profile currentUserProfile = null;
@@ -40,6 +43,7 @@ public class EditProfileView extends Update {
 	private final TextBox tbbh = new TextBox();
 	private final TextBox tBb = new TextBox();
     private final TextBox tBm = new TextBox();
+    private final TextBox tbsp = new TextBox();
 	
 	private TextArea ta = new TextArea();
 	
@@ -111,14 +115,13 @@ public class EditProfileView extends Update {
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
 		
-		/**
-		 * Instanziierung aller relevanten Eingabemöglichkeiten = Textboxen, Checkboxen, DatePicker usw. 
-		 */
+		
 
 		tbun.setPixelSize(120, 15);
 		tbfn.setPixelSize(120, 15);
 		tbn.setPixelSize(120, 15);
 		tbbh.setPixelSize(120, 15);
+		
 		
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -229,7 +232,7 @@ public class EditProfileView extends Update {
 		
 		FlexTable t5 = new FlexTable();
 		
-		t3.setText(2,0, "Favorite Era");
+		t3.setText(4,0, "Favorite Era");
 		
 		t5.setText(0, 0, "Stone Age");
 		t5.setWidget(0, 1, chkStoneAge);
@@ -252,7 +255,7 @@ public class EditProfileView extends Update {
 		t5.setText(5, 0, "ModernAge");
 		t5.setWidget(5, 1, chkModernAge);
 		
-		t3.setWidget(2, 1, t5);
+		t3.setWidget(4, 1, t5);
 		
 		FlexTable t7 = new FlexTable();
 		
@@ -275,6 +278,11 @@ public class EditProfileView extends Update {
 			
 		t3.setWidget(3, 1, t7);
 		
+		t3.setText(2, 0, "strong points");
+		t3.setWidget(2, 1, tbsp);
+		
+		t.setWidget(12, 1, saveProfilButton);
+		
 		verPanel.add(t);
 		verPanel2.add(t3);
 		
@@ -286,7 +294,8 @@ public class EditProfileView extends Update {
 		logger.info(currentUserProfile.toString());
 		
 		saveProfilButton.setStyleName("tngly-button");
-		t.setWidget(12, 1, saveProfilButton);
+		
+		
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
@@ -321,7 +330,7 @@ public class EditProfileView extends Update {
 //				return;
 //				}
 				
-
+	
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
