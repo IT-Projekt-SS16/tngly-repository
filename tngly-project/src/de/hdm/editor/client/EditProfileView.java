@@ -289,7 +289,12 @@ public class EditProfileView extends Update {
 		t.setWidget(12, 1, saveProfilButton);
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				
 				final String symbol = tbfn.getText().toUpperCase().trim();
+				 if (ClientsideSettings.getUserProfile() == null){
+				 Window.alert("Please insert a First Name");
+				 }
+				 else{
 				if (!symbol.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol + "' is not a valid symbol.");
 				Update update = new EditProfileView();
@@ -297,7 +302,9 @@ public class EditProfileView extends Update {
 				RootPanel.get("Details").add(update);
 				return;
 				}
-			
+				 }
+				 
+				 
 				final String symbol1 = tbn.getText().toUpperCase().trim();
 				if (!symbol1.matches("^[0-9A-Z\\.]{1,10}$")) {
 				Window.alert("'" + symbol1 + "' is not a valid symbol.");
@@ -314,9 +321,7 @@ public class EditProfileView extends Update {
 //				return;
 //				}
 				
-//				 if (ClientsideSettings.getUserProfile() == null){
-//				 Window.alert("Bitte f�llen Sie alle Felder aus");
-//				 }
+
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
