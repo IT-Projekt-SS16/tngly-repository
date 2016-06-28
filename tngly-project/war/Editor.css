@@ -13,7 +13,7 @@ html{
 
 
 div#TopLevelFrame{
-	background: url("http://www.fotos-hochladen.net/uploads/simplewallpapenpgmf7wida.jpg");
+/* 	background: url("http://www.fotos-hochladen.net/uploads/simplewallpapenpgmf7wida.jpg"); */
 	background-repeat: no repeat;
 	background-size: 140%;
 	
@@ -321,4 +321,4 @@ div#Trailer {
 		70%{width: 100%; opacity: 1;}
 		90%{opacity: 0; width: 100%;}
 		100%{opacity: 0;width: 0px;}
-}
+} 
