@@ -166,8 +166,11 @@ public class ProfileBanMapper {
 			      Statement stmt = con.createStatement();
 
 			      ResultSet rs = stmt.executeQuery("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans"
-			           + "WHERE banningProfileId=" + banningProfileId + "ORDER BY timestamp");
+			           + " WHERE banningProfileId=" + banningProfileId + " ORDER BY timestamp");
 
+			      System.out.println("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans"
+			           + "WHERE banningProfileId=" + banningProfileId + " ORDER BY timestamp");
+			      
 			      /**
 			       *  Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt erstellt.
 			       */ 
@@ -183,6 +186,8 @@ public class ProfileBanMapper {
 			       /**
 			        * Hinzufügen des neuen Objekts zum Ergebnisvektor
 			        */
+			        
+			        System.out.println("ProfileBan Id: " + pb.getId() + "Banned Profile Id " +pb.getBannedProfileId());
 			        
 			        result.add(pb);
 			      }
@@ -309,7 +314,8 @@ public class ProfileBanMapper {
 				 *  Statement ausfüllen und als Query an die DB schicken. Löschung erfolgt.
 				 */
 		      
-		      stmt.executeUpdate("DELETE FROM profileBans " + "WHERE id=" + pb.getId());
+		      stmt.executeUpdate("DELETE FROM profileBans " + "WHERE banningProfileId=" + pb.getBanningProfileId() + " AND bannedProfileId=" + pb.getBannedProfileId());
+		      System.out.println("DELETE FROM profileBans " + "WHERE banningProfileId=" + pb.getBanningProfileId() + " AND bannedProfileId=" + pb.getBannedProfileId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();

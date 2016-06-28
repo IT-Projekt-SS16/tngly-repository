@@ -18,6 +18,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -35,20 +36,17 @@ import com.google.gwt.view.client.SelectionModel;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 
-public class ShowProfilesCellTableView extends Update {
+public class BanCTView extends Update {
 
+	
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	private HorizontalPanel hPanel = new HorizontalPanel();
 
-	private Profile profile = null;
-	private SearchProfile searchProfile = null;
-
-	private final Button markAsSeenButton = new Button("Mark as seen");
-	private final Button markAsUnseenButton = new Button("Mark as unseen");
 
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
@@ -58,8 +56,10 @@ public class ShowProfilesCellTableView extends Update {
 	// Add a selection model so we can select cells.
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
-	public ShowProfilesCellTableView(SearchProfile searchProfile) {
-		this.searchProfile = searchProfile;
+	private final Button unbanProfileButton = new Button("Unban selected profiles");
+	
+	public BanCTView() {
+//		this.searchProfile = searchProfile;
 	}
 
 	@Override
@@ -70,14 +70,11 @@ public class ShowProfilesCellTableView extends Update {
 	@Override
 	protected void run() {
 
-		adminService.searchAndCompareProfiles(null, searchProfile, getComparedProfileCallback());
-//		RootPanel.get("Preloader").setVisible(true);
+		adminService.getBans(getBansCallback());
 
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		hPanel.add(markAsSeenButton);
-		hPanel.add(markAsUnseenButton);
 
 		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
 
@@ -106,97 +103,39 @@ public class ShowProfilesCellTableView extends Update {
 		RootPanel.get("Details").add(hPanel);
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
+		RootPanel.get("Details").add(unbanProfileButton);
+		
+		unbanProfileButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				
+
+				
+				ArrayList<Profile> toUnban = new ArrayList<Profile>(selectionModel.getSelectedSet());
+				ClientsideSettings.getLogger().info("Arraylist contains: " + toUnban.get(0).getUserName());
+				ArrayList<ProfileBan> bansToDelete = new ArrayList<ProfileBan>();
+				
+				
+				for (Profile p : toUnban)	{
+					ProfileBan pb = new ProfileBan();
+					pb.setBannedProfileId(p.getId());
+					bansToDelete.add(pb);
+				}
+				
+				adminService.deleteProfileBan(bansToDelete, deleteBansCallback());
+				refreshDisplays();
+				return;
+			}
+		});
+		
 
 		////////////////////////////////////////////////////////////////////////////////////////////
-		markAsSeenButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
-
-				// for (int i = 0; i < selectedRows.size(); ++i) {
-				// ProfileVisit pv = new ProfileVisit();
-				// pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
-				// pv.setVisitedProfileId(
-				// ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).getId());
-				// ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).setWasVisited(true);
-				// pvs.add(pv);
-				// }
-				ClientsideSettings.getAdministration().createProfileVisit(pvs, new AsyncCallback<Void>() {
-					@Override
-					public void onSuccess(Void result) {
-
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-					}
-				});
+		
 			}
 
-			private void refreshData(final FlexTable profilesTable) {
-				for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-					profilesTable.setWidget(i, 0, new CheckBox());
-					Label lblProfileTeaser = new Label(
-							ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-					if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-						lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-					}
-					profilesTable.setWidget(i, 1, lblProfileTeaser);
-				}
-			}
-		});
 
-		markAsUnseenButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
-
-				// for (int i = 0; i < selectedRows.size(); ++i) {
-				// ProfileVisit pv = new ProfileVisit();
-				// pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
-				// pv.setVisitedProfileId(
-				// ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).getId());
-				// ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).setWasVisited(false);
-				// pvs.add(pv);
-				// }
-				ClientsideSettings.getAdministration().deleteProfileVisit(pvs, new AsyncCallback<Void>() {
-					@Override
-					public void onSuccess(Void result) {
-
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-					}
-				});
-			}
-
-			private void refreshData(final FlexTable profilesTable) {
-				for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-					profilesTable.setWidget(i, 0, new CheckBox());
-					Label lblProfileTeaser = new Label(
-							ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-					if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-						lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-					}
-					profilesTable.setWidget(i, 1, lblProfileTeaser);
-				}
-			}
-		});
-	}
-
-	private void refreshData(final FlexTable profilesTable) {
-		for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-			profilesTable.setWidget(i, 0, new CheckBox());
-			Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-			if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-				lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-			}
-			profilesTable.setWidget(i, 1, lblProfileTeaser);
-		}
-	}
+	
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -336,27 +275,27 @@ public class ShowProfilesCellTableView extends Update {
 		cellTable.setColumnWidth(ageColumn, 60, Unit.PCT);
 
 		// Similiarity To Reference.
-		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
-			@Override
-			public String getValue(Profile object) {
-				return String.valueOf(object.getSimiliarityToReference()) + "%";
-			}
-		};
-		similiarityColumn.setSortable(true);
-		similiarityColumn.setDefaultSortAscending(true);
-		sortHandler.setComparator(similiarityColumn, new Comparator<Profile>() {
-			@Override
-			public int compare(Profile o1, Profile o2) {
-				int similiarityO1 = o1.getSimiliarityToReference();
-				int similiarityO2 = o2.getSimiliarityToReference();
-				return String.valueOf(similiarityO1).compareTo(String.valueOf(similiarityO2));
-			}
-		});
-		cellTable.addColumn(similiarityColumn, "Similiarity");
-		cellTable.setColumnWidth(similiarityColumn, 60, Unit.PCT);
+//		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
+//			@Override
+//			public String getValue(Profile object) {
+//				return String.valueOf(object.getSimiliarityToReference()) + "%";
+//			}
+//		};
+//		similiarityColumn.setSortable(true);
+//		similiarityColumn.setDefaultSortAscending(true);
+//		sortHandler.setComparator(similiarityColumn, new Comparator<Profile>() {
+//			@Override
+//			public int compare(Profile o1, Profile o2) {
+//				int similiarityO1 = o1.getSimiliarityToReference();
+//				int similiarityO2 = o2.getSimiliarityToReference();
+//				return String.valueOf(similiarityO1).compareTo(String.valueOf(similiarityO2));
+//			}
+//		});
+//		cellTable.addColumn(similiarityColumn, "Similiarity");
+//		cellTable.setColumnWidth(similiarityColumn, 60, Unit.PCT);
 	}
 
-	private AsyncCallback<ArrayList<Profile>> getComparedProfileCallback() {
+	private AsyncCallback<ArrayList<Profile>> getBansCallback() {
 		AsyncCallback<ArrayList<Profile>> asyncCallback = new AsyncCallback<ArrayList<Profile>>() {
 
 			@Override
@@ -367,14 +306,35 @@ public class ShowProfilesCellTableView extends Update {
 			@Override
 			public void onSuccess(ArrayList<Profile> result) {
 				ClientsideSettings.getLogger()
-						.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
+						.severe("Success GetBansCallback: " + result.getClass().getSimpleName());
+				ClientsideSettings.getLogger()
+				.severe("+ id des Profiles" + result.get(0).getId());
 				for (Profile p : result) {
 					dataProvider.getList().add(p);
 				}
-//				RootPanel.get("Preloader").setVisible(false);
 			}
 		};
 		return asyncCallback;
 	}
 
+	private AsyncCallback<Void> deleteBansCallback() {
+		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				
+				Update update = new BanCTView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				ClientsideSettings.getLogger().info("ProfileBan wurde entfernt");
+				
+			}
+		};
+		return asyncCallback;
+	}
 }

@@ -1,7 +1,6 @@
 package de.hdm.core.shared.bo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Information implements Serializable{
 

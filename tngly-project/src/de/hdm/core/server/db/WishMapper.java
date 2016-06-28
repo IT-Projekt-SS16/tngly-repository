@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Vector;
 import de.hdm.core.shared.bo.Wish;
 import de.hdm.core.shared.bo.Profile;
-import de.hdm.core.shared.bo.Wish;
 
 public class WishMapper {
 
@@ -58,7 +57,7 @@ public class WishMapper {
 		       *  Statement ausfüllen und als Query an die DB schicken
 		       */
 		      ResultSet rs = stmt
-		          .executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes "
+		          .executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM profileWishes "
 		              + "WHERE id=" + id + " ORDER BY id");
 
 		      /**
@@ -100,7 +99,7 @@ public class WishMapper {
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes"
+		      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM profileWishes"
 		           + "ORDER BY id");
 
 		      /**
@@ -150,8 +149,8 @@ public class WishMapper {
 			    try {
 			      Statement stmt = con.createStatement();
 
-			      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM wishes"
-			           + "WHERE wishingProfileId=" + wishingProfileId + "ORDER BY timestamp");
+			      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM profileWishes"
+			           + " WHERE wishingProfileId=" + wishingProfileId + " ORDER BY timestamp");
 
 			      /**
 			       *  Für jeden Eintrag im Suchergebnis wird nun ein Wish-Objekt erstellt.
@@ -228,7 +227,7 @@ public class WishMapper {
 		        /**
 		         *  Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		         */
-		        stmt.executeUpdate("INSERT INTO wishes (id, wishingProfileId, wishedProfileId, timestamp) "
+		        stmt.executeUpdate("INSERT INTO profileWishes (id, wishingProfileId, wishedProfileId, timestamp) "
 		            + "VALUES (" + w.getId() + ",'" + w.getWishingProfileId() + "','" + w.getWishedProfileId() + "','" + date + "')");
 		      }
 		    }
@@ -290,7 +289,8 @@ public class WishMapper {
 		    try {
 		      Statement stmt = con.createStatement();
 		
-		      stmt.executeUpdate("DELETE FROM wishes " + "WHERE id=" + w.getId());
+		      stmt.executeUpdate("DELETE FROM profileWishes " + "WHERE wishingProfileId=" + w.getWishingProfileId() + " AND wishedProfileId=" +w.getWishedProfileId());
+		      System.out.println("DELETE FROM profileWishes " + "WHERE id=" + w.getId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -311,7 +311,7 @@ public class WishMapper {
 			    try {
 			      Statement stmt = con.createStatement();
 			
-			      stmt.executeUpdate("DELETE FROM wishes " + "WHERE wishingProfileId=" + profile.getId());
+			      stmt.executeUpdate("DELETE FROM profileWishes " + "WHERE wishingProfileId=" + profile.getId());
 			    }
 			    catch (SQLException e) {
 			      e.printStackTrace();

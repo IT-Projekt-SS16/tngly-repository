@@ -56,14 +56,17 @@ public class EditorEntryPoint implements EntryPoint {
 
 	private Anchor moduleLink = new Anchor("Change to REPORT module");
 
+	@Override
 	public void onModuleLoad() {
 
 		loginService.login(GWT.getHostPageBaseURL() + "Editor.html", new AsyncCallback<LoginInfo>() {
 
+			@Override
 			public void onFailure(Throwable error) {
 
 			}
 
+			@Override
 			public void onSuccess(LoginInfo result) {
 
 				loginInfo = result;
@@ -106,12 +109,12 @@ public class EditorEntryPoint implements EntryPoint {
 	private void loadEditor() {
 
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
+			@Override
 			public void onUncaughtException(Throwable e) {
 				logger.log(Level.ALL, "Ex caught!", e);
 			}
 		});
 		
-		RootPanel.get("Preloader").setVisible(false);
 
 		VerticalPanel verPanel = new VerticalPanel();
 		HorizontalPanel logoutPanel = new HorizontalPanel();
@@ -151,6 +154,7 @@ public class EditorEntryPoint implements EntryPoint {
 
 		
 		profileButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				profileButton.setStylePrimaryName("tngly-Profilebutton");
 				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
@@ -166,6 +170,7 @@ public class EditorEntryPoint implements EntryPoint {
 		});
 
 		profileListsButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				profileButton.setStylePrimaryName("tngly-menubutton");
 				wishlistButton.setStylePrimaryName("tngly-submenubutton");
@@ -173,7 +178,7 @@ public class EditorEntryPoint implements EntryPoint {
 				searchProfilButton.setStylePrimaryName("tngly-menubutton");
 				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
 				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
-				Update update = new WishlistView();
+				Update update = new WishlistCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -181,6 +186,7 @@ public class EditorEntryPoint implements EntryPoint {
 
 		
 		wishlistButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				profileButton.setStylePrimaryName("tngly-menubutton");
 				wishlistButton.setStylePrimaryName("tngly-submenubutton");
@@ -188,7 +194,7 @@ public class EditorEntryPoint implements EntryPoint {
 				searchProfilButton.setStylePrimaryName("tngly-menubutton");
 				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
 				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
-				Update update = new WishlistView();
+				Update update = new WishlistCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -197,6 +203,7 @@ public class EditorEntryPoint implements EntryPoint {
 	
 
 		searchProfilButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				profileButton.setStylePrimaryName("tngly-menubutton");
 				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
@@ -211,6 +218,7 @@ public class EditorEntryPoint implements EntryPoint {
 		});
 		
 		banlistButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				profileButton.setStylePrimaryName("tngly-menubutton");
 				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
@@ -218,7 +226,7 @@ public class EditorEntryPoint implements EntryPoint {
 				searchProfilButton.setStylePrimaryName("tngly-menubutton");
 				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
 				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
-				Update update = new BanView();
+				Update update = new BanCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -226,6 +234,7 @@ public class EditorEntryPoint implements EntryPoint {
 		
 		
 		editProfileButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				profileButton.setStylePrimaryName("tngly-Profilebutton");
 				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
@@ -246,6 +255,7 @@ public class EditorEntryPoint implements EntryPoint {
 		logoutPanel.add(signOutButton);
 
 		signOutButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
 						"_self", "");

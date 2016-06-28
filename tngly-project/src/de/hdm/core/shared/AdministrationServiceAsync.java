@@ -11,9 +11,7 @@ import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
-import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
-import de.hdm.core.shared.bo.Wishlist;
 
 public interface AdministrationServiceAsync {
 
@@ -109,4 +107,12 @@ public interface AdministrationServiceAsync {
 
 	public void deleteInformation(Description description, AsyncCallback<Void> callback)
 			throws IllegalArgumentException;
+
+	public void getBans(AsyncCallback<ArrayList<Profile>> callback);
+
+	public void deleteProfileBan(ArrayList<ProfileBan> toUnban, AsyncCallback<Void> callback);
+
+	public void getWishes(AsyncCallback<ArrayList<Profile>> callback);
+
+	public void deleteWishes(ArrayList<Wish> toUnwish, AsyncCallback<Void> callback);
 }

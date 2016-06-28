@@ -7,14 +7,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Logger;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
-
-import com.ibm.icu.util.Calendar;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
-import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 
 /**

@@ -1,12 +1,16 @@
 package de.hdm.editor.client;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Text;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,167 +19,296 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
+import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionModel;
 
 import de.hdm.core.client.ClientsideSettings;
+import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
+import de.hdm.core.shared.bo.SearchProfile;
 
 public class BanView extends Update{
 
-
-	  protected String getHeadlineText() {
+	  @Override
+	protected String getHeadlineText() {
 	    return "";
 	  }
+	  
+	  public BanView() {
+		}
+
+	  private HorizontalPanel hPanel = new HorizontalPanel();
+	  private final Button markAsSeenButton = new Button("Mark as seen");
+		private final Button markAsUnseenButton = new Button("Mark as unseen");
+	  
+	  private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	 
+	  private CellTable<Profile> cellTable = new CellTable<Profile>();
+	  
+	  private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
+	  private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
 
-	  protected void run() {
-		  this.append("Here you will see your list of banned profiles");
-		  final Button removeButton;
-		  ArrayList<ProfileBan> banList = ClientsideSettings.getBanlist();
-		  
-		
-		  DataGrid bansGrid = new DataGrid<ProfileBan>();
-		  bansGrid.setWidth("100%");
-		   
-		  
-		  bansGrid.setEmptyTableWidget(new Label("You do not have a ban"));
-//		  
-		  
-		  CellTable<ProfileBan> banTable = new CellTable<ProfileBan>();
-		    //table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		  
-		// Add a selection model to handle user selection.
-		    final MultiSelectionModel<ProfileBan> selectionModel = new MultiSelectionModel<ProfileBan>();
-		    banTable.setSelectionModel(selectionModel);
-		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-		      public void onSelectionChange(SelectionChangeEvent event) {
-		        Set<ProfileBan> selected = selectionModel.getSelectedSet();
-		        //if (selected != null) {
-		        //  Window.alert("You selected: " + selected.size + "Profiles");
-		        //}
-		      }
-		    });
-		  
+	  private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
+	  
+	  private Profile currentUserProfile = null;
 
-		  Column<ProfileBan, Boolean> checkColumn =
-			        new Column<ProfileBan, Boolean>(new CheckboxCell(true, false)) {
-			          @Override
-			          public Boolean getValue(ProfileBan pb) {
-			            // Get the value from the selection model.
-			            return selectionModel.isSelected(pb);
-			          }
-			        };
-			    bansGrid.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
-			    bansGrid.setColumnWidth(checkColumn, 40, Unit.PX);
-			    
-		    // Add a text column to show the username.
-		    TextColumn<ProfileBan> userNameColumn = new TextColumn<ProfileBan>() {
-		      @Override
-		      public String getValue(ProfileBan pb) {
-		        return pb.getBannedProfile().getUserName();
-		      }
-		    };
-		    banTable.addColumn(userNameColumn, "Username");
-
-		    // Add a text column to show the name.
-		    TextColumn<ProfileBan> nameColumn = new TextColumn<ProfileBan>() {
-		      @Override
-		      public String getValue(ProfileBan pb) {
-		        return pb.getBannedProfile().getName();
-		      }
-		    };
-		    banTable.addColumn(nameColumn, "Name");
-		    
-		    // Add a text column to show the lastname.
-		    TextColumn<ProfileBan> lastNameColumn = new TextColumn<ProfileBan>() {
-		      @Override
-		      public String getValue(ProfileBan pb) {
-		        return pb.getBannedProfile().getLastName();
-		      }
-		    };
-		    banTable.addColumn(lastNameColumn, "LastName");
-		    
-		 // Add a date column to show the birthday.
-		    DateCell dateCell = new DateCell();
-		    Column<ProfileBan, Date> dateColumn = new Column<ProfileBan, Date>(dateCell) {
-		      @Override
-		      public Date getValue(ProfileBan pb) {
-		        return pb.getBannedProfile().getDateOfBirth();
-		      }
-		    };
-		    banTable.addColumn(dateColumn, "Birthday");
-		    
-		    // Add a text column to show the gender.
-		    TextColumn<ProfileBan> genderColumn = new TextColumn<ProfileBan>() {
-		      @Override
-		      public String getValue(ProfileBan pb) {
-		        return pb.getBannedProfile().getGender();
-		      }
-		    };
-		    banTable.addColumn(genderColumn, "Gender");
-		    
-		 
+	  @Override
+	protected void run() {
+//		  this.append("Here you will see your list of banned profiles");
 		  
-//		  final CheckBox checkBox1 = new CheckBox();
-//		  final CheckBox checkBox2 = new CheckBox();
-//		  
-//		  FlexTable t = new FlexTable();
-//		  t.setStyleName("Table-Wishlist");
-//		  t.setCellSpacing(10);
-//		  
-//		  FlexTable t1 = new FlexTable();
-//		  t1.setStyleName("Table-Wishlist");
-//		  t1.setCellSpacing(10);
-//		  
-//		  
-//		  Button deleteButton = new Button("Delete");
-//		  deleteButton.setStyleName("tngly-button");
-//		  
-//		  
-//		  t.setText(0, 0, "Mr. Tngly");
-//		  
-//		  t.setText(1, 0, "Age:");
-//		  t.setText(2, 0, "Gender:" );
-//		  t.setText(1, 1, "40");
-//		  t.setText(2, 1, "Male");
-//		  t.setText(1, 2, "Hobbies:");
-//		  t.setText(2, 2, "Realname:");
-//		  t.setText(1, 3, "Zucken");
-//		  t.setText(2, 3, "Max Example");
-//		  t.setWidget(3, 0, checkBox1);
-//		  
-//		  
-//		  t1.setText(0, 0, "Kevina Hunter");
-//		  
-//		  t1.setText(1, 0, "Age:");
-//		  t1.setText(2, 0, "Gender:" );
-//		  t1.setText(1, 1, "17");
-//		  t1.setText(2, 1, "Female");
-//		  t1.setText(1, 2, "Hobbies:");
-//		  t1.setText(2, 2, "Realname:");
-//		  t1.setText(1, 3, "Auch Zucken");
-//		  t1.setText(2, 3, "Maxine Example");
-//		  
-//		  t1.setWidget(3, 0, checkBox2);
-//		  
-//		  
-//		
-//		  
-//		  RootPanel.get("Details").add(t);
-//		  RootPanel.get("Details").add(t1);
-//			        
-//		  RootPanel.get("Details").add(deleteButton);
-			        
+		  hPanel.setBorderWidth(0);
+			hPanel.setSpacing(0);
+			hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+			hPanel.add(markAsSeenButton);
+			hPanel.add(markAsUnseenButton);
+		  
+		  int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+			adminService.getProfileByUserName(
+					ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex), getCurrentUserProfileCallback());
+		  
+		  adminService.getBans(getBansCallback());
+		  System.out.println("getBans wurde ausgeführt");
+			ClientsideSettings.getLogger().info("getBans wurde ausgeführt");
+
+		  
+			cellTable.setWidth("100%", true);
+
+			// Do not refresh the headers and footers every time the data is
+			// updated.
+			cellTable.setAutoHeaderRefreshDisabled(true);
+
+			// Attach a column sort handler to the ListDataProvider to sort the
+			// list.
+			cellTable.addColumnSortHandler(sortHandler);
+			cellTable.setSelectionModel(selectionModel, DefaultSelectionEventManager.<Profile>createCheckboxManager());
+
+			// Initialize the columns.
+			initTableColumns(selectionModel, sortHandler);
+
+			// Add the CellList to the adapter in the database.
+			addDataDisplay(cellTable);
+
+			ClientsideSettings.getLogger().info("addDataDisplay ausgeführt");
+
+			
+			// Create a Pager to control the table.
+			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+			SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+			pager.setDisplay(cellTable);
+
+			RootPanel.get("Details").add(hPanel);
+			RootPanel.get("Details").add(cellTable);
+			
+			ClientsideSettings.getLogger().info("CellTable wird zum RootPanel geaddet");
+			
+			RootPanel.get("Details").add(pager);
+		    
 			      }
+	  
+	  public void addDataDisplay(HasData<Profile> display) {
+			dataProvider.addDataDisplay(display);
+		}
+	  
+	  public void refreshDisplays() {
+			dataProvider.refresh();
+		}
+	  
+	  private void initTableColumns(final SelectionModel<Profile> selectionModel, ListHandler<Profile> sortHandler) {
+			// Checkbox column. This table will uses a checkbox column for
+			// selection.
+			// Alternatively, you can call cellTable.setSelectionEnabled(true) to
+			// enable
+			// mouse selection.
+		  
+			Column<Profile, Boolean> checkColumn = new Column<Profile, Boolean>(new CheckboxCell(true, false)) {
+				@Override
+				public Boolean getValue(Profile object) {
+					// Get the value from the selection model.
+					return selectionModel.isSelected(object);
+				}
+			};
+			cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
+			cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
+
+			Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
+				@Override
+				public String getValue(Profile object) {
+					// Get the value from the selection model.
+					return object.getUserName();
+				}
+			};
+			clickableTextColumn.setFieldUpdater(new FieldUpdater<Profile, String>() {
+				@Override
+				public void update(int index, Profile object, String value) {
+					// Called when the user changes the value.
+					Update update = new OtherProfileView(object);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(update);
+				}
+			});
+			cellTable.addColumn(clickableTextColumn, "Username");
+			cellTable.setColumnWidth(clickableTextColumn, 100, Unit.PX);
+
+			// First Name.
+			Column<Profile, String> firstNameColumn = new Column<Profile, String>(new TextCell()) {
+				@Override
+				public String getValue(Profile object) {
+					return object.getName();
+				}
+			};
+			firstNameColumn.setSortable(true);
+			firstNameColumn.setDefaultSortAscending(true);
+			sortHandler.setComparator(firstNameColumn, new Comparator<Profile>() {
+				@Override
+				public int compare(Profile o1, Profile o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+			cellTable.addColumn(firstNameColumn, "First Name");
+			cellTable.setColumnWidth(firstNameColumn, 60, Unit.PCT);
+
+			// Last Name.
+			Column<Profile, String> lastNameColumn = new Column<Profile, String>(new TextCell()) {
+				@Override
+				public String getValue(Profile object) {
+					return object.getLastName();
+				}
+			};
+			lastNameColumn.setSortable(true);
+			lastNameColumn.setDefaultSortAscending(true);
+			sortHandler.setComparator(lastNameColumn, new Comparator<Profile>() {
+				@Override
+				public int compare(Profile o1, Profile o2) {
+					return o1.getLastName().compareTo(o2.getLastName());
+				}
+			});
+			cellTable.addColumn(lastNameColumn, "Last Name");
+			cellTable.setColumnWidth(lastNameColumn, 60, Unit.PCT);
+
+			// Gender.
+			Column<Profile, String> genderColumn = new Column<Profile, String>(new TextCell()) {
+				@Override
+				public String getValue(Profile object) {
+					return object.getGender();
+				}
+			};
+			genderColumn.setSortable(true);
+			genderColumn.setDefaultSortAscending(true);
+			sortHandler.setComparator(genderColumn, new Comparator<Profile>() {
+				@Override
+				public int compare(Profile o1, Profile o2) {
+					return o1.getGender().compareTo(o2.getGender());
+				}
+			});
+			cellTable.addColumn(genderColumn, "Gender");
+			cellTable.setColumnWidth(genderColumn, 60, Unit.PCT);
+
+			// Age.
+			Column<Profile, String> ageColumn = new Column<Profile, String>(new TextCell()) {
+				@Override
+				public String getValue(Profile object) {
+					Date dateBirth = object.getDateOfBirth();
+					Date dateNow = new Date();
+					int age = dateNow.getYear() - dateBirth.getYear();
+					return String.valueOf(age);
+				}
+			};
+			ageColumn.setSortable(true);
+			ageColumn.setDefaultSortAscending(true);
+			sortHandler.setComparator(ageColumn, new Comparator<Profile>() {
+				@Override
+				public int compare(Profile o1, Profile o2) {
+					Date dateBirthO1 = o1.getDateOfBirth();
+					Date dateBirthO2 = o2.getDateOfBirth();
+					Date dateNow = new Date();
+					int ageO1 = dateNow.getYear() - dateBirthO1.getYear();
+					int ageO2 = dateNow.getYear() - dateBirthO2.getYear();
+					return String.valueOf(ageO1).compareTo(String.valueOf(ageO2));
+				}
+			});
+			cellTable.addColumn(ageColumn, "Age");
+			cellTable.setColumnWidth(ageColumn, 60, Unit.PCT);
+
+			// Similiarity To Reference.
+//			Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
+//				@Override
+//				public String getValue(Profile object) {
+//					return String.valueOf(object.getSimiliarityToReference()) + "%";
+//				}
+//			};
+//			similiarityColumn.setSortable(true);
+//			similiarityColumn.setDefaultSortAscending(true);
+//			sortHandler.setComparator(similiarityColumn, new Comparator<Profile>() {
+//				@Override
+//				public int compare(Profile o1, Profile o2) {
+//					int similiarityO1 = o1.getSimiliarityToReference();
+//					int similiarityO2 = o2.getSimiliarityToReference();
+//					return String.valueOf(similiarityO1).compareTo(String.valueOf(similiarityO2));
+//				}
+//			});
+//			cellTable.addColumn(similiarityColumn, "Similiarity");
+//			cellTable.setColumnWidth(similiarityColumn, 60, Unit.PCT);
+		}
+	  
+	  private AsyncCallback<Profile> getCurrentUserProfileCallback() {
+			AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+				}
+
+				@Override
+				public void onSuccess(Profile result) {
+					ClientsideSettings.getLogger().severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
+					currentUserProfile = result;
+				}
+			};
+			return asyncCallback;
+		}
+	  
+	  
+	  
+	  
+	  private AsyncCallback<ArrayList<Profile>> getBansCallback() {
+			AsyncCallback<ArrayList<Profile>> asyncCallback = new AsyncCallback<ArrayList<Profile>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+				}
+
+				@Override
+				public void onSuccess(ArrayList<Profile> result) {
+					ClientsideSettings.getLogger()
+							.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
+					for (Profile p : result) {
+						dataProvider.getList().add(p);
+					}
+				}
+			};
+			return asyncCallback;
+		}
+	  
+	  
 }
 		    
 	 

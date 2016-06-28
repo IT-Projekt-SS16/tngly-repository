@@ -2,7 +2,6 @@ package de.hdm.core.shared;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -13,9 +12,7 @@ import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
-import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
-import de.hdm.core.shared.bo.Wishlist;
 
 @RemoteServiceRelativePath("administration")
 public interface AdministrationService extends RemoteService {
@@ -106,5 +103,13 @@ public interface AdministrationService extends RemoteService {
 	public void editInformation(Description description) throws IllegalArgumentException;
 
 	public void deleteInformation(Description description) throws IllegalArgumentException;
+
+	public ArrayList<Profile> getBans() throws IllegalArgumentException;
+
+	public void deleteProfileBan(ArrayList<ProfileBan> toUnban) throws IllegalArgumentException;
+
+	public ArrayList<Profile> getWishes() throws IllegalArgumentException;
+
+	public void deleteWishes(ArrayList<Wish> toUnwish) throws IllegalArgumentException;
 
 }

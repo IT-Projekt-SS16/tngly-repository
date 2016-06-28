@@ -9,7 +9,6 @@ public class ProfileBan implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ProfileBan pb = new ProfileBan();
 	//Default-Konstruktor
 	public ProfileBan(){
 	}

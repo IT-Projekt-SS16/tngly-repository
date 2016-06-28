@@ -3,11 +3,9 @@ package de.hdm.core.server.db;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Vector;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Information;
-import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.Selection;
 
 import java.util.Date;

@@ -1,13 +1,11 @@
 package de.hdm.core.shared.bo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Wish implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private Wish wish = new Wish();
 	/**
 	 * Hier wird der Konstruktor fuer die Klasse Wish implementiert.
 	 */
@@ -16,10 +14,6 @@ public class Wish implements Serializable{
 	}
 	
 	
-	public Wish(int wishingpId, int wishedpId){
-		wish.setWishingProfileId(wishingpId);
-		wish.setWishedProfileId(wishedpId);
-	}
 
 	
 		// The Wish´s ID

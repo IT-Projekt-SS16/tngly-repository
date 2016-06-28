@@ -24,7 +24,6 @@ import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
-import de.hdm.core.shared.bo.Wishlist;
 
 /**
  * <p>
@@ -150,6 +149,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 * Methode muss fuer jede Instanz von <code>AdministrationServiceImpl</code>
 	 * aufgerufen werden.
 	 */
+	@Override
 	public void init() throws IllegalArgumentException {
 		/*
 		 * Ganz wesentlich ist, dass die Administration einen vollstaendigen
@@ -209,6 +209,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		ServersideSettings.setUserProfile(null);
 	}
 
+	@Override
 	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
 		Profile profile = this.profileMapper.findByName(userEmail);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
@@ -231,7 +232,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile temp = this.profileMapper.findByName(userName);
 
 		/*
-		 * �berpr�fung ob der eingelogte Benutezr bereits in der Datenbank
+		 * �berpr�fung ob der eingelogte Benutezr bereits in der Datenbank
 		 * vorhanden ist, aonsten wird er erzeugt.
 		 */
 		if (temp == null) {
@@ -290,18 +291,64 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		return profiles;
 	}
 
+	@Override
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
 		this.profileVisitMapper.insert(visitedProfiles);
 	}
 
+	@Override
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
 		this.profileVisitMapper.delete(visitedProfiles);
 	}
 
+	@Override
 	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException {
 		return this.profileVisitMapper.wasProfileVisited(profile);
 	}
 
+	@Override
+	public ArrayList<Profile> getWishes() throws IllegalArgumentException	{
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+				.getUserService();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+
+		Profile temp = this.profileMapper.findByName(userName);
+		
+		ArrayList<Wish> ws = new ArrayList<Wish>();
+		ws = this.wishMapper.findWishedProfiles(temp.getId());
+	
+		ArrayList<Profile> rs = new ArrayList<Profile>();
+			for (Wish w : ws)	{
+				rs.add(this.profileMapper.findByKey(w.getWishedProfileId()));
+			}
+		
+		ClientsideSettings.getLogger().info("getWishes ausgeführt");	
+		return rs;
+	}
+	
+	@Override
+	public void deleteWishes(ArrayList<Wish> toUnwish) throws IllegalArgumentException {
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+				.getUserService();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+		Profile temp = this.profileMapper.findByName(userName);
+		
+		ClientsideSettings.getLogger().info("Zeile 403 Impl. ausgeführt");
+		
+		for (Wish w : toUnwish)	{
+			w.setWishingProfileId(temp.getId());
+			this.wishMapper.delete(w);
+			ClientsideSettings.getLogger().info("Zeile 408 Impl. ausgeführt");
+		}
+
+	}
+	
 	@Override
 	public Wish addWishToWishlist(int wishedProfileId, int wishingProfileId) throws IllegalArgumentException {
 		Wish wish = new Wish();
@@ -355,6 +402,29 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
+	public ArrayList<Profile> getBans() throws IllegalArgumentException	{
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+				.getUserService();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+
+		Profile temp = this.profileMapper.findByName(userName);
+		
+		ArrayList<ProfileBan> pbs = new ArrayList<ProfileBan>();
+		pbs = this.profileBanMapper.findBannedProfiles(temp.getId());
+	
+		ArrayList<Profile> rs = new ArrayList<Profile>();
+			for (ProfileBan pb : pbs)	{
+				rs.add(this.profileMapper.findByKey(pb.getBannedProfileId()));
+			}
+		
+		ClientsideSettings.getLogger().info("getBans ausgeführt");	
+		return rs;
+	}
+	
+	@Override
 	public ProfileBan createProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException {
 		ProfileBan pb = new ProfileBan();
 		pb.setBannedProfileId(bannedpId);
@@ -364,12 +434,33 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public void deleteProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException {
-		ProfileBan pb = new ProfileBan();
-		pb.setBannedProfileId(bannedpId);
-		pb.setBanningProfileId(banningpId);
-		pb.setId(1);
-		this.profileBanMapper.delete(pb);
+	public void deleteProfileBan(ArrayList<ProfileBan> toUnban) throws IllegalArgumentException {
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+				.getUserService();
+		com.google.appengine.api.users.User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+		Profile temp = this.profileMapper.findByName(userName);
+		
+		ClientsideSettings.getLogger().info("Zeile 403 Impl. ausgeführt");
+		
+		for (ProfileBan pb : toUnban)	{
+			pb.setBanningProfileId(temp.getId());
+			this.profileBanMapper.delete(pb);
+			ClientsideSettings.getLogger().info("Zeile 408 Impl. ausgeführt");
+		}
+
+	}
+	
+	@Override
+	public void deleteProfileBan(int banningProfileId, int bannedProfileId) throws IllegalArgumentException {
+			ProfileBan pb = new ProfileBan();
+			pb.setBannedProfileId(bannedProfileId);
+			pb.setBanningProfileId(banningProfileId);
+			
+			this.profileBanMapper.delete(pb);
+		
 
 	}
 

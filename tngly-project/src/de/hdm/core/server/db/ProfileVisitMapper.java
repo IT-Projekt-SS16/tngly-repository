@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
-import de.hdm.core.shared.bo.Wishlist;
-import de.hdm.core.server.ServersideSettings;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 

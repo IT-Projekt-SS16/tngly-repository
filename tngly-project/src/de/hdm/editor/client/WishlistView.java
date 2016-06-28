@@ -4,37 +4,27 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.cell.client.DateCell;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-
 import de.hdm.core.client.ClientsideSettings;
-import de.hdm.core.server.AdministrationServiceImpl;
-import de.hdm.core.shared.bo.Profile;
-import de.hdm.core.shared.bo.ProfileBan;
-import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.Wish;
 
 public class WishlistView extends Update{
 
 
-	  protected String getHeadlineText() {
+	  @Override
+	protected String getHeadlineText() {
 	    return "";
 	  }
 	 
 
-	  protected void run() {
+	  @Override
+	protected void run() {
 		  this.append("Here you will see your list of wished profiles");
 
 			FlexTable contentTable = new FlexTable();
@@ -57,7 +47,7 @@ public class WishlistView extends Update{
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setBorderWidth(0);
 			hPanel.setSpacing(0);
-			hPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_LEFT);
+			hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 			//markAsSeenButton = new Button("Mark as seen");
 			//hPanel.add(markAsSeenButton);
 			//markAsUnseenButton = new Button("Mark as unseen");
