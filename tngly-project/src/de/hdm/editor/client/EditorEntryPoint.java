@@ -114,7 +114,6 @@ public class EditorEntryPoint implements EntryPoint {
 				logger.log(Level.ALL, "Ex caught!", e);
 			}
 		});
-		
 
 		VerticalPanel verPanel = new VerticalPanel();
 		HorizontalPanel logoutPanel = new HorizontalPanel();

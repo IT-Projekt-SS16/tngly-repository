@@ -183,9 +183,6 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 */
 	@Override
 	public void editProfile(Profile profile) throws IllegalArgumentException {
-		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
-		// Benutzers
-		ServersideSettings.setUserProfile(profile);
 		// �bergabe des Benutzerprofils an den ProfilMapper zur weiteren
 		// Verarbeitung (Update in DB)
 		this.profileMapper.edit(profile);
@@ -198,15 +195,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 */
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
-		// �bergabe des applikationsweiten Benutzerprofils an den ProfilMapper
-		// zur weiteren Verarbeitung (L�schen in DB)
+		// Uebergabe des applikationsweiten Benutzerprofils an den ProfilMapper
+		// zur weiteren Verarbeitung (Loeschen in DB)
 		this.profileBanMapper.delete(profile);
 		this.profileVisitMapper.delete(profile);
 		this.wishMapper.delete(profile);
 		this.informationMapper.delete(profile);
 		this.profileMapper.delete(profile);
-		// L�schen des applikationsweiten Benutzerprofils (durch NULL-Setzung)
-		ServersideSettings.setUserProfile(null);
 	}
 
 	@Override
@@ -289,6 +284,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		ServersideSettings.setProfilesFoundAndCompared(profiles);
 		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
 		return profiles;
+	}
+	
+	public int searchAndCompareProfiles() throws IllegalArgumentException {
+		return 1;
 	}
 
 	@Override

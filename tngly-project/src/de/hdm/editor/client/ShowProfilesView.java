@@ -105,7 +105,7 @@ public class ShowProfilesView extends Update {
 					});
 					Profile selectedProfile = ClientsideSettings.getProfilesFoundAndCompared().get(selectedRow);
 					selectedProfile.setWasVisited(true);
-					Update update = new OtherProfileView(selectedProfile);
+					Update update = new OtherProfileView(selectedProfile, "ShowProfilesView");
 
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(update);

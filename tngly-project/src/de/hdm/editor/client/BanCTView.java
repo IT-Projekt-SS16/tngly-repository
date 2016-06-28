@@ -186,7 +186,7 @@ public class BanCTView extends Update {
 			@Override
 			public void update(int index, Profile object, String value) {
 				// Called when the user changes the value.
-				Update update = new OtherProfileView(object);
+				Update update = new OtherProfileView(object, "BanCTView");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}

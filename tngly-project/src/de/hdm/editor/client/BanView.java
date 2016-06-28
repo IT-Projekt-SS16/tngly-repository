@@ -159,7 +159,7 @@ public class BanView extends Update{
 				@Override
 				public void update(int index, Profile object, String value) {
 					// Called when the user changes the value.
-					Update update = new OtherProfileView(object);
+					Update update = new OtherProfileView(object, "BanView");
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(update);
 				}
