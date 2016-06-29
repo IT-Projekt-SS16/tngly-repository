@@ -4,7 +4,8 @@ import com.google.gwt.user.client.ui.*;
 
 public abstract class UpdateReportGenerator extends VerticalPanel{
 
-	  public void onLoad() {
+	  @Override
+	public void onLoad() {
 	 
 	    super.onLoad();
 

@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -441,6 +440,7 @@ public class SearchByProfileView extends Update {
 		RootPanel.get("Details").add(showProfilesButton);
 
 		showProfilesButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				
 				boolean genderChecked = chkGenderAny.getValue();

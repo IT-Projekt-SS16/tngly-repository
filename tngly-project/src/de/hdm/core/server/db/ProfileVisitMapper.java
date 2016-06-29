@@ -359,7 +359,7 @@ public class ProfileVisitMapper {
 			        pv.setId(rs.getInt("id"));
 			        pv.setVisitingProfileId(rs.getInt("visitingProfileId"));
 			        pv.setVisitedProfileId(rs.getInt("visitedProfileId"));
-			        pv.setTimestamp(rs.getDate("timestamp"));
+//			        pv.setTimestamp(rs.getDate("timestamp"));
 
 			        /**
 			         *  Hinzufügen des neuen Objekts zum Ergebnisvektor

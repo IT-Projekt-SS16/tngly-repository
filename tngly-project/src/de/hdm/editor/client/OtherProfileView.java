@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -20,12 +19,25 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Description;
+import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.Wish;
 
 public class OtherProfileView extends Update {
 
+	@Override
+	protected String getHeadlineText() {
+		return null;
+	}
+	
+	public OtherProfileView(Profile selectedProfile, String originView) {
+		this.selectedProfile = selectedProfile;
+		this.originView = originView;
+	}
+	
+	private static final Logger logger = ClientsideSettings.getLogger();
+	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	private Profile selectedProfile;
 	
 	private VerticalPanel verPanel = new VerticalPanel();
@@ -36,6 +48,7 @@ public class OtherProfileView extends Update {
 	private HorizontalPanel horPanelLine = new HorizontalPanel();
 	
 	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	HTML verLine = new HTML("  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='500' style='background:grey'></td></tr></table>"); 
 	
 	private final TextBox tbun = new TextBox();
 	private final TextBox tbfn = new TextBox();
@@ -63,44 +76,46 @@ public class OtherProfileView extends Update {
 	private FlexTable t3 = new FlexTable();
 	private FlexTable t4 = new FlexTable();
 	
-	private final CheckBox chkVolleyball = new CheckBox();
-	private final CheckBox chkFootball = new CheckBox();
-	private final CheckBox chkWatchPeople = new CheckBox();
-	private final CheckBox chkIT = new CheckBox();
-	private final CheckBox chkHandball = new CheckBox();
-	private final CheckBox chkPP = new CheckBox();
+	private String originView;
 	
-	private final CheckBox chkStoneAge = new CheckBox();
-	private final CheckBox chkAncientTimes = new CheckBox();
-	private final CheckBox chkEarlyMiddleAges = new CheckBox();
-	private final CheckBox chkLateMiddleAges = new CheckBox();
-	private final CheckBox chkRenaissance = new CheckBox();
-	private final CheckBox chkIndusrialAge = new CheckBox();
-	private final CheckBox chkModernAge = new CheckBox();
+	private final CheckBox chkVolleyball = new CheckBox("Volleyball");
+	private final CheckBox chkFootball = new CheckBox("Football");
+	private final CheckBox chkWatchPeople = new CheckBox("Watch people");
+	private final CheckBox chkIT = new CheckBox("Not working at the IT-project");
+	private final CheckBox chkHandball = new CheckBox("Handball");
+	private final CheckBox chkPP = new CheckBox("Pocket pool");
+
+	private final CheckBox chkStoneAge = new CheckBox("Stone Age");
+	private final CheckBox chkAncientTimes = new CheckBox("Ancient Times");
+	private final CheckBox chkEarlyMiddleAges = new CheckBox("Early Middle Ages");
+	private final CheckBox chkLateMiddleAges = new CheckBox("Late Middle Ages");
+	private final CheckBox chkRenaissance = new CheckBox("Renaissance");
+	private final CheckBox chkIndustrialAge = new CheckBox("Industrial Age");
+	private final CheckBox chkModernAge = new CheckBox("Modern Age");
+
+	private final CheckBox chkBringing = new CheckBox("bringing creativity into a relationship");
+	private final CheckBox chkEnjoying = new CheckBox("enjoying the simple things");
+	private final CheckBox chkBeing = new CheckBox("being romantic");
+	private final CheckBox chkSolving = new CheckBox("solving conflicts quickly");
+	private final CheckBox chkKeeping = new CheckBox("keeping calm in chaotic situations");
+
+	private final CheckBox chkHipHop = new CheckBox("Hip Hop");
+	private final CheckBox chkMetal = new CheckBox("Metal");
+	private final CheckBox chkRock = new CheckBox("Rock");
+	private final CheckBox chkEmo = new CheckBox("Emo");
+	private final CheckBox chkAzzlackz = new CheckBox("Azzlackz");
 	
-	private final CheckBox chkBringing = new CheckBox();
-	private final CheckBox chkEnjoying = new CheckBox();
-	private final CheckBox chkBeing = new CheckBox();
-	private final CheckBox chkSolving = new CheckBox();
-	private final CheckBox chkKeeping = new CheckBox();
+	private final Button atfProfilButton = new Button("Add to Favorites");
+	private final Button dffProfilButton = new Button("Delete from Favorites");
+	private final Button backButton = new Button("Back");
+	private final Button banProfilButton = new Button("Ban Profile");
+	private final Button unbanProfilButton = new Button("Unban Profile");
 
-	public OtherProfileView(Profile selectedProfile) {
-		this.selectedProfile = selectedProfile;
-	}
 
-	/**
-	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
-	 * Methode zu erstellen ist.
-	 * 
-	 * @see Showcase#getHeadlineText()
-	 */
-	@Override
-	protected String getHeadlineText() {
-		return "";
-	}
 
 	@Override
 	protected void run() {
+
 
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
@@ -119,6 +134,7 @@ public class OtherProfileView extends Update {
 		tbn.setPixelSize(120, 15);
 		tbbh.setPixelSize(120, 15);
 		tdob.setPixelSize(120, 15);
+		ta.setWidth("230px");
 		
 		
 		hairColourList.setVisibleItemCount(1);
@@ -150,17 +166,35 @@ public class OtherProfileView extends Update {
 		genderBox.addItem("Female");
 		genderBox.addItem("Male");
 		genderBox.setPixelSize(130,25);
-
-		// Label userName = new Label("Username:");
-		// verPanel.add(userName);
-		// Label userNameValue;
-		// if (ClientsideSettings.getUserProfile().getUserName() == null){
-		// userNameValue = new Label("");
-		// } else {
-		// userNameValue = new
-		// Label(ClientsideSettings.getUserProfile().getUserName());
-		// }
-		// verPanel.add(userNameValue);
+		
+		RootPanel.get("Details").add(verPanel);
+		
+		backButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				switch(originView){
+		        case "ShowProfilesCellTableView":
+		        	Update updateProfilesCTView = new ShowProfilesCellTableView(ClientsideSettings.getSearchProfile());
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(updateProfilesCTView);
+					logger.info("Erfolgreich View geswitcht.");
+		            break;
+		        case "BanCTView":
+		        	Update updateBanCTView = new BanCTView();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(updateBanCTView);
+					logger.info("Erfolgreich View geswitcht.");
+		            break;
+		        case "WishlistCTView":
+		        	Update updateWishlistCTView = new WishlistCTView();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(updateWishlistCTView);
+					logger.info("Erfolgreich View geswitcht.");
+		            break;
+		        default:
+		           
+		        } 
+			}
+		});
 		
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
@@ -251,36 +285,36 @@ public class OtherProfileView extends Update {
 		
 		FlexTable t2 = new FlexTable();
 		
-		t2.setText(0, 0, "Volleyball");
+		t2.setText(0, 0, "");
 		chkVolleyball.setEnabled(false);
 		t2.setWidget(0, 1, chkVolleyball);
 		
-		t2.setText(1, 0, "Football");
+		t2.setText(1, 0, "");
 		chkFootball.setEnabled(false);
 		t2.setWidget(1, 1, chkFootball);
 		
-		t2.setText(2, 0, "Watch People");
+		t2.setText(2, 0, "");
 		chkWatchPeople.setEnabled(false);
 		t2.setWidget(2, 1, chkWatchPeople);
 		
-		t2.setText(3, 0, "Not working at the IT-Project");
+		t2.setText(3, 0, "");
 		chkIT.setEnabled(false);
 		t2.setWidget(3, 1, chkIT);
 		
-		t2.setText(4, 0, "Handball");
+		t2.setText(4, 0, "");
 		chkHandball.setEnabled(false);
 		t2.setWidget(4, 1, chkHandball);
 		
-		t2.setText(5, 0, "Pocket Pool");
+		t2.setText(5, 0, "");
 		chkPP.setEnabled(false);
 		t2.setWidget(5, 1, chkPP);
 		
 		t.setWidget(10, 1, t2);
 		
 		ta.setCharacterWidth(50);
-		ta.setVisibleLines(5);
+		ta.setVisibleLines(3);
 		
-		t.setText(11, 0, "This is how I describe myself");
+		t.setText(11, 0, "How I describe myself");
 		ta.setEnabled(false);
 		t.setWidget(11, 1, ta);
 		
@@ -318,31 +352,31 @@ public class OtherProfileView extends Update {
 		
 		t3.setText(4,0, "Favorite Era");
 		
-		t5.setText(0, 0, "Stone Age");
+		t5.setText(0, 0, "");
 		chkStoneAge.setEnabled(false);
 		t5.setWidget(0, 1, chkStoneAge);
 		
-		t5.setText(1, 0, "Ancient Times");
+		t5.setText(1, 0, "");
 		chkAncientTimes.setEnabled(false);
 		t5.setWidget(1, 1, chkAncientTimes);
 		
-		t5.setText(2, 0, "Early Middle Ages");
+		t5.setText(2, 0, "");
 		chkEarlyMiddleAges.setEnabled(false);
 		t5.setWidget(2, 1, chkEarlyMiddleAges);
 		
-		t5.setText(3, 0, "Late Middle Ages");
+		t5.setText(3, 0, "");
 		chkLateMiddleAges.setEnabled(false);
 		t5.setWidget(3, 1, chkLateMiddleAges);
 		
-		t5.setText(4, 0, "Renaissance");
+		t5.setText(4, 0, "");
 		chkRenaissance.setEnabled(false);
 		t5.setWidget(4, 1, chkRenaissance);
 		
-		t5.setText(5, 0, "IndustrialAge");
-		chkIndusrialAge.setEnabled(false);
-		t5.setWidget(5, 1, chkIndusrialAge);
+		t5.setText(5, 0, "");
+		chkIndustrialAge.setEnabled(false);
+		t5.setWidget(5, 1, chkIndustrialAge);
 		
-		t5.setText(5, 0, "ModernAge");
+		t5.setText(5, 0, "");
 		chkModernAge.setEnabled(false);
 		t5.setWidget(5, 1, chkModernAge);
 		
@@ -350,31 +384,33 @@ public class OtherProfileView extends Update {
 		
 		FlexTable t7 = new FlexTable();
 		
-		t3.setText(3, 0, "I associate myself with this subculture");	
+		t3.setText(3, 0, "Favorite subculture");	
 		
-		t7.setText(0, 0, "bringing creativity into a relationship");
+		t7.setText(0, 0, "");
 		chkBringing.setEnabled(false);
 		t7.setWidget(0, 1, chkBringing);
 		
-		t7.setText(1, 0, "enjoying the simple things");
+		t7.setText(1, 0, "");
 		chkEnjoying.setEnabled(false);
 		t7.setWidget(1, 1, chkEnjoying);
 		
-		t7.setText(2, 0, "being romantic");
+		t7.setText(2, 0, "");
 		chkBeing.setEnabled(false);
 		t7.setWidget(2, 1, chkBeing);
 		
-		t7.setText(3, 0, "solving conflicts quickly");
+		t7.setText(3, 0, "");
 		chkSolving.setEnabled(false);
 		t7.setWidget(3, 1, chkSolving);
 		
-		t7.setText(4, 0, "keeping calm in chaotic situations");
+		t7.setText(4, 0, "");
 		chkKeeping.setEnabled(false);
 		t7.setWidget(4, 1, chkKeeping);
 			
+		t7.setStylePrimaryName("tngly-opvTable");
+		
 		t3.setWidget(3, 1, t7);
 		
-		t3.setText(2, 0, "strong points");
+		t3.setText(2, 0, "");
 		tbsp.setEnabled(false);
 		t3.setWidget(2, 1, tbsp);
 			
@@ -382,91 +418,94 @@ public class OtherProfileView extends Update {
 		verPanel2.add(t3);
 		
 		horPanel.add(verPanel);
+		horPanel.add(verLine);
 		horPanel.add(verPanel2);
+		
+		atfProfilButton.setStylePrimaryName("tngly-opvbutton");
+		dffProfilButton.setStylePrimaryName("tngly-opvbutton");
+		backButton.setStylePrimaryName("tngly-backbutton");
+		banProfilButton.setStylePrimaryName("tngly-opvbutton");
+		unbanProfilButton.setStylePrimaryName("tngly-opvbutton");
+		
+		horPanelButtons.add(backButton);
+		horPanelButtons.add(atfProfilButton);
+		horPanelButtons.add(dffProfilButton);
+		horPanelButtons.add(banProfilButton);
+		horPanelButtons.add(unbanProfilButton);
+
 		
 		RootPanel.get("Details").add(horPanelButtons);
 		RootPanel.get("Details").add(horLine);
 		RootPanel.get("Details").add(horPanel);
 
-		final Button atfProfilButton = new Button("Add to Favorites");
-		atfProfilButton.setStylePrimaryName("tngly-opvbutton");
-		horPanelButtons.add(atfProfilButton);
-
+		backButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				switch(originView){
+		        case "ShowProfilesCellTableView":
+		        	Update updateProfilesCTView = new ShowProfilesCellTableView(ClientsideSettings.getSearchProfile());
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(updateProfilesCTView);
+					logger.info("Erfolgreich View geswitcht.");
+		            break;
+		        case "BanCTView":
+		        	Update updateBanCTView = new BanCTView();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(updateBanCTView);
+					logger.info("Erfolgreich View geswitcht.");
+		            break;
+		        case "WishlistCTView":
+		        	Update updateWishlistCTView = new WishlistCTView();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(updateWishlistCTView);
+					logger.info("Erfolgreich View geswitcht.");
+		            break;
+		        default:
+		           
+		        } 
+			}
+		});
+		
 		atfProfilButton.addClickHandler(new ClickHandler() {
-		@Override
-		public void onClick(ClickEvent event) {
-		ClientsideSettings.getAdministration().addWishToWishlist(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(), new CreateWishCallback());
-		Update update = new EditProfileView();
-		
-		RootPanel.get("Details").clear();
-		RootPanel.get("Details").add(update);
-		
-		Logger logger = ClientsideSettings.getLogger();
-		logger.info("Erfolgreich View geswitcht.");
-		}
+			public void onClick(ClickEvent event) {
+				ClientsideSettings.getAdministration().addWishToWishlist(selectedProfile.getId(),
+						ClientsideSettings.getUserProfile().getId(), new CreateWishCallback());
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				logger.info("Erfolgreich View geswitcht.");
+			}
 		});
 
-		final Button dffProfilButton = new Button("Delete from Favorites");
-		dffProfilButton.setStylePrimaryName("tngly-opvbutton");
-		horPanelButtons.add(dffProfilButton);
-
-		atfProfilButton.addClickHandler(new ClickHandler() {
-		@Override
-		public void onClick(ClickEvent event) {
-		ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
-		Update update = new EditProfileView();
-		
-		final Button backButton = new Button("Back");
-		backButton.setStylePrimaryName("tngly-menubutton");
-		horPanelButtons.add(backButton);
-	
-		
-		
-		RootPanel.get("Details").clear();
-		RootPanel.get("Details").add(update);
-		
-		Logger logger = ClientsideSettings.getLogger();
-		logger.info("Erfolgreich View geswitcht.");
-		}
+		dffProfilButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(),
+						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
+				Update update = new EditProfileView();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(update);
+				logger.info("Erfolgreich View geswitcht.");
+			}
 		});
-
-		final Button banProfilButton = new Button("Ban Profile");
-		banProfilButton.setStylePrimaryName("tngly-opvbutton");
-		horPanelButtons.add(banProfilButton);
 
 		banProfilButton.addClickHandler(new ClickHandler() {
-		@Override
-		public void onClick(ClickEvent event) {
-		ClientsideSettings.getAdministration().createProfileBan(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(), new CreateProfileBanCallback());
-		
-		Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
-		"_self", "");
-		
-		Logger logger = ClientsideSettings.getLogger();
-		logger.info("Erfolgreich Profil gel�scht.");
-		}
+			public void onClick(ClickEvent event) {
+				ClientsideSettings.getAdministration().createProfileBan(selectedProfile.getId(),
+						ClientsideSettings.getUserProfile().getId(), new CreateProfileBanCallback());
+				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
+				logger.info("Erfolgreich Profil gel�scht.");
+			}
 		});
 
-		final Button unbanProfilButton = new Button("Unban Profile");
-		unbanProfilButton.setStylePrimaryName("tngly-opvbutton");
-		horPanelButtons.add(unbanProfilButton);
-
-		banProfilButton.addClickHandler(new ClickHandler() {
-		@Override
-		public void onClick(ClickEvent event) {
-		ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile.getId(), ClientsideSettings.getUserProfile().getId(),
-		new DeleteCallback());
-		ClientsideSettings.setUserProfile(null);
-		Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
-		"_self", "");
-		
-		Logger logger = ClientsideSettings.getLogger();
-		logger.info("Erfolgreich ProfilBan erstellt.");
-		}
+		unbanProfilButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile.getId(),
+						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
+				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
+				logger.info("Erfolgreich Profil gel�scht.");
+			}
 		});
-
 	}
-}
+
     class DeleteCallback implements AsyncCallback<Void> {
 	@Override
 	public void onFailure(Throwable caught) {
@@ -480,6 +519,7 @@ public class OtherProfileView extends Update {
 	}
 
 }
+    
 class CreateProfileBanCallback implements AsyncCallback<ProfileBan> {
 	@Override
 	public void onFailure(Throwable caught) {
@@ -506,4 +546,6 @@ class CreateWishCallback implements AsyncCallback<Wish> {
 
 	}
 
+
+}
 }

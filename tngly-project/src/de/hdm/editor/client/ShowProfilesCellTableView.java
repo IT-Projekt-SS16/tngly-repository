@@ -70,7 +70,9 @@ public class ShowProfilesCellTableView extends Update {
 	@Override
 	protected void run() {
 
-		adminService.searchAndCompareProfiles(null, searchProfile, getComparedProfileCallback());
+//		adminService.searchAndCompareProfiles(null, searchProfile, getComparedProfileCallback());
+		adminService.searchAndCompareProfiles(false, searchProfile, getComparedProfileCallback());
+//		adminService.searchAndCompareProfiles(getIntegerTestCallback());
 //		RootPanel.get("Preloader").setVisible(true);
 
 		hPanel.setBorderWidth(0);
@@ -247,7 +249,7 @@ public class ShowProfilesCellTableView extends Update {
 			@Override
 			public void update(int index, Profile object, String value) {
 				// Called when the user changes the value.
-				Update update = new OtherProfileView(object);
+				Update update = new OtherProfileView(object, "ShowProfilesCellTableView");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -367,10 +369,31 @@ public class ShowProfilesCellTableView extends Update {
 			@Override
 			public void onSuccess(ArrayList<Profile> result) {
 				ClientsideSettings.getLogger()
-						.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
+						.severe("Success GetComparedProfilesCallback: " + result.getClass().getSimpleName());
 				for (Profile p : result) {
 					dataProvider.getList().add(p);
 				}
+//				RootPanel.get("Preloader").setVisible(false);
+			}
+		};
+		return asyncCallback;
+	}
+	
+	private AsyncCallback<Integer> getIntegerTestCallback() {
+		AsyncCallback<Integer> asyncCallback = new AsyncCallback<Integer>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Integer result) {
+				ClientsideSettings.getLogger()
+						.severe("Success GetIntegerTestCallback: " + result.getClass().getSimpleName() + ", Result: " + result);
+//				for (Profile p : result) {
+//					dataProvider.getList().add(p);
+//				}
 //				RootPanel.get("Preloader").setVisible(false);
 			}
 		};

@@ -18,14 +18,10 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.HasData;
@@ -37,8 +33,6 @@ import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
-import de.hdm.core.shared.bo.ProfileVisit;
-import de.hdm.core.shared.bo.SearchProfile;
 
 public class BanCTView extends Update {
 
@@ -186,7 +180,7 @@ public class BanCTView extends Update {
 			@Override
 			public void update(int index, Profile object, String value) {
 				// Called when the user changes the value.
-				Update update = new OtherProfileView(object);
+				Update update = new OtherProfileView(object, "BanCTView");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}

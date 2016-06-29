@@ -3,47 +3,32 @@ package de.hdm.editor.client;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Set;
-
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
-import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Text;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
-import de.hdm.core.shared.bo.ProfileBan;
-import de.hdm.core.shared.bo.SearchProfile;
 
 public class BanView extends Update{
 
@@ -159,7 +144,7 @@ public class BanView extends Update{
 				@Override
 				public void update(int index, Profile object, String value) {
 					// Called when the user changes the value.
-					Update update = new OtherProfileView(object);
+					Update update = new OtherProfileView(object, "BanView");
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(update);
 				}

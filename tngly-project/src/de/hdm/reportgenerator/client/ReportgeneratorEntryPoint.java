@@ -2,6 +2,8 @@ package de.hdm.reportgenerator.client;
 
 
 
+import java.util.logging.Logger;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -11,12 +13,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.client.LoginService;
 import de.hdm.core.client.LoginServiceAsync;
+import de.hdm.core.client.Update;
 import de.hdm.core.shared.LoginInfo;
 
 
 public class ReportgeneratorEntryPoint implements EntryPoint {
+	
+	private static final Logger logger = ClientsideSettings.getLogger();
 
 	private LoginInfo loginInfo = null;
 
@@ -45,6 +51,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 				loginInfo = result;
 
 				if (loginInfo.isLoggedIn()) {
+					logger.info("LoginService onSuccess wird ausgeführt");
 
 					loadReportgenerator();
 
@@ -62,6 +69,8 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 	
 	
 	private void loadReportgenerator() {
+		
+		logger.info("loadReportgenerator wird ausgeführt");
 
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			public void onUncaughtException(Throwable e) {
@@ -75,12 +84,12 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		
 		
-		UpdateReportGenerator updateR = new SearchByProfileReportView();
+		Update update = new SearchByProfileReportView();
 		
 		RootPanel.get("Details").clear();
-		RootPanel.get("Deatils").add(updateR);
+		RootPanel.get("Deatils").add(update);
 		
-
+		logger.info("SearchByProfileView wird ausgeführt");
 		
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		
