@@ -314,17 +314,23 @@ public class EditProfileView extends Update {
 				logger.info("Confession CHECK");
 
 				ArrayList<Integer> selectedRowsMyHobbies = this.getSelectedRows(t2);
+				
+				
+				for (int i : selectedRowsMyHobbies)	{
+				logger.info("Selektiert ist Zeile: " + i);
+				}
+				
 				ArrayList<Integer> selectedRowsFavoriteEra = this.getSelectedRows(t5);
 				ArrayList<Integer> selectedRowsSubculture = this.getSelectedRows(t6);
 				ArrayList<Integer> selectedRowsStrongPoints = this.getSelectedRows(t7);
 
 				logger.info("Zeile 333 ausgeführt");
-
+				currentUserProfile.getSelectionList().get(0).getInformationValues().clear();
 				
-				/*
+				/**
 				 * Auslesen der Checkbox-Werte f�r die Eigenschaft "My Hobbies"
 				 */
-				for (int i = 0; i < selectedRowsMyHobbies.size(); ++i) {
+				for (int i : selectedRowsMyHobbies) {
 					Information info = new Information();
 					info.setProfileId(currentUserProfile.getId());
 					info.setPropertyId(1);
@@ -332,16 +338,13 @@ public class EditProfileView extends Update {
 					logger.info("Zeile 344 ausgeführt");
 
 					info.setValue(checkBox.getText());
-					logger.info("Zeile 347 ausgeführt");
-					info.setId(150);
-					logger.info("Zeile 349 ausgeführt");
-					logger.info("Currentuserprofile: " + currentUserProfile.toString());
+					logger.info("Info-Values: " + info.getValue());
 					currentUserProfile.getSelectionList().get(0).getInformationValues().add(info);
 				}
 				
 				logger.info("Zeile 350 ausgeführt");
 
-				/*
+				/**
 				 * Auslesen & Setzen der Eigenschaft "How I describe myself"
 				 */
 				
@@ -368,7 +371,7 @@ public class EditProfileView extends Update {
 				
 				logger.info("Zeile 364 ausgeführt");
 
-				/*
+				/**
 				 * Auslesen & Setzen der Eigenschaft "Favorite Band"
 				 */
 				if (currentUserProfile.getDescriptionList().get(1).getInformationValues().size() > 0)	{
@@ -390,7 +393,7 @@ public class EditProfileView extends Update {
 						currentUserProfile.getDescriptionList().get(1).getInformationValues().add(in);
 					}
 				
-				/*
+				/**
 				 * Auslesen & Setzen der Eigenschaft "Favorite Movie"
 				 */
 				
@@ -415,43 +418,56 @@ public class EditProfileView extends Update {
 				
 				logger.info("Zeile 369 ausgeführt");
 
-				/*
+				/**
 				 * Auslesen der Checkbox-Werte f�r die Eigenschaft "My Strong Points"
-				 
-				for (int i = 0; i < selectedRowsStrongPoints.size(); ++i) {
+				 */
+				currentUserProfile.getSelectionList().get(1).getInformationValues().clear();
+				 for (int i : selectedRowsStrongPoints) {
 					Information info = new Information();
 					info.setProfileId(currentUserProfile.getId());
-					info.setPropertyId(7);
+					info.setPropertyId(4);
 					CheckBox checkBox = (CheckBox) t7.getWidget(i, 0);
+					logger.info("Zeile 429 ausgeführt");
+
 					info.setValue(checkBox.getText());
-					temp.getSelectionList().get(3).getInformationValues().add(info);
+					logger.info("Info-Values: " + info.getValue());
+					currentUserProfile.getSelectionList().get(1).getInformationValues().add(info);
 				}
-				
-				/*
-				 * Auslesen der Checkbox-Werte f�r die Eigenschaft "I associate myself with this subculture"
 				 
-				for (int i = 0; i < selectedRowsSubculture.size(); ++i) {
+				/**
+				 * Auslesen der Checkbox-Werte f�r die Eigenschaft "I associate myself with this subculture"
+				 */
+				 currentUserProfile.getSelectionList().get(2).getInformationValues().clear();
+				 for (int i : selectedRowsSubculture) {
 					Information info = new Information();
 					info.setProfileId(currentUserProfile.getId());
 					info.setPropertyId(5);
 					CheckBox checkBox = (CheckBox) t6.getWidget(i, 0);
+					logger.info("Zeile 446 ausgeführt");
+
 					info.setValue(checkBox.getText());
-					temp.getSelectionList().get(2).getInformationValues().add(info);
+					logger.info("Info-Values: " + info.getValue());
+					currentUserProfile.getSelectionList().get(2).getInformationValues().add(info);
 				}
 				
 				/*
 				 * Auslesen der Checkbox-Werte f�r die Eigenschaft "Favorite Era"
+				 */
 				 
-				for (int i = 0; i < selectedRowsFavoriteEra.size(); ++i) {
+				 currentUserProfile.getSelectionList().get(3).getInformationValues().clear();
+				 for (int i : selectedRowsFavoriteEra) {
 					Information info = new Information();
 					info.setProfileId(currentUserProfile.getId());
-					info.setPropertyId(4);
+					info.setPropertyId(7);
 					CheckBox checkBox = (CheckBox) t5.getWidget(i, 0);
+					logger.info("Zeile 446 ausgeführt");
+
 					info.setValue(checkBox.getText());
-					temp.getSelectionList().get(1).getInformationValues().add(info);
+					logger.info("Info-Values: " + info.getValue());
+					currentUserProfile.getSelectionList().get(3).getInformationValues().add(info);
 				}
-*/
-				logger.info("Zeile 402 ausgeführt");
+		
+				logger.info("Zeile 470 ausgeführt");
 				adminService.editProfile(currentUserProfile, updateUserProfileCallback());
 				logger.info("editProfile vom AdminService ausgeführt");
 
