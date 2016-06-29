@@ -46,13 +46,11 @@ public interface AdministrationServiceAsync {
 	
 	public void searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
 	
-	public void searchAndCompareProfiles(AsyncCallback<Integer> callback) throws IllegalArgumentException;
-	
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
-	public void wasProfileVisited(Profile profile, AsyncCallback<Boolean> callback) throws IllegalArgumentException;
+	public void wasProfileVisited(Profile currentUserProfile, Profile dependantProfile, AsyncCallback<Boolean> callback) throws IllegalArgumentException;
 	
 	public void checkUserProfile(AsyncCallback<Void> callback);
 	

@@ -23,21 +23,14 @@ import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
-import de.hdm.core.shared.bo.ProfileVisit;
 
 public class EditProfileView extends Update {
 
 	private static final Logger logger = ClientsideSettings.getLogger();
 
 	/**
-<<<<<<< HEAD
 	 * Instanziierung aller relevanten Eingabem�glichkeiten = Textboxen, Checkboxen, DatePicker usw. 
-=======
-	 * Instanziierung aller relevanten Eingabem�glichkeiten = Textboxen,
-	 * Checkboxen, DatePicker usw.
->>>>>>> branch 'master' of https://github.com/IT-Projekt-SS16/tngly-repository.git
 	 */
-	private Boolean existsUserInDB = null;
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	private Profile currentUserProfile = null;
 
@@ -105,13 +98,8 @@ public class EditProfileView extends Update {
 	private final Button saveProfilButton = new Button("Save");
 
 	/**
-<<<<<<< HEAD
 	 * Jede View besitzt eine einleitende �berschrift, die durch diese
 	 * Methode zu erstellen ist.
-=======
-	 * Jede View besitzt eine einleitende �berschrift, die durch diese Methode
-	 * zu erstellen ist.
->>>>>>> branch 'master' of https://github.com/IT-Projekt-SS16/tngly-repository.git
 	 * 
 	 * @see Showcase#getHeadlineText()
 	 */
@@ -502,12 +490,21 @@ public class EditProfileView extends Update {
 				tbfn.setText(result.getName());
 				tbn.setText(result.getLastName());
 
-				int index;
-				if (result.getGender() == "Male") {
-					index = 1;
-				} else {
-					index = 0;
-				}
+				int index = 0;
+//				if (result.getGender() == "Male") {
+//					index = 1;
+//				} else {
+//					index = 0;
+//				}
+				switch(result.getGender()){
+		        case "Male":
+		        	index = 1;
+		            break;
+		        case "Female":
+		        	index = 0;
+		            break;
+		        default:
+		        } 
 				genderBox.setItemSelected(index, true);
 
 				Date dob = result.getDateOfBirth();
@@ -522,17 +519,32 @@ public class EditProfileView extends Update {
 
 				tbbh.setText(Float.toString(bhFormatted));
 
-				if (result.getHairColour() == "Black") {
-					index = 0;
-				} else if (result.getHairColour() == "Brown") {
-					index = 1;
-				} else if (result.getHairColour() == "Red") {
-					index = 2;
-				} else if (result.getHairColour() == "Blonde") {
-					index = 3;
-				} else {
-					index = 4;
-				}
+//				if (result.getHairColour() == "Black") {
+//					index = 0;
+//				} else if (result.getHairColour() == "Brown") {
+//					index = 1;
+//				} else if (result.getHairColour() == "Red") {
+//					index = 2;
+//				} else if (result.getHairColour() == "Blonde") {
+//					index = 3;
+//				} else {
+//					index = 4;
+//				}
+				switch(result.getHairColour()){
+		        case "Black":
+		        	index = 0;
+		            break;
+		        case "Brown":
+		        	index = 1;
+		            break;
+		        case "Red":
+		        	index = 2;
+		            break;
+		        case "Blonde":
+		        	index = 3;
+		            break;
+		        default:
+		        } 
 				hairColourList.setItemSelected(index, true);
 
 				isSmokingBox.setItemSelected(result.getIsSmoking(), true);
@@ -557,7 +569,7 @@ public class EditProfileView extends Update {
 					index = 8;
 				}
 				confessionBox.setItemSelected(index, true);
-
+				
 				/*
 				 * Markierung der Checkboxen f�r die Eigenschaft "My Hobbies"
 				 */
@@ -574,7 +586,7 @@ public class EditProfileView extends Update {
 						cb.setValue(true);
 					}
 				}
-
+				
 
 				if (result.getDescriptionList().get(0).getInformationValues().size() > 0)	{
 					logger.info("Profile-Description 0: " + result.getDescriptionList().get(0).getInformationValues().get(0).getValue());
@@ -599,6 +611,7 @@ public class EditProfileView extends Update {
 				tBm.setText(result.getDescriptionList().get(2).getInformationValues().get(0).getValue());
 				} else{logger.info("Profile-Description 2: null");}
 				
+
 				
 				/*
 				 * Markierung der Checkboxen f�r die Eigenschaft
@@ -643,6 +656,7 @@ public class EditProfileView extends Update {
 					ArrayList<String> values = new ArrayList<String>();
 					String tempValue;
 					CheckBox cb = (CheckBox) t5.getWidget(x, 0);
+
 					for (Information i : result.getSelectionList().get(3).getInformationValues()) {
 						tempValue = i.getValue();
 						values.add(tempValue);
@@ -671,7 +685,7 @@ public class EditProfileView extends Update {
 
 			@Override
 			public void onSuccess(Void result) {
-				ClientsideSettings.getLogger().severe("Success: " + result.getClass().getSimpleName());
+				ClientsideSettings.getLogger().info("Zeile 688 ausgeführt, onSuccess firing");
 				Update update = new ProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);

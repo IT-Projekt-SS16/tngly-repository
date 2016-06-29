@@ -1,6 +1,7 @@
 package de.hdm.reportgenerator.client;
 
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class UpdateReportGenerator extends VerticalPanel{
 

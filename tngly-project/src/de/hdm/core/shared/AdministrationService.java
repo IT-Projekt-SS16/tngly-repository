@@ -48,13 +48,11 @@ public interface AdministrationService extends RemoteService {
 	
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException;
 	
-	public int searchAndCompareProfiles() throws IllegalArgumentException;
-	
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException;
 	
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException;
 	
-	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException;
+	public Boolean wasProfileVisited(Profile currentUserProfile, Profile dependantProfile) throws IllegalArgumentException;
 	
 	public void checkUserProfile() throws IllegalArgumentException;
 	

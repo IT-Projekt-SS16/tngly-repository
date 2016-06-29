@@ -1,10 +1,14 @@
 package de.hdm.core.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 
@@ -334,7 +338,7 @@ public class ProfileVisitMapper {
 			
 		}
 
-		public Boolean wasProfileVisited(Profile p) {
+		public Boolean wasProfileVisited(Profile currentUserProfile, Profile otherProfile) {
 			
 			  /**
 			   *  DB-Verbindung holen
@@ -352,7 +356,7 @@ public class ProfileVisitMapper {
 		       *  Statement ausfüllen und als Query an die DB schicken
 		       */
 		      ResultSet rs = stmt.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits "
-		              + "WHERE visitedProfileId=" + p.getId());
+		              + "WHERE visitedProfileId=" + otherProfile.getId() + " AND " + "visitingProfileId=" + currentUserProfile.getId());
 		      
 		      while (rs.next()) {
 			        ProfileVisit pv = new ProfileVisit();
