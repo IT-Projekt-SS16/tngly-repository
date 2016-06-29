@@ -10,17 +10,17 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 
 public class ShowProfilesView extends Update {
 
+	@Override
 	protected String getHeadlineText() {
 		return "";
 	}
@@ -50,7 +50,7 @@ public class ShowProfilesView extends Update {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
-		hPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_LEFT);
+		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		markAsSeenButton = new Button("Mark as seen");
 		hPanel.add(markAsSeenButton);
 		markAsUnseenButton = new Button("Mark as unseen");
@@ -82,6 +82,7 @@ public class ShowProfilesView extends Update {
 		
 
 		profilesTable.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				int selectedRow = this.getClickedRow(event);
 				
@@ -95,10 +96,12 @@ public class ShowProfilesView extends Update {
 					pv.setVisitedProfileId(ClientsideSettings.getProfilesFoundAndCompared().get(selectedRow).getId());
 					pvs.add(pv);
 					ClientsideSettings.getAdministration().createProfileVisit(pvs, new AsyncCallback<Void>() {
+						@Override
 						public void onSuccess(Void result) {
 
 						}
 
+						@Override
 						public void onFailure(Throwable caught) {
 							ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
 						}
@@ -130,6 +133,7 @@ public class ShowProfilesView extends Update {
 		});
 
 		markAsSeenButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				ArrayList<Integer> selectedRows = this.getSelectedRows();
 				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
@@ -143,10 +147,12 @@ public class ShowProfilesView extends Update {
 					pvs.add(pv);
 				}
 				ClientsideSettings.getAdministration().createProfileVisit(pvs, new AsyncCallback<Void>() {
+					@Override
 					public void onSuccess(Void result) {
 
 					}
 
+					@Override
 					public void onFailure(Throwable caught) {
 						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
 					}
@@ -180,6 +186,7 @@ public class ShowProfilesView extends Update {
 		});
 
 		markAsUnseenButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				ArrayList<Integer> selectedRows = this.getSelectedRows();
 				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
@@ -193,10 +200,12 @@ public class ShowProfilesView extends Update {
 					pvs.add(pv);
 				}
 				ClientsideSettings.getAdministration().deleteProfileVisit(pvs, new AsyncCallback<Void>() {
+					@Override
 					public void onSuccess(Void result) {
 
 					}
 
+					@Override
 					public void onFailure(Throwable caught) {
 						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
 					}

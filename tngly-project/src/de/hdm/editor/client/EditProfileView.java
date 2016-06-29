@@ -27,7 +27,7 @@ public class EditProfileView extends Update {
 	private static final Logger logger = ClientsideSettings.getLogger();
 
 	/**
-	 * Instanziierung aller relevanten Eingabemöglichkeiten = Textboxen, Checkboxen, DatePicker usw. 
+	 * Instanziierung aller relevanten Eingabemï¿½glichkeiten = Textboxen, Checkboxen, DatePicker usw. 
 	 */
 	private Boolean existsUserInDB = null;
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
@@ -88,12 +88,13 @@ public class EditProfileView extends Update {
 	private final Button saveProfilButton = new Button("Save");
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese
+	 * Jede View besitzt eine einleitende ï¿½berschrift, die durch diese
 	 * Methode zu erstellen ist.
 	 * 
 	 * @see Showcase#getHeadlineText()
 	 */
 	
+	@Override
 	protected String getHeadlineText() {
 		return "";
 	}
@@ -298,6 +299,7 @@ public class EditProfileView extends Update {
 		
 		
 		saveProfilButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				
 				final String symbol = tbfn.getText().toUpperCase().trim();

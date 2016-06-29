@@ -175,15 +175,15 @@ public class PropertyMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			/*
-			 * Zunächst schauen wir nach, welches der momentan höchste
+			/**
+			 * Zunächst wird geprüft, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM infoPropertyConnections ");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
-				/*
+				/**
 				 * i erhält den bisher maximalen, nun um 1 inkrementierten
 				 * Primärschlüssel.
 				 */

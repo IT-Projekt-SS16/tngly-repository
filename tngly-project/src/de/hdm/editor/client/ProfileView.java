@@ -129,6 +129,7 @@ public class ProfileView extends Update {
 		verPanel.add(editProfilButton);
 
 		editProfilButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Update update = new EditProfileView();
 
@@ -145,13 +146,14 @@ public class ProfileView extends Update {
 		verPanel.add(deleteProfilButton);
 
 		deleteProfilButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getAdministration().deleteProfile(ClientsideSettings.getUserProfile(), new DeleteCallback());
 				ClientsideSettings.setUserProfile(null);
 				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
 
 				Logger logger = ClientsideSettings.getLogger();
-				logger.info("Erfolgreich Profil gelöscht.");
+				logger.info("Erfolgreich Profil gelï¿½scht.");
 			}
 		});
 

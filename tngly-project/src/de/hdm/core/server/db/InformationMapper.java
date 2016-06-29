@@ -161,14 +161,16 @@ public class InformationMapper {
 						i.setValue(rs.getString("value"));
 						i.setProfileId(rs.getInt("profileId"));
 						i.setPropertyId(rs.getInt("propertyId"));
-					//	System.out.println(d.getInformationValues().toString());
-						
-//						System.out.println("Informationsobjekt zum Adden initalisiert:");
-//						System.out.println(i.getId() + " " + i.getValue() + " " + i.getProfileId() + " " + i.getPropertyId());
-						
+
+						/**
+						 *  Informationsobjekt wird zur ArrayList hinzugefügt
+						 */
 						informationValuesTemp.add(i);
 						}
 					
+					/**
+					 *  Das vollkommen ausgefüllte Set an vorhandenen Informationen wird der jeweiligen Eigenschaft als ArrayList übergeben
+					 */
 					d.setInformationValues(informationValuesTemp);
 					
 
@@ -186,6 +188,7 @@ public class InformationMapper {
 						 */
 						Statement stmt = con.createStatement();	
 						ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
+						
 						/**
 						 * Statement ausfüllen und als Query an die DB schicken
 						 */
@@ -200,9 +203,15 @@ public class InformationMapper {
 							i.setProfileId(rs.getInt("profileId"));
 							i.setPropertyId(rs.getInt("propertyId"));
 							
+							/**
+							 *  Informationsobjekt wird zur ArrayList hinzugefügt
+							 */
 							informationValuesTemp.add(i);
 						}
 						
+						/**
+						 *  Das vollkommen ausgefüllte Set an vorhandenen Informationen wird der jeweiligen Eigenschaft als ArrayList übergeben
+						 */
 						s.setInformationValues(informationValuesTemp);
 						
 					} catch (SQLException e) {
@@ -228,7 +237,6 @@ public class InformationMapper {
 		/**
 		 *  DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
 		 */
-		
 		Connection con = DBConnection.connection();
 
 		try {
@@ -237,8 +245,8 @@ public class InformationMapper {
 			/**
 			 *  Statement ausfüllen und als Query an die DB schicken. Löschung erfolgt.
 			 */
-			
 			stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -256,7 +256,7 @@ public class ProfileVisitMapper {
 		      }
 		  }
 		  
-			/*
+			/**
 			 *  Edit-Methode. Diese Methode heißt nur zwecks der Konvention "edit" -
 			 *  aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
 			 */
@@ -275,9 +275,7 @@ public class ProfileVisitMapper {
 						SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
 						Date currentDate = new Date();
 						String date = mySQLformat.format(currentDate);
-						
-						// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
-				      
+										      
 				      stmt.executeUpdate("UPDATE profileVisits " + "SET timestamp=\""
 				          + date
 				          + "WHERE id=" + pv.getId());
@@ -337,8 +335,6 @@ public class ProfileVisitMapper {
 		}
 
 		public Boolean wasProfileVisited(Profile p) {
-		
-//			System.out.println("wasProfileVisited wird ausgeführt.");
 			
 			  /**
 			   *  DB-Verbindung holen
@@ -365,7 +361,7 @@ public class ProfileVisitMapper {
 			        pv.setVisitedProfileId(rs.getInt("visitedProfileId"));
 			        pv.setTimestamp(rs.getDate("timestamp"));
 
-			        /*
+			        /**
 			         *  Hinzufügen des neuen Objekts zum Ergebnisvektor
 			         */
 			        
