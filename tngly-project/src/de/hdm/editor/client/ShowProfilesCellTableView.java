@@ -255,7 +255,7 @@ public class ShowProfilesCellTableView extends Update {
 			}
 		});
 		cellTable.addColumn(clickableTextColumn, "Username");
-		cellTable.setColumnWidth(clickableTextColumn, 100, Unit.PX);
+		cellTable.setColumnWidth(clickableTextColumn, 130, Unit.PX);
 
 		// First Name.
 		Column<Profile, String> firstNameColumn = new Column<Profile, String>(new TextCell()) {
@@ -309,7 +309,7 @@ public class ShowProfilesCellTableView extends Update {
 			}
 		});
 		cellTable.addColumn(genderColumn, "Gender");
-		cellTable.setColumnWidth(genderColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(genderColumn, 40, Unit.PCT);
 
 		// Age.
 		Column<Profile, String> ageColumn = new Column<Profile, String>(new TextCell()) {
@@ -335,7 +335,7 @@ public class ShowProfilesCellTableView extends Update {
 			}
 		});
 		cellTable.addColumn(ageColumn, "Age");
-		cellTable.setColumnWidth(ageColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(ageColumn, 30, Unit.PCT);
 
 		// Similiarity To Reference.
 		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
@@ -355,7 +355,7 @@ public class ShowProfilesCellTableView extends Update {
 			}
 		});
 		cellTable.addColumn(similiarityColumn, "Similiarity");
-		cellTable.setColumnWidth(similiarityColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(similiarityColumn, 40, Unit.PCT);
 	}
 
 	private AsyncCallback<ArrayList<Profile>> getComparedProfileCallback() {
