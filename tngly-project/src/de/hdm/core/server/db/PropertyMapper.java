@@ -229,10 +229,10 @@ public class PropertyMapper {
 				ResultSet rs = stmt.executeQuery(sql0);
 
 				while (rs.next()) {
-					Description pr = new Description();
-					pr.setId(rs.getInt("id"));
-					pr.setTextualDescription(rs.getString("textualDescription"));
-					p.getDescriptionList().add(pr);
+					Description de = new Description();
+					de.setId(rs.getInt("id"));
+					de.setTextualDescription(rs.getString("textualDescription"));
+					p.getDescriptionList().add(de);
 				}
 
 				String sql1 = "SELECT id, textualDescription FROM properties WHERE type ='selection'";

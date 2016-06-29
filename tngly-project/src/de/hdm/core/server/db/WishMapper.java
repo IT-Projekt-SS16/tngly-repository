@@ -182,6 +182,58 @@ public class WishMapper {
 			    return result;
 			  }
 		  
+		  /**
+		   * Überprüfung, ob ein bestimmtes Profil vom aktuell angemeldeten User "favorisiert" wird.
+		   * 
+		   * @param banningProfileId
+		   * @param checkedProfileId
+		   * @return
+		   */
+		  
+		  public boolean isProfileWished(int wishingProfileId, int checkedProfileId)	{
+				 /**
+				  * Datenbankverbindung aufbauen
+				  */
+				 Connection con = DBConnection.connection();
+				 
+				 /** 
+				  * Vorbereiten der Ergebnisvariable
+				  */
+				 boolean result = false;
+				 
+				 try {
+					 
+					 /**
+					  * Erstellung des SQL-Statements
+					  */
+				      Statement stmt = con.createStatement();
+
+				      /**
+				       * Übergabe und Ausführung der Abfrage
+				       */
+				      ResultSet rs = stmt.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM profileWishes"
+				           + " WHERE wishingProfileId=" + wishingProfileId + " AND wishedProfileId=" + checkedProfileId +" ORDER BY timestamp");
+				      
+				      /**
+				       * Check, ob ein Ergebnis zurückkam. Falls ja, ist das Profil gebannt.
+				       */
+				      if (rs.next())	{
+				    	  result = true;
+				      }
+				      
+				 }
+				 catch (SQLException e) {
+				      e.printStackTrace();
+				    }
+				 
+				 /**
+				  * Rückgabe der Ergebnisvariable
+				  */
+				 return result; 
+				 
+			 }
+		  
+		  
 			/**
 			 * Insert-Methode. Ein Wish-Objekt w wird übergeben und die zugehörigen Werte
 			 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt in die Datenbank einzutragen.

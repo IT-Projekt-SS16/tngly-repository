@@ -202,7 +202,50 @@ public class ProfileBanMapper {
 			    return result;
 			  }
 		  
-		 
+		 public boolean isProfileBanned(int banningProfileId, int checkedProfileId)	{
+			 /**
+			  * Datenbankverbindung aufbauen
+			  */
+			 Connection con = DBConnection.connection();
+			 
+			 /** 
+			  * Vorbereiten der Ergebnisvariable
+			  */
+			 boolean result = false;
+			 
+			 try {
+				 
+				 /**
+				  * Erstellung des SQL-Statements
+				  */
+			      Statement stmt = con.createStatement();
+
+			      /**
+			       * Übergabe und Ausführung der Abfrage
+			       */
+			      ResultSet rs = stmt.executeQuery("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans"
+			           + " WHERE banningProfileId=" + banningProfileId + " AND bannedProfileId=" + checkedProfileId +" ORDER BY timestamp");
+			      
+			      /**
+			       * Check, ob ein Ergebnis zurückkam. Falls ja, ist das Profil gebannt.
+			       */
+			      if (rs.next())	{
+			    	  result = true;
+			      }
+			      
+			 }
+			 catch (SQLException e) {
+			      e.printStackTrace();
+			    }
+			 
+			 /**
+			  * Rückgabe der Ergebnisvariable
+			  */
+			 return result; 
+			 
+		 }
+		  
+		  
 			/**
 			 * Insert-Methode. Ein ProfileBan-Objekt pb wird übergeben und die zugehörigen Werte
 			 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt in die Datenbank einzutragen.

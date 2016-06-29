@@ -170,6 +170,8 @@ public class OtherProfileView extends Update {
 		RootPanel.get("Details").add(verPanel);
 		
 		backButton.addClickHandler(new ClickHandler() {
+			@Override
+
 			public void onClick(ClickEvent event) {
 				switch(originView){
 		        case "ShowProfilesCellTableView":
@@ -439,6 +441,8 @@ public class OtherProfileView extends Update {
 		RootPanel.get("Details").add(horPanel);
 
 		backButton.addClickHandler(new ClickHandler() {
+			@Override
+
 			public void onClick(ClickEvent event) {
 				switch(originView){
 		        case "ShowProfilesCellTableView":
@@ -466,6 +470,7 @@ public class OtherProfileView extends Update {
 		});
 		
 		atfProfilButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getAdministration().addWishToWishlist(selectedProfile.getId(),
 						ClientsideSettings.getUserProfile().getId(), new CreateWishCallback());
@@ -477,6 +482,8 @@ public class OtherProfileView extends Update {
 		});
 
 		dffProfilButton.addClickHandler(new ClickHandler() {
+			@Override
+
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(),
 						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
@@ -488,6 +495,8 @@ public class OtherProfileView extends Update {
 		});
 
 		banProfilButton.addClickHandler(new ClickHandler() {
+			@Override
+
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getAdministration().createProfileBan(selectedProfile.getId(),
 						ClientsideSettings.getUserProfile().getId(), new CreateProfileBanCallback());
@@ -497,6 +506,8 @@ public class OtherProfileView extends Update {
 		});
 
 		unbanProfilButton.addClickHandler(new ClickHandler() {
+			@Override
+
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile.getId(),
 						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());

@@ -80,9 +80,12 @@ public class InformationMapper {
 				/**
 				 *  Statement ausfüllen und als Query an die DB schicken
 				 */
-				stmt.executeUpdate("INSERT INTO information (id, value, propertyId, profileId, timestamp) " + "VALUES ("
+				System.out.println("INSERT INTO information (id, value, propertyId, profileId) " + "VALUES ("
 						+ in.getId() + ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId()
-						+ "','" + date + "')");
+						+ "')");
+				stmt.executeUpdate("INSERT INTO information (id, value, propertyId, profileId) " + "VALUES ("
+						+ in.getId() + ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId()
+						+ "')");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -151,6 +154,8 @@ public class InformationMapper {
 					/**
 					 *  Statement ausfüllen und als Query an die DB schicken
 					 */
+					System.out.println("INFORMATIONMAPPER ABFRAGE::: SELECT id, value, profileId, propertyId FROM information WHERE profileId="
+							+ p.getId() + " AND propertyId=" + d.getId());
 					String sql0 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 							+ p.getId() + " AND propertyId=" + d.getId();
 					ResultSet rs = stmt.executeQuery(sql0);
@@ -246,7 +251,7 @@ public class InformationMapper {
 			 *  Statement ausfüllen und als Query an die DB schicken. Löschung erfolgt.
 			 */
 			stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
-			
+			System.out.println("DELETE FROM information " + "WHERE id=" + in.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -254,8 +259,58 @@ public class InformationMapper {
 	}
 
 	public void edit(Profile profile) {
-		// TODO Auto-generated method stub
-
+		/**
+		 *  DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+		Connection con = DBConnection.connection();
+		
+		for (Description d : profile.getDescriptionList())	{
+			
+			System.out.println(" .. " + d.getInformationValues().get(0).getValue());
+			
+			if (d.getInformationValues().get(0).getValue() != null)	{
+			
+			try {
+				Statement stmt = con.createStatement();
+			/**
+			 *  Statement ausfüllen und als Query an die DB schicken. Löschung erfolgt.
+			 */
+			String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId() + " AND propertyId=" + d.getId());
+			System.out.println("SELECT * FROM information " + "WHERE profileId=" + profile.getId() + " AND propertyId=" + d.getId());
+			ResultSet rs = stmt.executeQuery(sqlS);
+			
+				if (rs.next() && rs.getString("value") != d.getInformationValues().get(0).getValue())	{
+					System.out.println("UPDATE information " + "SET value=\""+ d.getInformationValues().get(0).getValue() + "\" WHERE id=" + rs.getInt("id"));
+					stmt.executeUpdate("UPDATE information " + "SET value=\""+ d.getInformationValues().get(0).getValue() + "\" WHERE id=" + rs.getInt("id"));
+				} else { this.insert(d.getInformationValues().get(0));}
+				
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+			}
+			
+			if (d.getInformationValues().get(0).getValue() == null)	{
+				try	{
+					Statement stmt = con.createStatement();
+					/**
+					 *  Statement ausfüllen und als Query an die DB schicken. Löschung erfolgt.
+					 */
+					String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId() + " AND propertyId=" + d.getId());
+					ResultSet rs = stmt.executeQuery(sqlS);
+					
+					if (rs.next())	{
+						System.out.println("Zeile 293 ausgeführt");
+						Information in = new Information();
+						in.setId(rs.getInt("id"));
+						this.delete(in);
+					}	else{}
+				}
+				catch (SQLException e)	{
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/**
