@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.core.client.ClientsideSettings;
@@ -22,7 +25,6 @@ import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Selection;
-import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
 
 /**
@@ -94,6 +96,10 @@ import de.hdm.core.shared.bo.Wish;
  */
 @SuppressWarnings("serial")
 public class AdministrationServiceImpl extends RemoteServiceServlet implements AdministrationService {
+	
+	private static final Logger logger = ClientsideSettings.getLogger();
+	
+	private Profile currentUserProfile = null;
 
 	/**
 	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benoetigt.
@@ -171,9 +177,6 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public Profile createProfile(Profile profile) throws IllegalArgumentException {
 		Profile profileCreated = this.profileMapper.insert(profile);
-		// Setzen des applikationaweit eindeutigen, zugreifbaren Profil des
-		// Benutzers
-		ServersideSettings.setUserProfile(profileCreated);
 		return profileCreated;
 	}
 
@@ -217,20 +220,19 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public void checkUserProfile() throws IllegalArgumentException {
 		// Abfrage des aktuell eingelogten Benutzers
-		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
-				.getUserService();
+		UserService userService = UserServiceFactory.getUserService();
 		com.google.appengine.api.users.User user = userService.getCurrentUser();
 
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
 
-		Profile temp = this.profileMapper.findByName(userName);
+		this.currentUserProfile = this.profileMapper.findByName(userName);
 
 		/*
 		 * ï¿½berprï¿½fung ob der eingelogte Benutezr bereits in der Datenbank
 		 * vorhanden ist, aonsten wird er erzeugt.
 		 */
-		if (temp == null) {
+		if (currentUserProfile == null) {
 			this.createProfile(this.profileMapper.findByName(userName));
 		}
 
@@ -238,56 +240,22 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException {
-		ServersideSettings.setSearchProfile(searchProfile);
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-
-		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-
-		// for (int x = 0; x<profiles.size(); x++) {
-		// System.out.println(profiles.get(x).getId());
-		// System.out.println(profiles.get(x).getUserName());
-		// System.out.println(profiles.get(x).getName());
-		// System.out.println(profiles.get(x).getLastName());
-		// System.out.println(profiles.get(x).getDateOfBirth());
-		// System.out.println(profiles.get(x).getGender());
-		// System.out.println("");
-		// }
 
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
-
-			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(p));
-
-			// System.out.println(p.getId());
-			// System.out.println(p.getWasVisited());
+			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(currentUserProfile, p));
+			/*
+			 * TODO: Einfügen von Abfragen bzgl. "isProfileFavorite" & "isProfile
+			 */
+			p.equals(this.currentUserProfile);
 		}
 
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
-		Profile reference = ServersideSettings.getUserProfile();
-
-		Logger logger = ClientsideSettings.getLogger();
-		logger.info("searchForProperties + searchForInformationValues ausgefÃ¼hrt:");
-
-		// for (int x = 0; x<profiles.size(); x++) {
-		// Profile p = profiles.get(x);
-		//
-		// logger.info("Informationen zB:" + p.getId());
-		// }
-
-		for (int x = 0; x < profiles.size(); x++) {
-			Profile p = profiles.get(x);
-			p.equals(reference);
-		}
 
 		Collections.sort(profiles, Collections.reverseOrder());
-		ServersideSettings.setProfilesFoundAndCompared(profiles);
-		System.out.println("Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
 		return profiles;
-	}
-	
-	public int searchAndCompareProfiles() throws IllegalArgumentException {
-		return 1;
 	}
 
 	@Override
@@ -301,8 +269,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public Boolean wasProfileVisited(Profile profile) throws IllegalArgumentException {
-		return this.profileVisitMapper.wasProfileVisited(profile);
+	public Boolean wasProfileVisited(Profile currentUserProfile, Profile dependantProfile) throws IllegalArgumentException {
+		return this.profileVisitMapper.wasProfileVisited(currentUserProfile, dependantProfile);
 	}
 
 	@Override

@@ -1,12 +1,16 @@
 package de.hdm.core.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
-import de.hdm.core.shared.bo.Wish;
+
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.Wish;
 
 public class WishMapper {
 

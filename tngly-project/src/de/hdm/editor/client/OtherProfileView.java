@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
-import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.AdministrationServiceAsync;
+import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.Wish;
