@@ -14,7 +14,6 @@ public abstract class UpdateReportGenerator extends VerticalPanel{
 
 	    this.run();
 	  }
-
 	 
 	  protected HTML createHeadline(String text) {
 	    HTML content = new HTML(text);

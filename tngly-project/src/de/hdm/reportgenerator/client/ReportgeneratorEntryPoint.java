@@ -82,9 +82,6 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		HorizontalPanel horPanel = new HorizontalPanel();
 
 		RootPanel.get("Navigator").add(horPanel);
-
-		
-		logger.info("SearchByProfileView wird ausgef�hrt");
 		
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		
@@ -99,7 +96,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		RootPanel.get("Navigator").add(vp);
 		
 		
-		UpdateReportGenerator update = new SearchByProfileView();
+		UpdateReportGenerator update = new SearchByProfileViewR();
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(update);
 		

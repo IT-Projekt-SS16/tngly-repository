@@ -17,9 +17,11 @@ import de.hdm.core.shared.report.SimpleParagraph;
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
 	/**
-	 * Ein ReportGenerator benötigt Zugriff auf die BankAdministration, da diese
-	 * die essentiellen Methoden für die Koexistenz von Datenobjekten (vgl.
+	 * Ein ReportGenerator benï¿½tigt Zugriff auf die Administration, da diese
+	 * die essentiellen Methoden fï¿½r die Koexistenz von Datenobjekten (vgl.
 	 * bo-Package) bietet.
+	 * 
+	 * @author Thies
 	 */
 	private AdministrationService administrationService = null;
 
@@ -30,7 +32,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 * ist ein solcher No-Argument-Konstruktor anzulegen. Ein Aufruf eines
 	 * anderen Konstruktors ist durch die Client-seitige Instantiierung durch
 	 * <code>GWT.create(Klassenname.class)</code> nach derzeitigem Stand nicht
-	 * möglich.
+	 * mï¿½glich.
 	 * </p>
 	 * <p>
 	 * Es bietet sich also an, eine separate Instanzenmethode zu erstellen, die
@@ -48,17 +50,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 * @see #ReportGeneratorImpl()
 	 */
 	public void init() throws IllegalArgumentException {
-		/*
-		 * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf
-		 * eine BankVerwaltungImpl-Instanz.
-		 */
+
 		AdministrationServiceImpl a = new AdministrationServiceImpl();
 		a.init();
 		this.administrationService = a;
 	}
 
 	/**
-	 * Auslesen der zugehörigen BankAdministration (interner Gebrauch).
+	 * Auslesen der zugehï¿½rigen BankAdministration (interner Gebrauch).
 	 * 
 	 * @return das BankVerwaltungsobjekt
 	 */
@@ -67,22 +66,28 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
+	public Integer testCallback() throws IllegalArgumentException	{
+		return 1;
+	}
+	
+	
+	@Override
 	public AllProfilesReport createAllProfilesReport(Boolean unseenOrAll, SearchProfile searchProfile) throws IllegalArgumentException {
 		System.out.println("Start createAllProfilesReport");
 		
 		/*
-		 * Zunächst legen wir uns einen leeren Report an.
+		 * Zunï¿½chst legen wir uns einen leeren Report an.
 		 */
 		AllProfilesReport result = new AllProfilesReport();
 
 		/*
-		 * Nun werden sämtliche Konten des Kunden ausgelesen und deren Kto.-Nr.
+		 * Nun werden sï¿½mtliche Konten des Kunden ausgelesen und deren Kto.-Nr.
 		 * und Kontostand sukzessive in die Tabelle eingetragen.
 		 */
 //		ArrayList<Profile> profiles = this.getAdministrationService().searchAndCompareProfiles(searchProfile);
 
 		/*
-		 * Datum der Erstellung hinzufügen. new Date() erzeugt autom. einen
+		 * Datum der Erstellung hinzufï¿½gen. new Date() erzeugt autom. einen
 		 * "Timestamp" des Zeitpunkts der Instantiierung des Date-Objekts.
 		 */
 		result.setCreated(new Date());
@@ -125,11 +130,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		header.addSubParagraph(
 				new SimpleParagraph("Confession: " + searchProfile.getConfession()));
 
-		// Hinzufügen der zusammengestellten Kopfdaten zu dem Report
+		// Hinzufï¿½gen der zusammengestellten Kopfdaten zu dem Report
 		result.setHeaderData(header);
 
 		/*
-		 * Zunächst legen wir eine Kopfzeile für die Profil-Tabelle an.
+		 * Zunï¿½chst legen wir eine Kopfzeile fï¿½r die Profil-Tabelle an.
 		 */
 		Row headline = new Row();
 
@@ -137,7 +142,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 * Wir wollen Zeilen mit 2 Spalten in der Tabelle erzeugen. In die erste
 		 * Spalte schreiben wir die jeweilige Kontonummer und in die zweite den
 		 * aktuellen Kontostand. In der Kopfzeile legen wir also entsprechende
-		 * Überschriften ab.
+		 * ï¿½berschriften ab.
 		 */
 		headline.addColumn(new Column("First Name"));
 		headline.addColumn(new Column("Last Name"));
@@ -155,15 +160,15 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Favorite Movies"));
 		headline.addColumn(new Column("Strong Points"));
 
-		// Hinzufügen der Kopfzeile
+		// Hinzufï¿½gen der Kopfzeile
 		result.addRow(headline);
 
 		if (unseenOrAll) {
-			// Jeder Report hat einen Titel (Bezeichnung / Überschrift).
+			// Jeder Report hat einen Titel (Bezeichnung / ï¿½berschrift).
 			result.setTitle("Search Results - All Unseen Profiles");
 
 			/*
-			 * Ab hier erfolgt ein zeilenweises Hinzufügen von
+			 * Ab hier erfolgt ein zeilenweises Hinzufï¿½gen von
 			 * Konto-Informationen.
 			 */
 
@@ -179,83 +184,83 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //				// Eine leere Zeile anlegen.
 //				Row profileRow = new Row();
 //
-//				// Erste Spalte: Kontonummer hinzufügen
+//				// Erste Spalte: Kontonummer hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getName()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getLastName()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getGender()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(String.valueOf(age)));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(String.valueOf(p.getBodyHeight())));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getHairColour()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				if (p.getIsSmoking() == 0) {
 //					profileRow.addColumn(new Column("YES"));
 //				} else {
 //					profileRow.addColumn(new Column("NO"));
 //				}
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getConfession()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultHobbies = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(1).getInformationValues()) {
 //					resultHobbies.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultHobbies.toString()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow
 //						.addColumn(new Column(p.getDescriptionList().get(1).getInformationValues().get(1).getValue()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow
 //						.addColumn(new Column(p.getDescriptionList().get(2).getInformationValues().get(1).getValue()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultEra = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(2).getInformationValues()) {
 //					resultEra.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultEra.toString()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultCulture = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(3).getInformationValues()) {
 //					resultCulture.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultCulture.toString()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow
 //						.addColumn(new Column(p.getDescriptionList().get(3).getInformationValues().get(1).getValue()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultPoints = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(4).getInformationValues()) {
 //					resultPoints.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultPoints.toString()));
 //
-//				// und schließlich die Zeile dem Report hinzufügen.
+//				// und schlieï¿½lich die Zeile dem Report hinzufï¿½gen.
 //				result.addRow(profileRow);
 //			}
 //		} else {
-//			// Jeder Report hat einen Titel (Bezeichnung / Überschrift).
+//			// Jeder Report hat einen Titel (Bezeichnung / ï¿½berschrift).
 //			result.setTitle("Search Results - All Profiles");
 //
 //			/*
-//			 * Ab hier erfolgt ein zeilenweises Hinzufügen von
+//			 * Ab hier erfolgt ein zeilenweises Hinzufï¿½gen von
 //			 * Konto-Informationen.
 //			 */
 //
@@ -268,81 +273,81 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //				// Eine leere Zeile anlegen.
 //				Row profileRow = new Row();
 //
-//				// Erste Spalte: Kontonummer hinzufügen
+//				// Erste Spalte: Kontonummer hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getName()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getLastName()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getGender()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(String.valueOf(age)));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(String.valueOf(p.getBodyHeight())));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getHairColour()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				if (p.getIsSmoking() == 0) {
 //					profileRow.addColumn(new Column("YES"));
 //				} else {
 //					profileRow.addColumn(new Column("NO"));
 //				}
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow.addColumn(new Column(p.getConfession()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultHobbies = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(0).getInformationValues()) {
 //					resultHobbies.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultHobbies.toString()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow
 //						.addColumn(new Column(p.getDescriptionList().get(0).getInformationValues().get(0).getValue()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow
 //						.addColumn(new Column(p.getDescriptionList().get(1).getInformationValues().get(1).getValue()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultEra = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(1).getInformationValues()) {
 //					resultEra.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultEra.toString()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultCulture = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(2).getInformationValues()) {
 //					resultCulture.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultCulture.toString()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				profileRow
 //						.addColumn(new Column(p.getDescriptionList().get(2).getInformationValues().get(2).getValue()));
 //
-//				// Zweite Spalte: Kontostand hinzufügen
+//				// Zweite Spalte: Kontostand hinzufï¿½gen
 //				StringBuffer resultPoints = new StringBuffer();
 //				for (Information i : p.getSelectionList().get(3).getInformationValues()) {
 //					resultPoints.append(i.getValue() + "\n");
 //				}
 //				profileRow.addColumn(new Column(resultPoints.toString()));
 //
-//				// und schließlich die Zeile dem Report hinzufügen.
+//				// und schlieï¿½lich die Zeile dem Report hinzufï¿½gen.
 //				result.addRow(profileRow);
 //			}
 		}
 
 		/*
-		 * Zum Schluss müssen wir noch den fertigen Report zurückgeben.
+		 * Zum Schluss mï¿½ssen wir noch den fertigen Report zurï¿½ckgeben.
 		 */
 		System.out.println(result.getTitle());
 		return result;

@@ -62,7 +62,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 	protected void run() {
 		
 		//adminService.searchAndCompareProfiles(unseenChecked, searchProfile, comparedProfilesCallback());
-		adminService.testCallback(testCallback());
+		reportGenerator.testCallback(testCallback());
 		
 		logger.info("Zeile 61 ausgeführt");
 		scrollPanel.add(horLine);

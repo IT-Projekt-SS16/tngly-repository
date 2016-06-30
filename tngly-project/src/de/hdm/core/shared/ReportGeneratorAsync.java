@@ -9,6 +9,9 @@ public interface ReportGeneratorAsync {
 	
 	void init(AsyncCallback<Void> callback);
 
-	void createAllProfilesReport(Boolean unseenOrAll, SearchProfile searchProfile, AsyncCallback<AllProfilesReport> callback);
+	public void createAllProfilesReport(Boolean unseenOrAll, SearchProfile searchProfile, AsyncCallback<AllProfilesReport> callback);
+
+	public void testCallback(AsyncCallback<Integer> callback);
+
 
 }

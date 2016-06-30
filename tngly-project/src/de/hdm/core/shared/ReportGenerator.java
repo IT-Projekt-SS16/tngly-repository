@@ -11,7 +11,7 @@ public interface ReportGenerator extends RemoteService{
 	
 	/**
 	   * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von GWT
-	   * RPC zusätzlich zum No Argument Constructor der implementierenden Klasse
+	   * RPC zusï¿½tzlich zum No Argument Constructor der implementierenden Klasse
 	   *AdministrationServiceImpl} notwendig. Bitte diese Methode direkt nach der
 	   * Instantiierung aufrufen.
 	   * 
@@ -21,7 +21,7 @@ public interface ReportGenerator extends RemoteService{
 	  
 	  /**
 	   * Erstellen eines <code>AllProfilesReport</code>-Reports. Dieser
-	   * Report-Typ stellt sämtliche Profile für den Benutzer dar.
+	   * Report-Typ stellt sï¿½mtliche Profile fï¿½r den Benutzer dar.
 	   * 
 	   * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report
 	   *          erstellt werden soll.
@@ -30,4 +30,6 @@ public interface ReportGenerator extends RemoteService{
 	   * @see AllAccountsOfCustomerReport
 	   */
 	  public abstract AllProfilesReport createAllProfilesReport(Boolean unseenOrAll, SearchProfile searchProfile) throws IllegalArgumentException;
+
+	Integer testCallback() throws IllegalArgumentException;
 }

@@ -21,7 +21,7 @@ import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.SearchProfile;
 
-public class SearchByProfileView extends UpdateReportGenerator {
+public class SearchByProfileViewR extends UpdateReportGenerator {
 	
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	private ReportGeneratorAsync reportgenerator = ClientsideSettings.getReportGenerator();
