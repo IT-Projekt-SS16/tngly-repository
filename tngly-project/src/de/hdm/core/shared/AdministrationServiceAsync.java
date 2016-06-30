@@ -44,7 +44,8 @@ public interface AdministrationServiceAsync {
 
 	public void getProfileByUserName(String userEmail, AsyncCallback<Profile> callback) throws IllegalArgumentException;
 	
-	public void searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback) throws IllegalArgumentException;
+	void searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile,
+			AsyncCallback<ArrayList<Profile>> callback);
 	
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
@@ -118,5 +119,8 @@ public interface AdministrationServiceAsync {
 
 	public void isProfileWished(Profile currentUserProfile, Profile selectedProfile, AsyncCallback<Boolean> callback);
 
-	void isProfileBanned(Profile currentUserProfile, Profile selectedProfile, AsyncCallback<Boolean> callback);
+	public void isProfileBanned(Profile currentUserProfile, Profile selectedProfile, AsyncCallback<Boolean> callback);
+
+	public void testCallback(AsyncCallback<Integer> callback);
+
 }

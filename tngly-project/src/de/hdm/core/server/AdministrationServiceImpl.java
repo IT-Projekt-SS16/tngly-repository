@@ -247,6 +247,12 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 
 	}
+	
+	@Override
+	public int testCallback() throws IllegalArgumentException {
+		return 1;
+
+	}
 
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException {
@@ -275,6 +281,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 
 		Collections.sort(profiles, Collections.reverseOrder());
+		logger.info("Zeile 278 ausgeführt");
+		
 		return profiles;
 	}
 

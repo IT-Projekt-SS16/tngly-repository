@@ -116,4 +116,6 @@ public interface AdministrationService extends RemoteService {
 
 	public Boolean isProfileBanned(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException;
 
+	int testCallback() throws IllegalArgumentException;
+
 }

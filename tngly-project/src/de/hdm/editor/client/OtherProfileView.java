@@ -215,8 +215,8 @@ public class OtherProfileView extends Update {
 		hairColourList.setPixelSize(130,25);
 		
 		isSmokingBox.setVisibleItemCount(1);
-		isSmokingBox.addItem("Yes");
 		isSmokingBox.addItem("No");
+		isSmokingBox.addItem("Yes");
 		isSmokingBox.setPixelSize(130,25);
 		
 		confessionBox.setVisibleItemCount(1);
@@ -324,6 +324,13 @@ public class OtherProfileView extends Update {
 		hairColourList.setEnabled(false);
 		hairColourList.setItemSelected(index, true);
 			t.setWidget(7,1,hairColourList);
+			
+			if (selectedProfile.getIsSmoking() == 0) {
+				index = 0;
+			}
+			if (selectedProfile.getIsSmoking() == 1) {
+				index = 1;
+			}
 
 		t.setText(8, 0, "Smoker");
 		isSmokingBox.setEnabled(false);
