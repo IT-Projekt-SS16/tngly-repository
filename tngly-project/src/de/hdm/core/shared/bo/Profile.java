@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.view.client.ProvidesKey;
 
 public class Profile implements Serializable, Comparable<Profile> {
@@ -50,13 +51,11 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	// Is the person smoking? (e.g. yes, no)
 	private int isSmoking;
-	
+
 	// The person´s movie
 	private String movie;
-	
+
 	private String band;
-		
-		
 
 	private Boolean wasVisited;
 
@@ -220,16 +219,16 @@ public class Profile implements Serializable, Comparable<Profile> {
 	public void setMovie(String m) {
 		this.movie = m;
 	}
-	
+
 	public void setBand(String b) {
 		this.band = b;
 	}
-	
+
 	// Get person´s movie
 	public String getMovie() {
 		return this.movie;
 	}
-	
+
 	public String getBand() {
 		return this.band;
 	}
@@ -259,46 +258,62 @@ public class Profile implements Serializable, Comparable<Profile> {
 			return;
 		}
 
+		System.out.println("Aktuelles Profil: " + this.getName() + ", " + this.getLastName());
+		System.out.println("Referenzprofil: " + p.getName() + ", " + p.getLastName());
+
 		// Custom equality check here, so here you need to check only those
 		// fields which in your
 		// opinion will be unique in your objects
-		 if (this.confession == p.confession){
-		 percentage = percentage + addedPercentage;
-		 }
-		 else if (this.isSmoking == p.isSmoking){
-		 percentage = percentage + addedPercentage;
-		 }
+		if (this.getConfession() == p.getConfession()) {
+			percentage = percentage + addedPercentage;
+			System.out.println("Confession verglichen -> identisch: " + percentage + "%");
+		} else if (this.getIsSmoking() == p.getIsSmoking()) {
+			percentage = percentage + addedPercentage;
+			System.out.println("Smoking verglichen -> identisch: " + percentage + "%");
+		}
 
-		foo: for (Selection s : this.selectionList) {
-			for (Selection sp : p.selectionList) {
-		fooo:		for (Information i : s.getInformationValues()) {
-					for (Information ip : sp.getInformationValues()) {
-						if (i.getValue() == ip.getValue()) {
-							percentage = percentage + addedPercentage;
-							break foo;
-						}
-						else {
-							break fooo;
-						}
-					}
-				}
+		ArrayList<String> informationValuesCompare = new ArrayList<String>();
+		for (int j = 0; j < this.selectionList.size(); j++) {
+			for (Information i : this.selectionList.get(j).getInformationValues()){
+				informationValuesCompare.add(i.getValue());
+			}
+		}
+		ArrayList<String> informationValuesReference = new ArrayList<String>();
+		for (int j = 0; j < p.getSelectionList().size(); j++) {
+			for (Information i : p.getSelectionList().get(j).getInformationValues()){
+				informationValuesReference.add(i.getValue());
+			}
+		}
+		for (String s : informationValuesCompare){
+			if (informationValuesReference.contains(s)){
+				percentage = percentage + addedPercentage;
+				System.out.println("Info-Objekt verglichen -> identisch: " + percentage + "%");
+			}
+		}
+		
+		informationValuesCompare.clear();
+		informationValuesReference.clear();
+
+		for (int j = 0; j < this.descriptionList.size(); j++) {
+			for (Information i : this.descriptionList.get(j).getInformationValues()){
+				informationValuesCompare.add(i.getValue());
 			}
 		}
 
-		foo: for (Description d : this.descriptionList) {
-			for (Information i : d.getInformationValues()) {
-				for (Description sp : p.descriptionList) {
-					for (Information ip : sp.getInformationValues()) {
-						if (i.getValue() == ip.getValue()) {
-							percentage = percentage + addedPercentage;
-							break foo;
-						}
-					}
-				}
+		for (int j = 0; j < p.getDescriptionList().size(); j++) {
+			for (Information i : p.getDescriptionList().get(j).getInformationValues()){
+				informationValuesReference.add(i.getValue());
+			}
+		}
+		for (String s : informationValuesCompare){
+			if (informationValuesReference.contains(s)){
+				percentage = percentage + addedPercentage;
+				System.out.println("Info-Objekt verglichen -> identisch: " + percentage + "%");
 			}
 		}
 
 		this.similiarityToReference = percentage;
+		System.out.println("�hnlichkeitswert: " + this.similiarityToReference);
 	}
 
 	@Override
@@ -321,7 +336,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	public void setIsFavorite(boolean profileWished) {
 		this.isFavorite = profileWished;
 	}
-	
+
 	public Boolean getIsFavorite() {
 		return isFavorite;
 	}
@@ -329,7 +344,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	public void setIsBanned(boolean profileBanned) {
 		this.isBanned = profileBanned;
 	}
-	
+
 	public Boolean getIsBanned() {
 		return isBanned;
 	}
