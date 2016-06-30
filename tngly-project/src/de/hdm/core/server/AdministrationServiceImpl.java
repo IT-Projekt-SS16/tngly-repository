@@ -218,10 +218,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile profile = this.profileMapper.findByName(userEmail);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 		profiles.add(profile);
-		if (profile.getDescriptionList().size() > 0 && profile.getSelectionList().size() > 0){
+//		if (profile.getDescriptionList().size() > 0 && profile.getSelectionList().size() > 0){
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
-		}
+//		}
 		return profiles.get(0);
 	}
 
@@ -251,7 +251,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException {
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-//		this.checkUserProfile();
+		this.checkUserProfile();
 		
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
