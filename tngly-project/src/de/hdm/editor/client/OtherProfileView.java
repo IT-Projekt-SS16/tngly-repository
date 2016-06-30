@@ -1,6 +1,9 @@
 package de.hdm.editor.client;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
+
+import org.eclipse.jetty.util.log.Log;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,6 +23,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Description;
+import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.Wish;
@@ -31,10 +35,15 @@ public class OtherProfileView extends Update {
 		return null;
 	}
 	
-	public OtherProfileView(Profile selectedProfile, String originView, Profile currentUserProfile) {
+	public OtherProfileView(Profile selectedProfile, String originView, Profile cUP) {
 		this.selectedProfile = selectedProfile;
 		this.originView = originView;
-		this.currentUserProfile = currentUserProfile;
+		this.currentUserProfile = cUP;
+		
+		logger.info("OPV-45");
+		logger.info("selectedProfile.getId(); " + selectedProfile.getId());
+		logger.info("OPV-43");
+		logger.info("currentUserProfile.getId(); " + currentUserProfile.getId());
 	}
 	
 	public OtherProfileView(Profile selectedProfile, String originView) {
@@ -63,31 +72,31 @@ public class OtherProfileView extends Update {
 	private final TextBox tbun = new TextBox();
 	private final TextBox tbfn = new TextBox();
 	private final TextBox tbn = new TextBox();
-	private final TextBox tdob = new TextBox();
 	private final TextBox tbbh = new TextBox();
 	private final TextBox tBb = new TextBox();
-    private final TextBox tBm = new TextBox();
-    private final TextBox tbsp = new TextBox();
-	
+	private final TextBox tBm = new TextBox();
+	private final TextBox tbsp = new TextBox();
+	private final TextBox tDob = new TextBox();
+
 	private TextArea ta = new TextArea();
-	
+
 	private final ListBox hairColourList = new ListBox(false);
 	private final ListBox isSmokingBox = new ListBox(false);
 	private final ListBox confessionBox = new ListBox(false);
 	private final ListBox genderBox = new ListBox(false);
 	private final ListBox myHobbiesSelect = new ListBox(true);
-	
+
 	final ListBox subcultureBox = new ListBox(false);
 	final ListBox eraBox = new ListBox(false);
-	
-	
+
 	private FlexTable t = new FlexTable();
 	private FlexTable t2 = new FlexTable();
 	private FlexTable t3 = new FlexTable();
 	private FlexTable t4 = new FlexTable();
-	
-	private String originView;
-	
+	private FlexTable t5 = new FlexTable();
+	private FlexTable t6 = new FlexTable();
+	private FlexTable t7 = new FlexTable();
+
 	private final CheckBox chkVolleyball = new CheckBox("Volleyball");
 	private final CheckBox chkFootball = new CheckBox("Football");
 	private final CheckBox chkWatchPeople = new CheckBox("Watch people");
@@ -114,6 +123,8 @@ public class OtherProfileView extends Update {
 	private final CheckBox chkRock = new CheckBox("Rock");
 	private final CheckBox chkEmo = new CheckBox("Emo");
 	private final CheckBox chkAzzlackz = new CheckBox("Azzlackz");
+	
+	private String originView;
 	
 	private final Button atfProfilButton = new Button("Add to Favorites");
 	private final Button dffProfilButton = new Button("Delete from Favorites");
@@ -144,15 +155,54 @@ public class OtherProfileView extends Update {
 		backButton.setStylePrimaryName("tngly-backbutton");
 		banProfilButton.setStylePrimaryName("tngly-opvbutton");
 		unbanProfilButton.setStylePrimaryName("tngly-opvbutton");
+
 		
-	    adminService.isProfileWished(currentUserProfile, selectedProfile, isProfileWishedCallback());
-		adminService.isProfileBanned(currentUserProfile, selectedProfile, isProfileBannedCallback());
+		if (selectedProfile.isFavorite() == true)	{
+			atfProfilButton.setStylePrimaryName("tngly-disabledButton");
+			atfProfilButton.setEnabled(false);
+			
+			banProfilButton.setStylePrimaryName("tngly-disabledButton");
+			banProfilButton.setEnabled(false);
+			
+			unbanProfilButton.setStylePrimaryName("tngly-disabledButton");
+			unbanProfilButton.setEnabled(false);
+			
+			isWished = true;
+		}
+		
+		if (selectedProfile.isBanned() == true)	{
+			atfProfilButton.setStylePrimaryName("tngly-disabledButton");
+			atfProfilButton.setEnabled(false);
+			
+			dffProfilButton.setStylePrimaryName("tngly-disabledButton");
+			dffProfilButton.setEnabled(false);
+			
+			banProfilButton.setStylePrimaryName("tngly-disabledButton");
+			banProfilButton.setEnabled(false);
+			
+			isBanned = true;
+		}
+		
+		if (selectedProfile.isBanned() == false && selectedProfile.isFavorite() == false)	{
+			
+			dffProfilButton.setStylePrimaryName("tngly-disabledButton");
+			dffProfilButton.setEnabled(false);
+			
+			unbanProfilButton.setStylePrimaryName("tngly-disabledButton");
+			unbanProfilButton.setEnabled(false);
+			
+		}
+		
+		
+       // adminService.checkBanAndWish(currentUserProfile, selectedProfile, chkBanAndWishCallback());
+	   // adminService.isProfileWished(currentUserProfile, selectedProfile, isProfileWishedCallback());
+	   // adminService.isProfileBanned(currentUserProfile, selectedProfile, isProfileBannedCallback());
 		
 		tbun.setPixelSize(120, 15);
 		tbfn.setPixelSize(120, 15);
 		tbn.setPixelSize(120, 15);
 		tbbh.setPixelSize(120, 15);
-		tdob.setPixelSize(120, 15);
+		tDob.setPixelSize(120, 15);
 		ta.setWidth("230px");
 		
 		
@@ -186,6 +236,8 @@ public class OtherProfileView extends Update {
 		genderBox.addItem("Male");
 		genderBox.setPixelSize(130,25);
 		
+		logger.info("Zeile 204 ausgeführt");
+		
 		RootPanel.get("Details").add(verPanel);
 		
 		backButton.addClickHandler(new ClickHandler() {
@@ -193,7 +245,7 @@ public class OtherProfileView extends Update {
 
 			public void onClick(ClickEvent event) {
 				switch(originView){
-		        case "ShowProfilesCellTableView":
+		        case "ShowProfilesCTView":
 		        	Update updateProfilesCTView = new ShowProfilesCTView(ClientsideSettings.getSearchProfile());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(updateProfilesCTView);
@@ -243,9 +295,9 @@ public class OtherProfileView extends Update {
 			t.setWidget(4, 1, genderBox);  
 		
 		t.setText(5, 0, "Date of Birth");
-		tdob.setEnabled(false);
-		tdob.setText(selectedProfile.getDateOfBirth().toString());
-			t.setWidget(5,1,tdob);
+		tDob.setEnabled(false);
+		tDob.setText(selectedProfile.getDateOfBirth().toString());
+			t.setWidget(5,1,tDob);
 		
 			
 			float bh = selectedProfile.getBodyHeight();
@@ -307,135 +359,192 @@ public class OtherProfileView extends Update {
 		
 		FlexTable t2 = new FlexTable();
 		
-		t2.setText(0, 0, "");
+	
+		t.setText(10, 0, "Hobbies");
+		t2.setWidget(0, 0, chkVolleyball);
 		chkVolleyball.setEnabled(false);
-		t2.setWidget(0, 1, chkVolleyball);
-		
-		t2.setText(1, 0, "");
+		t2.setWidget(1, 0, chkFootball);
 		chkFootball.setEnabled(false);
-		t2.setWidget(1, 1, chkFootball);
-		
-		t2.setText(2, 0, "");
+		t2.setWidget(2, 0, chkWatchPeople);
 		chkWatchPeople.setEnabled(false);
-		t2.setWidget(2, 1, chkWatchPeople);
-		
-		t2.setText(3, 0, "");
+		t2.setWidget(3, 0, chkIT);
 		chkIT.setEnabled(false);
-		t2.setWidget(3, 1, chkIT);
-		
-		t2.setText(4, 0, "");
+		t2.setWidget(4, 0, chkHandball);
 		chkHandball.setEnabled(false);
-		t2.setWidget(4, 1, chkHandball);
-		
-		t2.setText(5, 0, "");
+		t2.setWidget(5, 0, chkPP);
 		chkPP.setEnabled(false);
-		t2.setWidget(5, 1, chkPP);
 		
 		t.setWidget(10, 1, t2);
 		
-		ta.setCharacterWidth(50);
-		ta.setVisibleLines(3);
-		
-		t.setText(11, 0, "How I describe myself");
-		ta.setEnabled(false);
+
+		t.setText(11, 0, "This is how I describe myself");
 		t.setWidget(11, 1, ta);
-		
-		for (Description d : selectedProfile.getDescriptionList())	{
-			System.out.println("Description: " + d.getTextualDescription());
-			if (d.getTextualDescription() == "My hobbies")	{
-				System.out.println("Value: " + d.getInformationValues().get(0).getValue());
-				// ta.setText(d.getInformationValues().get(0).getValue());
-			} else {}
-		} 
-		
-		
-		t3.setText(0,0, "Favorite Band");
-		tBb.setEnabled(false);
+
+		t3.setText(0, 0, "Favorite Band");
 		t3.setWidget(0, 1, tBb);
-		
-		/**for (Description d : selectedProfile.getDescriptionList())	{
-			if (d.getTextualDescription() == "Favorite band")	{
-				ta.setText(d.getInformationValues().get(0).getValue());
-			} else {}
-		}*/
-		
-		t3.setText(1,0, "Favorite Movie");
-		tBm.setEnabled(false);
+
+		t3.setText(1, 0, "Favorite Movie");
 		t3.setWidget(1, 1, tBm);
-		
-		/**for (Description d : selectedProfile.getDescriptionList())	{
-			if (d.getTextualDescription() == "Favorite movies")	{
-				ta.setText(d.getInformationValues().get(0).getValue());
-			} else {}
-		}
-		*/
-		
-		FlexTable t5 = new FlexTable();
-		
-		t3.setText(4,0, "Favorite Era");
-		
-		t5.setText(0, 0, "");
+
+		t3.setText(4, 0, "Favorite Era");
+		t5.setWidget(0, 0, chkStoneAge);
 		chkStoneAge.setEnabled(false);
-		t5.setWidget(0, 1, chkStoneAge);
-		
-		t5.setText(1, 0, "");
+		t5.setWidget(1, 0, chkAncientTimes);
 		chkAncientTimes.setEnabled(false);
-		t5.setWidget(1, 1, chkAncientTimes);
-		
-		t5.setText(2, 0, "");
+		t5.setWidget(2, 0, chkEarlyMiddleAges);
 		chkEarlyMiddleAges.setEnabled(false);
-		t5.setWidget(2, 1, chkEarlyMiddleAges);
-		
-		t5.setText(3, 0, "");
+		t5.setWidget(3, 0, chkLateMiddleAges);
 		chkLateMiddleAges.setEnabled(false);
-		t5.setWidget(3, 1, chkLateMiddleAges);
-		
-		t5.setText(4, 0, "");
+		t5.setWidget(4, 0, chkRenaissance);
 		chkRenaissance.setEnabled(false);
-		t5.setWidget(4, 1, chkRenaissance);
-		
-		t5.setText(5, 0, "");
+		t5.setWidget(5, 0, chkIndustrialAge);
 		chkIndustrialAge.setEnabled(false);
-		t5.setWidget(5, 1, chkIndustrialAge);
-		
-		t5.setText(5, 0, "");
+		t5.setWidget(6, 0, chkModernAge);
 		chkModernAge.setEnabled(false);
-		t5.setWidget(5, 1, chkModernAge);
-		
 		t3.setWidget(4, 1, t5);
-		
-		FlexTable t7 = new FlexTable();
-		
-		t3.setText(3, 0, "Favorite subculture");	
-		
-		t7.setText(0, 0, "");
+
+		t3.setText(2, 0, "My Strong Points");
+		t7.setWidget(0, 0, chkBringing);
 		chkBringing.setEnabled(false);
-		t7.setWidget(0, 1, chkBringing);
-		
-		t7.setText(1, 0, "");
+		t7.setWidget(1, 0, chkEnjoying);
 		chkEnjoying.setEnabled(false);
-		t7.setWidget(1, 1, chkEnjoying);
-		
-		t7.setText(2, 0, "");
+		t7.setWidget(2, 0, chkBeing);
 		chkBeing.setEnabled(false);
-		t7.setWidget(2, 1, chkBeing);
-		
-		t7.setText(3, 0, "");
+		t7.setWidget(3, 0, chkSolving);
 		chkSolving.setEnabled(false);
-		t7.setWidget(3, 1, chkSolving);
-		
-		t7.setText(4, 0, "");
+		t7.setWidget(4, 0, chkKeeping);
 		chkKeeping.setEnabled(false);
-		t7.setWidget(4, 1, chkKeeping);
-			
-		t7.setStylePrimaryName("tngly-opvTable");
+		t3.setWidget(2, 1, t7);
+
+		t3.setText(3, 0, "I associate myself with this subculture");
+		t6.setWidget(0, 0, chkHipHop);
+		chkHipHop.setEnabled(false);
+		t6.setWidget(1, 0, chkMetal);
+		chkMetal.setEnabled(false);
+		t6.setWidget(2, 0, chkRock);
+		chkRock.setEnabled(false);
+		t6.setWidget(3, 0, chkEmo);
+		chkEmo.setEnabled(false);
+		t6.setWidget(4, 0, chkAzzlackz);
+		chkAzzlackz.setEnabled(false);
+		t3.setWidget(3, 1, t6);
+
 		
-		t3.setWidget(3, 1, t7);
+		logger.info("Zeile 416 ausgeführt");
+
+		/*
+		 * Markierung der Checkboxen f�r die Eigenschaft "My Hobbies"
+		 */
+		for (int x = 0; x < t2.getRowCount(); x++) {
+			ArrayList<String> values = new ArrayList<String>();
+			String tempValue;
+			logger.info("Zeile 424 ausgeführt");
+
+			CheckBox cb = (CheckBox) t2.getWidget(x, 0);
+			for (Information i : selectedProfile.getSelectionList().get(0).getInformationValues()) {
+				tempValue = i.getValue();
+				values.add(tempValue);
+				logger.info("Zeile 428 ausgeführt");
+
+			}
+			logger.info("Zeile 433 ausgeführt");
+			tempValue = cb.getText();
+			logger.info("Zeile 435 ausgeführt");
+
+			if (values.contains(tempValue)) {
+				logger.info("cbIsEnabled " + cb.isEnabled());
+				cb.setValue(true);
+			}
+		}
 		
-		t3.setText(2, 0, "");
-		tbsp.setEnabled(false);
-		t3.setWidget(2, 1, tbsp);
+		logger.info("Zeile 435 ausgeführt");
+
+		
+		if (selectedProfile.getDescriptionList().get(0).getInformationValues().size() > 0)	{
+			logger.info("Profile-Description 0: " + selectedProfile.getDescriptionList().get(0).getInformationValues().get(0).getValue());
+
+		ta.setText(selectedProfile.getDescriptionList().get(0).getInformationValues().get(0).getValue());
+		} else{				logger.info("Profile-Description 0: null");
+}
+		
+		
+		if (selectedProfile.getDescriptionList().get(1).getInformationValues().size() > 0)	{
 			
+			logger.info("Profile-Description 1: " + selectedProfile.getDescriptionList().get(1).getInformationValues().get(0).getValue());
+		
+		tBb.setText(selectedProfile.getDescriptionList().get(1).getInformationValues().get(0).getValue());
+		} else{logger.info("Profile-Description 1: null" );
+		}
+		
+
+		if (selectedProfile.getDescriptionList().get(2).getInformationValues().size() > 0)	{
+			logger.info("Profile-Description 2: " + selectedProfile.getDescriptionList().get(2).getInformationValues().get(0).getValue());
+
+		tBm.setText(selectedProfile.getDescriptionList().get(2).getInformationValues().get(0).getValue());
+		} else{logger.info("Profile-Description 2: null");}
+		
+
+		
+		/*
+		 * Markierung der Checkboxen f�r die Eigenschaft
+		 * "My Strong Points"
+		 */
+		for (int x = 0; x < t7.getRowCount(); x++) {
+			ArrayList<String> values = new ArrayList<String>();
+			String tempValue;
+			CheckBox cb = (CheckBox) t7.getWidget(x, 0);
+			for (Information i : selectedProfile.getSelectionList().get(1).getInformationValues()) {
+				tempValue = i.getValue();
+				values.add(tempValue);
+			}
+			tempValue = cb.getText();
+			if (values.contains(tempValue)) {
+				cb.setValue(true);
+			}
+		}
+
+		logger.info("Zeile 481 ausgeführt");
+
+		
+		/*
+		 * Markierung der Checkboxen f�r die Eigenschaft
+		 * "I associate myself with this subculture"
+		 */
+		for (int x = 0; x < t6.getRowCount(); x++) {
+			ArrayList<String> values = new ArrayList<String>();
+			String tempValue;
+			CheckBox cb = (CheckBox) t6.getWidget(x, 0);
+			for (Information i : selectedProfile.getSelectionList().get(2).getInformationValues()) {
+				tempValue = i.getValue();
+				values.add(tempValue);
+			}
+			tempValue = cb.getText();
+			if (values.contains(tempValue)) {
+				cb.setValue(true);
+			}
+		}
+
+		/*
+		 * Markierung der Checkboxen f�r die Eigenschaft "Favorite Era"
+		 */
+		for (int x = 0; x < t5.getRowCount(); x++) {
+			ArrayList<String> values = new ArrayList<String>();
+			String tempValue;
+			CheckBox cb = (CheckBox) t5.getWidget(x, 0);
+
+			for (Information i : selectedProfile.getSelectionList().get(3).getInformationValues()) {
+				tempValue = i.getValue();
+				values.add(tempValue);
+			}
+			tempValue = cb.getText();
+			if (values.contains(tempValue)) {
+				cb.setValue(true);
+			}
+		}
+		
+		logger.info("Zeile 520 ausgeführt");
+
+		
 		verPanel.add(t);
 		verPanel2.add(t3);
 		
@@ -449,10 +558,15 @@ public class OtherProfileView extends Update {
 		horPanelButtons.add(banProfilButton);
 		horPanelButtons.add(unbanProfilButton);
 
+		logger.info("Zeile 528 ausgeführt");
+
 		
 		RootPanel.get("Details").add(horPanelButtons);
 		RootPanel.get("Details").add(horLine);
 		RootPanel.get("Details").add(horPanel);
+		
+		logger.info("Zeile 535 ausgeführt");
+
 
 		backButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -519,7 +633,7 @@ public class OtherProfileView extends Update {
 		});
 	}
 
-    class DeleteWishCallback implements AsyncCallback<Void> {
+	class DeleteWishCallback implements AsyncCallback<Void> {
 	@Override
 	public void onFailure(Throwable caught) {
 		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -584,74 +698,8 @@ class CreateWishCallback implements AsyncCallback<Wish> {
 	}
 }
 
-	private AsyncCallback<Boolean> isProfileWishedCallback() {
-		AsyncCallback<Boolean> asyncCallback = new AsyncCallback<Boolean>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-			}
-
-			@Override
-			public void onSuccess(Boolean isProfileWished) {
-				if (isProfileWished == true)	{
-					atfProfilButton.setStylePrimaryName("tngly-disabledButton");
-					atfProfilButton.setEnabled(false);
-					
-					banProfilButton.setStylePrimaryName("tngly-disabledButton");
-					banProfilButton.setEnabled(false);
-					
-					unbanProfilButton.setStylePrimaryName("tngly-disabledButton");
-					unbanProfilButton.setEnabled(false);
-					
-					isWished = true;
-				}
-			}
-		};
-		
-		ClientsideSettings.getLogger().info("AsyncCallback isProfileWished zu Ende ausgeführt");
-		return asyncCallback;
-	}
 	
-	private AsyncCallback<Boolean> isProfileBannedCallback() {
-		AsyncCallback<Boolean> asyncCallback = new AsyncCallback<Boolean>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-			}
-
-			@Override
-			public void onSuccess(Boolean isProfileBanned) {
-				if (isProfileBanned == true)	{
-					atfProfilButton.setStylePrimaryName("tngly-disabledButton");
-					atfProfilButton.setEnabled(false);
-					
-					dffProfilButton.setStylePrimaryName("tngly-disabledButton");
-					dffProfilButton.setEnabled(false);
-					
-					banProfilButton.setStylePrimaryName("tngly-disabledButton");
-					banProfilButton.setEnabled(false);
-					
-					isBanned = true;
-				}
-				
-				if (isWished == false && isBanned == false)	{
-					
-					logger.info("isWished && isBanned == false");
-					
-					dffProfilButton.setStylePrimaryName("tngly-disabledButton");
-					dffProfilButton.setEnabled(false);
-					
-					unbanProfilButton.setStylePrimaryName("tngly-disabledButton");
-					unbanProfilButton.setEnabled(false);
-				}
-			}
-		};
-		
-		ClientsideSettings.getLogger().info("AsyncCallback isProfileBanned zu Ende ausgeführt");
-		return asyncCallback;
-	};
+	
 	
 }
 

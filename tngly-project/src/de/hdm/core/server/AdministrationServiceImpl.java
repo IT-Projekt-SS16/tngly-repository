@@ -291,6 +291,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	
 	@Override
 	public Boolean isProfileWished(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException {
+		logger.info("currentUserProfile.getId(); " + currentUserProfile.getId());
+		logger.info("selectedProfile.getId(); " + selectedProfile.getId());
 		return this.wishMapper.isProfileWished(currentUserProfile.getId(), selectedProfile.getId());
 	}
 

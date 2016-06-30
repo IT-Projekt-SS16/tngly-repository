@@ -44,6 +44,7 @@ public class ShowProfilesCTView extends Update {
 	private HorizontalPanel hPanel = new HorizontalPanel();
 
 	private Profile profile = null;
+	private Profile currentUserProfile = new Profile();
 	private SearchProfile searchProfile = null;
 
 	private final Button markAsSeenButton = new Button("Mark as seen");
@@ -70,6 +71,9 @@ public class ShowProfilesCTView extends Update {
 	@Override
 	protected void run() {
 		
+		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
+				getCurrentUserProfileCallback());
 		adminService.searchAndCompareProfiles(false, searchProfile, getComparedProfileCallback());
 
 		hPanel.setBorderWidth(0);
@@ -165,7 +169,7 @@ public class ShowProfilesCTView extends Update {
 			@Override
 			public void update(int index, Profile object, String value) {
 				// Called when the user changes the value.
-				Update update = new OtherProfileView(object, "ShowProfilesCellTableView");
+				Update update = new OtherProfileView(object, "ShowProfilesCTView", currentUserProfile);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -291,6 +295,27 @@ public class ShowProfilesCTView extends Update {
 				}
 			}
 		};
+		return asyncCallback;
+	}
+	
+	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
+		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Profile result) {
+				ClientsideSettings.getLogger()
+						.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
+				currentUserProfile = result;
+				logger.info("currentUserProfileId: " + currentUserProfile.getId());
+			}
+		};
+		
+		ClientsideSettings.getLogger().info("AsyncCallback zu Ende ausgeführt");
 		return asyncCallback;
 	}
 }
