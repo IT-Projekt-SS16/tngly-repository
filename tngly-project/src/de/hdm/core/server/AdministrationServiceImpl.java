@@ -234,7 +234,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
 
-		this.currentUserProfile = this.profileMapper.findByName(userName);
+		currentUserProfile = this.getProfileByUserName(userName);
 
 		/*
 		 * �berpr�fung ob der eingelogte Benutezr bereits in der Datenbank
@@ -255,19 +255,24 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
-			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(currentUserProfile, p));
-			/*
-			 * TODO: Einf�gen von Abfragen bzgl. "isProfileFavorite" & "isProfile
-			 */
-			p.setIsFavorite(this.wishMapper.isProfileWished(currentUserProfile.getId(), p.getId()));
 			if(this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), p.getId())){
 				profiles.remove(x);
 			}
-			p.equals(this.currentUserProfile);
+		}
+		
+		for (int x = 0; x < profiles.size(); x++) {
+			Profile p = profiles.get(x);
+			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(currentUserProfile, p));
+			p.setIsFavorite(this.wishMapper.isProfileWished(currentUserProfile.getId(), p.getId()));
 		}
 
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
+		
+		for (int x = 0; x < profiles.size(); x++) {
+			Profile p = profiles.get(x);
+			p.equals(currentUserProfile);
+		}
 
 		Collections.sort(profiles, Collections.reverseOrder());
 		return profiles;

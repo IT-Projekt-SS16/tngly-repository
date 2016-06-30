@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -272,6 +273,20 @@ public class ShowProfilesCTView extends Update {
 		});
 		cellTable.addColumn(similiarityColumn, "Similiarity");
 		cellTable.setColumnWidth(similiarityColumn, 40, Unit.PCT);
+		
+		Column<Profile, String> favoriteColumn = new Column<Profile, String>(new ButtonCell()) {
+			@Override
+			public String getValue(Profile object) {
+				// Get the value from the selection model.
+				if (object.getIsFavorite() == true){
+				return "FAVORITE";
+				} else {
+					return null;	
+				}
+			}
+		};
+		cellTable.addColumn(favoriteColumn, "");
+		cellTable.setColumnWidth(favoriteColumn, 130, Unit.PX);
 	}
 
 	private AsyncCallback<ArrayList<Profile>> getComparedProfileCallback() {

@@ -93,15 +93,15 @@ public class SearchByProfileView extends Update {
 		t.setText(0, 0, "Gender");
 		t.setWidget(0, 1, genderBox);
 
-		if (ClientsideSettings.getSearchProfile() != null) {
-			int index;
-			if (ClientsideSettings.getSearchProfile().getGender() == "Male") {
-				index = 1;
-			} else {
-				index = 0;
-			}
-			genderBox.setItemSelected(index, true);
-		}
+//		if (ClientsideSettings.getSearchProfile() != null) {
+//			int index;
+//			if (ClientsideSettings.getSearchProfile().getGender() == "Male") {
+//				index = 1;
+//			} else {
+//				index = 0;
+//			}
+//			genderBox.setItemSelected(index, true);
+//		}
 
 		t.setWidget(0, 4, chkGenderAny);
 
@@ -111,10 +111,10 @@ public class SearchByProfileView extends Update {
 		t.setText(2, 2, "To");
 		t.setWidget(2, 3, tbAgeRangeTo);
 
-		if (ClientsideSettings.getSearchProfile() != null) {
-			tbAgeRangeFrom.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeFrom()));
-			tbAgeRangeTo.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeTo()));
-		}
+//		if (ClientsideSettings.getSearchProfile() != null) {
+//			tbAgeRangeFrom.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeFrom()));
+//			tbAgeRangeTo.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeTo()));
+//		}
 
 		t.setWidget(2, 4, chkAgeAny);
 
@@ -124,69 +124,69 @@ public class SearchByProfileView extends Update {
 		t.setWidget(4, 3, tbHeightRangeTo);
 		t.setText(4, 2, "To");
 
-		if (ClientsideSettings.getSearchProfile() != null) {
-			tbHeightRangeFrom.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightFrom()));
-			tbHeightRangeTo.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightTo()));
-		}
+//		if (ClientsideSettings.getSearchProfile() != null) {
+//			tbHeightRangeFrom.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightFrom()));
+//			tbHeightRangeTo.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightTo()));
+//		}
 
 		t.setWidget(4, 4, chkBodyHeightAny);
 
 		t.setText(5, 0, "Haircolor");
 		t.setWidget(5, 1, hairColourList);
 
-		if (ClientsideSettings.getSearchProfile() != null) {
-			int index;
-			if (ClientsideSettings.getSearchProfile().getHairColour() == "Black") {
-				index = 0;
-			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Brown") {
-				index = 1;
-			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Red") {
-				index = 2;
-			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Blonde") {
-				index = 3;
-			} else {
-				index = 4;
-			}
-			hairColourList.setItemSelected(index, true);
-		}
+//		if (ClientsideSettings.getSearchProfile() != null) {
+//			int index;
+//			if (ClientsideSettings.getSearchProfile().getHairColour() == "Black") {
+//				index = 0;
+//			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Brown") {
+//				index = 1;
+//			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Red") {
+//				index = 2;
+//			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Blonde") {
+//				index = 3;
+//			} else {
+//				index = 4;
+//			}
+//			hairColourList.setItemSelected(index, true);
+//		}
 
 		t.setWidget(5, 4, chkHairColourAny);
 
 		t.setText(6, 0, "Smoker");
 		t.setWidget(6, 1, isSmokingBox);
 
-		if (ClientsideSettings.getSearchProfile() != null) {
-			isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(), true);
-		}
+//		if (ClientsideSettings.getSearchProfile() != null) {
+//			isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(), true);
+//		}
 
 		t.setWidget(6, 4, chkSmokerAny);
 
 		t.setText(7, 0, "Confession");
 		t.setWidget(7, 1, confessionBox);
 
-		if (ClientsideSettings.getSearchProfile() != null) {
-			int index;
-			if (ClientsideSettings.getSearchProfile().getConfession() == "Atheistic") {
-				index = 0;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Buddhistic") {
-				index = 1;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Evangelic") {
-				index = 2;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Catholic") {
-				index = 3;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Hindu") {
-				index = 4;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Muslim") {
-				index = 5;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Jewish") {
-				index = 6;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Orthodox") {
-				index = 7;
-			} else {
-				index = 8;
-			}
-			confessionBox.setItemSelected(index, true);
-		}
+//		if (ClientsideSettings.getSearchProfile() != null) {
+//			int index;
+//			if (ClientsideSettings.getSearchProfile().getConfession() == "Atheistic") {
+//				index = 0;
+//			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Buddhistic") {
+//				index = 1;
+//			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Evangelic") {
+//				index = 2;
+//			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Catholic") {
+//				index = 3;
+//			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Hindu") {
+//				index = 4;
+//			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Muslim") {
+//				index = 5;
+//			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Jewish") {
+//				index = 6;
+//			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Orthodox") {
+//				index = 7;
+//			} else {
+//				index = 8;
+//			}
+//			confessionBox.setItemSelected(index, true);
+//		}
 
 		t.setWidget(7, 4, chkConfessionAny);
 

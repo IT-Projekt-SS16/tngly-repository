@@ -251,17 +251,17 @@ public class EditorEntryPoint implements EntryPoint {
 		
 	
 	
-		final Button signOutButton = new Button("SIGN OUT");
-		signOutButton.setStylePrimaryName("tngly-signoutButton");
-		logoutPanel.add(signOutButton);
+//		final Button signOutButton = new Button("SIGN OUT");
+//		signOutButton.setStylePrimaryName("tngly-signoutButton");
+//		logoutPanel.add(signOutButton);
 
-		signOutButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
-						"_self", "");
-			}
-		});
+//		signOutButton.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
+//						"_self", "");
+//			}
+//		});
 
 	
 
