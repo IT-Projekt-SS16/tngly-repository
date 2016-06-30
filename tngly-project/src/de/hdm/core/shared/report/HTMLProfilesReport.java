@@ -23,7 +23,7 @@ public class HTMLProfilesReport {
 		private static String generateReportHead() {
 			return "<html>"
 					+ "<head>"
-					+ "<title></title>"
+					+ "<title>LOL</title>"
 					+ "</head>"
 					+ "<body>";
 		}
@@ -38,7 +38,7 @@ public class HTMLProfilesReport {
 			
 			report += "<div>";
 			
-			// Hinzufügen des aktuellen Datums mit Uhrzeit für die Überschrift des Reports.
+			// Hinzufï¿½gen des aktuellen Datums mit Uhrzeit fï¿½r die ï¿½berschrift des Reports.
 			Date today = new Date();
 		    DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm:ss");
 
@@ -64,7 +64,7 @@ public class HTMLProfilesReport {
 					+ "<th id=\"profile\">Strong Points</th>"
 					+ "</tr>";
 			
-			for(Profile p : searchResult) {
+			for (Profile p : searchResult) {
 				Date dateBirth = p.getDateOfBirth();
 				Date dateNow = new Date();
 				int age = dateNow.getYear() - dateBirth.getYear();

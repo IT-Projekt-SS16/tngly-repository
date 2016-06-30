@@ -34,7 +34,7 @@ public class SearchByProfileView extends UpdateReportGenerator {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "Search for Report";
+		return "ReportGenerator - Search By Profiles";
 	}
 
 	/**
@@ -477,54 +477,12 @@ public class SearchByProfileView extends UpdateReportGenerator {
 				boolean confessionChecked = chkConfessionAny.getValue();
 				boolean unseenChecked = chkOnlyUnseenProfiles.getValue();
 
-				final TextBox tbAgeRangeFrom = new TextBox();
-				final TextBox tbAgeRangeTo = new TextBox();
-				final TextBox tbHeightRangeFrom = new TextBox();
-				final TextBox tbHeightRangeTo = new TextBox();
-
-				// final String symbol4 =
-				// tbAgeRangeFrom.getText().toUpperCase().trim();
-				// if (!symbol4.matches("^[0-9\\.]{1,10}$")) {
-				// Window.alert("'" + symbol4 + "' is not a valid symbol.");
-				// tbAgeRangeFrom.selectAll();
-				// return;
-				// }
-				//
-				// final String symbol5 =
-				// tbAgeRangeTo.getText().toUpperCase().trim();
-				// if (!symbol5.matches("^[0-9\\.]{1,10}$")) {
-				// Window.alert("'" + symbol5 + "' is not a valid symbol.");
-				// tbAgeRangeTo.selectAll();
-				// return;
-				// }
-				//
-				// final String symbol6 =
-				// tbHeightRangeFrom.getText().toUpperCase().trim();
-				// if (!symbol6.matches("^[0-9\\.]{1,10}$")) {
-				// Window.alert("'" + symbol6 + "' is not a valid symbol.");
-				// tbHeightRangeFrom.selectAll();
-				// return;
-				// }
-				//
-				// final String symbol7 =
-				// tbHeightRangeFrom.getText().toUpperCase().trim();
-				// if (!symbol7.matches("^[0-9\\.]{1,10}$")) {
-				// Window.alert("'" + symbol7 + "' is not a valid symbol.");
-				// tbHeightRangeFrom.selectAll();
-				// return;
-				// }
 
 				Logger logger = ClientsideSettings.getLogger();
 				logger.info("Erfolgreich onClick ausgefuehrt.");
 
 				logger.info("getUserProfile war null.");
 				SearchProfile temp = new SearchProfile();
-
-				// int atIndex =
-				// ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-				//
-				// temp.setUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0,
-				// atIndex));
 
 				logger.info("Profile+DateTimeFormat instantiiert");
 
@@ -543,17 +501,21 @@ public class SearchByProfileView extends UpdateReportGenerator {
 
 				logger.info("dateOfBirth CHECK");
 
-				// float f = Float.valueOf(tbbh.getText().trim()).floatValue();
-				// temp.setBodyHeight(f);
 
 				if (ageChecked == false) {
-					temp.setAgeRangeFrom(Integer.parseInt(tbAgeRangeFrom.getText()));
-					temp.setAgeRangeTo(Integer.parseInt(tbAgeRangeTo.getText()));
+					logger.info("548 CHECK");
+					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
+					int art = Integer.parseInt(tbAgeRangeTo.getText());
+					logger.info("551 CHECK");
+					temp.setAgeRangeFrom(arf);
+					temp.setAgeRangeTo(art);
 				} else {
 					temp.setAgeRangeFrom(0);
 					temp.setAgeRangeTo(0);
 				}
 
+				logger.info("dateOfBirth2 CHECK");
+				
 				if (bodyHeightChecked == false) {
 					temp.setBodyHeightFrom(Float.parseFloat(tbHeightRangeFrom.getText()));
 					temp.setBodyHeightTo(Float.parseFloat(tbHeightRangeTo.getText()));
@@ -599,9 +561,6 @@ public class SearchByProfileView extends UpdateReportGenerator {
 
 				ClientsideSettings.setSearchProfile(temp);
 				logger.info(ClientsideSettings.getSearchProfile().toString());
-
-//				ClientsideSettings.getReportGenerator().createAllProfilesReport(unseenChecked, temp,
-//						new AllProfilesReportCallback());
 				
 				ClientsideSettings.getLogger().info("Report AllProfiles erstellen...");
 

@@ -1,6 +1,9 @@
 package de.hdm.reportgenerator.client;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import org.mortbay.log.Log;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -23,10 +26,17 @@ public class AllProfilesView extends UpdateReportGenerator {
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	
-	public AllProfilesView(Boolean unseenChecked, SearchProfile searchProfile){
+	Logger logger = ClientsideSettings.getLogger();
+	
+	public AllProfilesView (Boolean unseenChecked, SearchProfile searchProfile){
+		
+		logger.info("Zeile 33 APV ausgeführt");
+		
 		this.searchProfile = searchProfile;
 		this.unseenChecked = unseenChecked;
-		adminService.searchAndCompareProfiles(unseenChecked, searchProfile, new CompareCallback());
+		logger.info("Zeile 37 APV ausgeführt");
+		adminService.searchAndCompareProfiles(unseenChecked, searchProfile, new CompareCallbackR());
+		logger.info("Zeile 39 APV ausgeführt");
 	}
 
 	/**
@@ -37,7 +47,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 	 */
 	// @Override
 	protected String getHeadlineText() {
-		return "Show Report";
+		return "Show Report - generated";
 	}
 
 	/**
@@ -48,18 +58,14 @@ public class AllProfilesView extends UpdateReportGenerator {
 	@Override
 	protected void run() {
 		
-//		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
-//
-//		if (ClientsideSettings.getUnseenOrAll()) {
-//			reportGenerator.createAllProfilesReport("Unseen", new AllProfilesReportCallback());
-//		} else {
-//			reportGenerator.createAllProfilesReport("", new AllProfilesReportCallback());
-//		}
-//
-//		this.append(this.reportText);
+		logger.info("Zeile 61 ausgeführt");
+		
+		
+		
+		
 	}
 	
-	class CompareCallback implements AsyncCallback<ArrayList<Profile>> {
+	class CompareCallbackR implements AsyncCallback<ArrayList<Profile>> {
 		@Override
 		public void onFailure(Throwable caught) {
 			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -67,131 +73,12 @@ public class AllProfilesView extends UpdateReportGenerator {
 
 		@Override
 		public void onSuccess(ArrayList<Profile> result) {
+			System.out.println("Zeile 72 APV ausgeführt");
 			scrollPanel.setSize("100%", "100%");
-			RootPanel.get("Details").add(scrollPanel);
 			scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
+			RootPanel.get("Details").add(scrollPanel);
+			System.out.println("Zeile 75 APV ausgeführt");
 		}
 
 	}
 }
-
-
-//class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
-//
-//	@Override
-//	public void onFailure(Throwable caught) {
-//		ClientsideSettings.getLogger().severe("Fehler bei der Abfrage " + caught.getMessage());
-//	}
-//
-//	@Override
-//	public void onSuccess(AllProfilesReport report) {
-//		if (report != null) {
-//			HTMLReportWriter writer = new HTMLReportWriter();
-//			writer.process(report);
-//			ClientsideSettings.setAllProfilesReport(writer.getReportText());
-//		}
-//	}
-//}
-// BankAdministrationAsync bankVerwaltung =
-// ClientsideSettings.getBankVerwaltung();
-
-// bankVerwaltung.getCustomerById(1, new GetCustomerCallback(this));
-// }
-//
-// /**
-// * <p>
-// * Wir nutzen eine Nested Class, um das zur�ckerhaltene Objekt weiter zu
-// * bearbeiten.
-// * </p>
-// * <p>
-// * <b>Amerkungen:</b> Eine Nested Class besitzt den Vorteil, die Lokalit�t des
-// * Gesamtsystems zu f�rdern, da der Klassenname (hier: "UseCustomer")
-// * au�erhalb von DeleteAccountDemo nicht "verbraucht" wird. Doch Vorsicht!
-// * Wenn eine Klasse mehrfach, also gewisserma�en an mehreren Stellen im
-// * Programm, nutzbar ist, sollte man �berlegen, ob man eine solche Klasse als
-// * normale - also separate - Klasse realisiert bzw. anordnet.
-// * </p>
-// * <p>
-// * Weitere Dokumentation siehe <code>CreateAccountDemo.UseCustomer</code>.
-// * </p>
-// *
-// * @see CreateAccountDemo.UseCustomer
-// */
-// class GetCustomerCallback implements AsyncCallback<Customer> {
-// private Showcase showcase = null;
-//
-// public GetCustomerCallback(Showcase c) {
-// this.showcase = c;
-// }
-//
-// @Override
-// public void onFailure(Throwable caught) {
-// this.showcase.append("Fehler bei der Abfrage " + caught.getMessage());
-// }
-//
-// public void onSuccess(Customer customer) {
-// if (customer != null) {
-// ReportGeneratorAsync reportGenerator = ClientsideSettings
-// .getReportGenerator();
-//
-// reportGenerator.createAllAccountsOfCustomerReport(customer,
-// new AllAccountsOfCustomerReportCallback(this.showcase));
-// }
-// }
-//
-// /**
-// * <p>
-// * Diese Klasse ist eine Nested Classs innerhalb einer Nested Class! Auf
-// * diese Weise k�nnen wir einen klassenbezogenen Verarbeitungskontext
-// * aufbauen, also gewisserma�en einen klassenbasierter Stack.
-// * </p>
-// * <p>
-// * <b>Erl�uterung:</b> Stellen Sie sich folgende Struktur vor (Syntax frei
-// * erfunden):
-// *
-// * <pre>
-// * (Instance of GetCustomerCallback
-// *
-// * Hier sind s�mtliche Infos zum Kontext nach dem ersten Call bzgl.
-// * des Kunden verf�gbar, also als Ergebnis des Calls das Kundenobjekt.
-// *
-// * (Instance of AllAccountsOfCustomerReportCallback
-// *
-// * Hier sind zus�tzlich noch die Infos zum Kontext nach dem zweiten
-// * Call, also der fertige Report zu dessen Weiterverarbeitung, verf�gbar.
-// *
-// * )
-// * )
-// * </pre>
-// *
-// * </p>
-// *
-// }
-// }
-// }
-// }
-//
-// }
-// * @author thies
-// * @version 1.0
-// *
-// */
-// class AllAccountsOfCustomerReportCallback
-// implements AsyncCallback<AllAccountsOfCustomerReport> {
-// private Showcase showcase = null;
-//
-// public AllAccountsOfCustomerReportCallback(Showcase c) {
-// this.showcase = c;
-// }
-//
-// @Override
-// public void onFailure(Throwable caught) {
-// this.showcase.append("Fehler bei der Abfrage " + caught.getMessage());
-// }
-//
-// @Override
-// public void onSuccess(AllAccountsOfCustomerReport report) {
-// if (report != null) {
-// HTMLReportWriter writer = new HTMLReportWriter();
-// writer.process(report);
-// this.showcase.append(writer.getReportText());

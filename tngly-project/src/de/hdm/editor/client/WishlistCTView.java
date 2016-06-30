@@ -41,7 +41,8 @@ public class WishlistCTView extends Update {
 
 	private HorizontalPanel hPanel = new HorizontalPanel();
 
-
+	private Profile currentUserProfile;
+	
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
 	private CellTable<Profile> cellTable = new CellTable<Profile>();
@@ -66,6 +67,10 @@ public class WishlistCTView extends Update {
 
 		adminService.getWishes(getWishesCallback());
 
+		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
+				getCurrentUserProfileCallback());
+		
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -180,7 +185,7 @@ public class WishlistCTView extends Update {
 			@Override
 			public void update(int index, Profile object, String value) {
 				// Called when the user changes the value.
-				Update update = new OtherProfileView(object, "WishlistCTView");
+				Update update = new OtherProfileView(object, "WishlistCTView", currentUserProfile);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -331,4 +336,22 @@ public class WishlistCTView extends Update {
 		};
 		return asyncCallback;
 	}
+	
+	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
+		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Profile result) {
+				ClientsideSettings.getLogger()
+						.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
+				currentUserProfile = result;
+			}
+		};
+		return asyncCallback;
+}
 }

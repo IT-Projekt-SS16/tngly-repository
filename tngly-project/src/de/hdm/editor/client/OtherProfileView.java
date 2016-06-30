@@ -157,7 +157,7 @@ public class OtherProfileView extends Update {
 		unbanProfilButton.setStylePrimaryName("tngly-opvbutton");
 
 		
-		if (selectedProfile.isFavorite() == true)	{
+		if (selectedProfile.getIsFavorite() == true)	{
 			atfProfilButton.setStylePrimaryName("tngly-disabledButton");
 			atfProfilButton.setEnabled(false);
 			
@@ -170,7 +170,7 @@ public class OtherProfileView extends Update {
 			isWished = true;
 		}
 		
-		if (selectedProfile.isBanned() == true)	{
+		if (selectedProfile.getIsBanned() == true)	{
 			atfProfilButton.setStylePrimaryName("tngly-disabledButton");
 			atfProfilButton.setEnabled(false);
 			
@@ -183,7 +183,7 @@ public class OtherProfileView extends Update {
 			isBanned = true;
 		}
 		
-		if (selectedProfile.isBanned() == false && selectedProfile.isFavorite() == false)	{
+		if (selectedProfile.getIsBanned() == false && selectedProfile.getIsFavorite() == false)	{
 			
 			dffProfilButton.setStylePrimaryName("tngly-disabledButton");
 			dffProfilButton.setEnabled(false);
@@ -641,6 +641,7 @@ public class OtherProfileView extends Update {
 
 	@Override
 	public void onSuccess(Void result) {
+		selectedProfile.setIsFavorite(false);
 		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(update);
@@ -657,6 +658,7 @@ public class OtherProfileView extends Update {
 
     	@Override
     	public void onSuccess(Void result) {
+    		selectedProfile.setIsBanned(false);
     		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(update);
@@ -673,6 +675,7 @@ class CreateProfileBanCallback implements AsyncCallback<ProfileBan> {
 
 	@Override
 	public void onSuccess(ProfileBan pb) {
+		selectedProfile.setIsBanned(true);
 		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(update);
@@ -689,7 +692,7 @@ class CreateWishCallback implements AsyncCallback<Wish> {
 
 	@Override
 	public void onSuccess(Wish wish) {
-		
+		selectedProfile.setIsFavorite(true);
 		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(update);

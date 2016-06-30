@@ -17,6 +17,8 @@ import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.client.LoginService;
 import de.hdm.core.client.LoginServiceAsync;
 import de.hdm.core.shared.LoginInfo;
+import de.hdm.editor.client.EditProfileView;
+import de.hdm.editor.client.Update;
 
 
 public class ReportgeneratorEntryPoint implements EntryPoint {
@@ -82,17 +84,11 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		RootPanel.get("Navigator").add(horPanel);
 
 		
-		
-//		UpdateReportGenerator update = new SearchByProfileReportView();
-//		
-//		RootPanel.get("Details").clear();
-//		RootPanel.get("Deatils").add(update);
-		
 		logger.info("SearchByProfileView wird ausgef�hrt");
 		
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		
-		moduleLink.setHref(GWT.getHostPageBaseURL() + "Editor.html");
+		moduleLink.setHref(GWT.getHostPageBaseURL() + "Reportgenerator.html");
 
 		VerticalPanel vp = new VerticalPanel();
 
@@ -102,6 +98,12 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 
 		RootPanel.get("Navigator").add(vp);
 		
+		
+		UpdateReportGenerator update = new SearchByProfileView();
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+		
+		logger.info("RootPanel wurde gecleart und SearchByProfileReportView hinzugefügt");
 		
 	}
 

@@ -319,7 +319,15 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 			for (Wish w : ws)	{
 				rs.add(this.profileMapper.findByKey(w.getWishedProfileId()));
 			}
+			
+			for (Profile p : rs)	{
+				p.setIsFavorite(true);
+			}
 		
+			rs = this.propertyMapper.searchForProperties(rs);
+			rs = this.informationMapper.searchForInformationValues(rs);
+			
+			
 		ClientsideSettings.getLogger().info("getWishes ausgeführt");	
 		return rs;
 	}
@@ -420,6 +428,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 			for (ProfileBan pb : pbs)	{
 				rs.add(this.profileMapper.findByKey(pb.getBannedProfileId()));
 			}
+			
+		for (Profile p : rs)	{
+			p.setIsBanned(true);
+		}
+		
+			rs = this.propertyMapper.searchForProperties(rs);
+			rs = this.informationMapper.searchForInformationValues(rs);
 		
 		ClientsideSettings.getLogger().info("getBans ausgeführt");	
 		return rs;

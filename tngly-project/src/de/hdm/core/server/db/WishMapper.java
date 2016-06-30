@@ -346,7 +346,7 @@ public class WishMapper {
 		      Statement stmt = con.createStatement();
 		
 		      stmt.executeUpdate("DELETE FROM profileWishes " + "WHERE wishingProfileId=" + w.getWishingProfileId() + " AND wishedProfileId=" +w.getWishedProfileId());
-		      System.out.println("DELETE FROM profileWishes " + "WHERE id=" + w.getId());
+		      stmt.executeUpdate("DELETE FROM profileWishes " + "WHERE wishingProfileId=" + w.getWishingProfileId() + " AND wishedProfileId=" +w.getWishedProfileId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();

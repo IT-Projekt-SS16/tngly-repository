@@ -40,7 +40,8 @@ public class BanCTView extends Update {
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	private HorizontalPanel hPanel = new HorizontalPanel();
-
+	
+	private Profile currentUserProfile;
 
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
@@ -65,6 +66,10 @@ public class BanCTView extends Update {
 	protected void run() {
 
 		adminService.getBans(getBansCallback());
+		
+		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
+				getCurrentUserProfileCallback());
 
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
@@ -180,7 +185,7 @@ public class BanCTView extends Update {
 			@Override
 			public void update(int index, Profile object, String value) {
 				// Called when the user changes the value.
-				Update update = new OtherProfileView(object, "BanCTView");
+				Update update = new OtherProfileView(object, "BanCTView", currentUserProfile);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -331,4 +336,22 @@ public class BanCTView extends Update {
 		};
 		return asyncCallback;
 	}
+	
+	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
+		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Profile result) {
+				ClientsideSettings.getLogger()
+						.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
+				currentUserProfile = result;
+			}
+		};
+		return asyncCallback;
+}
 }
