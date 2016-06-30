@@ -4,6 +4,9 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -198,6 +201,78 @@ public class SearchByProfileView extends Update {
 
 		verPanel.add(t);
 		RootPanel.get("Details").add(verPanel);
+		
+		tbHeightRangeFrom.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (!tbHeightRangeFrom.getText().matches("^[1-2].[0-9]{1,2}$")) {
+					Window.alert("Please only enter numbers in following pattern: '#.##' \n between 1.00 and 2.99");
+					tbHeightRangeFrom.selectAll();
+					showProfilesButton.setEnabled(false);
+				} else if (Float.valueOf(tbHeightRangeFrom.getText()) > Float.valueOf(tbHeightRangeTo.getText())){
+					Window.alert("Please only enter a lower number than in the field 'To'");
+					tbHeightRangeFrom.selectAll();
+					showProfilesButton.setEnabled(false);
+				}
+				else{
+					showProfilesButton.setEnabled(true);
+				}
+			}
+		});
+		
+		tbHeightRangeTo.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (!tbHeightRangeTo.getText().matches("^[1-2].[0-9]{1,2}$")) {
+					Window.alert("Please only enter numbers in following pattern: '#.##' \n between 1.00 and 2.99");
+					tbHeightRangeTo.selectAll();
+					showProfilesButton.setEnabled(false);
+				} else if (Float.valueOf(tbHeightRangeTo.getText()) < Float.valueOf(tbHeightRangeFrom.getText())){
+					Window.alert("Please only enter a higher number than in the field 'From'");
+					tbHeightRangeTo.selectAll();
+					showProfilesButton.setEnabled(false);
+				}
+				else{
+					showProfilesButton.setEnabled(true);
+				}
+			}
+		});
+		
+		tbAgeRangeFrom.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (!tbAgeRangeFrom.getText().matches("[1-9][6-9]")) {
+					Window.alert("Please only enter numbers between 16 and 99");
+					tbAgeRangeFrom.selectAll();
+					showProfilesButton.setEnabled(false);
+				} else if (Float.valueOf(tbAgeRangeFrom.getText()) > Float.valueOf(tbAgeRangeTo.getText())){
+					Window.alert("Please only enter a lower number than in the field 'To'");
+					tbHeightRangeFrom.selectAll();
+					showProfilesButton.setEnabled(false);
+				}
+				else{
+					showProfilesButton.setEnabled(true);
+				}
+			}
+		});
+		
+		tbAgeRangeTo.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (!tbAgeRangeTo.getText().matches("[1-9][6-9]")) {
+					Window.alert("Please only enter numbers between 16 and 99");
+					tbAgeRangeTo.selectAll();
+					showProfilesButton.setEnabled(false);
+				} else if (Float.valueOf(tbAgeRangeTo.getText()) < Float.valueOf(tbAgeRangeFrom.getText())){
+					Window.alert("Please only enter a higher number than in the field 'From'");
+					tbAgeRangeTo.selectAll();
+					showProfilesButton.setEnabled(false);
+				}
+				else{
+					showProfilesButton.setEnabled(true);
+				}
+			}
+		});
 		
 		///////////////////////////////////////////////////////////////////////////////////
 		chkGenderAny.addClickHandler(new ClickHandler() {

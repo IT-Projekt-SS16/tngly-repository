@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -14,6 +16,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -34,6 +38,7 @@ import com.google.gwt.view.client.SelectionModel;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 
 public class ShowProfilesCTView extends Update {
@@ -73,9 +78,9 @@ public class ShowProfilesCTView extends Update {
 	protected void run() {
 		
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
+		adminService.searchAndCompareProfiles(false, searchProfile, getComparedProfileCallback());
 		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
 				getCurrentUserProfileCallback());
-		adminService.searchAndCompareProfiles(false, searchProfile, getComparedProfileCallback());
 
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
@@ -158,6 +163,52 @@ public class ShowProfilesCTView extends Update {
 //		};
 //		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
 //		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
+		
+		ButtonCell profileVisitedButton = new ButtonCell(){
+            // A native button cell doesn't have the gwt-button class, which makes it
+              // look weird next to other gwt buttons. Fix that here.
+              @Override
+              public void render(
+                  final Context context,
+                  final SafeHtml data,
+                  final SafeHtmlBuilder sb) {
+                sb.appendHtmlConstant("<button type=\"button\" class=\"profile-Visited-Button\" tabindex=\"-1\">");
+                if (data != null) {
+                  sb.append(data);
+                }
+                sb.appendHtmlConstant("</button>");
+              }
+        };
+        
+        ButtonCell favoriteButton = new ButtonCell(){
+            // A native button cell doesn't have the gwt-button class, which makes it
+              // look weird next to other gwt buttons. Fix that here.
+              @Override
+              public void render(
+                  final Context context,
+                  final SafeHtml data,
+                  final SafeHtmlBuilder sb) {
+                sb.appendHtmlConstant("<button type=\"button\" class=\"favorite-Button\" tabindex=\"-1\">");
+                if (data != null) {
+                  sb.append(data);
+                }
+                sb.appendHtmlConstant("</button>");
+              }
+        };
+		
+		Column<Profile, String> profileVisitedColumn = new Column<Profile, String>(profileVisitedButton) {
+			@Override
+			public String getValue(Profile object) {
+				// Get the value from the selection model.
+				if (object.getWasVisited() == true){
+				return null;
+				} else {
+					return "*";	
+				}
+			}
+		};
+		cellTable.addColumn(profileVisitedColumn, "");
+		cellTable.setColumnWidth(profileVisitedColumn, 35, Unit.PX);
 
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
 			@Override
@@ -169,6 +220,13 @@ public class ShowProfilesCTView extends Update {
 		clickableTextColumn.setFieldUpdater(new FieldUpdater<Profile, String>() {
 			@Override
 			public void update(int index, Profile object, String value) {
+				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
+				ProfileVisit pv = new ProfileVisit();
+				pv.setVisitingProfileId(currentUserProfile.getId());
+				pv.setVisitedProfileId(object.getId());
+				pvs.add(pv);
+				adminService.createProfileVisit(pvs, createProfileVisitCallback());
+				System.out.println("CreateProfileVisit ausgeführt");
 				// Called when the user changes the value.
 				Update update = new OtherProfileView(object, "ShowProfilesCTView", currentUserProfile);
 				RootPanel.get("Details").clear();
@@ -176,7 +234,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		});
 		cellTable.addColumn(clickableTextColumn, "Username");
-		cellTable.setColumnWidth(clickableTextColumn, 130, Unit.PX);
+		cellTable.setColumnWidth(clickableTextColumn, 150, Unit.PX);
 
 		// First Name.
 		Column<Profile, String> firstNameColumn = new Column<Profile, String>(new TextCell()) {
@@ -278,7 +336,7 @@ public class ShowProfilesCTView extends Update {
 		cellTable.addColumn(similiarityColumn, "Similiarity");
 		cellTable.setColumnWidth(similiarityColumn, 40, Unit.PCT);
 		
-		Column<Profile, String> favoriteColumn = new Column<Profile, String>(new ButtonCell()) {
+		Column<Profile, String> favoriteColumn = new Column<Profile, String>(favoriteButton) {
 			@Override
 			public String getValue(Profile object) {
 				// Get the value from the selection model.
@@ -290,7 +348,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		};
 		cellTable.addColumn(favoriteColumn, "");
-		cellTable.setColumnWidth(favoriteColumn, 130, Unit.PX);
+		cellTable.setColumnWidth(favoriteColumn, 120, Unit.PX);
 	}
 
 	private AsyncCallback<ArrayList<Profile>> getComparedProfileCallback() {
@@ -331,6 +389,23 @@ public class ShowProfilesCTView extends Update {
 		};
 		
 		ClientsideSettings.getLogger().info("AsyncCallback zu Ende ausgefÃ¼hrt");
+		return asyncCallback;
+	}
+	
+	private AsyncCallback<Void> createProfileVisitCallback() {
+		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				ClientsideSettings.getLogger()
+						.severe("Success CreateProfileVisitCallback: " + result.getClass().getSimpleName());
+			}
+		};
 		return asyncCallback;
 	}
 }

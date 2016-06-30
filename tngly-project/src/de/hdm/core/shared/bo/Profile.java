@@ -261,52 +261,59 @@ public class Profile implements Serializable, Comparable<Profile> {
 		System.out.println("Aktuelles Profil: " + this.getName() + ", " + this.getLastName());
 		System.out.println("Referenzprofil: " + p.getName() + ", " + p.getLastName());
 
+		System.out.println("Confession aktuelles Profil: " + this.getConfession());
+		System.out.println("Confession-Referenzprofil: " + p.getConfession());
+
+		System.out.println("Smoking aktuelles Profil: " + this.getIsSmoking());
+		System.out.println("Smoking-Referenzprofil: " + p.getIsSmoking());
+
 		// Custom equality check here, so here you need to check only those
 		// fields which in your
 		// opinion will be unique in your objects
 		if (this.getConfession() == p.getConfession()) {
 			percentage = percentage + addedPercentage;
 			System.out.println("Confession verglichen -> identisch: " + percentage + "%");
-		} else if (this.getIsSmoking() == p.getIsSmoking()) {
+		}
+		if (this.getIsSmoking() == p.getIsSmoking()) {
 			percentage = percentage + addedPercentage;
 			System.out.println("Smoking verglichen -> identisch: " + percentage + "%");
 		}
 
 		ArrayList<String> informationValuesCompare = new ArrayList<String>();
 		for (int j = 0; j < this.selectionList.size(); j++) {
-			for (Information i : this.selectionList.get(j).getInformationValues()){
+			for (Information i : this.selectionList.get(j).getInformationValues()) {
 				informationValuesCompare.add(i.getValue());
 			}
 		}
 		ArrayList<String> informationValuesReference = new ArrayList<String>();
 		for (int j = 0; j < p.getSelectionList().size(); j++) {
-			for (Information i : p.getSelectionList().get(j).getInformationValues()){
+			for (Information i : p.getSelectionList().get(j).getInformationValues()) {
 				informationValuesReference.add(i.getValue());
 			}
 		}
-		for (String s : informationValuesCompare){
-			if (informationValuesReference.contains(s)){
+		for (String s : informationValuesCompare) {
+			if (informationValuesReference.contains(s)) {
 				percentage = percentage + addedPercentage;
 				System.out.println("Info-Objekt verglichen -> identisch: " + percentage + "%");
 			}
 		}
-		
+
 		informationValuesCompare.clear();
 		informationValuesReference.clear();
 
 		for (int j = 0; j < this.descriptionList.size(); j++) {
-			for (Information i : this.descriptionList.get(j).getInformationValues()){
+			for (Information i : this.descriptionList.get(j).getInformationValues()) {
 				informationValuesCompare.add(i.getValue());
 			}
 		}
 
 		for (int j = 0; j < p.getDescriptionList().size(); j++) {
-			for (Information i : p.getDescriptionList().get(j).getInformationValues()){
+			for (Information i : p.getDescriptionList().get(j).getInformationValues()) {
 				informationValuesReference.add(i.getValue());
 			}
 		}
-		for (String s : informationValuesCompare){
-			if (informationValuesReference.contains(s)){
+		for (String s : informationValuesCompare) {
+			if (informationValuesReference.contains(s)) {
 				percentage = percentage + addedPercentage;
 				System.out.println("Info-Objekt verglichen -> identisch: " + percentage + "%");
 			}

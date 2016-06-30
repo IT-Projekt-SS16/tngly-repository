@@ -260,8 +260,8 @@ div#Trailer {
 	font-size: 80%;
 	color: #ffffff;
 	text-align: center;
-	
 }
+
 
  .textbox { 
     background: white; 
@@ -289,6 +289,18 @@ div#Trailer {
 
 .label-Profile-Teaser-regular{
    font-weight: normal;
+}
+
+.profile-Visited-Button{
+   color: blue;
+   background-color: transparent;
+   border: 0px;
+}
+
+.favorite-Button{
+   color: green;
+   background-color: transparent;
+   border: 0px;
 }
 
 .cssload-loader{
