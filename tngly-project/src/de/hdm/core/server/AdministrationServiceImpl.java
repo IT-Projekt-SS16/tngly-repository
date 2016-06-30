@@ -175,9 +175,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 * am System.
 	 */
 	@Override
-	public Profile createProfile(Profile profile) throws IllegalArgumentException {
-		Profile profileCreated = this.profileMapper.insert(profile);
-		return profileCreated;
+	public void createProfile(Profile profile) throws IllegalArgumentException {
+		this.profileMapper.insert(profile);
 	}
 
 	/**
@@ -219,8 +218,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile profile = this.profileMapper.findByName(userEmail);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 		profiles.add(profile);
+		if (profile.getDescriptionList().size() > 0 && profile.getSelectionList().size() > 0){
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
+		}
 		return profiles.get(0);
 	}
 
@@ -228,7 +229,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public void checkUserProfile() throws IllegalArgumentException {
 		// Abfrage des aktuell eingelogten Benutzers
 		UserService userService = UserServiceFactory.getUserService();
-		com.google.appengine.api.users.User user = userService.getCurrentUser();
+		User user = userService.getCurrentUser();
 
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
@@ -240,7 +241,9 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		 * vorhanden ist, aonsten wird er erzeugt.
 		 */
 		if (currentUserProfile == null) {
-			this.createProfile(this.profileMapper.findByName(userName));
+			Profile temp = new Profile();
+			temp.setUserName(userName);
+			this.createProfile(temp);
 		}
 
 	}
@@ -248,16 +251,18 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException {
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-		
+//		this.checkUserProfile();
 		
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
-			checkUserProfile();
-			
 			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(currentUserProfile, p));
 			/*
 			 * TODO: Einf�gen von Abfragen bzgl. "isProfileFavorite" & "isProfile
 			 */
+			p.setIsFavorite(this.wishMapper.isProfileWished(currentUserProfile.getId(), p.getId()));
+			if(this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), p.getId())){
+				profiles.remove(x);
+			}
 			p.equals(this.currentUserProfile);
 		}
 

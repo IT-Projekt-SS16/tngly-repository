@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
@@ -72,10 +73,10 @@ public class ShowProfilesView extends Update {
 
 		profilesTable.removeAllRows();
 
-		ClientsideSettings.getLogger().info("Profil-Tabelle wird aufgebaut");
-		ArrayList<Profile> list = ClientsideSettings.getProfilesFoundAndCompared();
-		ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
-		ClientsideSettings.getLogger().info(list.toString());
+//		ClientsideSettings.getLogger().info("Profil-Tabelle wird aufgebaut");
+//		ArrayList<Profile> list = ClientsideSettings.getProfilesFoundAndCompared();
+//		ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
+//		ClientsideSettings.getLogger().info(list.toString());
 
 		refreshData(profilesTable);
 		
@@ -90,29 +91,29 @@ public class ShowProfilesView extends Update {
 				
 				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
 
-				if (selectedRow >= 0) {
-					ProfileVisit pv = new ProfileVisit();
-					pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
-					pv.setVisitedProfileId(ClientsideSettings.getProfilesFoundAndCompared().get(selectedRow).getId());
-					pvs.add(pv);
-					ClientsideSettings.getAdministration().createProfileVisit(pvs, new AsyncCallback<Void>() {
-						@Override
-						public void onSuccess(Void result) {
-
-						}
-
-						@Override
-						public void onFailure(Throwable caught) {
-							ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-						}
-					});
-					Profile selectedProfile = ClientsideSettings.getProfilesFoundAndCompared().get(selectedRow);
-					selectedProfile.setWasVisited(true);
-					Update update = new OtherProfileView(selectedProfile, "ShowProfilesView");
-
-					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(update);
-				}
+//				if (selectedRow >= 0) {
+//					ProfileVisit pv = new ProfileVisit();
+//					pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
+//					pv.setVisitedProfileId(ClientsideSettings.getProfilesFoundAndCompared().get(selectedRow).getId());
+//					pvs.add(pv);
+//					ClientsideSettings.getAdministration().createProfileVisit(pvs, new AsyncCallback<Void>() {
+//						@Override
+//						public void onSuccess(Void result) {
+//
+//						}
+//
+//						@Override
+//						public void onFailure(Throwable caught) {
+//							ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+//						}
+//					});
+//					Profile selectedProfile = ClientsideSettings.getProfilesFoundAndCompared().get(selectedRow);
+//					selectedProfile.setWasVisited(true);
+//					Update update = new OtherProfileView(selectedProfile, "ShowProfilesView");
+//
+//					RootPanel.get("Details").clear();
+//					RootPanel.get("Details").add(update);
+//				}
 
 			}
 
@@ -138,26 +139,26 @@ public class ShowProfilesView extends Update {
 				ArrayList<Integer> selectedRows = this.getSelectedRows();
 				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
 
-				for (int i = 0; i < selectedRows.size(); ++i) {
-					ProfileVisit pv = new ProfileVisit();
-					pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
-					pv.setVisitedProfileId(
-							ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).getId());
-					ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).setWasVisited(true);
-					pvs.add(pv);
-				}
-				ClientsideSettings.getAdministration().createProfileVisit(pvs, new AsyncCallback<Void>() {
-					@Override
-					public void onSuccess(Void result) {
-
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-					}
-				});
-				this.refreshData(profilesTable);
+//				for (int i = 0; i < selectedRows.size(); ++i) {
+//					ProfileVisit pv = new ProfileVisit();
+//					pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
+//					pv.setVisitedProfileId(
+//							ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).getId());
+//					ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).setWasVisited(true);
+//					pvs.add(pv);
+//				}
+//				ClientsideSettings.getAdministration().createProfileVisit(pvs, new AsyncCallback<Void>() {
+//					@Override
+//					public void onSuccess(Void result) {
+//
+//					}
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+//					}
+//				});
+//				this.refreshData(profilesTable);
 			}
 
 			private ArrayList<Integer> getSelectedRows() {
@@ -174,14 +175,14 @@ public class ShowProfilesView extends Update {
 			}
 			
 			private void refreshData(final FlexTable profilesTable) {
-				for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-					profilesTable.setWidget(i, 0, new CheckBox());
-					Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-					if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-						lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-					}
-					profilesTable.setWidget(i, 1, lblProfileTeaser);
-				}
+//				for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
+//					profilesTable.setWidget(i, 0, new CheckBox());
+//					Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
+//					if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
+//						lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
+//					}
+//					profilesTable.setWidget(i, 1, lblProfileTeaser);
+//				}
 			}
 		});
 
@@ -191,26 +192,26 @@ public class ShowProfilesView extends Update {
 				ArrayList<Integer> selectedRows = this.getSelectedRows();
 				ArrayList<ProfileVisit> pvs = new ArrayList<ProfileVisit>();
 
-				for (int i = 0; i < selectedRows.size(); ++i) {
-					ProfileVisit pv = new ProfileVisit();
-					pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
-					pv.setVisitedProfileId(
-							ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).getId());
-					ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).setWasVisited(false);
-					pvs.add(pv);
-				}
-				ClientsideSettings.getAdministration().deleteProfileVisit(pvs, new AsyncCallback<Void>() {
-					@Override
-					public void onSuccess(Void result) {
-
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-					}
-				});
-				this.refreshData(profilesTable);
+//				for (int i = 0; i < selectedRows.size(); ++i) {
+//					ProfileVisit pv = new ProfileVisit();
+//					pv.setVisitingProfileId(ClientsideSettings.getUserProfile().getId());
+//					pv.setVisitedProfileId(
+//							ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).getId());
+//					ClientsideSettings.getProfilesFoundAndCompared().get(selectedRows.get(i)).setWasVisited(false);
+//					pvs.add(pv);
+//				}
+//				ClientsideSettings.getAdministration().deleteProfileVisit(pvs, new AsyncCallback<Void>() {
+//					@Override
+//					public void onSuccess(Void result) {
+//
+//					}
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+//					}
+//				});
+//				this.refreshData(profilesTable);
 			}
 
 			private ArrayList<Integer> getSelectedRows() {
@@ -227,26 +228,26 @@ public class ShowProfilesView extends Update {
 			}
 			
 			private void refreshData(final FlexTable profilesTable) {
-				for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-					profilesTable.setWidget(i, 0, new CheckBox());
-					Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-					if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-						lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-					}
-					profilesTable.setWidget(i, 1, lblProfileTeaser);
-				}
+//				for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
+//					profilesTable.setWidget(i, 0, new CheckBox());
+//					Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
+//					if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
+//						lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
+//					}
+//					profilesTable.setWidget(i, 1, lblProfileTeaser);
+//				}
 			}
 		});
 	}
 
 	private void refreshData(final FlexTable profilesTable) {
-		for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
-			profilesTable.setWidget(i, 0, new CheckBox());
-			Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
-			if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
-				lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
-			}
-			profilesTable.setWidget(i, 1, lblProfileTeaser);
-		}
+//		for (int i = 0; i < ClientsideSettings.getProfilesFoundAndCompared().size(); ++i) {
+//			profilesTable.setWidget(i, 0, new CheckBox());
+//			Label lblProfileTeaser = new Label(ClientsideSettings.getProfilesFoundAndCompared().get(i).toString());
+//			if (ClientsideSettings.getProfilesFoundAndCompared().get(i).getWasVisited() == false) {
+//				lblProfileTeaser.addStyleName("label-Profile-Teaser-bold");
+//			}
+//			profilesTable.setWidget(i, 1, lblProfileTeaser);
+//		}
 	}
 }

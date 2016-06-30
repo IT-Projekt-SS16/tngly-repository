@@ -75,8 +75,8 @@ public class EditorEntryPoint implements EntryPoint {
 
 				if (loginInfo.isLoggedIn()) {
 
-//					adminService.checkUserProfile(checkUserProfileCallback());
-					loadEditor();
+					
+					adminService.checkUserProfile(checkUserProfileCallback());
 
 				} else {
 
@@ -101,6 +101,7 @@ public class EditorEntryPoint implements EntryPoint {
 			@Override
 			public void onSuccess(Void result) {
 				ClientsideSettings.getLogger().severe("Success CheckUserProfileCallback: " + result.getClass().getSimpleName());
+				loadEditor();
 			}
 		};
 		return asyncCallback;

@@ -28,60 +28,15 @@ public class ClientsideSettings extends CommonSettings {
 
 	private static AdministrationServiceAsync administration = null;
 	
-	
 	private static ReportGeneratorAsync reportGenerator = null;
 	
-	private static ArrayList<Profile> profilesFoundAndCompared = null;
-	
-	private static ArrayList<ProfileVisit> profilesVisited = null;
-	
-	private static Boolean unseenOrAll = null;
-	
-	private static String allProfilesReport = null;
-	
-	private static ArrayList<Wish> wishlist = null;
-	
-	private static ArrayList<ProfileBan> bans = null;
-	/**
-	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * des Benutzers.
-	 */
-	private static Profile userProfile = null;
-
 	/**
 	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
 	 * f�r die Partnersuche.
 	 */
 	private static SearchProfile searchProfile = null;
-
-	/**
-	 * <p>
-	 * R�ckgeben des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
-	 * bereits zuvor angelegte Objekt zurueckgegeben.
-	 * </p>
-	 * 
-	 * @return eindeutige Instanz des Typs <code>Profile</code>
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static Profile getUserProfile() {
-		return userProfile;
-	}
-
-	/**
-	 * <p>
-	 * Setzen des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
-	 * bereits zuvor angelegte Objekt ueberschrieben.
-	 * </p>
-	 * 
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static void setUserProfile(Profile userProfile) {
-		ClientsideSettings.userProfile = userProfile;
-	}
+	
+	private static LoginInfo loginInfo = null;
 
 	/**
 	 * <p>
@@ -112,61 +67,6 @@ public class ClientsideSettings extends CommonSettings {
 		ClientsideSettings.searchProfile = searchProfile;
 	}
 
-
-	public static ArrayList<Profile> getProfilesFoundAndCompared() {
-		return profilesFoundAndCompared;
-	}
-
-	public static void setProfilesFoundAndCompared(ArrayList<Profile> profilesFoundAndCompared) {
-		ClientsideSettings.profilesFoundAndCompared = profilesFoundAndCompared;
-	}
-
-
-
-	public static ArrayList<ProfileVisit> getProfilesVisited() {
-		return profilesVisited;
-	}
-
-	public static void setProfilesVisited(ArrayList<ProfileVisit> profilesVisited) {
-		ClientsideSettings.profilesVisited = profilesVisited;
-	}
-
-
-	public static Boolean getUnseenOrAll() {
-		return unseenOrAll;
-	}
-
-	public static void setUnseenOrAll(Boolean unseenOrAll) {
-		ClientsideSettings.unseenOrAll = unseenOrAll;
-	}
-
-
-	public static String getAllProfilesReport() {
-		return allProfilesReport;
-	}
-
-	public static void setAllProfilesReport(String allProfilesReport) {
-		ClientsideSettings.allProfilesReport = allProfilesReport;
-	}
-	
-	public static ArrayList<Wish> getWishlist(){
-		return wishlist;
-	}
-
-	public static void setWishlist(ArrayList<Wish> wishlist){
-		ClientsideSettings.wishlist = wishlist;
-	}
-
-	public static ArrayList<ProfileBan> getBanlist(){
-		return bans;
-	}
-	
-	public static void setBanlist(ArrayList<ProfileBan> bans){
-		ClientsideSettings.bans = bans;
-	}
-	
-	private static LoginInfo loginInfo = null;
-
 	public static LoginInfo getLoginInfo() {
 		return loginInfo;
 	}
@@ -174,8 +74,6 @@ public class ClientsideSettings extends CommonSettings {
 	public static void setLoginInfo(LoginInfo loginInfo) {
 		ClientsideSettings.loginInfo = loginInfo;
 	}
-
-	private static User currentUser = null;
 
 	/**
 	 * Name des Client-seitigen Loggers.
@@ -324,34 +222,4 @@ public class ClientsideSettings extends CommonSettings {
 	    // So, nun brauchen wir den ReportGenerator nur noch zur�ckzugeben.
 	    return reportGenerator;
 	  }
-
-	/**
-	 * <p>
-	 * R�ckgeben des applikationsweit eindeutigen aktuellen Benutzers. Bei
-	 * wiederholtem Aufruf dieser Methode wird stets das bereits zuvor angelegte
-	 * Objekt zur�ckgegeben.
-	 * </p>
-	 * 
-	 * @return eindeutige Instanz des Typs <code>User</code>
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static User getCurrentUser() {
-		return currentUser;
-	}
-
-	/**
-	 * <p>
-	 * Setzen des applikationsweit eindeutigen aktuellen Benutzers. Bei
-	 * wiederholtem Aufruf dieser Methode wird stets das bereits zuvor angelegte
-	 * Objekt �berschrieben.
-	 * </p>
-	 * 
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static void setCurrentUser(User currentUser) {
-		ClientsideSettings.currentUser = currentUser;
-	}
-
 }

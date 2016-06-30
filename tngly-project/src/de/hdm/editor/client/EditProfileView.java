@@ -260,7 +260,6 @@ public class EditProfileView extends Update {
 			@Override
 			public void onClick(ClickEvent event) {
 
-
 				logger.info("Erfolgreich onClick ausgefuehrt.");
 				Profile temp = new Profile();
 

@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Wish;
 
@@ -72,10 +73,10 @@ public class WishlistView extends Update{
 			wishesTable.removeAllRows();
 			**/
 			
-			ClientsideSettings.getLogger().info("Wishlist wird aufgebaut");
-			ArrayList<Wish> list = ClientsideSettings.getWishlist();
-			ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
-			ClientsideSettings.getLogger().info(list.toString());
+//			ClientsideSettings.getLogger().info("Wishlist wird aufgebaut");
+//			ArrayList<Wish> list = ClientsideSettings.getWishlist();
+//			ClientsideSettings.getLogger().info("Profil-Liste gesetzt");
+//			ClientsideSettings.getLogger().info(list.toString());
 			
 		    // Add a text column to show the username.
 		    TextColumn<Wish> userNameColumn = new TextColumn<Wish>() {

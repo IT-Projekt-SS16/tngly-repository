@@ -1,6 +1,5 @@
 package de.hdm.core.shared.report;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 

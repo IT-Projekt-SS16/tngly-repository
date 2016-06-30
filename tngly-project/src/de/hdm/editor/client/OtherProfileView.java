@@ -175,7 +175,7 @@ public class OtherProfileView extends Update {
 			public void onClick(ClickEvent event) {
 				switch(originView){
 		        case "ShowProfilesCellTableView":
-		        	Update updateProfilesCTView = new ShowProfilesCellTableView(ClientsideSettings.getSearchProfile());
+		        	Update updateProfilesCTView = new ShowProfilesCTView(ClientsideSettings.getSearchProfile());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(updateProfilesCTView);
 					logger.info("Erfolgreich View geswitcht.");
@@ -446,7 +446,7 @@ public class OtherProfileView extends Update {
 			public void onClick(ClickEvent event) {
 				switch(originView){
 		        case "ShowProfilesCellTableView":
-		        	Update updateProfilesCTView = new ShowProfilesCellTableView(ClientsideSettings.getSearchProfile());
+		        	Update updateProfilesCTView = new ShowProfilesCTView(ClientsideSettings.getSearchProfile());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(updateProfilesCTView);
 					logger.info("Erfolgreich View geswitcht.");
@@ -472,8 +472,8 @@ public class OtherProfileView extends Update {
 		atfProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ClientsideSettings.getAdministration().addWishToWishlist(selectedProfile.getId(),
-						ClientsideSettings.getUserProfile().getId(), new CreateWishCallback());
+//				ClientsideSettings.getAdministration().addWishToWishlist(selectedProfile.getId(),
+//						ClientsideSettings.getUserProfile().getId(), new CreateWishCallback());
 				Update update = new EditProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -485,8 +485,8 @@ public class OtherProfileView extends Update {
 			@Override
 
 			public void onClick(ClickEvent event) {
-				ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(),
-						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
+//				ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(),
+//						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
 				Update update = new EditProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -498,8 +498,8 @@ public class OtherProfileView extends Update {
 			@Override
 
 			public void onClick(ClickEvent event) {
-				ClientsideSettings.getAdministration().createProfileBan(selectedProfile.getId(),
-						ClientsideSettings.getUserProfile().getId(), new CreateProfileBanCallback());
+//				ClientsideSettings.getAdministration().createProfileBan(selectedProfile.getId(),
+//						ClientsideSettings.getUserProfile().getId(), new CreateProfileBanCallback());
 				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
 				logger.info("Erfolgreich Profil gel�scht.");
 			}
@@ -509,8 +509,8 @@ public class OtherProfileView extends Update {
 			@Override
 
 			public void onClick(ClickEvent event) {
-				ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile.getId(),
-						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
+//				ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile.getId(),
+//						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
 				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
 				logger.info("Erfolgreich Profil gel�scht.");
 			}

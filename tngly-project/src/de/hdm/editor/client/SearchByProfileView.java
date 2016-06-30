@@ -360,7 +360,7 @@ public class SearchByProfileView extends Update {
 				ClientsideSettings.setSearchProfile(temp);
 				logger.info(ClientsideSettings.getSearchProfile().toString());
 
-				Update update = new ShowProfilesCellTableView(temp);
+				Update update = new ShowProfilesCTView(temp);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 				logger.info("Erfolgreicher Reswitch.");

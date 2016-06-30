@@ -17,8 +17,6 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(LoginServiceImpl.class.getName());
-	
-//	private final AdministrationServiceAsync adminService = GWT.create(AdministrationService.class);
 
 	@Override
 	public LoginInfo login(String requestUri) {
@@ -40,8 +38,6 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			loginInfo.setNickname(user.getNickname());
 
 			loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
-			
-//			adminService.checkUserProfile(null);
 
 		} else {
 

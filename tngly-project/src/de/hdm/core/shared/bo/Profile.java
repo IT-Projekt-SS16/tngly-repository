@@ -67,12 +67,17 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private ArrayList<Description> descriptionList;
 	private ArrayList<Selection> selectionList;
 
+	private boolean isFavorite;
+
+	private boolean isBanned;
+
 	public Profile() {
 		this.setWishlist(new ArrayList<Wish>());
 		this.setBanlist(new ArrayList<ProfileBan>());
 		this.setDescriptionList(new ArrayList<Description>());
 		this.setSelectionList(new ArrayList<Selection>());
 		this.setWasVisited(false);
+		this.setIsFavorite(false);
 	}
 
 	/*
@@ -249,7 +254,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	public void equals(Profile p) {
 		int percentage = 0;
-		int addedPercentage = 100 / 7;
+		int addedPercentage = 100 / 9;
 		if (!(p instanceof Profile)) {
 			return;
 		}
@@ -257,12 +262,12 @@ public class Profile implements Serializable, Comparable<Profile> {
 		// Custom equality check here, so here you need to check only those
 		// fields which in your
 		// opinion will be unique in your objects
-		// if (this.confession == p.confession){
-		// percentage = percentage + 33;
-		// }
-		// else if (this.isSmoking == p.isSmoking){
-		// percentage = percentage + 33;
-		// }
+		 if (this.confession == p.confession){
+		 percentage = percentage + addedPercentage;
+		 }
+		 else if (this.isSmoking == p.isSmoking){
+		 percentage = percentage + addedPercentage;
+		 }
 
 		foo: for (Selection s : this.selectionList) {
 			for (Selection sp : p.selectionList) {
@@ -311,5 +316,21 @@ public class Profile implements Serializable, Comparable<Profile> {
 	@Override
 	public int compareTo(Profile p1) {
 		return Integer.compare(this.similiarityToReference, p1.similiarityToReference);
+	}
+
+	public void setIsFavorite(boolean profileWished) {
+		this.isFavorite = profileWished;
+	}
+	
+	public Boolean getIsFavorite() {
+		return isFavorite;
+	}
+
+	public void setIsBanned(boolean profileBanned) {
+		this.isBanned = profileBanned;
+	}
+	
+	public Boolean getIsBanned() {
+		return isBanned;
 	}
 }

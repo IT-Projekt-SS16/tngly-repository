@@ -1,7 +1,7 @@
 package de.hdm.core.shared.report;
 
 	import java.io.Serializable;
-	import java.util.Vector;
+import java.util.Vector;
 
 	/**
 	 * Diese Klasse stellt eine Menge einzelner Absätze (

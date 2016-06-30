@@ -1,135 +1,14 @@
 package de.hdm.core.server;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.CommonSettings;
-import de.hdm.core.shared.bo.Profile;
-import de.hdm.core.shared.bo.ProfileVisit;
-import de.hdm.core.shared.bo.SearchProfile;
 
 public class ServersideSettings extends CommonSettings {
 
 	private static final String LOGGER_NAME = "Server";
 	private static final Logger log = Logger.getLogger(LOGGER_NAME);
-	public static final String PAGE_URL_EDITOR = "http://OUR-APPENGINE-APPNAME.appspot.com";
-	public static final String PAGE_URL_REPORT = "http://OUR-APPENGINE-APPNAME.appspot.com/ReportGen.html";
-
-	private static ArrayList<Profile> profilesFoundAndCompared = null;
 	
-	private static ArrayList<ProfileVisit> profilesVisited = null;
-
-	
-	
-	/**
-	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * des Benutzers.
-	 */
-	private static Profile userProfile = null;
-
-	/**
-	 * Instanz des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * f�r die Partnersuche.
-	 */
-	private static SearchProfile searchProfile = null;
-	
-	private static ArrayList<Profile> wishlist = null;
-	
-	private static ArrayList<Profile> banlist = null;
-	
-	/**
-	 * <p>
-	 * R�ckgeben des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
-	 * bereits zuvor angelegte Objekt zurueckgegeben.
-	 * </p>
-	 * 
-	 * @return eindeutige Instanz des Typs <code>Profile</code>
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static Profile getUserProfile() {
-		return userProfile;
-	}
-
-	/**
-	 * <p>
-	 * Setzen des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * des Benutzers. Bei wiederholtem Aufruf dieser Methode wird stets das
-	 * bereits zuvor angelegte Objekt ueberschrieben.
-	 * </p>
-	 * 
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static void setUserProfile(Profile userProfile) {
-		ServersideSettings.userProfile = userProfile;
-	}
-
-	/**
-	 * <p>
-	 * R�ckgeben des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * f�r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
-	 * das bereits zuvor angelegte Objekt zurueckgegeben.
-	 * </p>
-	 * 
-	 * @return eindeutige Instanz des Typs <code>Profile</code>
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static SearchProfile getSearchProfile() {
-		return searchProfile;
-	}
-
-	/**
-	 * <p>
-	 * Setzen des applikationsweit (f�r Client und Server) eindeutigen Profil
-	 * f�r die Partnersuche. Bei wiederholtem Aufruf dieser Methode wird stets
-	 * das bereits zuvor angelegte Objekt ueberschrieben.
-	 * </p>
-	 * 
-	 * @author Kevin Jaeger
-	 * @since 28.04.2016
-	 */
-	public static void setSearchProfile(SearchProfile searchProfile) {
-		ServersideSettings.searchProfile = searchProfile;
-	}
-	
-	public static ArrayList<Profile> getProfilesFoundAndCompared() {
-		return profilesFoundAndCompared;
-	}
-
-	public static void setProfilesFoundAndCompared(ArrayList<Profile> profilesFoundAndCompared) {
-		ServersideSettings.profilesFoundAndCompared = profilesFoundAndCompared;
-	}
-	
-	public static ArrayList<Profile> getWishlist(){
-		return wishlist;
-	}
-
-	public static void setWishlist(ArrayList<Profile> wishlist){
-		ServersideSettings.wishlist = wishlist;
-	}
-	
-	public static ArrayList<Profile> getBanlist(){
-		return banlist;
-	}
-	
-	public static void setBanlist(ArrayList<Profile> banlist){
-		ServersideSettings.banlist = banlist;
-	}
-
-
-	public static ArrayList<ProfileVisit> getProfilesVisited() {
-		return profilesVisited;
-	}
-
-	public static void setProfilesVisited(ArrayList<ProfileVisit> profilesVisited) {
-		ServersideSettings.profilesVisited = profilesVisited;
-	}
-
-
 	/**
 	 * <p>
 	 * Auslesen des applikationsweiten (Server-seitig!) zentralen Loggers.

@@ -1,19 +1,15 @@
 package de.hdm.reportgenerator.client;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 //import com.google.gwt.event.dom.client.KeyPressEvent;
 //import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -23,12 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.ReportGeneratorAsync;
-import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
-import de.hdm.core.shared.report.AllProfilesReport;
-import de.hdm.core.shared.report.HTMLReportWriter;
-import de.hdm.editor.client.ShowProfilesView;
-import de.hdm.editor.client.Update;
 
 public class SearchByProfileView extends UpdateReportGenerator {
 	
@@ -171,11 +162,11 @@ public class SearchByProfileView extends UpdateReportGenerator {
 		// verPanel.add(firstWarning);
 		// }
 
-		if (ClientsideSettings.getSearchProfile() != null) {
-			logger.info("Result: " + ClientsideSettings.getUserProfile().getUserName());
-		} else {
-			logger.info("Result: SearchProfile NULL");
-		}
+//		if (ClientsideSettings.getSearchProfile() != null) {
+//			logger.info("Result: " + ClientsideSettings.getUserProfile().getUserName());
+//		} else {
+//			logger.info("Result: SearchProfile NULL");
+//		}
 
 		// Label firstName = new Label("First Name:");
 		// verPanel.add(firstName);

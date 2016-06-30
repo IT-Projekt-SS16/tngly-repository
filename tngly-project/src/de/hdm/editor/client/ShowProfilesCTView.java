@@ -35,7 +35,7 @@ import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
 
-public class ShowProfilesCellTableView extends Update {
+public class ShowProfilesCTView extends Update {
 	
 	private static final Logger logger = ClientsideSettings.getLogger();
 
@@ -58,7 +58,7 @@ public class ShowProfilesCellTableView extends Update {
 	// Add a selection model so we can select cells.
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
-	public ShowProfilesCellTableView(SearchProfile searchProfile) {
+	public ShowProfilesCTView(SearchProfile searchProfile) {
 		this.searchProfile = searchProfile;
 	}
 
@@ -144,15 +144,15 @@ public class ShowProfilesCellTableView extends Update {
 		// Alternatively, you can call cellTable.setSelectionEnabled(true) to
 		// enable
 		// mouse selection.
-		Column<Profile, Boolean> checkColumn = new Column<Profile, Boolean>(new CheckboxCell(true, false)) {
-			@Override
-			public Boolean getValue(Profile object) {
-				// Get the value from the selection model.
-				return selectionModel.isSelected(object);
-			}
-		};
-		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
-		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
+//		Column<Profile, Boolean> checkColumn = new Column<Profile, Boolean>(new CheckboxCell(true, false)) {
+//			@Override
+//			public Boolean getValue(Profile object) {
+//				// Get the value from the selection model.
+//				return selectionModel.isSelected(object);
+//			}
+//		};
+//		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
+//		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
 			@Override

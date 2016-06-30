@@ -30,7 +30,7 @@ public interface AdministrationService extends RemoteService {
 	/**
 	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers am System.
 	 */
-	public Profile createProfile(Profile profile) throws IllegalArgumentException;
+	public void createProfile(Profile profile) throws IllegalArgumentException;
 
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

@@ -7,13 +7,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.hdm.core.client.ClientsideSettings;
-import de.hdm.core.shared.*;
-import de.hdm.core.shared.bo.*;
-import de.hdm.core.shared.report.AllProfilesReport;
+import de.hdm.core.shared.AdministrationServiceAsync;
+import de.hdm.core.shared.ReportGeneratorAsync;
+import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.report.HTMLProfilesReport;
-import de.hdm.core.shared.report.HTMLReportWriter;
-import de.hdm.editor.client.ShowProfilesView;
-import de.hdm.editor.client.Update;
 
 public class AllProfilesView extends UpdateReportGenerator {
 	

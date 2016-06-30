@@ -1,14 +1,11 @@
 package de.hdm.core.server;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.ReportGenerator;
-import de.hdm.core.shared.bo.Information;
-import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.report.AllProfilesReport;
 import de.hdm.core.shared.report.Column;
