@@ -112,4 +112,8 @@ public interface AdministrationService extends RemoteService {
 
 	public void deleteWishes(ArrayList<Wish> toUnwish) throws IllegalArgumentException;
 
+	public Boolean isProfileWished(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException;
+
+	public Boolean isProfileBanned(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException;
+
 }

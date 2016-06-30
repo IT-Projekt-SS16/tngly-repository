@@ -115,4 +115,8 @@ public interface AdministrationServiceAsync {
 	public void getWishes(AsyncCallback<ArrayList<Profile>> callback);
 
 	public void deleteWishes(ArrayList<Wish> toUnwish, AsyncCallback<Void> callback);
+
+	public void isProfileWished(Profile currentUserProfile, Profile selectedProfile, AsyncCallback<Boolean> callback);
+
+	void isProfileBanned(Profile currentUserProfile, Profile selectedProfile, AsyncCallback<Boolean> callback);
 }

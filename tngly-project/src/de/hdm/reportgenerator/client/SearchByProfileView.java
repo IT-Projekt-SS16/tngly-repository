@@ -153,8 +153,8 @@ public class SearchByProfileView extends UpdateReportGenerator {
 		ta.setVisibleLines(50);
 
 		// HorizontalPanel horizonPanel = new HorizontalPanel();
-		// Label firstWarning = new Label("Bitte füllen Sie alle nachfolgenden
-		// Felder vollständig aus!");
+		// Label firstWarning = new Label("Bitte fï¿½llen Sie alle nachfolgenden
+		// Felder vollstï¿½ndig aus!");
 		// firstWarning.setPixelSize(10, 10);
 		// horizonPanel.add(firstWarning);
 		// verPanel.add(horizonPanel);

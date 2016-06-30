@@ -106,6 +106,17 @@ background-color: #0080ff;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
+.tngly-disabledButton {
+background-color: #f4f4f4;
+	color: #ffffff;
+	border: none;
+	font-weight: normal;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
 .tngly-backbutton {
 background-color: #7f7f7f;
 	color: #ffffff;

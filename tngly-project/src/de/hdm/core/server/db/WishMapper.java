@@ -260,7 +260,7 @@ public class WishMapper {
 		       * Primärschlüsselwert ist.
 		       */
 		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-		          + "FROM wishes ");
+		          + "FROM profileWishes ");
 
 		      /**
 		       *  Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein

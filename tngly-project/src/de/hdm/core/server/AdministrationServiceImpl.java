@@ -287,6 +287,12 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public Boolean wasProfileVisited(Profile currentUserProfile, Profile dependantProfile) throws IllegalArgumentException {
 		return this.profileVisitMapper.wasProfileVisited(currentUserProfile, dependantProfile);
 	}
+	
+	
+	@Override
+	public Boolean isProfileWished(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException {
+		return this.wishMapper.isProfileWished(currentUserProfile.getId(), selectedProfile.getId());
+	}
 
 	@Override
 	public ArrayList<Profile> getWishes() throws IllegalArgumentException	{
@@ -333,10 +339,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	
 	@Override
 	public Wish addWishToWishlist(int wishedProfileId, int wishingProfileId) throws IllegalArgumentException {
+		logger.info("addWishtoWishlist wird ausgeführt");
 		Wish wish = new Wish();
 		wish.setWishedProfileId(wishedProfileId);
 		wish.setWishingProfileId(wishingProfileId);
-		wish.setId(1);
 		return this.wishMapper.insert(wish);
 
 	}
@@ -346,7 +352,6 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Wish wish = new Wish();
 		wish.setWishedProfileId(wishedProfileId);
 		wish.setWishingProfileId(wishingProfileId);
-		wish.setId(1);
 		this.wishMapper.delete(wish);
 
 	}
@@ -383,6 +388,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		return wishlist;
 	}
 
+	
+	@Override
+	public Boolean isProfileBanned(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException {
+		return this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), selectedProfile.getId());
+	}
+	
+	
 	@Override
 	public ArrayList<Profile> getBans() throws IllegalArgumentException	{
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
@@ -411,7 +423,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		ProfileBan pb = new ProfileBan();
 		pb.setBannedProfileId(bannedpId);
 		pb.setBanningProfileId(banningpId);
-		pb.setId(1);
+		
+		System.out.println("BannedProfileId 422 AdminImpl: " + pb.getBannedProfileId());
+		System.out.println("BanningProfileId 423 AdminImpl: " + pb.getBanningProfileId());
+		
 		return this.profileBanMapper.insert(pb);
 	}
 
@@ -440,10 +455,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 			ProfileBan pb = new ProfileBan();
 			pb.setBannedProfileId(bannedProfileId);
 			pb.setBanningProfileId(banningProfileId);
-			
 			this.profileBanMapper.delete(pb);
-		
-
 	}
 
 	public ArrayList<ProfileBan> bans(int banningpId) throws IllegalArgumentException {

@@ -30,7 +30,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 	}
 
 	/**
-	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
+	 * Jeder Showcase besitzt eine einleitende ï¿½berschrift, die durch diese
 	 * Methode zu erstellen ist.
 	 * 
 	 * @see Showcase#getHeadlineText()
@@ -100,15 +100,15 @@ public class AllProfilesView extends UpdateReportGenerator {
 //
 // /**
 // * <p>
-// * Wir nutzen eine Nested Class, um das zurückerhaltene Objekt weiter zu
+// * Wir nutzen eine Nested Class, um das zurï¿½ckerhaltene Objekt weiter zu
 // * bearbeiten.
 // * </p>
 // * <p>
-// * <b>Amerkungen:</b> Eine Nested Class besitzt den Vorteil, die Lokalität des
-// * Gesamtsystems zu fördern, da der Klassenname (hier: "UseCustomer")
-// * außerhalb von DeleteAccountDemo nicht "verbraucht" wird. Doch Vorsicht!
-// * Wenn eine Klasse mehrfach, also gewissermaßen an mehreren Stellen im
-// * Programm, nutzbar ist, sollte man überlegen, ob man eine solche Klasse als
+// * <b>Amerkungen:</b> Eine Nested Class besitzt den Vorteil, die Lokalitï¿½t des
+// * Gesamtsystems zu fï¿½rdern, da der Klassenname (hier: "UseCustomer")
+// * auï¿½erhalb von DeleteAccountDemo nicht "verbraucht" wird. Doch Vorsicht!
+// * Wenn eine Klasse mehrfach, also gewissermaï¿½en an mehreren Stellen im
+// * Programm, nutzbar ist, sollte man ï¿½berlegen, ob man eine solche Klasse als
 // * normale - also separate - Klasse realisiert bzw. anordnet.
 // * </p>
 // * <p>
@@ -142,23 +142,23 @@ public class AllProfilesView extends UpdateReportGenerator {
 // /**
 // * <p>
 // * Diese Klasse ist eine Nested Classs innerhalb einer Nested Class! Auf
-// * diese Weise können wir einen klassenbezogenen Verarbeitungskontext
-// * aufbauen, also gewissermaßen einen klassenbasierter Stack.
+// * diese Weise kï¿½nnen wir einen klassenbezogenen Verarbeitungskontext
+// * aufbauen, also gewissermaï¿½en einen klassenbasierter Stack.
 // * </p>
 // * <p>
-// * <b>Erläuterung:</b> Stellen Sie sich folgende Struktur vor (Syntax frei
+// * <b>Erlï¿½uterung:</b> Stellen Sie sich folgende Struktur vor (Syntax frei
 // * erfunden):
 // *
 // * <pre>
 // * (Instance of GetCustomerCallback
 // *
-// * Hier sind sämtliche Infos zum Kontext nach dem ersten Call bzgl.
-// * des Kunden verfügbar, also als Ergebnis des Calls das Kundenobjekt.
+// * Hier sind sï¿½mtliche Infos zum Kontext nach dem ersten Call bzgl.
+// * des Kunden verfï¿½gbar, also als Ergebnis des Calls das Kundenobjekt.
 // *
 // * (Instance of AllAccountsOfCustomerReportCallback
 // *
-// * Hier sind zusätzlich noch die Infos zum Kontext nach dem zweiten
-// * Call, also der fertige Report zu dessen Weiterverarbeitung, verfügbar.
+// * Hier sind zusï¿½tzlich noch die Infos zum Kontext nach dem zweiten
+// * Call, also der fertige Report zu dessen Weiterverarbeitung, verfï¿½gbar.
 // *
 // * )
 // * )

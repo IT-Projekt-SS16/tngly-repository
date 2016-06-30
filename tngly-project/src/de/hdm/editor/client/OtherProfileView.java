@@ -31,6 +31,12 @@ public class OtherProfileView extends Update {
 		return null;
 	}
 	
+	public OtherProfileView(Profile selectedProfile, String originView, Profile currentUserProfile) {
+		this.selectedProfile = selectedProfile;
+		this.originView = originView;
+		this.currentUserProfile = currentUserProfile;
+	}
+	
 	public OtherProfileView(Profile selectedProfile, String originView) {
 		this.selectedProfile = selectedProfile;
 		this.originView = originView;
@@ -39,6 +45,10 @@ public class OtherProfileView extends Update {
 	private static final Logger logger = ClientsideSettings.getLogger();
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	private Profile selectedProfile;
+	private Profile currentUserProfile;
+	
+	private boolean isWished = false;
+	private boolean isBanned = false;
 	
 	private VerticalPanel verPanel = new VerticalPanel();
 	private VerticalPanel verPanel2 = new VerticalPanel();
@@ -128,7 +138,16 @@ public class OtherProfileView extends Update {
 		horPanelLine.setStylePrimaryName("tngly-linePanel");
 		horPanelLine.setHeight("5px");
 		horPanelLine.setWidth("100%");
-
+	
+		atfProfilButton.setStylePrimaryName("tngly-opvbutton");
+		dffProfilButton.setStylePrimaryName("tngly-opvbutton");
+		backButton.setStylePrimaryName("tngly-backbutton");
+		banProfilButton.setStylePrimaryName("tngly-opvbutton");
+		unbanProfilButton.setStylePrimaryName("tngly-opvbutton");
+		
+	    adminService.isProfileWished(currentUserProfile, selectedProfile, isProfileWishedCallback());
+		adminService.isProfileBanned(currentUserProfile, selectedProfile, isProfileBannedCallback());
+		
 		tbun.setPixelSize(120, 15);
 		tbfn.setPixelSize(120, 15);
 		tbn.setPixelSize(120, 15);
@@ -228,6 +247,7 @@ public class OtherProfileView extends Update {
 		tdob.setText(selectedProfile.getDateOfBirth().toString());
 			t.setWidget(5,1,tdob);
 		
+			
 			float bh = selectedProfile.getBodyHeight();
 			float bhFormatted = (float) (Math.round(bh*100) / 100.0);
 
@@ -423,12 +443,6 @@ public class OtherProfileView extends Update {
 		horPanel.add(verLine);
 		horPanel.add(verPanel2);
 		
-		atfProfilButton.setStylePrimaryName("tngly-opvbutton");
-		dffProfilButton.setStylePrimaryName("tngly-opvbutton");
-		backButton.setStylePrimaryName("tngly-backbutton");
-		banProfilButton.setStylePrimaryName("tngly-opvbutton");
-		unbanProfilButton.setStylePrimaryName("tngly-opvbutton");
-		
 		horPanelButtons.add(backButton);
 		horPanelButtons.add(atfProfilButton);
 		horPanelButtons.add(dffProfilButton);
@@ -472,12 +486,9 @@ public class OtherProfileView extends Update {
 		atfProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-//				ClientsideSettings.getAdministration().addWishToWishlist(selectedProfile.getId(),
-//						ClientsideSettings.getUserProfile().getId(), new CreateWishCallback());
-				Update update = new EditProfileView();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(update);
-				logger.info("Erfolgreich View geswitcht.");
+				logger.info("onClick ausgeführt!");
+				adminService.addWishToWishlist(selectedProfile.getId(),
+						currentUserProfile.getId(), new CreateWishCallback());
 			}
 		});
 
@@ -485,23 +496,16 @@ public class OtherProfileView extends Update {
 			@Override
 
 			public void onClick(ClickEvent event) {
-//				ClientsideSettings.getAdministration().deleteWishFromWishlist(selectedProfile.getId(),
-//						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
-				Update update = new EditProfileView();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(update);
-				logger.info("Erfolgreich View geswitcht.");
+				adminService.deleteWishFromWishlist(selectedProfile.getId(),
+						currentUserProfile.getId(), new DeleteWishCallback());
 			}
 		});
 
 		banProfilButton.addClickHandler(new ClickHandler() {
 			@Override
-
 			public void onClick(ClickEvent event) {
-//				ClientsideSettings.getAdministration().createProfileBan(selectedProfile.getId(),
-//						ClientsideSettings.getUserProfile().getId(), new CreateProfileBanCallback());
-				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
-				logger.info("Erfolgreich Profil gel�scht.");
+				adminService.createProfileBan(selectedProfile.getId(),
+						currentUserProfile.getId(), new CreateProfileBanCallback());	
 			}
 		});
 
@@ -509,15 +513,13 @@ public class OtherProfileView extends Update {
 			@Override
 
 			public void onClick(ClickEvent event) {
-//				ClientsideSettings.getAdministration().deleteProfileBan(selectedProfile.getId(),
-//						ClientsideSettings.getUserProfile().getId(), new DeleteCallback());
-				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
-				logger.info("Erfolgreich Profil gel�scht.");
+				adminService.deleteProfileBan(currentUserProfile.getId(),
+						selectedProfile.getId(), new DeleteBanCallback());
 			}
 		});
 	}
 
-    class DeleteCallback implements AsyncCallback<Void> {
+    class DeleteWishCallback implements AsyncCallback<Void> {
 	@Override
 	public void onFailure(Throwable caught) {
 		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -525,11 +527,29 @@ public class OtherProfileView extends Update {
 
 	@Override
 	public void onSuccess(Void result) {
-		// TODO Auto-generated method stub
-
+		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+		logger.info("Erfolgreich View geswitcht.");
 	}
 
 }
+    
+    class DeleteBanCallback implements AsyncCallback<Void> {
+    	@Override
+    	public void onFailure(Throwable caught) {
+    		ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+    	}
+
+    	@Override
+    	public void onSuccess(Void result) {
+    		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(update);
+			logger.info("Erfolgreich View geswitcht.");
+    	}
+
+    }
     
 class CreateProfileBanCallback implements AsyncCallback<ProfileBan> {
 	@Override
@@ -539,8 +559,10 @@ class CreateProfileBanCallback implements AsyncCallback<ProfileBan> {
 
 	@Override
 	public void onSuccess(ProfileBan pb) {
-		// TODO Auto-generated method stub
-
+		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+		logger.info("Erfolgreich View geswitcht.");
 	}
 
 }
@@ -553,10 +575,84 @@ class CreateWishCallback implements AsyncCallback<Wish> {
 
 	@Override
 	public void onSuccess(Wish wish) {
-		// TODO Auto-generated method stub
+		
+		Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+		logger.info("Erfolgreich View geswitcht.");
 
 	}
+}
+
+	private AsyncCallback<Boolean> isProfileWishedCallback() {
+		AsyncCallback<Boolean> asyncCallback = new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Boolean isProfileWished) {
+				if (isProfileWished == true)	{
+					atfProfilButton.setStylePrimaryName("tngly-disabledButton");
+					atfProfilButton.setEnabled(false);
+					
+					banProfilButton.setStylePrimaryName("tngly-disabledButton");
+					banProfilButton.setEnabled(false);
+					
+					unbanProfilButton.setStylePrimaryName("tngly-disabledButton");
+					unbanProfilButton.setEnabled(false);
+					
+					isWished = true;
+				}
+			}
+		};
+		
+		ClientsideSettings.getLogger().info("AsyncCallback isProfileWished zu Ende ausgeführt");
+		return asyncCallback;
+	}
+	
+	private AsyncCallback<Boolean> isProfileBannedCallback() {
+		AsyncCallback<Boolean> asyncCallback = new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Boolean isProfileBanned) {
+				if (isProfileBanned == true)	{
+					atfProfilButton.setStylePrimaryName("tngly-disabledButton");
+					atfProfilButton.setEnabled(false);
+					
+					dffProfilButton.setStylePrimaryName("tngly-disabledButton");
+					dffProfilButton.setEnabled(false);
+					
+					banProfilButton.setStylePrimaryName("tngly-disabledButton");
+					banProfilButton.setEnabled(false);
+					
+					isBanned = true;
+				}
+				
+				if (isWished == false && isBanned == false)	{
+					
+					logger.info("isWished && isBanned == false");
+					
+					dffProfilButton.setStylePrimaryName("tngly-disabledButton");
+					dffProfilButton.setEnabled(false);
+					
+					unbanProfilButton.setStylePrimaryName("tngly-disabledButton");
+					unbanProfilButton.setEnabled(false);
+				}
+			}
+		};
+		
+		ClientsideSettings.getLogger().info("AsyncCallback isProfileBanned zu Ende ausgeführt");
+		return asyncCallback;
+	};
+	
+}
 
 
-}
-}
