@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -23,6 +24,16 @@ public class SearchByProfileView extends Update {
 	private static final Logger logger = ClientsideSettings.getLogger();
 
 	private VerticalPanel verPanel = new VerticalPanel();
+	
+	private final Label lblWrongInputAgeRangeFrom = new Label("Please only enter numbers between 16 and 99 in field 'From'");
+	private final Label lblSmallNumberAgeRangeFrom = new Label("Please enter a lower number in field 'From' than in field 'To'");
+	private final Label lblWrongInputAgeRangeTo = new Label("Please only enter numbers between 16 and 99 in field 'To'");
+	private final Label lblSmallNumberAgeRangeTo = new Label("Please enter a higher number in field 'To' than in field 'From'");
+	
+	private final Label lblWrongInputHeightRangeFrom = new Label("Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
+	private final Label lblSmallNumberHeightRangeFrom = new Label("Please enter a lower number in field 'From' than in field 'To'");
+	private final Label lblWrongInputHeightRangeTo = new Label("Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
+	private final Label lblSmallNumberHeightRangeTo = new Label("Please enter a higher number in field 'To' than in field 'From'");
 
 	private final TextBox tbAgeRangeFrom = new TextBox();
 	private final TextBox tbAgeRangeTo = new TextBox();
@@ -190,8 +201,17 @@ public class SearchByProfileView extends Update {
 //			}
 //			confessionBox.setItemSelected(index, true);
 //		}
-
+		
 		t.setWidget(7, 4, chkConfessionAny);
+		
+		lblWrongInputAgeRangeFrom.setStyleName("serverResponseLabelError");
+		lblSmallNumberAgeRangeFrom.setStyleName("serverResponseLabelError");
+		lblWrongInputAgeRangeTo.setStyleName("serverResponseLabelError");
+		lblSmallNumberAgeRangeTo.setStyleName("serverResponseLabelError");
+		lblWrongInputHeightRangeFrom.setStyleName("serverResponseLabelError");
+		lblSmallNumberHeightRangeFrom.setStyleName("serverResponseLabelError");
+		lblWrongInputHeightRangeTo.setStyleName("serverResponseLabelError");
+		lblSmallNumberHeightRangeTo.setStyleName("serverResponseLabelError");
 
 		t.setWidget(11, 1, showProfilesButton);
 		showProfilesButton.setStyleName("tngly-button");
@@ -201,78 +221,6 @@ public class SearchByProfileView extends Update {
 
 		verPanel.add(t);
 		RootPanel.get("Details").add(verPanel);
-		
-		tbHeightRangeFrom.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (!tbHeightRangeFrom.getText().matches("^[1-2].[0-9]{1,2}$")) {
-					Window.alert("Please only enter numbers in following pattern: '#.##' \n between 1.00 and 2.99");
-					tbHeightRangeFrom.selectAll();
-					showProfilesButton.setEnabled(false);
-				} else if (Float.valueOf(tbHeightRangeFrom.getText()) > Float.valueOf(tbHeightRangeTo.getText())){
-					Window.alert("Please only enter a lower number than in the field 'To'");
-					tbHeightRangeFrom.selectAll();
-					showProfilesButton.setEnabled(false);
-				}
-				else{
-					showProfilesButton.setEnabled(true);
-				}
-			}
-		});
-		
-		tbHeightRangeTo.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (!tbHeightRangeTo.getText().matches("^[1-2].[0-9]{1,2}$")) {
-					Window.alert("Please only enter numbers in following pattern: '#.##' \n between 1.00 and 2.99");
-					tbHeightRangeTo.selectAll();
-					showProfilesButton.setEnabled(false);
-				} else if (Float.valueOf(tbHeightRangeTo.getText()) < Float.valueOf(tbHeightRangeFrom.getText())){
-					Window.alert("Please only enter a higher number than in the field 'From'");
-					tbHeightRangeTo.selectAll();
-					showProfilesButton.setEnabled(false);
-				}
-				else{
-					showProfilesButton.setEnabled(true);
-				}
-			}
-		});
-		
-		tbAgeRangeFrom.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (!tbAgeRangeFrom.getText().matches("[1-9][6-9]")) {
-					Window.alert("Please only enter numbers between 16 and 99");
-					tbAgeRangeFrom.selectAll();
-					showProfilesButton.setEnabled(false);
-				} else if (Float.valueOf(tbAgeRangeFrom.getText()) > Float.valueOf(tbAgeRangeTo.getText())){
-					Window.alert("Please only enter a lower number than in the field 'To'");
-					tbHeightRangeFrom.selectAll();
-					showProfilesButton.setEnabled(false);
-				}
-				else{
-					showProfilesButton.setEnabled(true);
-				}
-			}
-		});
-		
-		tbAgeRangeTo.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (!tbAgeRangeTo.getText().matches("[1-9][6-9]")) {
-					Window.alert("Please only enter numbers between 16 and 99");
-					tbAgeRangeTo.selectAll();
-					showProfilesButton.setEnabled(false);
-				} else if (Float.valueOf(tbAgeRangeTo.getText()) < Float.valueOf(tbAgeRangeFrom.getText())){
-					Window.alert("Please only enter a higher number than in the field 'From'");
-					tbAgeRangeTo.selectAll();
-					showProfilesButton.setEnabled(false);
-				}
-				else{
-					showProfilesButton.setEnabled(true);
-				}
-			}
-		});
 		
 		///////////////////////////////////////////////////////////////////////////////////
 		chkGenderAny.addClickHandler(new ClickHandler() {
@@ -356,7 +304,42 @@ public class SearchByProfileView extends Update {
 		showProfilesButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				t.setWidget(4, 5, null);
+				t.setWidget(2, 5, null);
 
+				if (!tbAgeRangeFrom.getText().matches("[1-9][0-9]")) {
+					t.setWidget(2, 5, lblWrongInputAgeRangeFrom);
+					return;
+				} else if (Float.valueOf(tbAgeRangeFrom.getText()) > Float.valueOf(tbAgeRangeTo.getText())){
+					t.setWidget(2, 5, lblSmallNumberAgeRangeFrom);
+					return;
+				}
+				
+				if (!tbAgeRangeTo.getText().matches("[1-9][0-9]")) {
+					t.setWidget(2, 5, lblWrongInputAgeRangeTo);
+					return;
+				} else if (Float.valueOf(tbAgeRangeTo.getText()) < Float.valueOf(tbAgeRangeFrom.getText())){
+					t.setWidget(2, 5, lblSmallNumberAgeRangeTo);
+					return;
+				}
+				
+				if (!tbHeightRangeFrom.getText().matches("^[1-2].[0-9]{1,2}$")) {
+					t.setWidget(4, 5, lblWrongInputHeightRangeFrom);
+					return;
+				} else if (Float.valueOf(tbHeightRangeFrom.getText()) > Float.valueOf(tbHeightRangeTo.getText())){
+					t.setWidget(4, 5, lblSmallNumberHeightRangeFrom);
+					return;
+				}
+				
+				if (!tbHeightRangeTo.getText().matches("^[1-2].[0-9]{1,2}$")) {
+					t.setWidget(4, 5, lblWrongInputHeightRangeTo);
+					return;
+				} else if (Float.valueOf(tbHeightRangeTo.getText()) < Float.valueOf(tbHeightRangeFrom.getText())){
+					t.setWidget(4, 5, lblSmallNumberHeightRangeTo);
+					return;
+				}
+				
 				boolean genderChecked = chkGenderAny.getValue();
 				boolean ageChecked = chkAgeAny.getValue();
 				boolean bodyHeightChecked = chkBodyHeightAny.getValue();

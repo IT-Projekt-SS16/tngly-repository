@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -43,6 +44,10 @@ public class EditProfileView extends Update {
 	private VerticalPanel verPanel2 = new VerticalPanel();
 
 	private HorizontalPanel horPanel = new HorizontalPanel();
+	
+	private final Label lblWrongInputFirstName = new Label("Please only enter characters (a-z, A-Z) in field 'First Name'");
+	private final Label lblWrongInputLastName = new Label("Please only enter characters (a-z, A-Z) in field 'Last Name'");
+	private final Label lblWrongInputBodyHeight = new Label("Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
 
 	private final TextBox tbun = new TextBox();
 	private final TextBox tbfn = new TextBox();
@@ -251,6 +256,10 @@ public class EditProfileView extends Update {
 
 		t.setWidget(12, 1, saveProfilButton);
 		saveProfilButton.setStyleName("tngly-button");
+		
+		lblWrongInputFirstName.setStyleName("serverResponseLabelError");
+		lblWrongInputLastName.setStyleName("serverResponseLabelError");
+		lblWrongInputBodyHeight.setStyleName("serverResponseLabelError");
 
 		verPanel.add(t);
 		verPanel2.add(t3);
@@ -260,53 +269,28 @@ public class EditProfileView extends Update {
 
 		RootPanel.get("Details").add(horPanel);
 
-		tbfn.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (!tbfn.getText().matches("^[a-zA-Z ]{0,30}$")) {
-					Window.alert("Please only enter characters in field 'First Name'.");
-					tbfn.selectAll();
-					saveProfilButton.setEnabled(false);
-				} else{
-					saveProfilButton.setEnabled(true);
-				}
-
-			}
-		});
-		
-		tbn.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (!tbn.getText().matches("^[a-zA-Z ]{0,30}$")) {
-					Window.alert("Please only enter characters in field 'Last Name'.");
-					tbn.selectAll();
-					saveProfilButton.setEnabled(false);
-				} else{
-					saveProfilButton.setEnabled(true);
-				}
-
-			}
-		});
-		
-		tbbh.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (!tbbh.getText().matches("^[1-2].[0-9]{1,2}$")) {
-					Window.alert("Please only enter numbers in following pattern: '#.##' \n between 1.00 and 2.99");
-					tbbh.selectAll();
-					saveProfilButton.setEnabled(false);
-				} else{
-					saveProfilButton.setEnabled(true);
-				}
-
-			}
-		});
-
 		///////////////////////////////////////////////////////////////////////
 
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				t.setWidget(2, 2, null);
+				t.setWidget(3, 2, null);
+				t.setWidget(6, 2, null);
+				
+				if (!tbfn.getText().matches("^[a-zA-Z ]{0,30}$")) {
+					t.setWidget(2, 2, lblWrongInputFirstName);
+					return;
+				}
+				if (!tbn.getText().matches("^[a-zA-Z ]{0,30}$")) {
+					t.setWidget(3, 2, lblWrongInputLastName);
+					return;
+				}
+				if (!tbbh.getText().matches("^[1-2].[0-9]{1,2}$")) {
+					t.setWidget(6, 2, lblWrongInputBodyHeight);
+					return;
+				}
 
 				logger.info("Erfolgreich onClick ausgefuehrt.");
 				Profile temp = new Profile();
