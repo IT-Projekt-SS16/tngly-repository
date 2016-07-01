@@ -220,7 +220,9 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile profile = this.profileMapper.findByName(userEmail);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 		
-		if (profile == null)	{
+		if (this.profileMapper.findByName(userEmail) == null)	{
+			
+			logger.info("Zeile 225 ausgeführt, profile == null");
 			
 			Profile toCreate = new Profile();
 		
@@ -235,14 +237,20 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 			Profile profile2 = this.profileMapper.findByName(userEmail);
 			
 			profiles.add(profile2);
+			
+			logger.info("Zeile 241 ausgeführt, profile2 geaddet");
 		}
 		
-		if (profile != null)	{
+		if (this.profileMapper.findByName(userEmail) != null)	{
+			profile = this.profileMapper.findByName(userEmail);
+			
+			logger.info("Zeile 244 ausgeführt, profile != null");
 			profiles.add(profile);
 			profiles = this.propertyMapper.searchForProperties(profiles);
 			profiles = this.informationMapper.searchForInformationValues(profiles);
 		}
 		
+		logger.info("Zeile 251 ausgeführt, kurz vor Rückgabe des Profils");
 		return profiles.get(0);
 	}
 
