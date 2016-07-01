@@ -50,6 +50,16 @@ div#TopLevelFrame{
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
+.tngly-bluebutton{
+	background-color: #0080ff;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 10em;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
 .tngly-button-searchview{
 	background-color: #38373e;
 	color: #ffffff;
@@ -100,10 +110,20 @@ background-color: #0080ff;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
-	height: 3em;
+	height: 2em;
 	width: 10em;
 	margin-left:10px;
-	margin-top:4px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+.tngly-ctvbutton {
+background-color: #0080ff;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 14em;
+	margin-left:10px;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
@@ -112,18 +132,18 @@ background-color: #f4f4f4;
 	color: #ffffff;
 	border: none;
 	font-weight: normal;
-	height: 3em;
+	height: 2em;
 	width: 10em;
 	margin-left:10px;
 	margin-top:4px;
 }
 
 .tngly-backbutton {
-background-color: #7f7f7f;
+background-color: #38373e;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
-	height: 3em;
+	height: 2em;
 	width: 10em;
 	margin-left:0px;
 	margin-top:4px;
@@ -257,9 +277,9 @@ div#Trailer {
 	/*padding: 0;*/
 	border: 1px solid #e7e7e7;
     background-color: #f3f3f3;
-	position: fixed;
+/*	position: relative;
     bottom: 0;
-    width: 100%;
+    width: 100%; */
 }
 
 

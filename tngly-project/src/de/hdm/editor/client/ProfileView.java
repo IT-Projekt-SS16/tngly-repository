@@ -8,6 +8,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -91,6 +92,12 @@ public class ProfileView extends Update {
 	private final CheckBox chkRock = new CheckBox("Rock");
 	private final CheckBox chkEmo = new CheckBox("Emo");
 	private final CheckBox chkAzzlackz = new CheckBox("Azzlackz");
+	
+	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	
+	HTML verLine = new HTML("  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='500' style='background:grey'></td></tr></table>"); 
+	
+
 
 	/**
 	 * Jede View besitzt eine einleitende �berschrift, die durch diese
@@ -101,7 +108,7 @@ public class ProfileView extends Update {
 	
 	@Override
 	protected String getHeadlineText() {
-		return "";
+		return "Your profile";
 	}
 
 	/**
@@ -158,6 +165,7 @@ public class ProfileView extends Update {
 		genderBox.addItem("Male");
 		genderBox.setPixelSize(130, 25);
 
+		ta.setWidth("230px");
 
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
@@ -271,8 +279,10 @@ public class ProfileView extends Update {
 		verPanel2.add(t3);
 		
 		horPanel.add(verPanel);
+		horPanel.add(verLine);
 		horPanel.add(verPanel2);
 		
+		RootPanel.get("Details").add(horLine);
 		RootPanel.get("Details").add(horPanel);
 		
 		logger.info(currentUserProfile.toString());

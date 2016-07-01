@@ -20,6 +20,7 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -53,13 +54,17 @@ public class WishlistCTView extends Update {
 
 	private final Button unwishProfileButton = new Button("Unwish selected profiles");
 	
+	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	
+	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
+	
 	public WishlistCTView() {
 //		this.searchProfile = searchProfile;
 	}
 
 	@Override
 	protected String getHeadlineText() {
-		return "";
+		return "Your wishes";
 	}
 
 	@Override
@@ -77,6 +82,8 @@ public class WishlistCTView extends Update {
 
 		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
 
+		unwishProfileButton.setStylePrimaryName("tngly-ctvbutton");
+		
 		cellTable.setWidth("100%", true);
 
 		// Do not refresh the headers and footers every time the data is
@@ -99,16 +106,19 @@ public class WishlistCTView extends Update {
 		SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(cellTable);
 
+		RootPanel.get("Details").add(horLine);
+		RootPanel.get("Details").add(unwishProfileButton);
+		RootPanel.get("Details").add(horLine2);
 		RootPanel.get("Details").add(hPanel);
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
-		RootPanel.get("Details").add(unwishProfileButton);
 		
 		unwishProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-
+				unwishProfileButton.setEnabled(false);
+				unwishProfileButton.setStylePrimaryName("tngly-disabledButton");
 				
 				ArrayList<Profile> toUnwish = new ArrayList<Profile>(selectionModel.getSelectedSet());
 				ClientsideSettings.getLogger().info("Arraylist contains: " + toUnwish.get(0).getUserName());

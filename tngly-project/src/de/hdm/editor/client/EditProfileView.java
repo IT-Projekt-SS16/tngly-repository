@@ -1,16 +1,21 @@
 package de.hdm.editor.client;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ShowRangeEvent;
+import com.google.gwt.event.logical.shared.ShowRangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -18,6 +23,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.hdm.core.client.ClientsideSettings;
@@ -41,6 +47,11 @@ public class EditProfileView extends Update {
 
 	private HorizontalPanel horPanel = new HorizontalPanel();
 	private HorizontalPanel horPanel2 = new HorizontalPanel();
+	
+	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
+
+	HTML verLine = new HTML("  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='625' style='background:grey'></td></tr></table>"); 
 	
 	private final Label lblWrongInputFirstName = new Label("Please only enter characters (a-z, A-Z) in field 'First Name'");
 	private final Label lblWrongInputLastName = new Label("Please only enter characters (a-z, A-Z) in field 'Last Name'");
@@ -113,7 +124,7 @@ public class EditProfileView extends Update {
 
 	@Override
 	protected String getHeadlineText() {
-		return "";
+		return "Edit Profile";
 	}
 
 	/**
@@ -133,7 +144,9 @@ public class EditProfileView extends Update {
 
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
-		horPanel2.setSpacing(60);
+		
+		horPanel2.setWidth("100%");
+		horPanel2.setHorizontalAlignment(ALIGN_CENTER);
 
 		tbun.setPixelSize(120, 15);
 		tbfn.setPixelSize(120, 15);
@@ -149,8 +162,8 @@ public class EditProfileView extends Update {
 		hairColourList.setPixelSize(130, 25);
 
 		isSmokingBox.setVisibleItemCount(1);
-		isSmokingBox.addItem("Yes");
 		isSmokingBox.addItem("No");
+		isSmokingBox.addItem("Yes");
 		isSmokingBox.setPixelSize(130, 25);
 
 		confessionBox.setVisibleItemCount(1);
@@ -172,11 +185,57 @@ public class EditProfileView extends Update {
 
 		datePicker.setYearArrowsVisible(true);
 		datePicker.setYearAndMonthDropdownVisible(false);
-		// Zeigt 51 years in the years dropdown. The range of years is centered
-		// on the selected date
 		datePicker.setVisibleYearCount(101);
 		datePicker.setYearAndMonthDropdownVisible(true);
+		
+		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>()
+	    {
+			@Override
+	        public void onShowRange(ShowRangeEvent<Date> event) 
+	        {
+	            Date start = event.getStart();
+	            Date temp = CalendarUtil.copyDate(start);
+	            Date end = event.getEnd();
+	            
+	            // long d = 817689600000L;
+	            Date today = new Date();
+				
+	            while(temp.before(end))
+	            {
+	                if(temp.after(today) && datePicker.isDateVisible(temp))
+	                {
+	                    datePicker.setTransientEnabledOnDates(false,temp);
+	                }
+	                CalendarUtil.addDaysToDate(temp, 1);
+	            }
+	        }
+	    });
+		
+		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>()
+	    {
+			@Override
+	        public void onShowRange(ShowRangeEvent<Date> event) 
+	        {
+	            Date start = event.getStart();
+	            Date temp = CalendarUtil.copyDate(start);
+	            Date end = event.getEnd();
+	            
+	            // long d = 817689600000L;
+	            Date today = new Date(-2209075200000L);
+				
+	            while(temp.before(end))
+	            {
+	                if(temp.before(today) && datePicker.isDateVisible(temp))
+	                {
+	                    datePicker.setTransientEnabledOnDates(false,temp);
+	                }
+	                CalendarUtil.addDaysToDate(temp, 1);
+	            }
+	        }
+	    });
 
+		ta.setWidth("230px");
+		
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
 		t.setWidget(0, 1, tbun);
@@ -216,7 +275,7 @@ public class EditProfileView extends Update {
 		t.setWidget(10, 1, t2);
 
 		ta.setCharacterWidth(50);
-		ta.setVisibleLines(5);
+		ta.setVisibleLines(2);
 
 		t.setText(11, 0, "This is how I describe myself");
 		t.setWidget(11, 1, ta);
@@ -253,13 +312,13 @@ public class EditProfileView extends Update {
 		t5.setWidget(6, 0, chkModernAge);
 		t3.setWidget(4, 1, t5);
 
-		saveProfilButton.setStyleName("tngly-button");
+		saveProfilButton.setStyleName("tngly-bluebutton");
 		deleteProfileButton.setStyleName("tngly-button");
 		
 		horPanel2.add(saveProfilButton);
 		horPanel2.add(deleteProfileButton);
 		
-		t.setWidget(12, 1, horPanel2);
+	//	t.setWidget(12, 1, horPanel2);
 		
 		lblWrongInputFirstName.setStyleName("serverResponseLabelError");
 		lblWrongInputLastName.setStyleName("serverResponseLabelError");
@@ -269,8 +328,12 @@ public class EditProfileView extends Update {
 		verPanel2.add(t3);
 
 		horPanel.add(verPanel);
+		horPanel.add(verLine);
 		horPanel.add(verPanel2);
 
+		RootPanel.get("Details").add(horLine);
+		RootPanel.get("Details").add(horPanel2);
+		RootPanel.get("Details").add(horLine2);
 		RootPanel.get("Details").add(horPanel);
 
 		///////////////////////////////////////////////////////////////////////
@@ -278,6 +341,7 @@ public class EditProfileView extends Update {
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				
 				t.setWidget(2, 2, null);
 				t.setWidget(3, 2, null);
@@ -295,6 +359,9 @@ public class EditProfileView extends Update {
 					t.setWidget(6, 2, lblWrongInputBodyHeight);
 					return;
 				}
+				
+				saveProfilButton.setEnabled(false);
+				saveProfilButton.setStylePrimaryName("tngly-disabledButton");
 
 				logger.info("Erfolgreich onClick ausgefuehrt.");
 				Profile temp = new Profile();
@@ -549,6 +616,9 @@ public class EditProfileView extends Update {
 		deleteProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				deleteProfileButton.setEnabled(false);
+				deleteProfileButton.setStylePrimaryName("tngly-disabledButton");
 				
 				logger.info("DeleteProfilButton onClick aufgerufen");
 				adminService.deleteProfile(currentUserProfile, deleteUserProfileCallback());

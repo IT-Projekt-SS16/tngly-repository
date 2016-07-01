@@ -26,6 +26,7 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -59,6 +60,9 @@ public class ShowProfilesCTView extends Update {
 
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
+	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
+
 	private CellTable<Profile> cellTable = new CellTable<Profile>();
 	private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
 
@@ -71,7 +75,7 @@ public class ShowProfilesCTView extends Update {
 
 	@Override
 	protected String getHeadlineText() {
-		return "";
+		return "Your search results";
 	}
 
 	@Override
@@ -85,6 +89,7 @@ public class ShowProfilesCTView extends Update {
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		backButton.setStylePrimaryName("tngly-backbutton");
 		hPanel.add(backButton);
 
 		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
@@ -111,12 +116,16 @@ public class ShowProfilesCTView extends Update {
 		SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(cellTable);
 
+		RootPanel.get("Details").add(horLine);
 		RootPanel.get("Details").add(hPanel);
+		RootPanel.get("Details").add(horLine2);
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
 		
 		backButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+					backButton.setEnabled(false);
+					backButton.setStylePrimaryName("tngly-disabledButton");
 		        	Update update = new SearchByProfileView();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(update);
@@ -226,7 +235,7 @@ public class ShowProfilesCTView extends Update {
 				pv.setVisitedProfileId(object.getId());
 				pvs.add(pv);
 				adminService.createProfileVisit(pvs, createProfileVisitCallback());
-				System.out.println("CreateProfileVisit ausgeführt");
+				System.out.println("CreateProfileVisit ausgefï¿½hrt");
 				// Called when the user changes the value.
 				Update update = new OtherProfileView(object, "ShowProfilesCTView", currentUserProfile);
 				RootPanel.get("Details").clear();

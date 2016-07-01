@@ -32,7 +32,7 @@ public class OtherProfileView extends Update {
 
 	@Override
 	protected String getHeadlineText() {
-		return null;
+		return "View " + selectedProfile.getName() +"'s Profile";
 	}
 	
 	public OtherProfileView(Profile selectedProfile, String originView, Profile cUP) {
@@ -67,6 +67,7 @@ public class OtherProfileView extends Update {
 	private HorizontalPanel horPanelLine = new HorizontalPanel();
 	
 	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
 	HTML verLine = new HTML("  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='500' style='background:grey'></td></tr></table>"); 
 	
 	private final TextBox tbun = new TextBox();
@@ -126,8 +127,8 @@ public class OtherProfileView extends Update {
 	
 	private String originView;
 	
-	private final Button atfProfilButton = new Button("Add to Favorites");
-	private final Button dffProfilButton = new Button("Delete from Favorites");
+	private final Button atfProfilButton = new Button("Add Favorite");
+	private final Button dffProfilButton = new Button("Delete Favorite");
 	private final Button backButton = new Button("Back");
 	private final Button banProfilButton = new Button("Ban Profile");
 	private final Button unbanProfilButton = new Button("Unban Profile");
@@ -567,9 +568,9 @@ public class OtherProfileView extends Update {
 
 		logger.info("Zeile 528 ausgeführt");
 
-		
-		RootPanel.get("Details").add(horPanelButtons);
 		RootPanel.get("Details").add(horLine);
+		RootPanel.get("Details").add(horPanelButtons);
+		RootPanel.get("Details").add(horLine2);
 		RootPanel.get("Details").add(horPanel);
 		
 		logger.info("Zeile 535 ausgeführt");
@@ -579,6 +580,10 @@ public class OtherProfileView extends Update {
 			@Override
 
 			public void onClick(ClickEvent event) {
+				
+				backButton.setEnabled(false);
+				backButton.setStylePrimaryName("tngly-disabledButton");
+				
 				switch(originView){
 		        case "ShowProfilesCellTableView":
 		        	Update updateProfilesCTView = new ShowProfilesCTView(ClientsideSettings.getSearchProfile());
@@ -607,7 +612,10 @@ public class OtherProfileView extends Update {
 		atfProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				logger.info("onClick ausgeführt!");
+
+				atfProfilButton.setEnabled(false);
+				atfProfilButton.setStylePrimaryName("tngly-disabledButton");
+				
 				adminService.addWishToWishlist(selectedProfile.getId(),
 						currentUserProfile.getId(), new CreateWishCallback());
 			}
@@ -615,8 +623,11 @@ public class OtherProfileView extends Update {
 
 		dffProfilButton.addClickHandler(new ClickHandler() {
 			@Override
-
 			public void onClick(ClickEvent event) {
+				
+				dffProfilButton.setEnabled(false);
+				dffProfilButton.setStylePrimaryName("tngly-disabledButton");
+				
 				adminService.deleteWishFromWishlist(selectedProfile.getId(),
 						currentUserProfile.getId(), new DeleteWishCallback());
 			}
@@ -625,6 +636,10 @@ public class OtherProfileView extends Update {
 		banProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				banProfilButton.setEnabled(false);
+				banProfilButton.setStylePrimaryName("tngly-disabledButton");
+				
 				adminService.createProfileBan(selectedProfile.getId(),
 						currentUserProfile.getId(), new CreateProfileBanCallback());	
 			}
@@ -634,6 +649,10 @@ public class OtherProfileView extends Update {
 			@Override
 
 			public void onClick(ClickEvent event) {
+				
+				unbanProfilButton.setEnabled(false);
+				unbanProfilButton.setStylePrimaryName("tngly-disabledButton");
+				
 				adminService.deleteProfileBan(currentUserProfile.getId(),
 						selectedProfile.getId(), new DeleteBanCallback());
 			}

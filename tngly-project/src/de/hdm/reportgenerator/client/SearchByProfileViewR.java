@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -75,7 +76,23 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 		RootPanel.get("Details").add(horPanel);
 		logger.info("HorizontalPanel aufgebaut.");
 
-		// final TextBox tbmh = new TextBox();
+		final Label lblWrongInputAgeRangeFrom = new Label(
+				"Please only enter numbers between 16 and 99 in field 'From'");
+		final Label lblSmallNumberAgeRangeFrom = new Label(
+				"Please enter a lower number in field 'From' than in field 'To'");
+		final Label lblWrongInputAgeRangeTo = new Label(
+				"Please only enter numbers between 16 and 99 in field 'To'");
+		final Label lblSmallNumberAgeRangeTo = new Label(
+				"Please enter a higher number in field 'To' than in field 'From'");
+
+		final Label lblWrongInputHeightRangeFrom = new Label(
+				"Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
+		final Label lblSmallNumberHeightRangeFrom = new Label(
+				"Please enter a lower number in field 'From' than in field 'To'");
+		final Label lblWrongInputHeightRangeTo = new Label(
+				"Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
+		final Label lblSmallNumberHeightRangeTo = new Label(
+				"Please enter a higher number in field 'To' than in field 'From'");
 
 		final CheckBox chkGenderAny = new CheckBox();
 		final CheckBox chkAgeAny = new CheckBox();
@@ -129,64 +146,8 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 		myHobbiesSelect.addItem("Music");
 		myHobbiesSelect.addItem("Fitness");
 
-		// final DatePicker datePicker = new DatePicker();
-		// datePicker.setYearArrowsVisible(true);
-		// datePicker.setYearAndMonthDropdownVisible(true);
-		// // show 51 years in the years dropdown. The range of years is
-		// centered
-		// // on the selected date
-		// datePicker.setVisibleYearCount(101);
 
-		// *** BEISPIEL ADDKEYHANDLER NOCH FUER ALLE UBERNEHMEN***
-
-		// tbfn.addKeyPressHandler(new KeyPressHandler() {
-
-		// public void onKeyPress(KeyPressEvent event) {
-		// if (!Character.isDigit(event.getCharCode())) {
-		// ((TextBox) event.getSource()).cancelKey();
-		// }
-		// }
-		// });
-
-		TextArea ta = new TextArea();
-		ta.setCharacterWidth(80);
-		ta.setVisibleLines(50);
-
-		// HorizontalPanel horizonPanel = new HorizontalPanel();
-		// Label firstWarning = new Label("Bitte f�llen Sie alle nachfolgenden
-		// Felder vollst�ndig aus!");
-		// firstWarning.setPixelSize(10, 10);
-		// horizonPanel.add(firstWarning);
-		// verPanel.add(horizonPanel);
-		// if (ClientsideSettings.getUserProfile() == null){
-		// verPanel.add(firstWarning);
-		// }
-
-//		if (ClientsideSettings.getSearchProfile() != null) {
-//			logger.info("Result: " + ClientsideSettings.getUserProfile().getUserName());
-//		} else {
-//			logger.info("Result: SearchProfile NULL");
-//		}
-
-		// Label firstName = new Label("First Name:");
-		// verPanel.add(firstName);
-		// if (ClientsideSettings.getUserProfile() == null) {
-		// verPanel.add(tbfn);
-		// } else {
-		// tbfn.setText(ClientsideSettings.getUserProfile().getName());
-		// verPanel.add(tbfn);
-		// }
-		//
-		// Label name = new Label("Last Name:");
-		// verPanel.add(name);
-		// if (ClientsideSettings.getUserProfile() == null) {
-		// verPanel.add(tbn);
-		// } else {
-		// tbn.setText(ClientsideSettings.getUserProfile().getLastName());
-		// verPanel.add(tbn);
-		// }
-
-		FlexTable t = new FlexTable();
+		final FlexTable t = new FlexTable();
 		t.setCellSpacing (5);
 
 		t.setText(0, 0, "Gender");
@@ -217,15 +178,6 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 				}
 			}
 		});
-
-//		 Label dateOfBirth = new Label("Date of Birth:");
-//		 verPanel.add(dateOfBirth);
-//		 if (ClientsideSettings.getUserProfile() == null) {
-//		 verPanel.add(datePicker);
-//		 } else {
-//		 datePicker.setValue(ClientsideSettings.getUserProfile().getDateOfBirth());
-//		 verPanel.add(datePicker);
-//		 }
 
 		if (ClientsideSettings.getSearchProfile() == null) {
 			t.setText(1, 0, "Age Range");
@@ -393,63 +345,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 			}
 		});
 
-		// t.setText(10,0, "Hobbies");
-		// if (ClientsideSettings.getUserProfile() == null) {
-		// t.setWidget(10, 1, myHobbiesSelect);
-		// } else {
-		// int index;
-		// if (ClientsideSettings.getUserProfile().getHairColour() == "Soccer")
-		// {
-		// index = 0;
-		// } else if (ClientsideSettings.getUserProfile().getHairColour() ==
-		// "Baseball") {
-		// index = 1;
-		// } else if (ClientsideSettings.getUserProfile().getHairColour() ==
-		// "Volleyball") {
-		// index = 2;
-		// } else if (ClientsideSettings.getUserProfile().getHairColour() ==
-		// "Basketball") {
-		// index = 3;
-		// } else if (ClientsideSettings.getUserProfile().getHairColour() ==
-		// "Golf") {
-		// index = 4;
-		// } else {
-		// index = 5;
-		// }
-		// myHobbiesSelect.setItemSelected(index, true);
-		// t.setWidget(10, 1, myHobbiesSelect);
-		//
-		//
-		// }
-		//
-
-		// final CheckBox chkSoccer = new CheckBox();
-		// final CheckBox chkBaseball = new CheckBox();
-		// final CheckBox chkVolleyball = new CheckBox();
-		// final CheckBox chkBasketball = new CheckBox();
-		// final CheckBox chkGolf = new CheckBox();
-		//
-		// FlexTable t2 = new FlexTable();
-		//
-		// t2.setText(0, 0, "Soccer");
-		// t2.setWidget(0, 1, chkSoccer);
-		//
-		// t2.setText(1, 0, "Baseball");
-		// t2.setWidget(1, 1, chkBaseball);
-		//
-		// t2.setText(2, 0, "Volleyball");
-		// t2.setWidget(2, 1, chkVolleyball);
-		//
-		// t2.setText(3, 0, "Basketball");
-		// t2.setWidget(3, 1, chkBasketball);
-		//
-		// t2.setText(4, 0, "Golf");
-		// t2.setWidget(4, 1, chkGolf);
-		//
-		// t.setWidget(10, 1, t2);
-		//
-		//
-		//
+		
 		verPanel.add(t);
 		RootPanel.get("Details").add(t);
 
@@ -503,27 +399,69 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 
 
 				if (ageChecked == false) {
-					logger.info("548 CHECK");
-					int arf = Integer.parseInt(tbAgeRangeFrom.getText());
-					int art = Integer.parseInt(tbAgeRangeTo.getText());
-					logger.info("551 CHECK");
-					temp.setAgeRangeFrom(arf);
-					temp.setAgeRangeTo(art);
+
+					if (!tbAgeRangeFrom.getText().matches("[1-9][0-9]")) {
+						t.setWidget(2, 6, lblWrongInputAgeRangeFrom);
+						return;
+					} else if (Float.valueOf(tbAgeRangeFrom.getText()) > Float.valueOf(tbAgeRangeTo.getText())) {
+						t.setWidget(2, 6, lblSmallNumberAgeRangeFrom);
+						return;
+					} else {
+						int arf = Integer.parseInt(tbAgeRangeFrom.getText());
+						temp.setAgeRangeFrom(arf);
+					}
+
+					if (!tbAgeRangeTo.getText().matches("[1-9][0-9]")) {
+						t.setWidget(2, 6, lblWrongInputAgeRangeTo);
+						return;
+					} else if (Float.valueOf(tbAgeRangeTo.getText()) < Float.valueOf(tbAgeRangeFrom.getText())) {
+						t.setWidget(2, 6, lblSmallNumberAgeRangeTo);
+						return;
+					} else {
+						int art = Integer.parseInt(tbAgeRangeTo.getText());
+						temp.setAgeRangeTo(art);
+					}
+
 				} else {
 					temp.setAgeRangeFrom(0);
 					temp.setAgeRangeTo(0);
 				}
-
-				logger.info("dateOfBirth2 CHECK");
 				
+				logger.info("Age CHECK");
+
 				if (bodyHeightChecked == false) {
-					temp.setBodyHeightFrom(Float.parseFloat(tbHeightRangeFrom.getText()));
-					temp.setBodyHeightTo(Float.parseFloat(tbHeightRangeTo.getText()));
+
+					if (!tbHeightRangeFrom.getText().matches("^[1-2].[0-9]{1,2}$")) {
+						t.setWidget(4, 6, lblWrongInputHeightRangeFrom);
+						return;
+					} else if (Float.valueOf(tbHeightRangeFrom.getText()) > Float.valueOf(tbHeightRangeTo.getText())) {
+						t.setWidget(4, 6, lblSmallNumberHeightRangeFrom);
+						return;
+					} else {
+						float bhf = Float.parseFloat(tbHeightRangeFrom.getText().trim());
+						temp.setBodyHeightFrom(bhf);
+					}
+
+					if (!tbHeightRangeTo.getText().matches("^[1-2].[0-9]{1,2}$")) {
+						t.setWidget(4, 6, lblWrongInputHeightRangeTo);
+						return;
+					} else if (Float.valueOf(tbHeightRangeTo.getText()) < Float.valueOf(tbHeightRangeFrom.getText())) {
+						t.setWidget(4, 6, lblSmallNumberHeightRangeTo);
+						return;
+					} else {
+						float bht = Float.parseFloat(tbHeightRangeTo.getText().trim());
+						temp.setBodyHeightTo(bht);
+					}
+
 				} else {
 					temp.setBodyHeightFrom(0f);
 					temp.setBodyHeightTo(0f);
 				}
-
+				
+				showProfilesButton.setEnabled(false);
+				showProfilesButton.setStylePrimaryName("tngly-disabledButton");
+				
+				logger.info("bodyHeight CHECK");
 				logger.info("bodyHeight CHECK");
 
 				// temp.setHairColour(tbhc.getText());

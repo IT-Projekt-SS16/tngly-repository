@@ -20,6 +20,7 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -53,13 +54,17 @@ public class BanCTView extends Update {
 
 	private final Button unbanProfileButton = new Button("Unban selected profiles");
 	
+	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	
+	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
+	
 	public BanCTView() {
 //		this.searchProfile = searchProfile;
 	}
 
 	@Override
 	protected String getHeadlineText() {
-		return "";
+		return "Your bans";
 	}
 
 	@Override
@@ -75,6 +80,8 @@ public class BanCTView extends Update {
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 
+		unbanProfileButton.setStylePrimaryName("tngly-ctvbutton");
+		
 		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
 
 		cellTable.setWidth("100%", true);
@@ -99,16 +106,19 @@ public class BanCTView extends Update {
 		SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(cellTable);
 
+		RootPanel.get("Details").add(horLine);
+		RootPanel.get("Details").add(unbanProfileButton);
+		RootPanel.get("Details").add(horLine2);
 		RootPanel.get("Details").add(hPanel);
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
-		RootPanel.get("Details").add(unbanProfileButton);
 		
 		unbanProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-
+				unbanProfileButton.setEnabled(false);
+				unbanProfileButton.setStylePrimaryName("tngly-disabledButton");
 				
 				ArrayList<Profile> toUnban = new ArrayList<Profile>(selectionModel.getSelectedSet());
 				ClientsideSettings.getLogger().info("Arraylist contains: " + toUnban.get(0).getUserName());
@@ -123,6 +133,7 @@ public class BanCTView extends Update {
 				
 				adminService.deleteProfileBan(bansToDelete, deleteBansCallback());
 				refreshDisplays();
+				
 				return;
 			}
 		});

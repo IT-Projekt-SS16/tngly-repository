@@ -42,6 +42,7 @@ public class DBConnection {
      * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
      * Software neu komilieren zu müssen.
      */
+    //Deployen mit dieser!!
     private static String googleUrl = "jdbc:google:mysql://our-lacing-132223:tngly/tnglyDB?user=root";
 
     /**
@@ -86,7 +87,7 @@ public class DBConnection {
     public static Connection connection() {
     	
         /**
-         *  Wenn es bisher keine Conncetion zur DB gab, ...
+         *  Wenn es bisher keine Connection zur DB gab, ...
          */
     	
         if (con == null) {
@@ -111,15 +112,16 @@ public class DBConnection {
                      *	"jdbc:google:mysql://" prefix.
                      */
                     Class.forName("com.mysql.jdbc.GoogleDriver");
-                    url = googleUrl;
+                    url = localUrl;
                     
                     logger.info("googleUrl benutzt!!");
+                    
                 } else {
                     /**
                      *  Local MySQL instance to use during development.
                      */
                     Class.forName("com.mysql.jdbc.Driver");
-                    url = googleUrl;
+                    url = localUrl;
                     logger.info("local benutzt!!");
                 }
 
@@ -130,7 +132,8 @@ public class DBConnection {
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
-                con = DriverManager.getConnection(url);
+              // Für Deployment hier nur (url) übergeben und in if/else jeweils GoogleDriver und local
+                con = DriverManager.getConnection(url, user, password);
             } 
             
             /**
