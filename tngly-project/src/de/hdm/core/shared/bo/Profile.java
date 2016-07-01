@@ -69,6 +69,8 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private boolean isFavorite;
 
 	private boolean isBanned;
+	
+	private boolean createdOnLogin;
 
 	public Profile() {
 		this.setWishlist(new ArrayList<Wish>());
@@ -320,7 +322,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 		}
 
 		this.similiarityToReference = percentage;
-		System.out.println("Ähnlichkeitswert: " + this.similiarityToReference);
+		System.out.println("ï¿½hnlichkeitswert: " + this.similiarityToReference);
 	}
 
 	@Override
@@ -354,5 +356,13 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	public Boolean getIsBanned() {
 		return isBanned;
+	}
+	
+	public void setCreatedOnLogin(boolean createdOnLogin)	{
+		this.createdOnLogin = createdOnLogin;
+	}
+	
+	public Boolean getCreatedOnLogin()	{
+		return createdOnLogin;
 	}
 }

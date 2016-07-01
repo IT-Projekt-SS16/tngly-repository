@@ -136,8 +136,8 @@ public class ProfileView extends Update {
 		hairColourList.setPixelSize(130, 25);
 
 		isSmokingBox.setVisibleItemCount(1);
-		isSmokingBox.addItem("Yes");
 		isSmokingBox.addItem("No");
+		isSmokingBox.addItem("Yes");
 		isSmokingBox.setPixelSize(130, 25);
 
 

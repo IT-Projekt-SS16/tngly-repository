@@ -331,8 +331,8 @@ public class EditProfileView extends Update {
 
 				logger.info("gender CHECK");
 
-				temp.setDateOfBirth(datePicker.getValue());
-
+				currentUserProfile.setDateOfBirth(datePicker.getValue());
+				
 				logger.info("dateOfBirth CHECK");
 
 				float f = Float.valueOf(tbbh.getText().trim()).floatValue();
@@ -378,6 +378,7 @@ public class EditProfileView extends Update {
 				 * Auslesen der Checkbox-Werte f�r die Eigenschaft "My
 				 * Hobbies"
 				 */
+				logger.info("Zeile 381 ausgeführt");
 				for (int i : selectedRowsMyHobbies) {
 					Information info = new Information();
 					info.setProfileId(currentUserProfile.getId());
