@@ -6,10 +6,6 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -44,6 +40,7 @@ public class EditProfileView extends Update {
 	private VerticalPanel verPanel2 = new VerticalPanel();
 
 	private HorizontalPanel horPanel = new HorizontalPanel();
+	private HorizontalPanel horPanel2 = new HorizontalPanel();
 	
 	private final Label lblWrongInputFirstName = new Label("Please only enter characters (a-z, A-Z) in field 'First Name'");
 	private final Label lblWrongInputLastName = new Label("Please only enter characters (a-z, A-Z) in field 'Last Name'");
@@ -105,6 +102,7 @@ public class EditProfileView extends Update {
 	private final CheckBox chkAzzlackz = new CheckBox("Azzlackz");
 
 	private final Button saveProfilButton = new Button("Save");
+	private final Button deleteProfileButton = new Button("Delete Profile");
 
 	/**
 	 * Jede View besitzt eine einleitende �berschrift, die durch diese Methode
@@ -135,6 +133,7 @@ public class EditProfileView extends Update {
 
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
+		horPanel2.setSpacing(60);
 
 		tbun.setPixelSize(120, 15);
 		tbfn.setPixelSize(120, 15);
@@ -228,16 +227,6 @@ public class EditProfileView extends Update {
 		t3.setText(1, 0, "Favorite Movie");
 		t3.setWidget(1, 1, tBm);
 
-		t3.setText(4, 0, "Favorite Era");
-		t5.setWidget(0, 0, chkStoneAge);
-		t5.setWidget(1, 0, chkAncientTimes);
-		t5.setWidget(2, 0, chkEarlyMiddleAges);
-		t5.setWidget(3, 0, chkLateMiddleAges);
-		t5.setWidget(4, 0, chkRenaissance);
-		t5.setWidget(5, 0, chkIndustrialAge);
-		t5.setWidget(6, 0, chkModernAge);
-		t3.setWidget(4, 1, t5);
-
 		t3.setText(2, 0, "My Strong Points");
 		t7.setWidget(0, 0, chkBringing);
 		t7.setWidget(1, 0, chkEnjoying);
@@ -253,9 +242,24 @@ public class EditProfileView extends Update {
 		t6.setWidget(3, 0, chkEmo);
 		t6.setWidget(4, 0, chkAzzlackz);
 		t3.setWidget(3, 1, t6);
+		
+		t3.setText(4, 0, "Favorite Era");
+		t5.setWidget(0, 0, chkStoneAge);
+		t5.setWidget(1, 0, chkAncientTimes);
+		t5.setWidget(2, 0, chkEarlyMiddleAges);
+		t5.setWidget(3, 0, chkLateMiddleAges);
+		t5.setWidget(4, 0, chkRenaissance);
+		t5.setWidget(5, 0, chkIndustrialAge);
+		t5.setWidget(6, 0, chkModernAge);
+		t3.setWidget(4, 1, t5);
 
-		t.setWidget(12, 1, saveProfilButton);
 		saveProfilButton.setStyleName("tngly-button");
+		deleteProfileButton.setStyleName("tngly-button");
+		
+		horPanel2.add(saveProfilButton);
+		horPanel2.add(deleteProfileButton);
+		
+		t.setWidget(12, 1, horPanel2);
 		
 		lblWrongInputFirstName.setStyleName("serverResponseLabelError");
 		lblWrongInputLastName.setStyleName("serverResponseLabelError");
@@ -541,6 +545,16 @@ public class EditProfileView extends Update {
 				return selectedRows;
 			}
 		});
+		
+		deleteProfileButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				logger.info("DeleteProfilButton onClick aufgerufen");
+				adminService.deleteProfile(currentUserProfile, deleteUserProfileCallback());
+				logger.info("deleteProfile vom AdminService ausgefuehrt");
+			}
+		});
 	}
 
 	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
@@ -562,11 +576,7 @@ public class EditProfileView extends Update {
 				tbn.setText(result.getLastName());
 
 				int index = 0;
-				// if (result.getGender() == "Male") {
-				// index = 1;
-				// } else {
-				// index = 0;
-				// }
+
 				switch (result.getGender()) {
 				case "Male":
 					index = 1;
@@ -590,17 +600,6 @@ public class EditProfileView extends Update {
 
 				tbbh.setText(Float.toString(bhFormatted));
 
-				// if (result.getHairColour() == "Black") {
-				// index = 0;
-				// } else if (result.getHairColour() == "Brown") {
-				// index = 1;
-				// } else if (result.getHairColour() == "Red") {
-				// index = 2;
-				// } else if (result.getHairColour() == "Blonde") {
-				// index = 3;
-				// } else {
-				// index = 4;
-				// }
 				switch (result.getHairColour()) {
 				case "Black":
 					index = 0;
@@ -614,30 +613,44 @@ public class EditProfileView extends Update {
 				case "Blonde":
 					index = 3;
 					break;
+				case "Dark Blonde":
+					index = 4;
+					break;
 				default:
 				}
 				hairColourList.setItemSelected(index, true);
 
 				isSmokingBox.setItemSelected(result.getIsSmoking(), true);
-
-				if (result.getConfession() == "Atheistic") {
+				
+				switch (result.getConfession()) {
+				case "Atheistic":
 					index = 0;
-				} else if (result.getConfession() == "Buddhistic") {
+					break;
+				case "Buddhistic":
 					index = 1;
-				} else if (result.getConfession() == "Evangelic") {
+					break;
+				case "Evangelic":
 					index = 2;
-				} else if (result.getConfession() == "Catholic") {
+					break;
+				case "Catholic":
 					index = 3;
-				} else if (result.getConfession() == "Hindu") {
+					break;
+				case "Hindu":
 					index = 4;
-				} else if (result.getConfession() == "Muslim") {
+					break;
+				case "Muslim":
 					index = 5;
-				} else if (result.getConfession() == "Jewish") {
+					break;
+				case "Jewish":
 					index = 6;
-				} else if (result.getConfession() == "Orthodox") {
+					break;
+				case "Orthodox":
 					index = 7;
-				} else {
+					break;
+				case "Other":
 					index = 8;
+					break;
+				default:
 				}
 				confessionBox.setItemSelected(index, true);
 
@@ -769,4 +782,20 @@ public class EditProfileView extends Update {
 		return asyncCallback;
 	}
 
+	private AsyncCallback<Void> deleteUserProfileCallback() {
+		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				ClientsideSettings.getLogger().info("Success: DeleteUserProfileCallback");
+				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
+			}
+		};
+		return asyncCallback;
+	}
 }

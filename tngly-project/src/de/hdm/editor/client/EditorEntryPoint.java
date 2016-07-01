@@ -55,7 +55,7 @@ public class EditorEntryPoint implements EntryPoint {
 
 	private Anchor signOutLink = new Anchor("Sign Out");
 
-	private Anchor moduleLink = new Anchor("Change to REPORT module");
+//	private Anchor moduleLink = new Anchor("Change to REPORT module");
 
 	@Override
 	public void onModuleLoad() {
@@ -110,6 +110,19 @@ public class EditorEntryPoint implements EntryPoint {
 	}
 
 	private void loadEditor() {
+		
+		VerticalPanel verPanel = new VerticalPanel();
+		HorizontalPanel logoutPanel = new HorizontalPanel();
+		HorizontalPanel trailerPanel = new HorizontalPanel();
+		
+		final Button profileButton = new Button("MY PROFILE");
+		final Button editProfileButton = new Button("EDIT PROFILE");
+		final Button profileListsButton = new Button("PROFILELISTS");
+		final Button wishlistButton = new Button("WISHLIST");
+		final Button banlistButton = new Button("BANLIST");
+		final Button searchProfilButton = new Button("SEARCH PARTNER");
+		final Button signOutButton = new Button("SIGN OUT");
+		final Button imprintButton = new Button("IMPRINT");
 
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			@Override
@@ -117,42 +130,32 @@ public class EditorEntryPoint implements EntryPoint {
 				logger.log(Level.ALL, "Ex caught!", e);
 			}
 		});
-
-		VerticalPanel verPanel = new VerticalPanel();
-		HorizontalPanel logoutPanel = new HorizontalPanel();
 		
+		editProfileButton.setStylePrimaryName("tngly-submenubutton");
+		profileListsButton.setStylePrimaryName("tngly-menubutton");
+		wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+		banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+		searchProfilButton.setStylePrimaryName("tngly-menubutton");
+		signOutButton.setStylePrimaryName("tngly-signoutButton");
+		profileButton.setStylePrimaryName("tngly-EditProfileButton");
+		imprintButton.setStylePrimaryName("tngly-signoutButton");
+		
+		verPanel.setStylePrimaryName("tngly-navigation");
+		
+		verPanel.add(profileButton);
+		verPanel.add(editProfileButton);
+		verPanel.add(profileListsButton);
+		verPanel.add(wishlistButton);
+		verPanel.add(banlistButton);
+		verPanel.add(searchProfilButton);
+		
+		trailerPanel.add(imprintButton);
+		trailerPanel.add(signOutButton);
 		
 		RootPanel.get("Navigator").add(logoutPanel);
-		
 		RootPanel.get("Navigator").add(verPanel);
-		
-
-		final Button profileButton = new Button("MY PROFILE");
-		verPanel.add(profileButton);
-		
-		final Button editProfileButton = new Button("EDIT PROFILE");
-		editProfileButton.setStylePrimaryName("tngly-submenubutton");
-		verPanel.add(editProfileButton);
-
-		final Button profileListsButton = new Button("PROFILELISTS");
-		profileListsButton.setStylePrimaryName("tngly-menubutton");
-		verPanel.add(profileListsButton);
-
-		
-		final Button wishlistButton = new Button("WISHLIST");
-		wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-		verPanel.add(wishlistButton);
-		
-		final Button banlistButton = new Button("BANLIST");
-		banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-		verPanel.add(banlistButton);
-		
-		final Button searchProfilButton = new Button("SEARCH PARTNER");
-		searchProfilButton.setStylePrimaryName("tngly-menubutton");
-		verPanel.add(searchProfilButton);
-
-
-		profileButton.setStylePrimaryName("tngly-EditProfileButton");
+		RootPanel.get("Trailer").add(imprintButton);
+		RootPanel.get("Trailer").add(signOutButton);
 
 		
 		profileButton.addClickHandler(new ClickHandler() {
@@ -249,33 +252,18 @@ public class EditorEntryPoint implements EntryPoint {
 				RootPanel.get("Details").add(update);
 			}
 		});
-		
-	
-	
-//		final Button signOutButton = new Button("SIGN OUT");
-//		signOutButton.setStylePrimaryName("tngly-signoutButton");
-//		logoutPanel.add(signOutButton);
 
-//		signOutButton.addClickHandler(new ClickHandler() {
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
-//						"_self", "");
-//			}
-//		});
+		signOutButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
+						"_self", "");
+			}
+		});
 
-	
-
-		signOutLink.setHref(loginInfo.getLogoutUrl());
-
-
-		verPanel.add(signOutLink);
-
-		
 		Update update = new EditProfileView();
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(update);
-
 	}
 
 	private void loadLogin() {

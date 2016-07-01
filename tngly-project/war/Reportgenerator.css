@@ -16,11 +16,21 @@ div#TopLevelFrame{
 	background-color: #97dfb7;
 	background-repeat: no repeat;
 	background-size: 140%;
-	
-	
-	
 }
 
+#reporttable {
+  width: 100%;
+  border: solid 2px gray; 
+  border-radius: 6px;
+}
+
+#spalten {
+	border:1px solid silver;  
+}
+
+#zelle {
+	border:1px solid silver;
+}
 
 }
 /** Most GWT widgets already have a style name defined */

@@ -104,23 +104,31 @@ public class HTMLProfilesReport {
 					resultPoints.append(i.getValue() + "\n");
 				}
 				
+				String selfDescription;
+				if (!p.getDescriptionList().get(0).getInformationValues().isEmpty()){
+					selfDescription = p.getDescriptionList().get(0).getInformationValues().get(0).getValue();
+				} else {
+					selfDescription = null;
+				}
+				
 				logger.info("Zeile 103 HTMLprofilesReport ausgeführt");
 				
 				report += "<tr id=\"spalten\">"
-						+ "<td id=\"zelle\">" + p.getName() + " " + ""+ p.getLastName() +"</td>"
+						+ "<td id=\"zelle\">" + p.getName() + "</td>"
+						+ "<td id=\"zelle\">" + p.getLastName() + "</td>"
 						+ "<td id=\"zelle\">" + p.getGender() + "</td>"
 						+ "<td id=\"zelle\">" + String.valueOf(age) +"</td>"
 						+ "<td id=\"zelle\">" + String.valueOf(p.getBodyHeight()) + "</td>"
 						+ "<td id=\"zelle\">" + p.getHairColour() +"</td>"
 						+ "<td id=\"zelle\">" + smoker + "</td>"
 						+ "<td id=\"zelle\">" + p.getConfession() +"</td>"
-					//	+ "<td id=\"zelle\">" + resultHobbies.toString() + "</td>"
-					//	+ "<td id=\"zelle\">" + p.getDescriptionList().get(0).getInformationValues().get(0).getValue() +"</td>"
-					//	+ "<td id=\"zelle\">" + p.getDescriptionList().get(1).getInformationValues().get(0).getValue() + "</td>"
-					//	+ "<td id=\"zelle\">" + resultEra.toString() +"</td>"
-					//	+ "<td id=\"zelle\">" + resultCulture.toString() + "</td>"
-					//  + "<td id=\"zelle\">" + p.getDescriptionList().get(2).getInformationValues().get(0).getValue() +"</td>"
-					//	+ "<td id=\"zelle\">" + resultPoints.toString() + "</td>"
+//						+ "<td id=\"zelle\"><pre>" + resultHobbies.toString() + "</pre></td>"
+						+ "<td id=\"zelle\"><pre>" + selfDescription +"</pre></pre></td>"
+//						+ "<td id=\"zelle\"><pre>" + p.getDescriptionList().get(1).getInformationValues().get(0).getValue() + "</pre></td>"
+//						+ "<td id=\"zelle\"><pre>" + resultEra.toString() +"</pre></td>"
+//						+ "<td id=\"zelle\"><pre>" + resultCulture.toString() + "</pre></td>"
+//						+ "<td id=\"zelle\"><pre>" + p.getDescriptionList().get(2).getInformationValues().get(0).getValue() +"</pre></td>"
+//						+ "<td id=\"zelle\"><pre>" + resultPoints.toString() + "</pre></td>"
 						+ "</tr>";
 			}
 			
