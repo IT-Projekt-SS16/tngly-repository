@@ -1,7 +1,9 @@
 package de.hdm.core.server;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import com.google.appengine.api.users.User;
@@ -217,11 +219,38 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
 		Profile profile = this.profileMapper.findByName(userEmail);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
-		profiles.add(profile);
-//		if (profile.getDescriptionList().size() > 0 && profile.getSelectionList().size() > 0){
-		profiles = this.propertyMapper.searchForProperties(profiles);
-		profiles = this.informationMapper.searchForInformationValues(profiles);
-//		}
+		
+		if (this.profileMapper.findByName(userEmail) == null)	{
+			
+			logger.info("Zeile 225 ausgeführt, profile == null");
+			
+			Profile toCreate = new Profile();
+		
+			toCreate.setUserName(userEmail);
+			
+			Date currentDate = new Date();
+			
+			toCreate.setDateOfBirth(currentDate);
+			
+			this.createProfile(toCreate);
+			
+			Profile profile2 = this.profileMapper.findByName(userEmail);
+			
+			profiles.add(profile2);
+			
+			logger.info("Zeile 241 ausgeführt, profile2 geaddet");
+		}
+		
+		if (this.profileMapper.findByName(userEmail) != null)	{
+			profile = this.profileMapper.findByName(userEmail);
+			
+			logger.info("Zeile 244 ausgeführt, profile != null");
+			profiles.add(profile);
+			profiles = this.propertyMapper.searchForProperties(profiles);
+			profiles = this.informationMapper.searchForInformationValues(profiles);
+		}
+		
+		logger.info("Zeile 251 ausgeführt, kurz vor Rückgabe des Profils");
 		return profiles.get(0);
 	}
 
@@ -235,17 +264,6 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		String userName = user.getEmail().substring(0, atIndex);
 
 		currentUserProfile = this.getProfileByUserName(userName);
-
-		/*
-		 * �berpr�fung ob der eingelogte Benutezr bereits in der Datenbank
-		 * vorhanden ist, aonsten wird er erzeugt.
-		 */
-		if (currentUserProfile == null) {
-			Profile temp = new Profile();
-			temp.setUserName(userName);
-			this.createProfile(temp);
-		}
-
 	}
 	
 	@Override

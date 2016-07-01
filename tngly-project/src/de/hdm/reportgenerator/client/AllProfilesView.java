@@ -3,8 +3,6 @@ package de.hdm.reportgenerator.client;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import org.mortbay.log.Log;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -39,7 +37,6 @@ public class AllProfilesView extends UpdateReportGenerator {
 		this.searchProfile = searchProfile;
 		this.unseenChecked = unseenChecked;
 		logger.info("Zeile 37 APV ausgeführt");
-		logger.info("Zeile 39 APV ausgeführt");
 	}
 
 	/**
@@ -84,9 +81,9 @@ public class AllProfilesView extends UpdateReportGenerator {
 			@Override
 			public void onSuccess(ArrayList<Profile> result) {
 				
-				System.out.println("Zeile 81 APV ausgeführt");
+				System.out.println("Zeile 85 APV ausgeführt");
 				scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
-				System.out.println("Zeile 83 APV ausgeführt");
+				System.out.println("Line 87 APV executed");
 				
 			}
 		};
@@ -99,15 +96,14 @@ public class AllProfilesView extends UpdateReportGenerator {
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-				System.out.println("Zeile 102 APV ausgeführt");
+				System.out.println("Zeile 100 APV ausgeführt");
 
 			}
 
 			@Override
 			public void onSuccess(Integer result) {
 				
-				System.out.println("Zeile 109 APV ausgeführt");
-				System.out.println("Zeile 111 APV ausgeführt");
+				System.out.println("Line 107 APV executed");
 				
 			}
 		};
