@@ -2,6 +2,7 @@ package de.hdm.core.server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.utils.SystemProperty;
 /**
@@ -41,8 +42,14 @@ public class DBConnection {
      * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
      * Software neu komilieren zu müssen.
      */
-    private static String googleUrl = "jdbc:google:mysql://173.194.237.74:3306/tnglyDB?user=root";
+    private static String googleUrl = "jdbc:google:mysql://our-lacing-132223:tngly/tnglyDB?user=root";
 
+    /**
+     * Logger aktivieren
+     */
+    
+    private static Logger logger = Logger.getLogger("Tngly Web Client");
+    
     /**
      *   Die localUrl würde normalerweise benutzt werden, um in einer komplett auf dem Rechner
      *   laufenden Entwicklungsumgebung zu testen. Wir haben von Anfang an direkt auf der Live-DB
@@ -105,12 +112,15 @@ public class DBConnection {
                      */
                     Class.forName("com.mysql.jdbc.GoogleDriver");
                     url = googleUrl;
+                    
+                    logger.info("googleUrl benutzt!!");
                 } else {
                     /**
                      *  Local MySQL instance to use during development.
                      */
                     Class.forName("com.mysql.jdbc.Driver");
-                    url = localUrl;
+                    url = googleUrl;
+                    logger.info("local benutzt!!");
                 }
 
                 /**
@@ -120,7 +130,7 @@ public class DBConnection {
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
-                con = DriverManager.getConnection(url, user, password);
+                con = DriverManager.getConnection(url);
             } 
             
             /**

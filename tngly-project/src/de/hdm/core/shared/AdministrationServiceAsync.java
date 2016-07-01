@@ -53,7 +53,7 @@ public interface AdministrationServiceAsync {
 	
 	public void wasProfileVisited(Profile currentUserProfile, Profile dependantProfile, AsyncCallback<Boolean> callback) throws IllegalArgumentException;
 	
-	public void checkUserProfile(AsyncCallback<Void> callback);
+	// public void checkUserProfile(AsyncCallback<Void> callback);
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 

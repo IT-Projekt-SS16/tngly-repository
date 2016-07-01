@@ -217,7 +217,6 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
-		Profile profile = this.profileMapper.findByName(userEmail);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 		
 		if (this.profileMapper.findByName(userEmail) == null)	{
@@ -242,7 +241,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 		
 		if (this.profileMapper.findByName(userEmail) != null)	{
-			profile = this.profileMapper.findByName(userEmail);
+			Profile profile = this.profileMapper.findByName(userEmail);
 			
 			logger.info("Zeile 244 ausgeführt, profile != null");
 			profiles.add(profile);
@@ -254,7 +253,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		return profiles.get(0);
 	}
 
-	@Override
+/**	@Override
 	public void checkUserProfile() throws IllegalArgumentException {
 		// Abfrage des aktuell eingelogten Benutzers
 		UserService userService = UserServiceFactory.getUserService();
@@ -264,7 +263,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		String userName = user.getEmail().substring(0, atIndex);
 
 		currentUserProfile = this.getProfileByUserName(userName);
-	}
+	} */
 	
 	@Override
 	public int testCallback() throws IllegalArgumentException {
@@ -275,7 +274,14 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException {
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-		this.checkUserProfile();
+		
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+
+		int atIndex = user.getEmail().indexOf("@");
+		String userName = user.getEmail().substring(0, atIndex);
+		
+		currentUserProfile = this.getProfileByUserName(userName);
 		
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);

@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
@@ -24,6 +25,8 @@ public class AllProfilesView extends UpdateReportGenerator {
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
+	
+	private VerticalPanel verPanel = new VerticalPanel();
 	
 	HTML verLine = new HTML("  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='500' style='background:grey'></td></tr></table>"); 
 	
@@ -58,13 +61,11 @@ public class AllProfilesView extends UpdateReportGenerator {
 	@Override
 	protected void run() {
 		
-		//adminService.searchAndCompareProfiles(unseenChecked, searchProfile, comparedProfilesCallback());
+		adminService.searchAndCompareProfiles(unseenChecked, searchProfile, comparedProfilesCallback());
 		reportGenerator.testCallback(testCallback());
 		
 		logger.info("Zeile 61 ausgeführt");
 		scrollPanel.add(horLine);
-		RootPanel.get("Details").add(scrollPanel);
-		scrollPanel.setSize("100%", "100%");
 		
 		logger.info("Zeile 66 ausgeführt");
 		
@@ -81,9 +82,14 @@ public class AllProfilesView extends UpdateReportGenerator {
 			@Override
 			public void onSuccess(ArrayList<Profile> result) {
 				
-				System.out.println("Zeile 85 APV ausgeführt");
-				scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
-				System.out.println("Line 87 APV executed");
+				logger.info("Zeile 82 APV ausgeführt");
+				scrollPanel.setSize("100%", "100%");
+				logger.info("Zeile 84 APV ausgeführt");
+				verPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
+				// scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
+				logger.info("Zeile 86 APV ausgeführt");
+				RootPanel.get("Details").add(verPanel);
+				logger.info("Line 87 APV executed");
 				
 			}
 		};
@@ -96,14 +102,14 @@ public class AllProfilesView extends UpdateReportGenerator {
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-				System.out.println("Zeile 100 APV ausgeführt");
+				logger.info("Zeile 100 APV ausgeführt");
 
 			}
 
 			@Override
 			public void onSuccess(Integer result) {
 				
-				System.out.println("Line 107 APV executed");
+				logger.info("Line 107 APV executed");
 				
 			}
 		};

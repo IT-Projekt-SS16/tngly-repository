@@ -2,10 +2,12 @@ package de.hdm.core.shared.report;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.ui.HTML;
 
+import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 
@@ -19,6 +21,8 @@ import de.hdm.core.shared.bo.Profile;
  */
 public class HTMLProfilesReport {
 
+	private static Logger logger = ClientsideSettings.getLogger();
+	
 	//Aufbau der HTML Seite
 		private static String generateReportHead() {
 			return "<html>"
@@ -37,6 +41,8 @@ public class HTMLProfilesReport {
 			String report = generateReportHead();
 			
 			report += "<div>";
+			
+			logger.info("Zeile 45 HTMLprofilesReport ausgeführt");
 			
 			// Hinzuf�gen des aktuellen Datums mit Uhrzeit f�r die �berschrift des Reports.
 			Date today = new Date();
@@ -63,6 +69,8 @@ public class HTMLProfilesReport {
 					+ "<th id=\"profile\">Favorite Movies</th>"
 					+ "<th id=\"profile\">Strong Points</th>"
 					+ "</tr>";
+			
+			logger.info("Zeile 71 HTMLprofilesReport ausgeführt");
 			
 			for (Profile p : searchResult) {
 				Date dateBirth = p.getDateOfBirth();
@@ -96,6 +104,8 @@ public class HTMLProfilesReport {
 					resultPoints.append(i.getValue() + "\n");
 				}
 				
+				logger.info("Zeile 103 HTMLprofilesReport ausgeführt");
+				
 				report += "<tr id=\"spalten\">"
 						+ "<td id=\"zelle\">" + p.getName() + " " + ""+ p.getLastName() +"</td>"
 						+ "<td id=\"zelle\">" + p.getGender() + "</td>"
@@ -104,13 +114,13 @@ public class HTMLProfilesReport {
 						+ "<td id=\"zelle\">" + p.getHairColour() +"</td>"
 						+ "<td id=\"zelle\">" + smoker + "</td>"
 						+ "<td id=\"zelle\">" + p.getConfession() +"</td>"
-						+ "<td id=\"zelle\">" + resultHobbies.toString() + "</td>"
-						+ "<td id=\"zelle\">" + p.getDescriptionList().get(0).getInformationValues().get(0).getValue() +"</td>"
-						+ "<td id=\"zelle\">" + p.getDescriptionList().get(1).getInformationValues().get(0).getValue() + "</td>"
-						+ "<td id=\"zelle\">" + resultEra.toString() +"</td>"
-						+ "<td id=\"zelle\">" + resultCulture.toString() + "</td>"
-						+ "<td id=\"zelle\">" + p.getDescriptionList().get(2).getInformationValues().get(0).getValue() +"</td>"
-						+ "<td id=\"zelle\">" + resultPoints.toString() + "</td>"
+					//	+ "<td id=\"zelle\">" + resultHobbies.toString() + "</td>"
+					//	+ "<td id=\"zelle\">" + p.getDescriptionList().get(0).getInformationValues().get(0).getValue() +"</td>"
+					//	+ "<td id=\"zelle\">" + p.getDescriptionList().get(1).getInformationValues().get(0).getValue() + "</td>"
+					//	+ "<td id=\"zelle\">" + resultEra.toString() +"</td>"
+					//	+ "<td id=\"zelle\">" + resultCulture.toString() + "</td>"
+					//  + "<td id=\"zelle\">" + p.getDescriptionList().get(2).getInformationValues().get(0).getValue() +"</td>"
+					//	+ "<td id=\"zelle\">" + resultPoints.toString() + "</td>"
 						+ "</tr>";
 			}
 			
@@ -118,7 +128,10 @@ public class HTMLProfilesReport {
 			
 			report += "</div>";
 			
+			logger.info("Zeile 125 HTMLprofilesReport ausgeführt");
+			
 			report = generateReportEnd(report);
+			logger.info("Zeile 134 HTMLprofilesReport ausgeführt");
 			return new HTML(report);
 	}
 

@@ -54,7 +54,7 @@ public interface AdministrationService extends RemoteService {
 	
 	public Boolean wasProfileVisited(Profile currentUserProfile, Profile dependantProfile) throws IllegalArgumentException;
 	
-	public void checkUserProfile() throws IllegalArgumentException;
+	// public void checkUserProfile() throws IllegalArgumentException;
 	
 	/**
 	 * Aufruf dieser Methode durch den Benutzer, 
