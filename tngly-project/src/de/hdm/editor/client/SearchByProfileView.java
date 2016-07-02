@@ -29,11 +29,11 @@ public class SearchByProfileView extends Update {
 	private VerticalPanel verPanel = new VerticalPanel();
 
 	private final Label lblWrongInputAgeRangeFrom = new Label(
-			"Please only enter numbers between 16 and 99 in field 'From'");
+			"Please only enter numbers between 0 and 99 in field 'From'");
 	private final Label lblSmallNumberAgeRangeFrom = new Label(
 			"Please enter a lower number in field 'From' than in field 'To'");
 	private final Label lblWrongInputAgeRangeTo = new Label(
-			"Please only enter numbers between 16 and 99 in field 'To'");
+			"Please only enter numbers between 0 and 99 in field 'To'");
 	private final Label lblSmallNumberAgeRangeTo = new Label(
 			"Please enter a higher number in field 'To' than in field 'From'");
 
@@ -389,7 +389,7 @@ public class SearchByProfileView extends Update {
 
 				if (ageChecked == false) {
 
-					if (!tbAgeRangeFrom.getText().matches("[1-9][0-9]")) {
+					if (!tbAgeRangeFrom.getText().matches("[0-9]|[1-9][0-9]|[1-9]")) {
 						t.setWidget(2, 5, lblWrongInputAgeRangeFrom);
 						return;
 					} else if (Float.valueOf(tbAgeRangeFrom.getText()) > Float.valueOf(tbAgeRangeTo.getText())) {
@@ -400,7 +400,7 @@ public class SearchByProfileView extends Update {
 						temp.setAgeRangeFrom(arf);
 					}
 
-					if (!tbAgeRangeTo.getText().matches("[1-9][0-9]")) {
+					if (!tbAgeRangeTo.getText().matches("[0-9]|[1-9][0-9]|[1-9]")) {
 						t.setWidget(2, 5, lblWrongInputAgeRangeTo);
 						return;
 					} else if (Float.valueOf(tbAgeRangeTo.getText()) < Float.valueOf(tbAgeRangeFrom.getText())) {

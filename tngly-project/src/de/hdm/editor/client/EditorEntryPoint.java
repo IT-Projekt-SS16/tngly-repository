@@ -56,6 +56,7 @@ public class EditorEntryPoint implements EntryPoint {
 
 	private Anchor signInLink = new Anchor("Sign In");
 
+
 	@Override
 	public void onModuleLoad() {
 

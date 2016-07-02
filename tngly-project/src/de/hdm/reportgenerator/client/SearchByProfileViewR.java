@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -21,11 +22,59 @@ import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.SearchProfile;
+import de.hdm.editor.client.Update;
 
 public class SearchByProfileViewR extends UpdateReportGenerator {
+
+	private static final Logger logger = ClientsideSettings.getLogger();
 	
-	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
-	private ReportGeneratorAsync reportgenerator = ClientsideSettings.getReportGenerator();
+	private SearchProfile searchProfile;
+	
+	private Boolean unseenChecked;
+
+	private VerticalPanel verPanel = new VerticalPanel();
+
+	private final Label lblWrongInputAgeRangeFrom = new Label(
+			"Please only enter numbers between 0 and 99 in field 'From'");
+	private final Label lblSmallNumberAgeRangeFrom = new Label(
+			"Please enter a lower number in field 'From' than in field 'To'");
+	private final Label lblWrongInputAgeRangeTo = new Label(
+			"Please only enter numbers between 0 and 99 in field 'To'");
+	private final Label lblSmallNumberAgeRangeTo = new Label(
+			"Please enter a higher number in field 'To' than in field 'From'");
+
+	private final Label lblWrongInputHeightRangeFrom = new Label(
+			"Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
+	private final Label lblSmallNumberHeightRangeFrom = new Label(
+			"Please enter a lower number in field 'From' than in field 'To'");
+	private final Label lblWrongInputHeightRangeTo = new Label(
+			"Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
+	private final Label lblSmallNumberHeightRangeTo = new Label(
+			"Please enter a higher number in field 'To' than in field 'From'");
+
+	private final TextBox tbAgeRangeFrom = new TextBox();
+	private final TextBox tbAgeRangeTo = new TextBox();
+	private final TextBox tbHeightRangeFrom = new TextBox();
+	private final TextBox tbHeightRangeTo = new TextBox();
+
+	private final CheckBox chkGenderAny = new CheckBox("Any");
+	private final CheckBox chkAgeAny = new CheckBox("Any");
+	private final CheckBox chkBodyHeightAny = new CheckBox("Any");
+	private final CheckBox chkHairColourAny = new CheckBox("Any");
+	private final CheckBox chkSmokerAny = new CheckBox("Any");
+	private final CheckBox chkConfessionAny = new CheckBox("Any");
+	private final CheckBox chkOnlyUnseenProfiles = new CheckBox("");
+
+	private final ListBox hairColourList = new ListBox(false);
+	private final ListBox isSmokingBox = new ListBox(false);
+	private final ListBox confessionBox = new ListBox(false);
+	private final ListBox genderBox = new ListBox(false);
+
+	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+
+	private FlexTable t = new FlexTable();
+
+	private final Button showProfilesButton = new Button("Search");
 
 	/**
 	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
@@ -35,7 +84,20 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "ReportGenerator - Search By Profiles";
+		return "Reportgenerator - search profile";
+	}
+	
+	public SearchByProfileViewR()	{
+		
+	}
+	
+	public SearchByProfileViewR(SearchProfile searchProfile, Boolean unseenChecked)	{
+		if (ClientsideSettings.getSearchProfile() != null)	{
+			this.searchProfile = searchProfile;
+			this.unseenChecked = unseenChecked;
+			logger.info("90 searchProfile: " + searchProfile.toString());
+		}
+		
 	}
 
 	/**
@@ -46,73 +108,9 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 	@Override
 	protected void run() {
 
-		Logger logger = ClientsideSettings.getLogger();
 		logger.info("Erfolgreich Search-By-Profile-View geswitcht.");
+		// logger.info(this.searchProfile.toString());
 
-		
-		
-
-		// logger.info(ClientsideSettings.getLoginInfo().getEmailAddress());
-
-		// if (ClientsideSettings.getUserProfile() == null) {
-		// int atIndex =
-		// ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-		// ClientsideSettings.getAdministration().findProfileByName(
-		// ClientsideSettings.getLoginInfo().getEmailAddress().substring(0,
-		// atIndex), new FindCallback());
-		// }
-
-		VerticalPanel verPanel = new VerticalPanel();
-		verPanel.setSpacing(10);
-
-		HorizontalPanel horPanel = new HorizontalPanel();
-		horPanel.add(verPanel);
-
-		final TextBox tbAgeRangeFrom = new TextBox();
-		final TextBox tbAgeRangeTo = new TextBox();
-		final TextBox tbHeightRangeFrom = new TextBox();
-		final TextBox tbHeightRangeTo = new TextBox();
-
-		RootPanel.get("Details").add(horPanel);
-		logger.info("HorizontalPanel aufgebaut.");
-
-		final Label lblWrongInputAgeRangeFrom = new Label(
-				"Please only enter numbers between 16 and 99 in field 'From'");
-		final Label lblSmallNumberAgeRangeFrom = new Label(
-				"Please enter a lower number in field 'From' than in field 'To'");
-		final Label lblWrongInputAgeRangeTo = new Label(
-				"Please only enter numbers between 16 and 99 in field 'To'");
-		final Label lblSmallNumberAgeRangeTo = new Label(
-				"Please enter a higher number in field 'To' than in field 'From'");
-
-		final Label lblWrongInputHeightRangeFrom = new Label(
-				"Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
-		final Label lblSmallNumberHeightRangeFrom = new Label(
-				"Please enter a lower number in field 'From' than in field 'To'");
-		final Label lblWrongInputHeightRangeTo = new Label(
-				"Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
-		final Label lblSmallNumberHeightRangeTo = new Label(
-				"Please enter a higher number in field 'To' than in field 'From'");
-
-		lblWrongInputAgeRangeFrom.setStylePrimaryName("serverResponseLabelError");
-		lblSmallNumberAgeRangeFrom.setStylePrimaryName("serverResponseLabelError");
-		lblWrongInputAgeRangeTo.setStylePrimaryName("serverResponseLabelError");
-		lblSmallNumberAgeRangeTo.setStylePrimaryName("serverResponseLabelError");
-		
-		lblWrongInputHeightRangeFrom.setStylePrimaryName("serverResponseLabelError");
-		lblSmallNumberHeightRangeFrom.setStylePrimaryName("serverResponseLabelError");
-		lblWrongInputHeightRangeTo.setStylePrimaryName("serverResponseLabelError");
-		lblSmallNumberHeightRangeTo.setStylePrimaryName("serverResponseLabelError");
-		
-		final CheckBox chkGenderAny = new CheckBox();
-		final CheckBox chkAgeAny = new CheckBox();
-		final CheckBox chkBodyHeightAny = new CheckBox();
-		final CheckBox chkHairColourAny = new CheckBox();
-		final CheckBox chkSmokerAny = new CheckBox();
-		final CheckBox chkConfessionAny = new CheckBox();
-		final CheckBox chkOnlyUnseenProfiles = new CheckBox();
-
-		final ListBox hairColourList = new ListBox(false);
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
 		hairColourList.addItem("Brown");
@@ -120,12 +118,10 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 		hairColourList.addItem("Blonde");
 		hairColourList.addItem("Dark Blonde");
 
-		final ListBox isSmokingBox = new ListBox(false);
 		isSmokingBox.setVisibleItemCount(1);
-		isSmokingBox.addItem("yes");
+		isSmokingBox.addItem("Yes");
 		isSmokingBox.addItem("No");
 
-		final ListBox confessionBox = new ListBox(false);
 		confessionBox.setVisibleItemCount(1);
 		confessionBox.addItem("Atheistic");
 		confessionBox.addItem("Buddhistic");
@@ -137,227 +133,178 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 		confessionBox.addItem("Orthodox");
 		confessionBox.addItem("Other");
 
-		final ListBox genderBox = new ListBox(false);
 		genderBox.setVisibleItemCount(1);
 		genderBox.addItem("Female");
 		genderBox.addItem("Male");
 
-		final ListBox myHobbiesSelect = new ListBox(true);
-		myHobbiesSelect.setVisibleItemCount(11);
-		myHobbiesSelect.addItem("Handicraft");
-		myHobbiesSelect.addItem("Languages");
-		myHobbiesSelect.addItem("Singing");
-		myHobbiesSelect.addItem("Art");
-		myHobbiesSelect.addItem("Dancing");
-		myHobbiesSelect.addItem("Reading");
-		myHobbiesSelect.addItem("Computer");
-		myHobbiesSelect.addItem("Movies");
-		myHobbiesSelect.addItem("Cooking");
-		myHobbiesSelect.addItem("Music");
-		myHobbiesSelect.addItem("Fitness");
-
-
-		final FlexTable t = new FlexTable();
-		t.setCellSpacing (5);
-
 		t.setText(0, 0, "Gender");
-		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setWidget(0, 1, genderBox);
-		} else {
-			int index;
-			if (ClientsideSettings.getSearchProfile().getGender() == "Male") {
-				index = 1;
-			} else {
-				index = 0;
+		t.setWidget(0, 1, genderBox);
+
+		if (this.searchProfile != null) {
+			int index = 0;
+			logger.info("Zeile 137 ausgeführt");
+			
+			if (this.searchProfile.getGender() != null )	{
+			
+				if (this.searchProfile.getGender() == "Male") {
+					index = 1; }
+				else if (this.searchProfile.getGender() == "Female") {
+					index = 0; }
+				genderBox.setItemSelected(index, true);
 			}
-			genderBox.setItemSelected(index, true);
-			verPanel.add(genderBox);
+			else { chkGenderAny.setValue(true);
+				   genderBox.setEnabled(false);}
+			
+			logger.info("Zeile 144 ausgeführt");
 		}
 
-		t.setText(0, 4, "Any");
-		t.setWidget(0, 5, chkGenderAny);
+		t.setWidget(0, 4, chkGenderAny);
 
-		chkGenderAny.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean genderChecked = ((CheckBox) event.getSource()).getValue();
-				if (genderChecked == true) {
-					genderBox.setEnabled(false);
-				} else {
-					genderBox.setEnabled(true);
-				}
+		t.setText(1, 0, "Age Range");
+		t.setText(2, 0, "From");
+		t.setWidget(2, 1, tbAgeRangeFrom);
+		t.setText(2, 2, "To");
+		t.setWidget(2, 3, tbAgeRangeTo);
+
+		if (this.searchProfile != null) {
+			if (searchProfile.getAgeRangeFrom() == 0 && searchProfile.getAgeRangeTo() == 0)	{
+				
+				chkAgeAny.setValue(true);
+				tbAgeRangeFrom.setEnabled(false);
+				tbAgeRangeTo.setEnabled(false);
 			}
-		});
-
-		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setText(1, 0, "Age Range");
-			t.setText(2, 0, "From");
-			t.setWidget(2, 1, tbAgeRangeFrom);
-			t.setText(2, 2, "To");
-			t.setWidget(2, 3, tbAgeRangeTo);
-		} else {
-			tbAgeRangeFrom.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeFrom()));
-			t.setWidget(2, 1, tbAgeRangeFrom);
-			tbAgeRangeTo.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeTo()));
-			t.setWidget(2, 3, tbAgeRangeTo);
+			else	{
+			tbAgeRangeFrom.setText(Integer.toString(this.searchProfile.getAgeRangeFrom()));
+			tbAgeRangeTo.setText(Integer.toString(this.searchProfile.getAgeRangeTo()));
+			}
 		}
-		t.setText(2, 4, "Any");
-		t.setWidget(2, 5, chkAgeAny);
 
-		chkAgeAny.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean ageChecked = ((CheckBox) event.getSource()).getValue();
-				if (ageChecked == true) {
-					tbAgeRangeFrom.setEnabled(false);
-					tbAgeRangeTo.setEnabled(false);
-				} else {
-					tbAgeRangeFrom.setEnabled(true);
-					tbAgeRangeTo.setEnabled(true);
-				}
+		t.setWidget(2, 4, chkAgeAny);
+
+		t.setText(3, 0, "Body Height (in Meter)");
+		t.setWidget(4, 1, tbHeightRangeFrom);
+		t.setText(4, 0, "From");
+		t.setWidget(4, 3, tbHeightRangeTo);
+		t.setText(4, 2, "To");
+
+		if (this.searchProfile != null) {
+			if (searchProfile.getBodyHeightFrom() == 0 && searchProfile.getBodyHeightTo() == 0 )	{
+				
+				chkBodyHeightAny.setValue(true);
+				tbHeightRangeFrom.setEnabled(false);
+				tbHeightRangeTo.setEnabled(false);
 			}
-		});
-
-		// Label bodyHeight = new Label("Body Height:");
-		// verPanel.add(bodyHeight);
-		// if (ClientsideSettings.getUserProfile() == null) {
-		// verPanel.add(tbbh);
-		// } else {
-		// tbbh.setText(Float.toString(ClientsideSettings.getUserProfile().getBodyHeight()));
-		// verPanel.add(tbbh);
-		// }
-
-		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setText(3, 0, "Body Height");
-			t.setWidget(4, 1, tbHeightRangeFrom);
-			t.setText(4, 0, "From");
-			t.setWidget(4, 3, tbHeightRangeTo);
-			t.setText(4, 2, "To");
-		} else {
-			tbHeightRangeFrom.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightFrom()));
-			t.setWidget(4, 1, tbHeightRangeFrom);
-			tbHeightRangeTo.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightTo()));
-			t.setWidget(4, 3, tbHeightRangeTo);
+			else {
+			tbHeightRangeFrom.setText(Float.toString(this.searchProfile.getBodyHeightFrom()));
+			tbHeightRangeTo.setText(Float.toString(this.searchProfile.getBodyHeightTo()));
+			}
 		}
-		t.setText(4, 4, "Any");
-		t.setWidget(4, 5, chkBodyHeightAny);
-		// verPanel.add(anyCheck);
-		chkBodyHeightAny.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean bodyHeightChecked = ((CheckBox) event.getSource()).getValue();
-				if (bodyHeightChecked == true) {
-					tbHeightRangeFrom.setEnabled(false);
-					tbHeightRangeTo.setEnabled(false);
-				} else {
-					tbHeightRangeFrom.setEnabled(true);
-					tbHeightRangeTo.setEnabled(true);
-				}
-			}
-		});
+
+		t.setWidget(4, 4, chkBodyHeightAny);
 
 		t.setText(5, 0, "Haircolor");
+		t.setWidget(5, 1, hairColourList);
 
-		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setWidget(5, 1, hairColourList);
-		} else {
-			int index;
-			if (ClientsideSettings.getSearchProfile().getHairColour() == "Black") {
-				index = 0;
-			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Brown") {
-				index = 1;
-			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Red") {
-				index = 2;
-			} else if (ClientsideSettings.getSearchProfile().getHairColour() == "Blonde") {
-				index = 3;
-			} else {
-				index = 4;
-			}
-			hairColourList.setItemSelected(index, true);
-			verPanel.add(hairColourList);
-		}
-		t.setText(5, 4, "Any");
-		t.setWidget(5, 5, chkHairColourAny);
-		// verPanel.add(anyCheck);
-		chkHairColourAny.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean hairColourChecked = ((CheckBox) event.getSource()).getValue();
-				if (hairColourChecked == true) {
-					hairColourList.setEnabled(false);
+		if (this.searchProfile != null) {
+			if (this.searchProfile.getHairColour() != null) {
+				int index;
+				if (this.searchProfile.getHairColour() == "Black") {
+					index = 0;
+				} else if (this.searchProfile.getHairColour() == "Brown") {
+					index = 1;
+				} else if (this.searchProfile.getHairColour() == "Red") {
+					index = 2;
+				} else if (this.searchProfile.getHairColour() == "Blonde") {
+					index = 3;
 				} else {
-					hairColourList.setEnabled(true);
+					index = 4;
 				}
+				hairColourList.setItemSelected(index, true);
 			}
-		});
+			else {
+				chkHairColourAny.setValue(true);
+				hairColourList.setEnabled(false);
+			}
+		}
+
+		t.setWidget(5, 4, chkHairColourAny);
 
 		t.setText(6, 0, "Smoker");
-		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setWidget(6, 1, isSmokingBox);
-		} else {
-			isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(), true);
-			t.setWidget(6, 1, isSmokingBox);
-		}
-		t.setText(6, 4, "Any");
-		t.setWidget(6, 5, chkSmokerAny);
-		// verPanel.add(anyCheck);
-		chkSmokerAny.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean smokerChecked = ((CheckBox) event.getSource()).getValue();
-				if (smokerChecked == true) {
-					isSmokingBox.setEnabled(false);
-				} else {
-					isSmokingBox.setEnabled(true);
-				}
+		t.setWidget(6, 1, isSmokingBox);
+
+		if (this.searchProfile != null) {
+			if (this.searchProfile.getIsSmoking() != -1)	{
+			isSmokingBox.setItemSelected(this.searchProfile.getIsSmoking(), true);
 			}
-		});
+			else {
+				chkSmokerAny.setValue(true);
+				isSmokingBox.setEnabled(false);
+			}
+	}
+
+		t.setWidget(6, 4, chkSmokerAny);
 
 		t.setText(7, 0, "Confession");
-		if (ClientsideSettings.getSearchProfile() == null) {
-			t.setWidget(7, 1, confessionBox);
-		} else {
-			int index;
-			if (ClientsideSettings.getSearchProfile().getConfession() == "Atheistic") {
-				index = 0;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Buddhistic") {
-				index = 1;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Evangelic") {
-				index = 2;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Catholic") {
-				index = 3;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Hindu") {
-				index = 4;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Muslim") {
-				index = 5;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Jewish") {
-				index = 6;
-			} else if (ClientsideSettings.getSearchProfile().getConfession() == "Orthodox") {
-				index = 7;
-			} else {
-				index = 8;
-			}
-			confessionBox.setItemSelected(index, true);
-			t.setWidget(7, 1, confessionBox);
-		}
-		t.setText(7, 4, "Any");
-		t.setWidget(7, 5, chkConfessionAny);
-		// verPanel.add(anyCheck);
-		chkConfessionAny.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean confessionChecked = ((CheckBox) event.getSource()).getValue();
-				if (confessionChecked == true) {
-					confessionBox.setEnabled(false);
-				} else {
-					confessionBox.setEnabled(true);
-				}
-			}
-		});
+		t.setWidget(7, 1, confessionBox);
 
+		if (this.searchProfile != null) {
+			if (this.searchProfile.getConfession() != null) {
+
+				int index;
+				if (this.searchProfile.getConfession() == "Atheistic") {
+					index = 0;
+				} else if (this.searchProfile.getConfession() == "Buddhistic") {
+					index = 1;
+				} else if (this.searchProfile.getConfession() == "Evangelic") {
+					index = 2;
+				} else if (this.searchProfile.getConfession() == "Catholic") {
+					index = 3;
+				} else if (this.searchProfile.getConfession() == "Hindu") {
+					index = 4;
+				} else if (this.searchProfile.getConfession() == "Muslim") {
+					index = 5;
+				} else if (this.searchProfile.getConfession() == "Jewish") {
+					index = 6;
+				} else if (this.searchProfile.getConfession() == "Orthodox") {
+					index = 7;
+				} else {
+					index = 8;
+				}
+				confessionBox.setItemSelected(index, true);
+			}
+			else {
+				chkConfessionAny.setValue(true);
+				confessionBox.setEnabled(false);
+			}
+			
+		}
 		
+		if (unseenChecked != null)	{
+			if (unseenChecked == true)	{
+				chkOnlyUnseenProfiles.setValue(true);
+			} else { chkOnlyUnseenProfiles.setValue(false);}
+		}
+
+		t.setWidget(7, 4, chkConfessionAny);
+
+		lblWrongInputAgeRangeFrom.setStyleName("serverResponseLabelError");
+		lblSmallNumberAgeRangeFrom.setStyleName("serverResponseLabelError");
+		lblWrongInputAgeRangeTo.setStyleName("serverResponseLabelError");
+		lblSmallNumberAgeRangeTo.setStyleName("serverResponseLabelError");
+		lblWrongInputHeightRangeFrom.setStyleName("serverResponseLabelError");
+		lblSmallNumberHeightRangeFrom.setStyleName("serverResponseLabelError");
+		lblWrongInputHeightRangeTo.setStyleName("serverResponseLabelError");
+		lblSmallNumberHeightRangeTo.setStyleName("serverResponseLabelError");
+
+		t.setWidget(11, 1, showProfilesButton);
+		showProfilesButton.setStyleName("tngly-bluebutton");
+
+		t.setCellSpacing(5);
+		verPanel.setSpacing(10);
+
 		verPanel.add(t);
-		RootPanel.get("Details").add(t);
+		RootPanel.get("Details").add(horLine);
+		RootPanel.get("Details").add(verPanel);
 
 		// Label myHobbiesLabel = new Label("Other Hobbies:");
 		// verPanel.add(myHobbiesLabel);
@@ -365,10 +312,6 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 
 		t.setText(9, 3, "Only Unseen Profiles");
 		t.setWidget(9, 2, chkOnlyUnseenProfiles);
-
-		final Button showProfilesButton = new Button("Search");
-		showProfilesButton.setStyleName("tngly-button");
-		t.setWidget(9, 1, showProfilesButton);
 
 		RootPanel.get("Details").add(showProfilesButton);
 
@@ -381,7 +324,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 				boolean hairColourChecked = chkHairColourAny.getValue();
 				boolean smokerChecked = chkSmokerAny.getValue();
 				boolean confessionChecked = chkConfessionAny.getValue();
-				boolean unseenChecked = chkOnlyUnseenProfiles.getValue();
+				unseenChecked = chkOnlyUnseenProfiles.getValue();
 
 
 				Logger logger = ClientsideSettings.getLogger();
@@ -410,7 +353,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 
 				if (ageChecked == false) {
 
-					if (!tbAgeRangeFrom.getText().matches("[1-9][0-9]")) {
+					if (!tbAgeRangeFrom.getText().matches("[0-9]|[1-9][0-9]|[1-9]")) {
 						t.setWidget(2, 6, lblWrongInputAgeRangeFrom);
 						return;
 					} else if (Float.valueOf(tbAgeRangeFrom.getText()) > Float.valueOf(tbAgeRangeTo.getText())) {
@@ -421,7 +364,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 						temp.setAgeRangeFrom(arf);
 					}
 
-					if (!tbAgeRangeTo.getText().matches("[1-9][0-9]")) {
+					if (!tbAgeRangeTo.getText().matches("[0-9]|[1-9][0-9]|[1-9]")) {
 						t.setWidget(2, 6, lblWrongInputAgeRangeTo);
 						return;
 					} else if (Float.valueOf(tbAgeRangeTo.getText()) < Float.valueOf(tbAgeRangeFrom.getText())) {
