@@ -113,6 +113,8 @@ public class EditorEntryPoint implements EntryPoint {
 		
 		VerticalPanel verPanel = new VerticalPanel();
 		
+		final Label title = new Label("TNGLY");
+		
 		final Button profileButton = new Button("MY PROFILE");
 		final Button editProfileButton = new Button("EDIT PROFILE");
 		final Button wishlistButton = new Button("WISHLIST");
@@ -132,6 +134,8 @@ public class EditorEntryPoint implements EntryPoint {
 				logger.log(Level.ALL, "Ex caught!", e);
 			}
 		});
+		
+		title.setStylePrimaryName("tngly-header");
 		
 		editProfileButton.setStylePrimaryName("tngly-submenubutton");
 		wishlistButton.setStylePrimaryName("tngly-submenubutton");
@@ -153,6 +157,7 @@ public class EditorEntryPoint implements EntryPoint {
 		verPanel.add(reportGenButton);
 		verPanel.add(imprintButton);
 		
+		RootPanel.get("Header").add(title);
 		RootPanel.get("Navigator").add(verPanel);
 		
 		

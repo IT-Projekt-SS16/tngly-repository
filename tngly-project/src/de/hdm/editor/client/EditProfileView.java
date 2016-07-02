@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ShowRangeEvent;
@@ -48,15 +47,19 @@ public class EditProfileView extends Update {
 
 	private HorizontalPanel horPanel = new HorizontalPanel();
 	private HorizontalPanel horPanel2 = new HorizontalPanel();
-	
+
 	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
 	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
 
-	HTML verLine = new HTML("  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='625' style='background:grey'></td></tr></table>"); 
-	
-	private final Label lblWrongInputFirstName = new Label("Please only enter characters (a-z, A-Z) in field 'First Name'");
-	private final Label lblWrongInputLastName = new Label("Please only enter characters (a-z, A-Z) in field 'Last Name'");
-	private final Label lblWrongInputBodyHeight = new Label("Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
+	HTML verLine = new HTML(
+			"  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='625' style='background:grey'></td></tr></table>");
+
+	private final Label lblWrongInputFirstName = new Label(
+			"Please only enter characters (a-z, A-Z) in field 'First Name'");
+	private final Label lblWrongInputLastName = new Label(
+			"Please only enter characters (a-z, A-Z) in field 'Last Name'");
+	private final Label lblWrongInputBodyHeight = new Label(
+			"Please only enter numbers in following pattern: '#.##' between 1.00 and 2.99");
 
 	private final TextBox tbun = new TextBox();
 	private final TextBox tbfn = new TextBox();
@@ -145,7 +148,7 @@ public class EditProfileView extends Update {
 
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
-		
+
 		horPanel2.setWidth("100%");
 		horPanel2.setHorizontalAlignment(ALIGN_CENTER);
 
@@ -188,55 +191,47 @@ public class EditProfileView extends Update {
 		datePicker.setYearAndMonthDropdownVisible(false);
 		datePicker.setVisibleYearCount(101);
 		datePicker.setYearAndMonthDropdownVisible(true);
-		
-		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>()
-	    {
+
+		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>() {
 			@Override
-	        public void onShowRange(ShowRangeEvent<Date> event) 
-	        {
-	            Date start = event.getStart();
-	            Date temp = CalendarUtil.copyDate(start);
-	            Date end = event.getEnd();
-	            
-	            // long d = 817689600000L;
-	            Date today = new Date();
-				
-	            while(temp.before(end))
-	            {
-	                if(temp.after(today) && datePicker.isDateVisible(temp))
-	                {
-	                    datePicker.setTransientEnabledOnDates(false,temp);
-	                }
-	                CalendarUtil.addDaysToDate(temp, 1);
-	            }
-	        }
-	    });
-		
-		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>()
-	    {
+			public void onShowRange(ShowRangeEvent<Date> event) {
+				Date start = event.getStart();
+				Date temp = CalendarUtil.copyDate(start);
+				Date end = event.getEnd();
+
+				// long d = 817689600000L;
+				Date today = new Date();
+
+				while (temp.before(end)) {
+					if (temp.after(today) && datePicker.isDateVisible(temp)) {
+						datePicker.setTransientEnabledOnDates(false, temp);
+					}
+					CalendarUtil.addDaysToDate(temp, 1);
+				}
+			}
+		});
+
+		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>() {
 			@Override
-	        public void onShowRange(ShowRangeEvent<Date> event) 
-	        {
-	            Date start = event.getStart();
-	            Date temp = CalendarUtil.copyDate(start);
-	            Date end = event.getEnd();
-	            
-	            // long d = 817689600000L;
-	            Date today = new Date(-2209075200000L);
-				
-	            while(temp.before(end))
-	            {
-	                if(temp.before(today) && datePicker.isDateVisible(temp))
-	                {
-	                    datePicker.setTransientEnabledOnDates(false,temp);
-	                }
-	                CalendarUtil.addDaysToDate(temp, 1);
-	            }
-	        }
-	    });
+			public void onShowRange(ShowRangeEvent<Date> event) {
+				Date start = event.getStart();
+				Date temp = CalendarUtil.copyDate(start);
+				Date end = event.getEnd();
+
+				// long d = 817689600000L;
+				Date today = new Date(-2209075200000L);
+
+				while (temp.before(end)) {
+					if (temp.before(today) && datePicker.isDateVisible(temp)) {
+						datePicker.setTransientEnabledOnDates(false, temp);
+					}
+					CalendarUtil.addDaysToDate(temp, 1);
+				}
+			}
+		});
 
 		ta.setWidth("230px");
-		
+
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
 		t.setWidget(0, 1, tbun);
@@ -264,46 +259,57 @@ public class EditProfileView extends Update {
 
 		t.setText(9, 0, "Confession");
 		t.setWidget(9, 1, confessionBox);
+		
+		t.setWidget(10, 0, horLine);
 
-		t.setText(10, 0, "Hobbies");
+		t.setText(11, 0, "Hobbies");
 		t2.setWidget(0, 0, chkVolleyball);
 		t2.setWidget(1, 0, chkFootball);
 		t2.setWidget(2, 0, chkWatchPeople);
 		t2.setWidget(3, 0, chkIT);
 		t2.setWidget(4, 0, chkHandball);
 		t2.setWidget(5, 0, chkPP);
-
-		t.setWidget(10, 1, t2);
+		t.setWidget(11, 1, t2);
 
 		ta.setCharacterWidth(50);
 		ta.setVisibleLines(2);
+		
+		t.setWidget(12, 0, horLine);
 
-		t.setText(11, 0, "This is how I describe myself");
-		t.setWidget(11, 1, ta);
+		t.setText(13, 0, "This is how I describe myself");
+		t.setWidget(13, 1, ta);
 
 		t3.setText(0, 0, "Favorite Band");
 		t3.setWidget(0, 1, tBb);
+		
+		t3.setWidget(1, 0, horLine);
 
-		t3.setText(1, 0, "Favorite Movie");
-		t3.setWidget(1, 1, tBm);
+		t3.setText(2, 0, "Favorite Movie");
+		t3.setWidget(2, 1, tBm);
+		
+		t3.setWidget(3, 0, horLine);
 
-		t3.setText(2, 0, "My Strong Points");
+		t3.setText(4, 0, "My Strong Points");
 		t7.setWidget(0, 0, chkBringing);
 		t7.setWidget(1, 0, chkEnjoying);
 		t7.setWidget(2, 0, chkBeing);
 		t7.setWidget(3, 0, chkSolving);
 		t7.setWidget(4, 0, chkKeeping);
-		t3.setWidget(2, 1, t7);
+		t3.setWidget(4, 1, t7);
+		
+		t3.setWidget(5, 0, horLine);
 
-		t3.setText(3, 0, "I associate myself with this subculture");
+		t3.setText(6, 0, "I associate myself with this subculture");
 		t6.setWidget(0, 0, chkHipHop);
 		t6.setWidget(1, 0, chkMetal);
 		t6.setWidget(2, 0, chkRock);
 		t6.setWidget(3, 0, chkEmo);
 		t6.setWidget(4, 0, chkAzzlackz);
-		t3.setWidget(3, 1, t6);
+		t3.setWidget(6, 1, t6);
 		
-		t3.setText(4, 0, "Favorite Era");
+		t3.setWidget(7, 0, horLine);
+
+		t3.setText(8, 0, "Favorite Era");
 		t5.setWidget(0, 0, chkStoneAge);
 		t5.setWidget(1, 0, chkAncientTimes);
 		t5.setWidget(2, 0, chkEarlyMiddleAges);
@@ -311,16 +317,14 @@ public class EditProfileView extends Update {
 		t5.setWidget(4, 0, chkRenaissance);
 		t5.setWidget(5, 0, chkIndustrialAge);
 		t5.setWidget(6, 0, chkModernAge);
-		t3.setWidget(4, 1, t5);
+		t3.setWidget(8, 1, t5);
 
 		saveProfilButton.setStyleName("tngly-bluebutton");
 		deleteProfileButton.setStyleName("tngly-button");
-		
+
 		horPanel2.add(saveProfilButton);
 		horPanel2.add(deleteProfileButton);
-		
-	//	t.setWidget(12, 1, horPanel2);
-		
+
 		lblWrongInputFirstName.setStyleName("serverResponseLabelError");
 		lblWrongInputLastName.setStyleName("serverResponseLabelError");
 		lblWrongInputBodyHeight.setStyleName("serverResponseLabelError");
@@ -342,12 +346,11 @@ public class EditProfileView extends Update {
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				
-				
+
 				t.setWidget(2, 2, null);
 				t.setWidget(3, 2, null);
 				t.setWidget(6, 2, null);
-				
+
 				if (!tbfn.getText().matches("^[a-zA-Z ]{0,30}$")) {
 					t.setWidget(2, 2, lblWrongInputFirstName);
 					return;
@@ -360,7 +363,7 @@ public class EditProfileView extends Update {
 					t.setWidget(6, 2, lblWrongInputBodyHeight);
 					return;
 				}
-				
+
 				saveProfilButton.setEnabled(false);
 				saveProfilButton.setStylePrimaryName("tngly-disabledButton");
 
@@ -388,7 +391,7 @@ public class EditProfileView extends Update {
 				logger.info("gender CHECK");
 
 				currentUserProfile.setDateOfBirth(datePicker.getValue());
-				
+
 				logger.info("dateOfBirth CHECK");
 
 				float f = Float.valueOf(tbbh.getText().trim()).floatValue();
@@ -613,14 +616,14 @@ public class EditProfileView extends Update {
 				return selectedRows;
 			}
 		});
-		
+
 		deleteProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				deleteProfileButton.setEnabled(false);
 				deleteProfileButton.setStylePrimaryName("tngly-disabledButton");
-				
+
 				logger.info("DeleteProfilButton onClick aufgerufen");
 				adminService.deleteProfile(currentUserProfile, deleteUserProfileCallback());
 				logger.info("deleteProfile vom AdminService ausgefuehrt");
@@ -692,7 +695,7 @@ public class EditProfileView extends Update {
 				hairColourList.setItemSelected(index, true);
 
 				isSmokingBox.setItemSelected(result.getIsSmoking(), true);
-				
+
 				switch (result.getConfession()) {
 				case "Atheistic":
 					index = 0;
@@ -869,22 +872,22 @@ public class EditProfileView extends Update {
 		};
 		return asyncCallback;
 	}
-	
-	public static String capitalize (String givenString) {
-	    String Separateur = " ,.-;";
-	    StringBuffer sb = new StringBuffer(); 
-	    boolean ToCap = true;
-	    for (int i = 0; i < givenString.length(); i++) {
-	        if (ToCap)              
-	            sb.append(Character.toUpperCase(givenString.charAt(i)));
-	        else
-	            sb.append(Character.toLowerCase(givenString.charAt(i)));
 
-	        if (Separateur.indexOf(givenString.charAt(i)) >=0) 
-	            ToCap = true;
-	        else
-	            ToCap = false;
-	    }          
-	  return sb.toString().trim();
-	}  
+	public static String capitalize(String givenString) {
+		String Separateur = " ,.-;";
+		StringBuffer sb = new StringBuffer();
+		boolean ToCap = true;
+		for (int i = 0; i < givenString.length(); i++) {
+			if (ToCap)
+				sb.append(Character.toUpperCase(givenString.charAt(i)));
+			else
+				sb.append(Character.toLowerCase(givenString.charAt(i)));
+
+			if (Separateur.indexOf(givenString.charAt(i)) >= 0)
+				ToCap = true;
+			else
+				ToCap = false;
+		}
+		return sb.toString().trim();
+	}
 }

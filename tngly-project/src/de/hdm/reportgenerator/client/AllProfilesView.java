@@ -120,7 +120,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 				
 				logger.info("Zeile 82 APV ausgeführt");
 				logger.info("Zeile 84 APV ausgeführt");
-				scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
+				scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result, searchProfile));
 				logger.info("Zeile 86 APV ausgeführt");
 				RootPanel.get("Details").add(scrollPanel);
 				logger.info("Line 87 APV executed");

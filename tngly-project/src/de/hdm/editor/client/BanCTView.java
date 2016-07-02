@@ -38,11 +38,10 @@ import de.hdm.core.shared.bo.ProfileBan;
 
 public class BanCTView extends Update {
 
-	
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	private HorizontalPanel hPanel = new HorizontalPanel();
-	
+
 	private Profile currentUserProfile;
 
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
@@ -54,13 +53,13 @@ public class BanCTView extends Update {
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
 	private final Button unbanProfileButton = new Button("Unban selected profiles");
-	
+
 	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
-	
+
 	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
-	
+
 	public BanCTView() {
-//		this.searchProfile = searchProfile;
+		// this.searchProfile = searchProfile;
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class BanCTView extends Update {
 	protected void run() {
 
 		adminService.getBans(getBansCallback());
-		
+
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
 		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
 				getCurrentUserProfileCallback());
@@ -82,7 +81,7 @@ public class BanCTView extends Update {
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 
 		unbanProfileButton.setStylePrimaryName("tngly-ctvbutton");
-		
+
 		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
 
 		cellTable.setWidth("100%", true);
@@ -113,40 +112,35 @@ public class BanCTView extends Update {
 		RootPanel.get("Details").add(hPanel);
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
-		
+
 		unbanProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				unbanProfileButton.setEnabled(false);
 				unbanProfileButton.setStylePrimaryName("tngly-disabledButton");
-				
+
 				ArrayList<Profile> toUnban = new ArrayList<Profile>(selectionModel.getSelectedSet());
 				ClientsideSettings.getLogger().info("Arraylist contains: " + toUnban.get(0).getUserName());
 				ArrayList<ProfileBan> bansToDelete = new ArrayList<ProfileBan>();
-				
-				
-				for (Profile p : toUnban)	{
+
+				for (Profile p : toUnban) {
 					ProfileBan pb = new ProfileBan();
 					pb.setBannedProfileId(p.getId());
 					bansToDelete.add(pb);
 				}
-				
+
 				adminService.deleteProfileBan(bansToDelete, deleteBansCallback());
 				refreshDisplays();
-				
+
 				return;
 			}
 		});
-		
 
 		////////////////////////////////////////////////////////////////////////////////////////////
-		
-			}
 
+	}
 
-	
-	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -187,20 +181,19 @@ public class BanCTView extends Update {
 		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
-			
+
 			@Override
 			public String getCellStyleNames(Cell.Context context, Profile object) {
-	          return "tngly-userNameColumn";
-	        }
-			
+				return "tngly-userNameColumn";
+			}
+
 			@Override
 			public String getValue(Profile object) {
 				// Get the value from the selection model.
 				return object.getUserName();
 			}
 		};
-		
-		
+
 		clickableTextColumn.setFieldUpdater(new FieldUpdater<Profile, String>() {
 			@Override
 			public void update(int index, Profile object, String value) {
@@ -293,25 +286,65 @@ public class BanCTView extends Update {
 		cellTable.addColumn(ageColumn, "Age");
 		cellTable.setColumnWidth(ageColumn, 20, Unit.PCT);
 
-		// Similiarity To Reference.
-//		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
-//			@Override
-//			public String getValue(Profile object) {
-//				return String.valueOf(object.getSimiliarityToReference()) + "%";
-//			}
-//		};
-//		similiarityColumn.setSortable(true);
-//		similiarityColumn.setDefaultSortAscending(true);
-//		sortHandler.setComparator(similiarityColumn, new Comparator<Profile>() {
-//			@Override
-//			public int compare(Profile o1, Profile o2) {
-//				int similiarityO1 = o1.getSimiliarityToReference();
-//				int similiarityO2 = o2.getSimiliarityToReference();
-//				return String.valueOf(similiarityO1).compareTo(String.valueOf(similiarityO2));
-//			}
-//		});
-//		cellTable.addColumn(similiarityColumn, "Similiarity");
-//		cellTable.setColumnWidth(similiarityColumn, 60, Unit.PCT);
+		// Haircolour.
+		Column<Profile, String> haircolorColumn = new Column<Profile, String>(new TextCell()) {
+			@Override
+			public String getValue(Profile object) {
+				return object.getHairColour();
+			}
+		};
+		haircolorColumn.setSortable(true);
+		haircolorColumn.setDefaultSortAscending(true);
+		sortHandler.setComparator(haircolorColumn, new Comparator<Profile>() {
+			@Override
+			public int compare(Profile o1, Profile o2) {
+				return o1.getHairColour().compareTo(o2.getHairColour());
+			}
+		});
+		cellTable.addColumn(haircolorColumn, "Haircolour");
+		cellTable.setColumnWidth(haircolorColumn, 40, Unit.PCT);
+
+		// Smoker.
+		Column<Profile, String> smokerColumn = new Column<Profile, String>(new TextCell()) {
+			@Override
+			public String getValue(Profile object) {
+				if (object.getIsSmoking() == 0){
+					return "NO";
+				} else {
+					return "YES";
+				}
+			}
+		};
+		smokerColumn.setSortable(true);
+		smokerColumn.setDefaultSortAscending(true);
+		sortHandler.setComparator(smokerColumn, new Comparator<Profile>() {
+			@Override
+			public int compare(Profile o1, Profile o2) {
+				int smoker01 = o1.getIsSmoking();
+				int smoker02 = o2.getIsSmoking();
+				return String.valueOf(smoker01).compareTo(String.valueOf(smoker02));
+			}
+		});
+		cellTable.addColumn(smokerColumn, "Smoker");
+		cellTable.setColumnWidth(smokerColumn, 40, Unit.PCT);
+
+		// Confession.
+		Column<Profile, String> confessionColumn = new Column<Profile, String>(new TextCell()) {
+			@Override
+			public String getValue(Profile object) {
+				return object.getConfession();
+			}
+		};
+		confessionColumn.setSortable(true);
+		confessionColumn.setDefaultSortAscending(true);
+		sortHandler.setComparator(confessionColumn, new Comparator<Profile>() {
+			@Override
+			public int compare(Profile o1, Profile o2) {
+				return o1.getConfession().compareTo(o2.getConfession());
+			}
+		});
+		cellTable.addColumn(confessionColumn, "Confession");
+		cellTable.setColumnWidth(confessionColumn, 40, Unit.PCT);
 	}
 
 	private AsyncCallback<ArrayList<Profile>> getBansCallback() {
@@ -324,10 +357,8 @@ public class BanCTView extends Update {
 
 			@Override
 			public void onSuccess(ArrayList<Profile> result) {
-				ClientsideSettings.getLogger()
-						.severe("Success GetBansCallback: " + result.getClass().getSimpleName());
-				ClientsideSettings.getLogger()
-				.severe("+ id des Profiles" + result.get(0).getId());
+				ClientsideSettings.getLogger().severe("Success GetBansCallback: " + result.getClass().getSimpleName());
+				ClientsideSettings.getLogger().severe("+ id des Profiles" + result.get(0).getId());
 				for (Profile p : result) {
 					dataProvider.getList().add(p);
 				}
@@ -346,17 +377,17 @@ public class BanCTView extends Update {
 
 			@Override
 			public void onSuccess(Void result) {
-				
+
 				Update update = new BanCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 				ClientsideSettings.getLogger().info("ProfileBan wurde entfernt");
-				
+
 			}
 		};
 		return asyncCallback;
 	}
-	
+
 	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
 		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
 
@@ -373,5 +404,5 @@ public class BanCTView extends Update {
 			}
 		};
 		return asyncCallback;
-}
+	}
 }

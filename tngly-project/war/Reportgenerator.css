@@ -13,7 +13,11 @@ html{
 
 
 div#TopLevelFrame{
-	background-color: #97dfb7;
+	background: #97dfb7; /* For browsers that do not support gradients */
+  	background: -webkit-linear-gradient(#97dfb7, #d7f2e3); /* For Safari 5.1 to 6.0 */
+  	background: -o-linear-gradient(#97dfb7, #d7f2e3); /* For Opera 11.1 to 12.0 */
+  	background: -moz-linear-gradient(#97dfb7, #d7f2e3); /* For Firefox 3.6 to 15 */
+  	background: linear-gradient(#97dfb7, #d7f2e3); /* Standard syntax */
 }
 
 #reporttable {
@@ -257,8 +261,17 @@ background-color: #f4f4f4;
 	margin-right:10em;
 }
 
+.tngly-header {
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 150px;
+	opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+
 div#Header {
 	height: 100px;
+	text-align: center;
 }
 
 div#Details {

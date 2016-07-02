@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HTML;
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
+import de.hdm.core.shared.bo.SearchProfile;
 
 /**
  * Report, der alle Konten alle Kunden darstellt. Die Klasse tr#gt keine
@@ -38,7 +39,7 @@ public class HTMLProfilesReport {
 		}
 		
 		//Aufbau der Tabelle
-		public static HTML generateAllProfilesReport(ArrayList<Profile> searchResult) {
+		public static HTML generateAllProfilesReport(ArrayList<Profile> searchResult, SearchProfile searchProfile) {
 			String report = generateReportHead();
 			
 			report += "<div>";
@@ -48,9 +49,29 @@ public class HTMLProfilesReport {
 			// Hinzuf�gen des aktuellen Datums mit Uhrzeit f�r die �berschrift des Reports.
 			Date today = new Date();
 		    DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm:ss");
+		    
+		    String smokerSearchProfile;
+		    if(searchProfile.getIsSmoking() == 0){
+		    	smokerSearchProfile = "No";
+		    } else {
+		    	smokerSearchProfile = "Yes";
+		    }
 
 		    report += "<br>";
 			report += "Generated at " + fmt.format(today) + "<br>";
+			report += "<br>";
+			report += "<br>";
+			report += "Gender: " + searchProfile.getGender() + "<br>";
+			report += "<br>";
+			report += "Age Range: " + searchProfile.getAgeRangeFrom() + " - " + searchProfile.getAgeRangeTo() + "<br>";
+			report += "<br>";
+			report += "Body Height: " + searchProfile.getBodyHeightFrom() + "m" + " - " + searchProfile.getBodyHeightTo() + "m" + "<br>";
+			report += "<br>";
+			report += "Haircolour: " + searchProfile.getHairColour() + "<br>";
+			report += "<br>";
+			report += "Smoker: " + smokerSearchProfile + "<br>";
+			report += "<br>";
+			report += "Confession: " + searchProfile.getConfession() + "<br>";
 			report += "<br>";
 			report += "<div style=\"overflow-x:auto;\">";
 			report += "<table id=\"reporttable\">"

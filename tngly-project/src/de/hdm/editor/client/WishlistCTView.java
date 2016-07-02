@@ -44,15 +44,14 @@ import de.hdm.core.shared.bo.Wish;
 
 public class WishlistCTView extends Update {
 
-	
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	private HorizontalPanel hPanel = new HorizontalPanel();
 
 	private Profile currentUserProfile;
-	
+
 	Logger logger = ClientsideSettings.getLogger();
-	
+
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
 	private CellTable<Profile> cellTable = new CellTable<Profile>();
@@ -62,13 +61,13 @@ public class WishlistCTView extends Update {
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
 	private final Button unwishProfileButton = new Button("Unwish selected profiles");
-	
+
 	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
-	
+
 	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
-	
+
 	public WishlistCTView() {
-//		this.searchProfile = searchProfile;
+		// this.searchProfile = searchProfile;
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class WishlistCTView extends Update {
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
 		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
 				getCurrentUserProfileCallback());
-		
+
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -92,7 +91,7 @@ public class WishlistCTView extends Update {
 		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
 
 		unwishProfileButton.setStylePrimaryName("tngly-ctvbutton");
-		
+
 		cellTable.setWidth("100%", true);
 
 		// Do not refresh the headers and footers every time the data is
@@ -121,39 +120,34 @@ public class WishlistCTView extends Update {
 		RootPanel.get("Details").add(hPanel);
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
-		
+
 		unwishProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				unwishProfileButton.setEnabled(false);
 				unwishProfileButton.setStylePrimaryName("tngly-disabledButton");
-				
+
 				ArrayList<Profile> toUnwish = new ArrayList<Profile>(selectionModel.getSelectedSet());
 				ClientsideSettings.getLogger().info("Arraylist contains: " + toUnwish.get(0).getUserName());
 				ArrayList<Wish> wishesToDelete = new ArrayList<Wish>();
-				
-				
-				for (Profile p : toUnwish)	{
+
+				for (Profile p : toUnwish) {
 					Wish w = new Wish();
 					w.setWishedProfileId(p.getId());
 					wishesToDelete.add(w);
 				}
-				
+
 				adminService.deleteWishes(wishesToDelete, deleteWishesCallback());
 				refreshDisplays();
 				return;
 			}
 		});
-		
 
 		////////////////////////////////////////////////////////////////////////////////////////////
-		
-			}
 
+	}
 
-	
-	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -194,12 +188,12 @@ public class WishlistCTView extends Update {
 		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
-			
+
 			@Override
 			public String getCellStyleNames(Cell.Context context, Profile object) {
-	          return "tngly-userNameColumn";
-	        }
-			
+				return "tngly-userNameColumn";
+			}
+
 			@Override
 			public String getValue(Profile object) {
 				// Get the value from the selection model.
@@ -297,28 +291,66 @@ public class WishlistCTView extends Update {
 		});
 		cellTable.addColumn(ageColumn, "Age");
 		cellTable.setColumnWidth(ageColumn, 20, Unit.PCT);
-		
-	
 
-		// Similiarity To Reference.
-//		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
-//			@Override
-//			public String getValue(Profile object) {
-//				return String.valueOf(object.getSimiliarityToReference()) + "%";
-//			}
-//		};
-//		similiarityColumn.setSortable(true);
-//		similiarityColumn.setDefaultSortAscending(true);
-//		sortHandler.setComparator(similiarityColumn, new Comparator<Profile>() {
-//			@Override
-//			public int compare(Profile o1, Profile o2) {
-//				int similiarityO1 = o1.getSimiliarityToReference();
-//				int similiarityO2 = o2.getSimiliarityToReference();
-//				return String.valueOf(similiarityO1).compareTo(String.valueOf(similiarityO2));
-//			}
-//		});
-//		cellTable.addColumn(similiarityColumn, "Similiarity");
-//		cellTable.setColumnWidth(similiarityColumn, 60, Unit.PCT);
+		// Haircolour.
+		Column<Profile, String> haircolorColumn = new Column<Profile, String>(new TextCell()) {
+			@Override
+			public String getValue(Profile object) {
+				return object.getHairColour();
+			}
+		};
+		haircolorColumn.setSortable(true);
+		haircolorColumn.setDefaultSortAscending(true);
+		sortHandler.setComparator(haircolorColumn, new Comparator<Profile>() {
+			@Override
+			public int compare(Profile o1, Profile o2) {
+				return o1.getHairColour().compareTo(o2.getHairColour());
+			}
+		});
+		cellTable.addColumn(haircolorColumn, "Haircolour");
+		cellTable.setColumnWidth(haircolorColumn, 40, Unit.PCT);
+
+		// Smoker.
+		Column<Profile, String> smokerColumn = new Column<Profile, String>(new TextCell()) {
+			@Override
+			public String getValue(Profile object) {
+				if (object.getIsSmoking() == 0) {
+					return "NO";
+				} else {
+					return "YES";
+				}
+			}
+		};
+		smokerColumn.setSortable(true);
+		smokerColumn.setDefaultSortAscending(true);
+		sortHandler.setComparator(smokerColumn, new Comparator<Profile>() {
+			@Override
+			public int compare(Profile o1, Profile o2) {
+				int smoker01 = o1.getIsSmoking();
+				int smoker02 = o2.getIsSmoking();
+				return String.valueOf(smoker01).compareTo(String.valueOf(smoker02));
+			}
+		});
+		cellTable.addColumn(smokerColumn, "Smoker");
+		cellTable.setColumnWidth(smokerColumn, 40, Unit.PCT);
+
+		// Confession.
+		Column<Profile, String> confessionColumn = new Column<Profile, String>(new TextCell()) {
+			@Override
+			public String getValue(Profile object) {
+				return object.getConfession();
+			}
+		};
+		confessionColumn.setSortable(true);
+		confessionColumn.setDefaultSortAscending(true);
+		sortHandler.setComparator(confessionColumn, new Comparator<Profile>() {
+			@Override
+			public int compare(Profile o1, Profile o2) {
+				return o1.getConfession().compareTo(o2.getConfession());
+			}
+		});
+		cellTable.addColumn(confessionColumn, "Confession");
+		cellTable.setColumnWidth(confessionColumn, 40, Unit.PCT);
 	}
 
 	private AsyncCallback<ArrayList<Profile>> getWishesCallback() {
@@ -333,8 +365,7 @@ public class WishlistCTView extends Update {
 			public void onSuccess(ArrayList<Profile> result) {
 				ClientsideSettings.getLogger()
 						.severe("Success GetWishesCallback: " + result.getClass().getSimpleName());
-				ClientsideSettings.getLogger()
-				.severe("+ id des Profiles" + result.get(0).getId());
+				ClientsideSettings.getLogger().severe("+ id des Profiles" + result.get(0).getId());
 				for (Profile p : result) {
 					dataProvider.getList().add(p);
 				}
@@ -353,17 +384,17 @@ public class WishlistCTView extends Update {
 
 			@Override
 			public void onSuccess(Void result) {
-				
+
 				Update update = new WishlistCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 				ClientsideSettings.getLogger().info("ProfileWish wurde entfernt");
-				
+
 			}
 		};
 		return asyncCallback;
 	}
-	
+
 	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
 		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
 
@@ -380,5 +411,5 @@ public class WishlistCTView extends Update {
 			}
 		};
 		return asyncCallback;
-}
+	}
 }

@@ -29,7 +29,6 @@ public class ProfileView extends Update {
 	/**
 	 * Instanziierung aller relevanten Eingabem�glichkeiten = Textboxen, Checkboxen, DatePicker usw. 
 	 */
-	private Boolean existsUserInDB = null;
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	private Profile currentUserProfile = null;
 	
@@ -44,7 +43,6 @@ public class ProfileView extends Update {
 	private final TextBox tbbh = new TextBox();
 	private final TextBox tBb = new TextBox();
 	private final TextBox tBm = new TextBox();
-	private final TextBox tbsp = new TextBox();
 	private final TextBox tDob = new TextBox();
 
 	private TextArea ta = new TextArea();
@@ -61,7 +59,6 @@ public class ProfileView extends Update {
 	private FlexTable t = new FlexTable();
 	private FlexTable t2 = new FlexTable();
 	private FlexTable t3 = new FlexTable();
-	private FlexTable t4 = new FlexTable();
 	private FlexTable t5 = new FlexTable();
 	private FlexTable t6 = new FlexTable();
 	private FlexTable t7 = new FlexTable();
@@ -133,6 +130,14 @@ public class ProfileView extends Update {
 		tbfn.setPixelSize(120, 15);
 		tbn.setPixelSize(120, 15);
 		tbbh.setPixelSize(120, 15);
+		
+		tbun.setStylePrimaryName("tngly-disabledTextbox");
+		tbfn.setStylePrimaryName("tngly-disabledTextbox");
+		tbn.setStylePrimaryName("tngly-disabledTextbox");
+		tbbh.setStylePrimaryName("tngly-disabledTextbox");
+		tBb.setStylePrimaryName("tngly-disabledTextbox");
+		tBm.setStylePrimaryName("tngly-disabledTextbox");
+		tDob.setStylePrimaryName("tngly-disabledTextbox");
 
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -203,7 +208,9 @@ public class ProfileView extends Update {
 		confessionBox.setEnabled(false);
 		t.setWidget(9, 1, confessionBox);
 
-		t.setText(10, 0, "Hobbies");
+		t.setWidget(10, 0, horLine);
+		
+		t.setText(11, 0, "Hobbies");
 		t2.setWidget(0, 0, chkVolleyball);
 		chkVolleyball.setEnabled(false);
 		t2.setWidget(1, 0, chkFootball);
@@ -217,19 +224,23 @@ public class ProfileView extends Update {
 		t2.setWidget(5, 0, chkPP);
 		chkPP.setEnabled(false);
 
-		t.setWidget(10, 1, t2);
+		t.setWidget(11, 1, t2);
 
 		ta.setCharacterWidth(50);
 		ta.setVisibleLines(5);
 
-		t.setText(11, 0, "This is how I describe myself");
-		t.setWidget(11, 1, ta);
+		t.setText(12, 0, "This is how I describe myself");
+		t.setWidget(12, 1, ta);
 
 		t3.setText(0, 0, "Favorite Band");
 		t3.setWidget(0, 1, tBb);
+		
+		t3.setWidget(1, 0, horLine);
 
-		t3.setText(1, 0, "Favorite Movie");
-		t3.setWidget(1, 1, tBm);
+		t3.setText(2, 0, "Favorite Movie");
+		t3.setWidget(2, 1, tBm);
+		
+		t3.setWidget(3, 0, horLine);
 
 		t3.setText(4, 0, "Favorite Era");
 		t5.setWidget(0, 0, chkStoneAge);
@@ -247,8 +258,10 @@ public class ProfileView extends Update {
 		t5.setWidget(6, 0, chkModernAge);
 		chkModernAge.setEnabled(false);
 		t3.setWidget(4, 1, t5);
+		
+		t3.setWidget(5, 0, horLine);
 
-		t3.setText(2, 0, "My Strong Points");
+		t3.setText(6, 0, "My Strong Points");
 		t7.setWidget(0, 0, chkBringing);
 		chkBringing.setEnabled(false);
 		t7.setWidget(1, 0, chkEnjoying);
@@ -259,9 +272,11 @@ public class ProfileView extends Update {
 		chkSolving.setEnabled(false);
 		t7.setWidget(4, 0, chkKeeping);
 		chkKeeping.setEnabled(false);
-		t3.setWidget(2, 1, t7);
+		t3.setWidget(6, 1, t7);
+		
+		t3.setWidget(7, 0, horLine);
 
-		t3.setText(3, 0, "I associate myself with this subculture");
+		t3.setText(8, 0, "I associate myself with this subculture");
 		t6.setWidget(0, 0, chkHipHop);
 		chkHipHop.setEnabled(false);
 		t6.setWidget(1, 0, chkMetal);
@@ -272,7 +287,7 @@ public class ProfileView extends Update {
 		chkEmo.setEnabled(false);
 		t6.setWidget(4, 0, chkAzzlackz);
 		chkAzzlackz.setEnabled(false);
-		t3.setWidget(3, 1, t6);
+		t3.setWidget(8, 1, t6);
 		
 		
 		verPanel.add(t);
@@ -309,11 +324,6 @@ public class ProfileView extends Update {
 				tbn.setText(result.getLastName());
 
 				int index = 0;
-//				if (result.getGender() == "Male") {
-//					index = 1;
-//				} else {
-//					index = 0;
-//				}
 				switch(result.getGender()){
 		        case "Male":
 		        	index = 1;
@@ -335,17 +345,6 @@ public class ProfileView extends Update {
 
 				tbbh.setText(Float.toString(bhFormatted));
 
-//				if (result.getHairColour() == "Black") {
-//					index = 0;
-//				} else if (result.getHairColour() == "Brown") {
-//					index = 1;
-//				} else if (result.getHairColour() == "Red") {
-//					index = 2;
-//				} else if (result.getHairColour() == "Blonde") {
-//					index = 3;
-//				} else {
-//					index = 4;
-//				}
 				switch(result.getHairColour()){
 		        case "Black":
 		        	index = 0;

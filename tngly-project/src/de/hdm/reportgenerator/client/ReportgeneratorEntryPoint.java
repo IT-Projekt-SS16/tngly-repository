@@ -76,6 +76,8 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		
 		VerticalPanel verPanel = new VerticalPanel();
 		
+		final Label title = new Label("TNGLY");
+		
 		final Button signOutButton = new Button("SIGN OUT");
 		final Button imprintButton = new Button("IMPRINT");
 		final Button editorButton = new Button("GO TO ED");
@@ -92,6 +94,8 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 			}
 		});
 		
+		title.setStylePrimaryName("tngly-header");
+		
 		signOutButton.setStylePrimaryName("tngly-menubutton");
 		imprintButton.setStylePrimaryName("tngly-submenubutton");
 		editorButton.setStylePrimaryName("tngly-submenubutton");
@@ -102,6 +106,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		verPanel.add(editorButton);
 		verPanel.add(imprintButton);
 
+		RootPanel.get("Header").add(title);
 		RootPanel.get("Navigator").add(verPanel);
 		
 		signOutButton.addClickHandler(new ClickHandler() {

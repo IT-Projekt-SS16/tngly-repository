@@ -13,7 +13,11 @@ html{
 
 
 div#TopLevelFrame{
-	background-color: lightblue;
+	background: lightblue; /* For browsers that do not support gradients */
+  	background: -webkit-linear-gradient(lightblue, lightcyan); /* For Safari 5.1 to 6.0 */
+  	background: -o-linear-gradient(lightblue, lightcyan); /* For Opera 11.1 to 12.0 */
+  	background: -moz-linear-gradient(lightblue, lightcyan); /* For Firefox 3.6 to 15 */
+  	background: linear-gradient(lightblue, lightcyan); /* Standard syntax */
 }
 
 
@@ -224,6 +228,17 @@ background-color: #f4f4f4;
 	margin-top:4px;
 }
 
+.tngly-disabledTextbox {
+	background-color: rgba(0,0,0,0);
+	color: #7f7f7f;
+	border: 1px solid rgba(0,0,0,0);
+	font-weight: normal;
+	height: 2em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+}
+
 .tngly-backbutton {
 background-color: #38373e;
 	color: #ffffff;
@@ -305,8 +320,16 @@ background-color: #38373e;
 	margin-left:89em;
 }
 
+.tngly-header {
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 150px;
+	opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+
 div#Header {
-	height: 200px;
+	height: 100px;
 	text-align: center;
 }
 
@@ -314,7 +337,6 @@ div#Details {
 	margin-left: 22em;
 	margin-right: 10em;
 	min-height: 400px;
-	max-height: 1500px;
 	padding: 1em 1em;
 	border-top: 1px solid black;
 	border-left: 1px solid black;
@@ -394,7 +416,7 @@ div#Trailer {
 .favorite-Button{
    color: green;
    background-color: transparent;
-   border: 0px;
+   border: 1px solid green;
 }
 
 .cssload-loader{
