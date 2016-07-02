@@ -104,6 +104,12 @@ background-color: #808080;
 	border-bottom: 1px;
 }
 
+.tngly-userNameColumn {
+	color: #085deb;
+	cursor: pointer;
+	font-weight: 900 !important;
+	font-size: 13px;
+}
 
 .tngly-opvbutton {
 background-color: #0080ff;
@@ -146,7 +152,6 @@ background-color: #38373e;
 	height: 2em;
 	width: 10em;
 	margin-left:0px;
-	margin-top:4px;
 	margin-right:20px;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
@@ -312,7 +317,7 @@ div#Trailer {
 }
 
 .profile-Visited-Button{
-   color: blue;
+   color: #ff8000;
    background-color: transparent;
    border: 0px;
 }

@@ -94,6 +94,16 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 		final Label lblSmallNumberHeightRangeTo = new Label(
 				"Please enter a higher number in field 'To' than in field 'From'");
 
+		lblWrongInputAgeRangeFrom.setStylePrimaryName("serverResponseLabelError");
+		lblSmallNumberAgeRangeFrom.setStylePrimaryName("serverResponseLabelError");
+		lblWrongInputAgeRangeTo.setStylePrimaryName("serverResponseLabelError");
+		lblSmallNumberAgeRangeTo.setStylePrimaryName("serverResponseLabelError");
+		
+		lblWrongInputHeightRangeFrom.setStylePrimaryName("serverResponseLabelError");
+		lblSmallNumberHeightRangeFrom.setStylePrimaryName("serverResponseLabelError");
+		lblWrongInputHeightRangeTo.setStylePrimaryName("serverResponseLabelError");
+		lblSmallNumberHeightRangeTo.setStylePrimaryName("serverResponseLabelError");
+		
 		final CheckBox chkGenderAny = new CheckBox();
 		final CheckBox chkAgeAny = new CheckBox();
 		final CheckBox chkBodyHeightAny = new CheckBox();

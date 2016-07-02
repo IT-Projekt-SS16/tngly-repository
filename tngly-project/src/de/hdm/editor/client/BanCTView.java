@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -186,12 +187,20 @@ public class BanCTView extends Update {
 		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
+			
+			@Override
+			public String getCellStyleNames(Cell.Context context, Profile object) {
+	          return "tngly-userNameColumn";
+	        }
+			
 			@Override
 			public String getValue(Profile object) {
 				// Get the value from the selection model.
 				return object.getUserName();
 			}
 		};
+		
+		
 		clickableTextColumn.setFieldUpdater(new FieldUpdater<Profile, String>() {
 			@Override
 			public void update(int index, Profile object, String value) {
@@ -202,7 +211,7 @@ public class BanCTView extends Update {
 			}
 		});
 		cellTable.addColumn(clickableTextColumn, "Username");
-		cellTable.setColumnWidth(clickableTextColumn, 100, Unit.PX);
+		cellTable.setColumnWidth(clickableTextColumn, 140, Unit.PX);
 
 		// First Name.
 		Column<Profile, String> firstNameColumn = new Column<Profile, String>(new TextCell()) {
@@ -220,7 +229,7 @@ public class BanCTView extends Update {
 			}
 		});
 		cellTable.addColumn(firstNameColumn, "First Name");
-		cellTable.setColumnWidth(firstNameColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(firstNameColumn, 50, Unit.PCT);
 
 		// Last Name.
 		Column<Profile, String> lastNameColumn = new Column<Profile, String>(new TextCell()) {
@@ -238,7 +247,7 @@ public class BanCTView extends Update {
 			}
 		});
 		cellTable.addColumn(lastNameColumn, "Last Name");
-		cellTable.setColumnWidth(lastNameColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(lastNameColumn, 50, Unit.PCT);
 
 		// Gender.
 		Column<Profile, String> genderColumn = new Column<Profile, String>(new TextCell()) {
@@ -256,7 +265,7 @@ public class BanCTView extends Update {
 			}
 		});
 		cellTable.addColumn(genderColumn, "Gender");
-		cellTable.setColumnWidth(genderColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(genderColumn, 40, Unit.PCT);
 
 		// Age.
 		Column<Profile, String> ageColumn = new Column<Profile, String>(new TextCell()) {
@@ -282,7 +291,7 @@ public class BanCTView extends Update {
 			}
 		});
 		cellTable.addColumn(ageColumn, "Age");
-		cellTable.setColumnWidth(ageColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(ageColumn, 20, Unit.PCT);
 
 		// Similiarity To Reference.
 //		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {

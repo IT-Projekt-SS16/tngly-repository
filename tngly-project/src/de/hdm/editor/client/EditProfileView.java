@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ShowRangeEvent;
@@ -373,11 +374,11 @@ public class EditProfileView extends Update {
 
 				logger.info("UserName CHECK " + currentUserProfile.getUserName());
 
-				currentUserProfile.setName(tbfn.getText());
+				currentUserProfile.setName(capitalize(tbfn.getText().toUpperCase()));
 
 				logger.info("Name CHECK + " + currentUserProfile.getName());
 
-				currentUserProfile.setLastName(tbn.getText());
+				currentUserProfile.setLastName(capitalize(tbn.getText().toUpperCase()));
 
 				logger.info("lastName CHECK + " + currentUserProfile.getLastName());
 
@@ -461,7 +462,7 @@ public class EditProfileView extends Update {
 						currentUserProfile.getDescriptionList().get(0).getInformationValues().get(0).setValue(null);
 					} else {
 						currentUserProfile.getDescriptionList().get(0).getInformationValues().get(0)
-								.setValue(ta.getText());
+								.setValue(capitalize(ta.getText()));
 					}
 				}
 
@@ -868,4 +869,22 @@ public class EditProfileView extends Update {
 		};
 		return asyncCallback;
 	}
+	
+	public static String capitalize (String givenString) {
+	    String Separateur = " ,.-;";
+	    StringBuffer sb = new StringBuffer(); 
+	    boolean ToCap = true;
+	    for (int i = 0; i < givenString.length(); i++) {
+	        if (ToCap)              
+	            sb.append(Character.toUpperCase(givenString.charAt(i)));
+	        else
+	            sb.append(Character.toLowerCase(givenString.charAt(i)));
+
+	        if (Separateur.indexOf(givenString.charAt(i)) >=0) 
+	            ToCap = true;
+	        else
+	            ToCap = false;
+	    }          
+	  return sb.toString().trim();
+	}  
 }

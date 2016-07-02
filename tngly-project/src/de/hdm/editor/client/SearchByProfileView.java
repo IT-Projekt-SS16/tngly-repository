@@ -23,6 +23,8 @@ import de.hdm.core.shared.bo.SearchProfile;
 public class SearchByProfileView extends Update {
 
 	private static final Logger logger = ClientsideSettings.getLogger();
+	
+	private SearchProfile searchProfile;
 
 	private VerticalPanel verPanel = new VerticalPanel();
 
@@ -77,6 +79,18 @@ public class SearchByProfileView extends Update {
 	protected String getHeadlineText() {
 		return "Select search profile";
 	}
+	
+	public SearchByProfileView()	{
+		
+	}
+	
+	public SearchByProfileView(SearchProfile searchProfile)	{
+		if (ClientsideSettings.getSearchProfile() != null)	{
+			this.searchProfile = searchProfile;
+			logger.info("90 searchProfile: " + searchProfile.toString());
+		}
+		
+	}
 
 	/**
 	 * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie
@@ -87,7 +101,7 @@ public class SearchByProfileView extends Update {
 	protected void run() {
 
 		logger.info("Erfolgreich Search-By-Profile-View geswitcht.");
-		// logger.info(ClientsideSettings.getSearchProfile().toString());
+		// logger.info(this.searchProfile.toString());
 
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -118,15 +132,23 @@ public class SearchByProfileView extends Update {
 		t.setText(0, 0, "Gender");
 		t.setWidget(0, 1, genderBox);
 
-		// if (ClientsideSettings.getSearchProfile() != null) {
-		// int index;
-		// if (ClientsideSettings.getSearchProfile().getGender() == "Male") {
-		// index = 1;
-		// } else {
-		// index = 0;
-		// }
-		// genderBox.setItemSelected(index, true);
-		// }
+		if (this.searchProfile != null) {
+			int index = 0;
+			logger.info("Zeile 137 ausgeführt");
+			
+			if (this.searchProfile.getGender() != null )	{
+			
+				if (this.searchProfile.getGender() == "Male") {
+					index = 1; }
+				else if (this.searchProfile.getGender() == "Female") {
+					index = 0; }
+				genderBox.setItemSelected(index, true);
+			}
+			else { chkGenderAny.setValue(true);
+				   genderBox.setEnabled(false);}
+			
+			logger.info("Zeile 144 ausgeführt");
+		}
 
 		t.setWidget(0, 4, chkGenderAny);
 
@@ -136,95 +158,118 @@ public class SearchByProfileView extends Update {
 		t.setText(2, 2, "To");
 		t.setWidget(2, 3, tbAgeRangeTo);
 
-		// if (ClientsideSettings.getSearchProfile() != null) {
-		// tbAgeRangeFrom.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeFrom()));
-		// tbAgeRangeTo.setText(Integer.toString(ClientsideSettings.getSearchProfile().getAgeRangeTo()));
-		// }
+		if (this.searchProfile != null) {
+			if (searchProfile.getAgeRangeFrom() == 0 && searchProfile.getAgeRangeTo() == 0)	{
+				
+				chkAgeAny.setValue(true);
+				tbAgeRangeFrom.setEnabled(false);
+				tbAgeRangeTo.setEnabled(false);
+			}
+			else	{
+			tbAgeRangeFrom.setText(Integer.toString(this.searchProfile.getAgeRangeFrom()));
+			tbAgeRangeTo.setText(Integer.toString(this.searchProfile.getAgeRangeTo()));
+			}
+		}
 
 		t.setWidget(2, 4, chkAgeAny);
 
-		t.setText(3, 0, "Body Height");
+		t.setText(3, 0, "Body Height (in Meter)");
 		t.setWidget(4, 1, tbHeightRangeFrom);
 		t.setText(4, 0, "From");
 		t.setWidget(4, 3, tbHeightRangeTo);
 		t.setText(4, 2, "To");
 
-		// if (ClientsideSettings.getSearchProfile() != null) {
-		// tbHeightRangeFrom.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightFrom()));
-		// tbHeightRangeTo.setText(Float.toString(ClientsideSettings.getSearchProfile().getBodyHeightTo()));
-		// }
+		if (this.searchProfile != null) {
+			if (searchProfile.getBodyHeightFrom() == 0 && searchProfile.getBodyHeightTo() == 0 )	{
+				
+				chkBodyHeightAny.setValue(true);
+				tbHeightRangeFrom.setEnabled(false);
+				tbHeightRangeTo.setEnabled(false);
+			}
+			else {
+			tbHeightRangeFrom.setText(Float.toString(this.searchProfile.getBodyHeightFrom()));
+			tbHeightRangeTo.setText(Float.toString(this.searchProfile.getBodyHeightTo()));
+			}
+		}
 
 		t.setWidget(4, 4, chkBodyHeightAny);
 
 		t.setText(5, 0, "Haircolor");
 		t.setWidget(5, 1, hairColourList);
 
-		// if (ClientsideSettings.getSearchProfile() != null) {
-		// int index;
-		// if (ClientsideSettings.getSearchProfile().getHairColour() == "Black")
-		// {
-		// index = 0;
-		// } else if (ClientsideSettings.getSearchProfile().getHairColour() ==
-		// "Brown") {
-		// index = 1;
-		// } else if (ClientsideSettings.getSearchProfile().getHairColour() ==
-		// "Red") {
-		// index = 2;
-		// } else if (ClientsideSettings.getSearchProfile().getHairColour() ==
-		// "Blonde") {
-		// index = 3;
-		// } else {
-		// index = 4;
-		// }
-		// hairColourList.setItemSelected(index, true);
-		// }
+		if (this.searchProfile != null) {
+			if (this.searchProfile.getHairColour() != null) {
+				int index;
+				if (this.searchProfile.getHairColour() == "Black") {
+					index = 0;
+				} else if (this.searchProfile.getHairColour() == "Brown") {
+					index = 1;
+				} else if (this.searchProfile.getHairColour() == "Red") {
+					index = 2;
+				} else if (this.searchProfile.getHairColour() == "Blonde") {
+					index = 3;
+				} else {
+					index = 4;
+				}
+				hairColourList.setItemSelected(index, true);
+			}
+			else {
+				chkHairColourAny.setValue(true);
+				hairColourList.setEnabled(false);
+			}
+		}
 
 		t.setWidget(5, 4, chkHairColourAny);
 
 		t.setText(6, 0, "Smoker");
 		t.setWidget(6, 1, isSmokingBox);
 
-		// if (ClientsideSettings.getSearchProfile() != null) {
-		// isSmokingBox.setItemSelected(ClientsideSettings.getSearchProfile().getIsSmoking(),
-		// true);
-		// }
+		if (this.searchProfile != null) {
+			if (this.searchProfile.getIsSmoking() != -1)	{
+			isSmokingBox.setItemSelected(this.searchProfile.getIsSmoking(), true);
+			}
+			else {
+				chkSmokerAny.setValue(true);
+				isSmokingBox.setEnabled(false);
+			}
+	}
 
 		t.setWidget(6, 4, chkSmokerAny);
 
 		t.setText(7, 0, "Confession");
 		t.setWidget(7, 1, confessionBox);
 
-		// if (ClientsideSettings.getSearchProfile() != null) {
-		// int index;
-		// if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Atheistic") {
-		// index = 0;
-		// } else if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Buddhistic") {
-		// index = 1;
-		// } else if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Evangelic") {
-		// index = 2;
-		// } else if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Catholic") {
-		// index = 3;
-		// } else if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Hindu") {
-		// index = 4;
-		// } else if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Muslim") {
-		// index = 5;
-		// } else if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Jewish") {
-		// index = 6;
-		// } else if (ClientsideSettings.getSearchProfile().getConfession() ==
-		// "Orthodox") {
-		// index = 7;
-		// } else {
-		// index = 8;
-		// }
-		// confessionBox.setItemSelected(index, true);
-		// }
+		if (this.searchProfile != null) {
+			if (this.searchProfile.getConfession() != null) {
+
+				int index;
+				if (this.searchProfile.getConfession() == "Atheistic") {
+					index = 0;
+				} else if (this.searchProfile.getConfession() == "Buddhistic") {
+					index = 1;
+				} else if (this.searchProfile.getConfession() == "Evangelic") {
+					index = 2;
+				} else if (this.searchProfile.getConfession() == "Catholic") {
+					index = 3;
+				} else if (this.searchProfile.getConfession() == "Hindu") {
+					index = 4;
+				} else if (this.searchProfile.getConfession() == "Muslim") {
+					index = 5;
+				} else if (this.searchProfile.getConfession() == "Jewish") {
+					index = 6;
+				} else if (this.searchProfile.getConfession() == "Orthodox") {
+					index = 7;
+				} else {
+					index = 8;
+				}
+				confessionBox.setItemSelected(index, true);
+			}
+			else {
+				chkConfessionAny.setValue(true);
+				confessionBox.setEnabled(false);
+			}
+			
+		}
 
 		t.setWidget(7, 4, chkConfessionAny);
 
@@ -446,9 +491,8 @@ public class SearchByProfileView extends Update {
 				}
 
 				logger.info("Confession CHECK");
-
+				
 				ClientsideSettings.setSearchProfile(temp);
-				logger.info(ClientsideSettings.getSearchProfile().toString());
 
 				Update update = new ShowProfilesCTView(temp);
 				RootPanel.get("Details").clear();

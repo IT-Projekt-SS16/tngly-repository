@@ -616,6 +616,9 @@ public class OtherProfileView extends Update {
 				atfProfilButton.setEnabled(false);
 				atfProfilButton.setStylePrimaryName("tngly-disabledButton");
 				
+				banProfilButton.setEnabled(false);
+				banProfilButton.setStylePrimaryName("tngly-disabledButton");
+				
 				adminService.addWishToWishlist(selectedProfile.getId(),
 						currentUserProfile.getId(), new CreateWishCallback());
 			}
@@ -639,6 +642,9 @@ public class OtherProfileView extends Update {
 				
 				banProfilButton.setEnabled(false);
 				banProfilButton.setStylePrimaryName("tngly-disabledButton");
+				
+				atfProfilButton.setEnabled(false);
+				atfProfilButton.setStylePrimaryName("tngly-disabledButton");
 				
 				adminService.createProfileBan(selectedProfile.getId(),
 						currentUserProfile.getId(), new CreateProfileBanCallback());	

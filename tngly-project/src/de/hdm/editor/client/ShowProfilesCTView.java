@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import org.eclipse.jetty.util.log.Log;
+
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -71,6 +73,7 @@ public class ShowProfilesCTView extends Update {
 
 	public ShowProfilesCTView(SearchProfile searchProfile) {
 		this.searchProfile = searchProfile;
+		logger.info("76 searchProfile: " + searchProfile.toString());
 	}
 
 	@Override
@@ -85,6 +88,8 @@ public class ShowProfilesCTView extends Update {
 		adminService.searchAndCompareProfiles(false, searchProfile, getComparedProfileCallback());
 		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
 				getCurrentUserProfileCallback());
+		
+		
 
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
@@ -126,7 +131,7 @@ public class ShowProfilesCTView extends Update {
 			public void onClick(ClickEvent event) {
 					backButton.setEnabled(false);
 					backButton.setStylePrimaryName("tngly-disabledButton");
-		        	Update update = new SearchByProfileView();
+		        	Update update = new SearchByProfileView(searchProfile);
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(update);
 					logger.info("Erfolgreich View geswitcht.");
@@ -212,7 +217,7 @@ public class ShowProfilesCTView extends Update {
 				if (object.getWasVisited() == true){
 				return null;
 				} else {
-					return "*";	
+					return "♦";	
 				}
 			}
 		};
@@ -220,6 +225,12 @@ public class ShowProfilesCTView extends Update {
 		cellTable.setColumnWidth(profileVisitedColumn, 35, Unit.PX);
 
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
+			
+			@Override
+			public String getCellStyleNames(Cell.Context context, Profile object) {
+	          return "tngly-userNameColumn";
+	        }
+			
 			@Override
 			public String getValue(Profile object) {
 				// Get the value from the selection model.
