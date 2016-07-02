@@ -50,7 +50,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 	 */
 	// @Override
 	protected String getHeadlineText() {
-		return "Show Report - generated";
+		return "";
 	}
 
 	/**
@@ -63,11 +63,6 @@ public class AllProfilesView extends UpdateReportGenerator {
 		
 		adminService.searchAndCompareProfiles(unseenChecked, searchProfile, comparedProfilesCallback());
 		reportGenerator.testCallback(testCallback());
-		
-		logger.info("Zeile 61 ausgeführt");
-		scrollPanel.add(horLine);
-		
-		logger.info("Zeile 66 ausgeführt");
 		
 	}
 	
@@ -83,12 +78,10 @@ public class AllProfilesView extends UpdateReportGenerator {
 			public void onSuccess(ArrayList<Profile> result) {
 				
 				logger.info("Zeile 82 APV ausgeführt");
-				scrollPanel.setSize("100%", "100%");
 				logger.info("Zeile 84 APV ausgeführt");
-				verPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
-				// scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
+				scrollPanel.add(HTMLProfilesReport.generateAllProfilesReport(result));
 				logger.info("Zeile 86 APV ausgeführt");
-				RootPanel.get("Details").add(verPanel);
+				RootPanel.get("Details").add(scrollPanel);
 				logger.info("Line 87 APV executed");
 				
 			}

@@ -14,8 +14,6 @@ html{
 
 div#TopLevelFrame{
 	background-color: lightblue;
-	background-repeat: no repeat;
-	background-size: 140%;
 }
 
 
@@ -36,6 +34,12 @@ div#TopLevelFrame{
 }
 
 .tngly-navigation {
+    position: fixed; /* Make it stick, even on scroll */
+    overflow: auto; /* Enable scrolling if the sidenav has too much content */
+}
+
+.tngly-navigation2 {
+	margin-top:25px;
     position: fixed; /* Make it stick, even on scroll */
     overflow: auto; /* Enable scrolling if the sidenav has too much content */
 }
@@ -71,7 +75,7 @@ div#TopLevelFrame{
 }
 
 .tngly-menubutton {
-background-color: #808080;
+	background-color: #808080;
 	color: #ffffff;
 	border:0px;
 	font-weight: bold;
@@ -81,6 +85,70 @@ background-color: #808080;
 	margin-top:4px;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
+
+.tngly-menubutton-signout {
+	background-color: #808080;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:20px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+.tngly-menubutton-signout:hover {
+	background-color: #0080ff;
+}
+
+.tngly-menubutton:hover {
+	background-color: #0080ff;
+}
+
+.tngly-menubutton-active {
+    background-color: #0080ff;
+    color: white;
+	border:0px;
+	font-weight: bold;
+	height: 3em;
+	width: 10em;
+	margin-left:10px;
+	margin-top:4px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+.tngly-submenubutton{
+	font-size: 10px;
+	background-color: #c0c0c0;
+	color: #ffffff;
+	border:0px;
+	font-weight: bold;
+	height: 2em;
+	width: 13em;
+	margin-left:10px;
+	margin-top:4px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+
+.tngly-submenubutton:hover {
+	background-color: #0080ff;
+}
+
+.tngly-submenubutton-active {
+    background-color: #0080ff;
+    color: white;
+    border:0px;
+    font-size: 10px;
+	font-weight: bold;
+	height: 2em;
+	width: 13em;
+	margin-left:10px;
+	margin-top:4px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
 
 .tngly-buttonpanel {
 	margin-top: 0px;
@@ -151,20 +219,6 @@ background-color: #38373e;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
-.tngly-submenubutton{
-	font-size: 10px;
-	background-color: #c0c0c0;
-	color: #ffffff;
-	border:0px;
-	font-weight: bold;
-	height: 2em;
-	width: 10em;
-	margin-left:10px;
-	margin-top:4px;
-	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
-}
-
-
 .tngly-submenubuttonblack{
 	font-size: 10px;
 	background-color: #515151;
@@ -174,8 +228,11 @@ background-color: #38373e;
 	height: 2em;
 	width: 10em;
 	margin-left:10px;
-	margin-top:4px;
-	
+	margin-top:4px;	
+}
+
+.tngly-submenubuttonblack:hover {
+	background-color: #0080ff;
 }
 
 .tngly-Profilebutton {

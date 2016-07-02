@@ -6,8 +6,15 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -32,10 +39,6 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 	private Label loginLabel = new Label("Please sign in to your Google Account to access the REPORTGENERATOR module.");
 
 	private Anchor signInLink = new Anchor("Sign In");
-
-	private Anchor signOutLink = new Anchor("Sign Out");
-
-	private Anchor moduleLink = new Anchor("Change to Editor module");
 
 	@Override
 	public void onModuleLoad() {
@@ -71,6 +74,16 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 	
 	private void loadReportgenerator() {
 		
+		VerticalPanel verPanel = new VerticalPanel();
+		
+		final Button signOutButton = new Button("SIGN OUT");
+		final Button imprintButton = new Button("IMPRINT");
+		final Button editorButton = new Button("GO TO ED");
+		
+		final DialogBox dialogBox = createDialogBox();
+	    dialogBox.setGlassEnabled(true);
+	    dialogBox.setAnimationEnabled(true);
+		
 		logger.info("loadReportgenerator wird ausgef�hrt");
 
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -78,23 +91,42 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 				
 			}
 		});
-
-		HorizontalPanel horPanel = new HorizontalPanel();
-
-		RootPanel.get("Navigator").add(horPanel);
 		
-		signOutLink.setHref(loginInfo.getLogoutUrl());
-		
-		moduleLink.setHref(GWT.getHostPageBaseURL() + "Reportgenerator.html");
+		signOutButton.setStylePrimaryName("tngly-menubutton");
+		imprintButton.setStylePrimaryName("tngly-submenubutton");
+		editorButton.setStylePrimaryName("tngly-submenubutton");
 
-		VerticalPanel vp = new VerticalPanel();
-
-		vp.add(signOutLink);
+		verPanel.setStylePrimaryName("tngly-navigation");
 		
-		vp.add(moduleLink);
+		verPanel.add(signOutButton);
+		verPanel.add(editorButton);
+		verPanel.add(imprintButton);
 
-		RootPanel.get("Navigator").add(vp);
+		RootPanel.get("Navigator").add(verPanel);
 		
+		signOutButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
+						"_self", "");
+			}
+		});
+		
+		imprintButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				dialogBox.center();
+	            dialogBox.show();
+			}
+		});
+		
+		editorButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.open(GWT.getHostPageBaseURL() + "Editor.html",
+						"_self", "");
+			}
+		});
 		
 		UpdateReportGenerator update = new SearchByProfileViewR();
 		RootPanel.get("Details").clear();
@@ -103,6 +135,47 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		logger.info("RootPanel wurde gecleart und SearchByProfileReportView hinzugefügt");
 		
 	}
+
+	private DialogBox createDialogBox() {
+		// Create a dialog box and set the caption text
+	    final DialogBox dialogBox = new DialogBox();
+	    dialogBox.ensureDebugId("cwDialogBox");
+	    dialogBox.setText("Imprint");
+
+	    // Create a table to layout the content
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    dialogContents.setSpacing(4);
+	    dialogBox.setWidget(dialogContents);
+	    
+	    HTML aboutHTML = new HTML();
+	    
+	    String about = "IT-Projekt SS 2016<br>"
+				+ "Tingly Partnerboerse<br>"
+				+ "Hochschule der Medien Stuttgart<br>"
+				+ "Team 10<br>"
+				+ "Philipp Schmitt ()<br> Kevin Jaeger ()<br> Dominik Dach ()<br> Lorena Esposito ()<br> Marius Klepser ()<br> Esra Simsek ()<br>";
+
+	    aboutHTML.setHTML(about);
+	    dialogContents.add(aboutHTML);
+	    dialogContents.setCellHorizontalAlignment(
+	        aboutHTML, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	 // Add a close button at the bottom of the dialog
+	    Button closeButton = new Button(
+	        "Close", new ClickHandler() {
+	          public void onClick(ClickEvent event) {
+	            dialogBox.hide();
+	          }
+	        });
+	    
+	    dialogContents.add(closeButton);
+	    dialogContents.setCellHorizontalAlignment(
+	        closeButton, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	 // Return the dialog box
+	    return dialogBox;
+	}
+
 
 	private void loadLogin() {
 

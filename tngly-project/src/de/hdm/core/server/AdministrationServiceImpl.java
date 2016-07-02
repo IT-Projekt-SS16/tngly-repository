@@ -98,9 +98,9 @@ import de.hdm.core.shared.bo.Wish;
  */
 @SuppressWarnings("serial")
 public class AdministrationServiceImpl extends RemoteServiceServlet implements AdministrationService {
-	
+
 	private static final Logger logger = ClientsideSettings.getLogger();
-	
+
 	private Profile currentUserProfile = null;
 
 	/**
@@ -190,10 +190,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		// �bergabe des Benutzerprofils an den ProfilMapper zur weiteren
 		// Verarbeitung (Update in DB)
 		this.profileMapper.edit(profile);
-		
+
 		System.out.println("profileMapper.edit() Zeile 193 ausgeführt");
 		ServersideSettings.getLogger().info("profileMapper.edit() Zeile 193 ausgeführt");
-		
+
 		this.informationMapper.edit(profile);
 		System.out.println("informationMapper.edit() Zeile 197 ausgeführt");
 		ServersideSettings.getLogger().info("informationMapper.edit() Zeile 197 ausgeführt");
@@ -218,53 +218,53 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	@Override
 	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
-		
-		if (this.profileMapper.findByName(userEmail) == null)	{
-			
+
+		if (this.profileMapper.findByName(userEmail) == null) {
+
 			logger.info("Zeile 225 ausgeführt, profile == null");
-			
+
 			Profile toCreate = new Profile();
-		
+
 			toCreate.setUserName(userEmail);
-			
+
 			Date currentDate = new Date();
-			
+
 			toCreate.setDateOfBirth(currentDate);
-			
+
 			this.createProfile(toCreate);
-			
+
 			Profile profile2 = this.profileMapper.findByName(userEmail);
-			
+
 			profiles.add(profile2);
-			
+
 			logger.info("Zeile 241 ausgeführt, profile2 geaddet");
 		}
-		
-		if (this.profileMapper.findByName(userEmail) != null)	{
+
+		if (this.profileMapper.findByName(userEmail) != null) {
 			Profile profile = this.profileMapper.findByName(userEmail);
-			
+
 			logger.info("Zeile 244 ausgeführt, profile != null");
 			profiles.add(profile);
 			profiles = this.propertyMapper.searchForProperties(profiles);
 			profiles = this.informationMapper.searchForInformationValues(profiles);
 		}
-		
+
 		logger.info("Zeile 251 ausgeführt, kurz vor Rückgabe des Profils");
 		return profiles.get(0);
 	}
 
-/**	@Override
-	public void checkUserProfile() throws IllegalArgumentException {
-		// Abfrage des aktuell eingelogten Benutzers
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
+	/**
+	 * @Override public void checkUserProfile() throws IllegalArgumentException
+	 *           { // Abfrage des aktuell eingelogten Benutzers UserService
+	 *           userService = UserServiceFactory.getUserService(); User user =
+	 *           userService.getCurrentUser();
+	 * 
+	 *           int atIndex = user.getEmail().indexOf("@"); String userName =
+	 *           user.getEmail().substring(0, atIndex);
+	 * 
+	 *           currentUserProfile = this.getProfileByUserName(userName); }
+	 */
 
-		int atIndex = user.getEmail().indexOf("@");
-		String userName = user.getEmail().substring(0, atIndex);
-
-		currentUserProfile = this.getProfileByUserName(userName);
-	} */
-	
 	@Override
 	public int testCallback() throws IllegalArgumentException {
 		return 1;
@@ -272,24 +272,48 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile) throws IllegalArgumentException {
+	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile)
+			throws IllegalArgumentException {
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
-		
+
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
-		
+
 		currentUserProfile = this.getProfileByUserName(userName);
+
+		if (unseenChecked) {
+			for (int x = 0; x < profiles.size(); x++) {
+				Profile p = profiles.get(x);
+				if (p.getWasVisited()){
+					profiles.remove(x);
+				}
+			}
+		}
 		
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
-			if(this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), p.getId())){
+			if (this.profileBanMapper.isProfileBanned(p.getId(), currentUserProfile.getId())) {
+				profiles.remove(x);
+			}
+		}
+
+		for (int x = 0; x < profiles.size(); x++) {
+			Profile p = profiles.get(x);
+			if (this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), p.getId())) {
 				profiles.remove(x);
 			}
 		}
 		
+		for (int x = 0; x < profiles.size(); x++) {
+			Profile p = profiles.get(x);
+			if (currentUserProfile.getUserName() == p.getUserName()){
+				profiles.remove(x);
+			}
+		}
+
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
 			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(currentUserProfile, p));
@@ -298,7 +322,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
-		
+
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
 			p.equals(currentUserProfile);
@@ -306,7 +330,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 		Collections.sort(profiles, Collections.reverseOrder());
 		logger.info("Zeile 278 ausgeführt");
-		
+
 		return profiles;
 	}
 
@@ -321,20 +345,21 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	@Override
-	public Boolean wasProfileVisited(Profile currentUserProfile, Profile dependantProfile) throws IllegalArgumentException {
+	public Boolean wasProfileVisited(Profile currentUserProfile, Profile dependantProfile)
+			throws IllegalArgumentException {
 		return this.profileVisitMapper.wasProfileVisited(currentUserProfile, dependantProfile);
 	}
-	
-	
+
 	@Override
-	public Boolean isProfileWished(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException {
+	public Boolean isProfileWished(Profile currentUserProfile, Profile selectedProfile)
+			throws IllegalArgumentException {
 		logger.info("currentUserProfile.getId(); " + currentUserProfile.getId());
 		logger.info("selectedProfile.getId(); " + selectedProfile.getId());
 		return this.wishMapper.isProfileWished(currentUserProfile.getId(), selectedProfile.getId());
 	}
 
 	@Override
-	public ArrayList<Profile> getWishes() throws IllegalArgumentException	{
+	public ArrayList<Profile> getWishes() throws IllegalArgumentException {
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 				.getUserService();
 		com.google.appengine.api.users.User user = userService.getCurrentUser();
@@ -343,27 +368,26 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		String userName = user.getEmail().substring(0, atIndex);
 
 		Profile temp = this.profileMapper.findByName(userName);
-		
+
 		ArrayList<Wish> ws = new ArrayList<Wish>();
 		ws = this.wishMapper.findWishedProfiles(temp.getId());
-	
+
 		ArrayList<Profile> rs = new ArrayList<Profile>();
-			for (Wish w : ws)	{
-				rs.add(this.profileMapper.findByKey(w.getWishedProfileId()));
-			}
-			
-			for (Profile p : rs)	{
-				p.setIsFavorite(true);
-			}
-		
-			rs = this.propertyMapper.searchForProperties(rs);
-			rs = this.informationMapper.searchForInformationValues(rs);
-			
-			
-		ClientsideSettings.getLogger().info("getWishes ausgeführt");	
+		for (Wish w : ws) {
+			rs.add(this.profileMapper.findByKey(w.getWishedProfileId()));
+		}
+
+		for (Profile p : rs) {
+			p.setIsFavorite(true);
+		}
+
+		rs = this.propertyMapper.searchForProperties(rs);
+		rs = this.informationMapper.searchForInformationValues(rs);
+
+		ClientsideSettings.getLogger().info("getWishes ausgeführt");
 		return rs;
 	}
-	
+
 	@Override
 	public void deleteWishes(ArrayList<Wish> toUnwish) throws IllegalArgumentException {
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
@@ -373,17 +397,17 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
 		Profile temp = this.profileMapper.findByName(userName);
-		
+
 		ClientsideSettings.getLogger().info("Zeile 403 Impl. ausgeführt");
-		
-		for (Wish w : toUnwish)	{
+
+		for (Wish w : toUnwish) {
 			w.setWishingProfileId(temp.getId());
 			this.wishMapper.delete(w);
 			ClientsideSettings.getLogger().info("Zeile 408 Impl. ausgeführt");
 		}
 
 	}
-	
+
 	@Override
 	public Wish addWishToWishlist(int wishedProfileId, int wishingProfileId) throws IllegalArgumentException {
 		logger.info("addWishtoWishlist wird ausgeführt");
@@ -429,21 +453,20 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		 * 
 		 * Collections.sort(profiles, Collections.reverseOrder());
 		 * ServersideSettings.setProfilesFoundAndCompared(profiles);
-		 * System.out.println(
-		 * "Clientside-Settings, ProfilesFoundAndCompared wird gesetzt");
+		 * System.out.println( "Clientside-Settings, ProfilesFoundAndCompared
+		 * wird gesetzt");
 		 **/
 		return wishlist;
 	}
 
-	
 	@Override
-	public Boolean isProfileBanned(Profile currentUserProfile, Profile selectedProfile) throws IllegalArgumentException {
+	public Boolean isProfileBanned(Profile currentUserProfile, Profile selectedProfile)
+			throws IllegalArgumentException {
 		return this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), selectedProfile.getId());
 	}
-	
-	
+
 	@Override
-	public ArrayList<Profile> getBans() throws IllegalArgumentException	{
+	public ArrayList<Profile> getBans() throws IllegalArgumentException {
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 				.getUserService();
 		com.google.appengine.api.users.User user = userService.getCurrentUser();
@@ -452,35 +475,35 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		String userName = user.getEmail().substring(0, atIndex);
 
 		Profile temp = this.profileMapper.findByName(userName);
-		
+
 		ArrayList<ProfileBan> pbs = new ArrayList<ProfileBan>();
 		pbs = this.profileBanMapper.findBannedProfiles(temp.getId());
-	
+
 		ArrayList<Profile> rs = new ArrayList<Profile>();
-			for (ProfileBan pb : pbs)	{
-				rs.add(this.profileMapper.findByKey(pb.getBannedProfileId()));
-			}
-			
-		for (Profile p : rs)	{
+		for (ProfileBan pb : pbs) {
+			rs.add(this.profileMapper.findByKey(pb.getBannedProfileId()));
+		}
+
+		for (Profile p : rs) {
 			p.setIsBanned(true);
 		}
-		
-			rs = this.propertyMapper.searchForProperties(rs);
-			rs = this.informationMapper.searchForInformationValues(rs);
-		
-		ClientsideSettings.getLogger().info("getBans ausgeführt");	
+
+		rs = this.propertyMapper.searchForProperties(rs);
+		rs = this.informationMapper.searchForInformationValues(rs);
+
+		ClientsideSettings.getLogger().info("getBans ausgeführt");
 		return rs;
 	}
-	
+
 	@Override
 	public ProfileBan createProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException {
 		ProfileBan pb = new ProfileBan();
 		pb.setBannedProfileId(bannedpId);
 		pb.setBanningProfileId(banningpId);
-		
+
 		System.out.println("BannedProfileId 422 AdminImpl: " + pb.getBannedProfileId());
 		System.out.println("BanningProfileId 423 AdminImpl: " + pb.getBanningProfileId());
-		
+
 		return this.profileBanMapper.insert(pb);
 	}
 
@@ -493,23 +516,23 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
 		Profile temp = this.profileMapper.findByName(userName);
-		
+
 		ClientsideSettings.getLogger().info("Zeile 403 Impl. ausgeführt");
-		
-		for (ProfileBan pb : toUnban)	{
+
+		for (ProfileBan pb : toUnban) {
 			pb.setBanningProfileId(temp.getId());
 			this.profileBanMapper.delete(pb);
 			ClientsideSettings.getLogger().info("Zeile 408 Impl. ausgeführt");
 		}
 
 	}
-	
+
 	@Override
 	public void deleteProfileBan(int banningProfileId, int bannedProfileId) throws IllegalArgumentException {
-			ProfileBan pb = new ProfileBan();
-			pb.setBannedProfileId(bannedProfileId);
-			pb.setBanningProfileId(banningProfileId);
-			this.profileBanMapper.delete(pb);
+		ProfileBan pb = new ProfileBan();
+		pb.setBannedProfileId(bannedProfileId);
+		pb.setBanningProfileId(banningProfileId);
+		this.profileBanMapper.delete(pb);
 	}
 
 	public ArrayList<ProfileBan> bans(int banningpId) throws IllegalArgumentException {

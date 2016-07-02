@@ -12,6 +12,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -52,10 +55,6 @@ public class EditorEntryPoint implements EntryPoint {
 	private Label loginLabel = new Label("Please sign in to your Google Account to access the Editor module.");
 
 	private Anchor signInLink = new Anchor("Sign In");
-
-	private Anchor signOutLink = new Anchor("Sign Out");
-
-//	private Anchor moduleLink = new Anchor("Change to REPORT module");
 
 	@Override
 	public void onModuleLoad() {
@@ -112,17 +111,19 @@ public class EditorEntryPoint implements EntryPoint {
 	private void loadEditor() {
 		
 		VerticalPanel verPanel = new VerticalPanel();
-		HorizontalPanel logoutPanel = new HorizontalPanel();
-		HorizontalPanel trailerPanel = new HorizontalPanel();
 		
 		final Button profileButton = new Button("MY PROFILE");
 		final Button editProfileButton = new Button("EDIT PROFILE");
-		final Button profileListsButton = new Button("PROFILELISTS");
 		final Button wishlistButton = new Button("WISHLIST");
 		final Button banlistButton = new Button("BANLIST");
 		final Button searchProfilButton = new Button("SEARCH PARTNER");
 		final Button signOutButton = new Button("SIGN OUT");
 		final Button imprintButton = new Button("IMPRINT");
+		final Button reportGenButton = new Button("GO TO RG");
+		
+		final DialogBox dialogBox = createDialogBox();
+	    dialogBox.setGlassEnabled(true);
+	    dialogBox.setAnimationEnabled(true);
 
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			@Override
@@ -132,90 +133,77 @@ public class EditorEntryPoint implements EntryPoint {
 		});
 		
 		editProfileButton.setStylePrimaryName("tngly-submenubutton");
-		profileListsButton.setStylePrimaryName("tngly-menubutton");
-		wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-		banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+		wishlistButton.setStylePrimaryName("tngly-submenubutton");
+		banlistButton.setStylePrimaryName("tngly-submenubutton");
 		searchProfilButton.setStylePrimaryName("tngly-menubutton");
-		signOutButton.setStylePrimaryName("tngly-signoutButton");
-		profileButton.setStylePrimaryName("tngly-EditProfileButton");
-		imprintButton.setStylePrimaryName("tngly-signoutButton");
+		signOutButton.setStylePrimaryName("tngly-menubutton-signout");
+		profileButton.setStylePrimaryName("tngly-menubutton");
+		imprintButton.setStylePrimaryName("tngly-submenubutton");
+		reportGenButton.setStylePrimaryName("tngly-submenubutton");
 		
 		verPanel.setStylePrimaryName("tngly-navigation");
 		
 		verPanel.add(profileButton);
 		verPanel.add(editProfileButton);
-		verPanel.add(profileListsButton);
 		verPanel.add(wishlistButton);
 		verPanel.add(banlistButton);
 		verPanel.add(searchProfilButton);
+		verPanel.add(signOutButton);
+		verPanel.add(reportGenButton);
+		verPanel.add(imprintButton);
 		
-		trailerPanel.add(imprintButton);
-		trailerPanel.add(signOutButton);
-		
-		RootPanel.get("Navigator").add(logoutPanel);
 		RootPanel.get("Navigator").add(verPanel);
-		RootPanel.get("Trailer").add(imprintButton);
-		RootPanel.get("Trailer").add(signOutButton);
-
+		
 		
 		profileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				profileButton.setStylePrimaryName("tngly-Profilebutton");
-				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				profileButton.setStylePrimaryName("tngly-menubutton-active");
+				
+				editProfileButton.setStylePrimaryName("tngly-submenubutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubutton");
+				banlistButton.setStylePrimaryName("tngly-submenubutton");
 				searchProfilButton.setStylePrimaryName("tngly-menubutton");
-				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
-				profileListsButton.setStylePrimaryName("tngly-menubutton");
+				signOutButton.setStylePrimaryName("tngly-menubutton-signout");
+				imprintButton.setStylePrimaryName("tngly-submenubutton");
+				
 				Update update = new ProfileView();
 
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
 		});
-
-		profileListsButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				profileButton.setStylePrimaryName("tngly-menubutton");
-				wishlistButton.setStylePrimaryName("tngly-submenubutton");
-				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-				searchProfilButton.setStylePrimaryName("tngly-menubutton");
-				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
-				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
-				Update update = new WishlistCTView();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(update);
-			}
-		});
-
 		
 		wishlistButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				profileButton.setStylePrimaryName("tngly-menubutton");
-				wishlistButton.setStylePrimaryName("tngly-submenubutton");
-				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				wishlistButton.setStylePrimaryName("tngly-submenubutton-active");
+				
+				editProfileButton.setStylePrimaryName("tngly-submenubutton");
+				banlistButton.setStylePrimaryName("tngly-submenubutton");
 				searchProfilButton.setStylePrimaryName("tngly-menubutton");
-				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
-				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
+				signOutButton.setStylePrimaryName("tngly-menubutton-signout");
+				profileButton.setStylePrimaryName("tngly-menubutton");
+				imprintButton.setStylePrimaryName("tngly-submenubutton");
+				
 				Update update = new WishlistCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
 		});
 
-	
-
 		searchProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				searchProfilButton.setStylePrimaryName("tngly-menubutton-active");
+				
+				editProfileButton.setStylePrimaryName("tngly-submenubutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubutton");
+				banlistButton.setStylePrimaryName("tngly-submenubutton");
+				signOutButton.setStylePrimaryName("tngly-menubutton-signout");
 				profileButton.setStylePrimaryName("tngly-menubutton");
-				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-				searchProfilButton.setStylePrimaryName("tngly-Profilebutton");
-				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
-				profileListsButton.setStylePrimaryName("tngly-menubutton");
+				imprintButton.setStylePrimaryName("tngly-submenubutton");
+				
 				Update update = new SearchByProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -225,12 +213,15 @@ public class EditorEntryPoint implements EntryPoint {
 		banlistButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				profileButton.setStylePrimaryName("tngly-menubutton");
-				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-				banlistButton.setStylePrimaryName("tngly-submenubutton");
+				banlistButton.setStylePrimaryName("tngly-submenubutton-active");
+				
+				editProfileButton.setStylePrimaryName("tngly-submenubutton");
+				wishlistButton.setStylePrimaryName("tngly-submenubutton");
 				searchProfilButton.setStylePrimaryName("tngly-menubutton");
-				editProfileButton.setStylePrimaryName("tngly-submenubuttonblack");
-				profileListsButton.setStylePrimaryName("tngly-Profilebutton");
+				signOutButton.setStylePrimaryName("tngly-menubutton-signout");
+				profileButton.setStylePrimaryName("tngly-menubutton");
+				imprintButton.setStylePrimaryName("tngly-submenubutton");
+				
 				Update update = new BanCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -241,12 +232,15 @@ public class EditorEntryPoint implements EntryPoint {
 		editProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				profileButton.setStylePrimaryName("tngly-Profilebutton");
-				wishlistButton.setStylePrimaryName("tngly-submenubuttonblack");
-				banlistButton.setStylePrimaryName("tngly-submenubuttonblack");
+				editProfileButton.setStylePrimaryName("tngly-submenubutton-active");
+				
+				wishlistButton.setStylePrimaryName("tngly-submenubutton");
+				banlistButton.setStylePrimaryName("tngly-submenubutton");
 				searchProfilButton.setStylePrimaryName("tngly-menubutton");
-				editProfileButton.setStylePrimaryName("tngly-submenubutton");
-				profileListsButton.setStylePrimaryName("tngly-menubutton");
+				signOutButton.setStylePrimaryName("tngly-menubutton-signout");
+				profileButton.setStylePrimaryName("tngly-menubutton");
+				imprintButton.setStylePrimaryName("tngly-submenubutton");
+				
 				Update update = new EditProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -260,10 +254,66 @@ public class EditorEntryPoint implements EntryPoint {
 						"_self", "");
 			}
 		});
+		
+		imprintButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				dialogBox.center();
+	            dialogBox.show();
+			}
+		});
+		
+		reportGenButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.open(GWT.getHostPageBaseURL() + "Reportgenerator.html",
+						"_self", "");
+			}
+		});
 
 		Update update = new EditProfileView();
 		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(update);
+	}
+
+	private DialogBox createDialogBox() {
+		// Create a dialog box and set the caption text
+	    final DialogBox dialogBox = new DialogBox();
+	    dialogBox.ensureDebugId("cwDialogBox");
+	    dialogBox.setText("Imprint");
+
+	    // Create a table to layout the content
+	    VerticalPanel dialogContents = new VerticalPanel();
+	    dialogContents.setSpacing(4);
+	    dialogBox.setWidget(dialogContents);
+	    
+	    HTML aboutHTML = new HTML();
+	    
+	    String about = "IT-Projekt SS 2016<br>"
+				+ "Tingly Partnerboerse<br>"
+				+ "Hochschule der Medien Stuttgart<br>"
+				+ "Team 10<br>"
+				+ "Philipp Schmitt ()<br> Kevin Jaeger ()<br> Dominik Dach ()<br> Lorena Esposito ()<br> Marius Klepser ()<br> Esra Simsek ()<br>";
+
+	    aboutHTML.setHTML(about);
+	    dialogContents.add(aboutHTML);
+	    dialogContents.setCellHorizontalAlignment(
+	        aboutHTML, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	 // Add a close button at the bottom of the dialog
+	    Button closeButton = new Button(
+	        "Close", new ClickHandler() {
+	          public void onClick(ClickEvent event) {
+	            dialogBox.hide();
+	          }
+	        });
+	    
+	    dialogContents.add(closeButton);
+	    dialogContents.setCellHorizontalAlignment(
+	        closeButton, HasHorizontalAlignment.ALIGN_CENTER);
+	    
+	 // Return the dialog box
+	    return dialogBox;
 	}
 
 	private void loadLogin() {
