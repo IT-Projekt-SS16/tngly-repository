@@ -113,9 +113,8 @@ public class DBConnection {
                      */
                     Class.forName("com.mysql.jdbc.GoogleDriver");
                     url = localUrl;
-                    
                     logger.info("googleUrl benutzt!!");
-                    
+
                 } else {
                     /**
                      *  Local MySQL instance to use during development.
@@ -123,6 +122,7 @@ public class DBConnection {
                     Class.forName("com.mysql.jdbc.Driver");
                     url = localUrl;
                     logger.info("local benutzt!!");
+                    con = DriverManager.getConnection(url, user, password);
                 }
 
                 /**
@@ -134,6 +134,7 @@ public class DBConnection {
                  */
               // Für Deployment hier nur (url) übergeben und in if/else jeweils GoogleDriver und local
                 con = DriverManager.getConnection(url, user, password);
+
             } 
             
             /**

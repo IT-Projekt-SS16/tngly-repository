@@ -1,5 +1,6 @@
 package de.hdm.core.shared.report;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -49,10 +50,12 @@ public class HTMLProfilesReport {
 		    DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm:ss");
 
 		    report += "<br>";
-			report += "Profile Report, generated at " + fmt.format(today) + "<br>";
+			report += "Generated at " + fmt.format(today) + "<br>";
 			report += "<br>";
+			report += "<div style=\"overflow-x:auto;\">";
 			report += "<table id=\"reporttable\">"
 					+ "<tr>"
+					+ "<th id=\"profile\">Username</th>"
 					+ "<th id=\"profile\">First Name</th>"
 					+ "<th id=\"profile\">Last Name</th>"
 					+ "<th id=\"profile\">Gender</th>"
@@ -64,10 +67,11 @@ public class HTMLProfilesReport {
 					+ "<th id=\"profile\">Hobbies</th>"
 					+ "<th id=\"profile\">Self-Description</th>"
 					+ "<th id=\"profile\">Favorite Band</th>"
-					+ "<th id=\"profile\">Favorite Era</th>"
+					+ "<th id=\"profile\">Strong Points</th>"
 					+ "<th id=\"profile\">Associated Subculture</th>"
 					+ "<th id=\"profile\">Favorite Movies</th>"
-					+ "<th id=\"profile\">Strong Points</th>"
+					+ "<th id=\"profile\">Favorite Era</th>"
+					+ "<th id=\"profile\">Similiarity</th>"
 					+ "</tr>";
 			
 			logger.info("Zeile 71 HTMLprofilesReport ausgeführt");
@@ -108,38 +112,57 @@ public class HTMLProfilesReport {
 				if (!p.getDescriptionList().get(0).getInformationValues().isEmpty()){
 					selfDescription = p.getDescriptionList().get(0).getInformationValues().get(0).getValue();
 				} else {
-					selfDescription = null;
+					selfDescription = "";
 				}
+				
+				String favoriteBand;
+				if (!p.getDescriptionList().get(1).getInformationValues().isEmpty()){
+					favoriteBand = p.getDescriptionList().get(1).getInformationValues().get(0).getValue();
+				} else {
+					favoriteBand = "";
+				}
+				
+				String favoriteMovie;
+				if (!p.getDescriptionList().get(2).getInformationValues().isEmpty()){
+					favoriteMovie = p.getDescriptionList().get(2).getInformationValues().get(0).getValue();
+				} else {
+					favoriteMovie = "";
+				}
+				
+				float bhFormatted = (float) (Math.round(p.getBodyHeight() * 100) / 100.0);
 				
 				logger.info("Zeile 103 HTMLprofilesReport ausgeführt");
 				
 				report += "<tr id=\"spalten\">"
+						+ "<td id=\"zelle\">" + p.getUserName() + "</td>"
 						+ "<td id=\"zelle\">" + p.getName() + "</td>"
 						+ "<td id=\"zelle\">" + p.getLastName() + "</td>"
 						+ "<td id=\"zelle\">" + p.getGender() + "</td>"
 						+ "<td id=\"zelle\">" + String.valueOf(age) +"</td>"
-						+ "<td id=\"zelle\">" + String.valueOf(p.getBodyHeight()) + "</td>"
+						+ "<td id=\"zelle\">" + Float.toString(bhFormatted) + "m" + "</td>"
 						+ "<td id=\"zelle\">" + p.getHairColour() +"</td>"
 						+ "<td id=\"zelle\">" + smoker + "</td>"
 						+ "<td id=\"zelle\">" + p.getConfession() +"</td>"
-//						+ "<td id=\"zelle\"><pre>" + resultHobbies.toString() + "</pre></td>"
-						+ "<td id=\"zelle\"><pre>" + selfDescription +"</pre></pre></td>"
-//						+ "<td id=\"zelle\"><pre>" + p.getDescriptionList().get(1).getInformationValues().get(0).getValue() + "</pre></td>"
-//						+ "<td id=\"zelle\"><pre>" + resultEra.toString() +"</pre></td>"
-//						+ "<td id=\"zelle\"><pre>" + resultCulture.toString() + "</pre></td>"
-//						+ "<td id=\"zelle\"><pre>" + p.getDescriptionList().get(2).getInformationValues().get(0).getValue() +"</pre></td>"
-//						+ "<td id=\"zelle\"><pre>" + resultPoints.toString() + "</pre></td>"
+						+ "<td id=\"zelle\">" + resultHobbies.toString() + "</td>"
+						+ "<td id=\"zelle\">" + selfDescription +"</td>"
+						+ "<td id=\"zelle\">" + favoriteBand + "</td>"
+						+ "<td id=\"zelle\">" + resultEra.toString() +"</td>"
+						+ "<td id=\"zelle\">" + resultCulture.toString() + "</td>"
+						+ "<td id=\"zelle\">" + favoriteMovie +"</td>"
+						+ "<td id=\"zelle\">" + resultPoints.toString() + "</td>"
+						+ "<td id=\"zelle\">" + p.getSimiliarityToReference() + "%" + "</td>"
 						+ "</tr>";
 			}
 			
 			report += "</table>";
-			
+			report += "</div>";
 			report += "</div>";
 			
 			logger.info("Zeile 125 HTMLprofilesReport ausgeführt");
 			
 			report = generateReportEnd(report);
 			logger.info("Zeile 134 HTMLprofilesReport ausgeführt");
+			logger.info(report);
 			return new HTML(report);
 	}
 
