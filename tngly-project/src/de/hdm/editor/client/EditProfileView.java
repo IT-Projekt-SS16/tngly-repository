@@ -493,7 +493,7 @@ public class EditProfileView extends Update {
 						currentUserProfile.getDescriptionList().get(1).getInformationValues().get(0).setValue(null);
 					} else {
 						currentUserProfile.getDescriptionList().get(1).getInformationValues().get(0)
-								.setValue(tBb.getText());
+								.setValue(capitalize(tBb.getText()));
 					}
 				}
 
@@ -523,7 +523,7 @@ public class EditProfileView extends Update {
 						currentUserProfile.getDescriptionList().get(2).getInformationValues().get(0).setValue(null);
 					} else {
 						currentUserProfile.getDescriptionList().get(2).getInformationValues().get(0)
-								.setValue(tBm.getText());
+								.setValue(capitalize(tBm.getText()));
 					}
 				}
 
