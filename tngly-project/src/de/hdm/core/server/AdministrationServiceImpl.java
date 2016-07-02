@@ -1,17 +1,14 @@
 package de.hdm.core.server;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.server.db.InformationMapper;
 import de.hdm.core.server.db.ProfileBanMapper;
 import de.hdm.core.server.db.ProfileMapper;
@@ -20,37 +17,18 @@ import de.hdm.core.server.db.PropertyMapper;
 import de.hdm.core.server.db.WishMapper;
 import de.hdm.core.shared.AdministrationService;
 import de.hdm.core.shared.AdministrationServiceAsync;
-import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.ProfileVisit;
-import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.SearchProfile;
-import de.hdm.core.shared.bo.Selection;
 import de.hdm.core.shared.bo.Wish;
 
 /**
- * <p>
- * Implementierungsklasse des Interface <code>AdministationService</code>. Diese
+ * Implementierungsklasse des Interface {@link AdministationService}. Diese
  * Klasse ist <em>die</em> Klasse, die saemtliche Applikationslogik (oder engl.
- * Business Logic) aggregiert. Sie ist wie eine Spinne, die saemtliche
- * Zusammenhaenge in ihrem Netz (in unserem Fall die Daten der Applikation)
- * ueberblickt und fuer einen geordneten Ablauf und dauerhafte Konsistenz der
- * Daten und Ablaeufe sorgt.
- * </p>
- * <p>
- * Die Applikationslogik findet sich in den Methoden dieser Klasse. Jede dieser
- * Methoden kann als <em>Transaction Script</em> bezeichnet werden. Dieser Name
- * laesst schon vermuten, dass hier analog zu Datenbanktransaktion pro
- * Transaktion gleiche mehrere Teilaktionen durchgefuehrt werden, die das System
- * von einem konsistenten Zustand in einen anderen, auch wieder konsistenten
- * Zustand ueberfuehren. Wenn dies zwischenzeitig scheitern sollte, dann ist das
- * jeweilige Transaction Script dafuer verantwortlich, eine Fehlerbehandlung
- * durchzufuehren.
- * </p>
- * <p>
- * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies
- * sind:
+ * Business Logic) aggregiert. Die Applikationslogik findet sich in den Methoden
+ * dieser Klasse. Diese Klasse steht mit einer Reihe weiterer Datentypen in
+ * Verbindung. Dies sind:
  * <ol>
  * <li>{@link AdministrationService}: Dies ist das <em>lokale</em> - also
  * Server-seitige - Interface, das die im System zur Verfuegung gestellten
@@ -71,40 +49,29 @@ import de.hdm.core.shared.bo.Wish;
  * Basis fuer die Anbindung von <code>AdministrationServiceImpl</code> an die
  * Runtime des GWT RPC-Mechanismus.</li>
  * </ol>
- * </p>
- * <p>
  * <b>Wichtiger Hinweis:</b> Diese Klasse bedient sich sogenannter
  * Mapper-Klassen. Sie gehoeren der Datenbank-Schicht an und bilden die
  * objektorientierte Sicht der Applikationslogik auf die relationale
- * organisierte Datenbank ab. Zuweilen kommen "kreative" Zeitgenossen auf die
- * Idee, in diesen Mappern auch Applikationslogik zu realisieren. Siehe dazu
- * auch die Hinweise in {@link #delete(User)} Einzig nachvollziehbares Argument
- * fuer einen solchen Ansatz ist die Steigerung der Performance umfangreicher
- * Datenbankoperationen. Doch auch dieses Argument zieht nur dann, wenn wirklich
- * grosse Datenmengen zu handhaben sind. In einem solchen Fall wuerde man jedoch
- * eine entsprechend erweiterte Architektur realisieren, die wiederum saemtliche
- * Applikationslogik in der Applikationsschicht isolieren wuerde. Also, keine
- * Applikationslogik in die Mapper-Klassen "stecken" sondern dies auf die
- * Applikationsschicht konzentrieren!
- * </p>
- * <p>
- * Beachten Sie, dass saemtliche Methoden, die mittels GWT RPC aufgerufen werden
- * koennen ein <code>throws IllegalArgumentException</code> in der
- * Methodendeklaration aufweisen. Diese Methoden duerfen also Instanzen von
+ * organisierte Datenbank ab. Beachten Sie, dass saemtliche Methoden, die
+ * mittels GWT RPC aufgerufen werden koennen ein
+ * <code>throws IllegalArgumentException</code> in der Methodendeklaration
+ * aufweisen. Diese Methoden duerfen also Instanzen von
  * {@link IllegalArgumentException} auswerfen. Mit diesen Exceptions koennen
  * z.B. Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
  * transportiert und dort systematisch in einem Catch-Block abgearbeitet werden.
- * </p>
+ * 
+ * @author Kevin Jaeger, Philipp Schmitt
  */
-@SuppressWarnings("serial")
 public class AdministrationServiceImpl extends RemoteServiceServlet implements AdministrationService {
 
-	private static final Logger logger = ClientsideSettings.getLogger();
-
+	/**
+	 * Das Profil des aktuellen Benutzer. Hier hinterlegt, um schnell darauf
+	 * zurückgreifen zu können.
+	 */
 	private Profile currentUserProfile = null;
 
 	/**
-	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benoetigt.
+	 * Eindeutige SerialVersion ID. Wird zum Serialisieren der Klasse benoetigt.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -146,16 +113,20 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	/**
 	 * No-Argument Konstruktor
+	 * 
+	 * @throws IllegalArgumentException
+	 *             Benötigt für RPC-Core
 	 */
 	public AdministrationServiceImpl() throws IllegalArgumentException {
 
 	}
 
 	/**
-	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
-	 * No-Argument-Konstruktor {@link #AdministrationServiceImpl()}. Diese
-	 * Methode muss fuer jede Instanz von <code>AdministrationServiceImpl</code>
-	 * aufgerufen werden.
+	 * Initialisiert die Implementierung des Interface AdministrationService.
+	 * Diese Methode muss fuer jede Instanz von
+	 * <code>AdministrationServiceImpl</code> aufgerufen werden.
+	 * 
+	 * @author Kevin Jaeger
 	 */
 	@Override
 	public void init() throws IllegalArgumentException {
@@ -173,8 +144,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Interne Methode zur Anlage von Profilen bei Erstanmeldung eines Benutzers
-	 * am System.
+	 * Erstellt ein neues Profil in der Datenbank. Dazu ruft sie mit dem
+	 * übergebenen Profil den ProfilMapper auf, der dieses dann über eine
+	 * INSERT-Abfrage in die Datenbank einfügt.
+	 * 
+	 * @author Kevin Jaeger
+	 * @param profile
+	 *            Das Profil, das in die Datenbank eingefügt werden soll
 	 */
 	@Override
 	public void createProfile(Profile profile) throws IllegalArgumentException {
@@ -182,32 +158,32 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Aufruf dieser Methode durch den Benutzer, um Informationen des Profils zu
-	 * ï¿½ndern.
+	 * Aktualisiert die Attribute und Eigenschaften eines Profils in der
+	 * Datenbank. Dazu ruft sie mit dem übergebenen Profil den ProfilMapper auf,
+	 * der dieses dann über eine UPDATE-Abfrage in der Datenbank aktualisiert.
+	 * 
+	 * @author Kevin Jaeger
+	 * @param profile
+	 *            Das Profil, das aktualisiert werden soll
 	 */
 	@Override
 	public void editProfile(Profile profile) throws IllegalArgumentException {
-		// ï¿½bergabe des Benutzerprofils an den ProfilMapper zur weiteren
-		// Verarbeitung (Update in DB)
 		this.profileMapper.edit(profile);
-
-		System.out.println("profileMapper.edit() Zeile 193 ausgefÃ¼hrt");
-		ServersideSettings.getLogger().info("profileMapper.edit() Zeile 193 ausgefÃ¼hrt");
-
 		this.informationMapper.edit(profile);
-		System.out.println("informationMapper.edit() Zeile 197 ausgefÃ¼hrt");
-		ServersideSettings.getLogger().info("informationMapper.edit() Zeile 197 ausgefÃ¼hrt");
-
 	}
 
 	/**
-	 * Aufruf dieser Methode durch den Benutzer, um das eigene Profil
-	 * endgï¿½ltig aus dem System zu lï¿½schen.
+	 * Löscht das übergebene Profil endgültig aus der Datenbank. Die Methode
+	 * ruft dazu, alle notwendigen Mapper (Profil, Information, Wish,
+	 * ProfileBan, ProfileVisit) mit dem übergebenen Profil auf, um ein
+	 * vollständiges Löschen aller Profildaten sicherzustellen.
+	 * 
+	 * @author Kevin Jaeger
+	 * @param profile
+	 *            Das Profil, das aus der Datenbank entfernt werden soll
 	 */
 	@Override
 	public void deleteProfile(Profile profile) throws IllegalArgumentException {
-		// Uebergabe des applikationsweiten Benutzerprofils an den ProfilMapper
-		// zur weiteren Verarbeitung (Loeschen in DB)
 		this.profileBanMapper.delete(profile);
 		this.profileVisitMapper.delete(profile);
 		this.wishMapper.delete(profile);
@@ -215,84 +191,98 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		this.profileMapper.delete(profile);
 	}
 
+	/**
+	 * Gibt das Benutzerprofil mit allen dazugehörigen Informationen anhand des
+	 * Username zurück.
+	 * 
+	 * @author Philipp Schmitt, Kevin Jaeger
+	 * @param userEmail
+	 *            Der Username, zu dem das Profil zurückgegeben werden soll
+	 * @return Das gefundene Benutzerprofil
+	 */
 	@Override
 	public Profile getProfileByUserName(String userEmail) throws IllegalArgumentException {
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 
+		/*
+		 * Wenn aktuell kein Profil in der Datenbank unter dem übergebenen
+		 * Username vorhanden ist, dann wird ein neues Profil mit Username &
+		 * Geburtsdatum in der Datenbank angelegt.
+		 */
 		if (this.profileMapper.findByName(userEmail) == null) {
 
-			logger.info("Zeile 225 ausgefÃ¼hrt, profile == null");
-
 			Profile toCreate = new Profile();
-
 			toCreate.setUserName(userEmail);
-
 			Date currentDate = new Date();
-
 			toCreate.setDateOfBirth(currentDate);
-
 			this.createProfile(toCreate);
 
 			Profile profile2 = this.profileMapper.findByName(userEmail);
-
 			profiles.add(profile2);
-
-			logger.info("Zeile 241 ausgefÃ¼hrt, profile2 geaddet");
 		}
 
+		/*
+		 * Wenn aktuell ein Profil in der Datenbank unter dem übergebenen
+		 * Username vorhanden ist, dann wird dieses von den entsprechenden
+		 * Mappern (Property & Information) befüllt und zurückgegeben.
+		 */
 		if (this.profileMapper.findByName(userEmail) != null) {
 			Profile profile = this.profileMapper.findByName(userEmail);
-
-			logger.info("Zeile 244 ausgefÃ¼hrt, profile != null");
 			profiles.add(profile);
 			profiles = this.propertyMapper.searchForProperties(profiles);
 			profiles = this.informationMapper.searchForInformationValues(profiles);
 		}
-
-		logger.info("Zeile 251 ausgefÃ¼hrt, kurz vor RÃ¼ckgabe des Profils");
 		return profiles.get(0);
 	}
 
 	/**
-	 * @Override public void checkUserProfile() throws IllegalArgumentException
-	 *           { // Abfrage des aktuell eingelogten Benutzers UserService
-	 *           userService = UserServiceFactory.getUserService(); User user =
-	 *           userService.getCurrentUser();
+	 * Sucht Profile nach einem übergebenen Suchprofil und vergleicht diese auf
+	 * Ähnlichkeit ihrer Eigenschaften.
 	 * 
-	 *           int atIndex = user.getEmail().indexOf("@"); String userName =
-	 *           user.getEmail().substring(0, atIndex);
-	 * 
-	 *           currentUserProfile = this.getProfileByUserName(userName); }
+	 * @author Kevin Jaeger
+	 * @param unseenChecked
+	 *            Zeigt, ob vom Benutzer gesehene Profile aus dem Suchergebnis
+	 *            entfernt werden sollen
+	 * @param searchProfile
+	 *            Die vom Benutzer eingegebenen Kriterien für die Profilsuche
+	 * @return Eine Liste mit nach Ähnlichkeit verglichenen, sortierten Profilen
 	 */
-
-	@Override
-	public int testCallback() throws IllegalArgumentException {
-		return 1;
-
-	}
-
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile)
 			throws IllegalArgumentException {
+		/*
+		 * Suche nach Profilen, die mit dem Suchprofil übereinstimmen.
+		 */
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
 
+		/*
+		 * Auslesen des aktuellen Benutzernamen aus der Google Accounts API, um
+		 * das Profil des aktuellen Benutzers aus der Datenbank zu lesen.
+		 */
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
-
 		currentUserProfile = this.getProfileByUserName(userName);
 
+		/*
+		 * Wenn nur ungesehene Profile vom Benutzer gesucht werden, werden alle
+		 * schon besuchten Profile aus dem Suchergebnis entfernt.
+		 */
 		if (unseenChecked) {
 			for (int x = 0; x < profiles.size(); x++) {
 				Profile p = profiles.get(x);
-				if (p.getWasVisited()){
+				if (p.getWasVisited()) {
 					profiles.remove(x);
 				}
 			}
 		}
-		
+
+		/*
+		 * Da dem Suchenden keine Profile angezeigt werden dürfen, die diesen
+		 * "blockiert" haben, müssen diese Profile aus dem Suchergebnis entfernt
+		 * werden.
+		 */
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
 			if (this.profileBanMapper.isProfileBanned(p.getId(), currentUserProfile.getId())) {
@@ -300,327 +290,380 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 			}
 		}
 
+		/*
+		 * Da dem Suchenden auch keine Profile angezeigt werden sollen, die
+		 * dieser "blockiert" hat, müssen diese Profile aus dem Suchergebnis
+		 * entfernt werden.
+		 */
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
 			if (this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), p.getId())) {
 				profiles.remove(x);
 			}
 		}
-		
+
+		/*
+		 * Ebenso soll dem Suchenden nicht sein eigenes Benutzerprofil angezeigt
+		 * werden, deshalb wird dieses aus dem Suchergebnis entfernt.
+		 */
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
-			if (currentUserProfile.getUserName() == p.getUserName()){
+			if (currentUserProfile.getUserName() == p.getUserName()) {
 				profiles.remove(x);
 			}
 		}
 
+		/*
+		 * Da nun alle Profile entfernt wurden, die zu entfernen waren, wird für
+		 * die restlichen Profile überprüft, ob diese schon besucht wurden bzw.
+		 * einen Wunsch/Favorite des Benutzers darstellen.
+		 */
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
 			p.setWasVisited(this.profileVisitMapper.wasProfileVisited(currentUserProfile, p));
 			p.setIsFavorite(this.wishMapper.isProfileWished(currentUserProfile.getId(), p.getId()));
 		}
 
+		/*
+		 * Auslesen aller Profileigenschaften sowie deren Informationen
+		 */
 		profiles = this.propertyMapper.searchForProperties(profiles);
 		profiles = this.informationMapper.searchForInformationValues(profiles);
 
+		/*
+		 * Vergleich aller gefundenen Profile mit dem eigenen Benutzerprofil auf
+		 * Ähnlichkeit bei Eigenschaften
+		 */
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
 			p.equals(currentUserProfile);
 		}
 
+		/*
+		 * Sortierung aller verglichenen Profile anhand des Ähnlichkeitswertes
+		 */
 		Collections.sort(profiles, Collections.reverseOrder());
-		logger.info("Zeile 278 ausgefÃ¼hrt");
-
 		return profiles;
 	}
 
+	/**
+	 * Erstellt einen Eintrag für einen Profilbesuch in der Datenbank.
+	 * 
+	 * @author Kevin Jaeger
+	 * @param visitedProfiles
+	 *            Eine Liste mit Profilbesuch-Objekten, die vom Benutzer besucht
+	 *            werden
+	 * @return
+	 */
 	@Override
 	public void createProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
 		this.profileVisitMapper.insert(visitedProfiles);
 	}
 
+	/**
+	 * Löscht einen Eintrag für einen Profilbesuch in der Datenbank.
+	 * 
+	 * @author Kevin Jaeger
+	 * @param visitedProfiles
+	 *            Eine Liste mit Profilbesuch-Objekten, die vom Benutzer besucht
+	 *            werden
+	 * @return
+	 */
 	@Override
 	public void deleteProfileVisit(ArrayList<ProfileVisit> visitedProfiles) throws IllegalArgumentException {
 		this.profileVisitMapper.delete(visitedProfiles);
 	}
 
+	/**
+	 * Gibt einen booleschen Wert zurück, der anzeigt, ob ein Profil vom
+	 * Benutzer schon besucht oder nicht.
+	 * 
+	 * @author Kevin Jaeger
+	 * @param currentUserProfile
+	 *            Das Profil des aktuellen Benutzers
+	 * @param dependantProfile
+	 *            Das Profil, bei dem geprüft wird, ob es besucht wurde
+	 * @return True (wenn Profil besucht wurde), False (wenn Profil nicht
+	 *         besucht wurde)
+	 */
 	@Override
 	public Boolean wasProfileVisited(Profile currentUserProfile, Profile dependantProfile)
 			throws IllegalArgumentException {
 		return this.profileVisitMapper.wasProfileVisited(currentUserProfile, dependantProfile);
 	}
 
+	/**
+	 * Gibt einen booleschen Wert zurück, der anzeigt, ob ein Profil einen
+	 * "Wunsch" des Benutzers darstellt.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param currentUserProfile
+	 *            Das Profil des aktuellen Benutzers
+	 * @param selectedProfile
+	 *            Das Profil, bei dem geprüft wird, ob es einen
+	 *            Favorite/"Wunsch" darstellt
+	 * @return True (wenn Profil Favorite ist), False (wenn Profil kein Favorite
+	 *         ist)
+	 */
 	@Override
 	public Boolean isProfileWished(Profile currentUserProfile, Profile selectedProfile)
 			throws IllegalArgumentException {
-		logger.info("currentUserProfile.getId(); " + currentUserProfile.getId());
-		logger.info("selectedProfile.getId(); " + selectedProfile.getId());
 		return this.wishMapper.isProfileWished(currentUserProfile.getId(), selectedProfile.getId());
 	}
 
+	/**
+	 * Gibt einen booleschen Wert zurück, der anzeigt, ob ein Profil einen
+	 * "Wunsch" des Benutzers darstellt.
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste mit "Wünschen"/Favoriten (vollständige Profile mit allen
+	 *         Informationen)
+	 */
 	@Override
 	public ArrayList<Profile> getWishes() throws IllegalArgumentException {
-		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
-				.getUserService();
-		com.google.appengine.api.users.User user = userService.getCurrentUser();
 
+		/*
+		 * Auslesen des aktuellen Benutzernamen aus der Google Accounts API, um
+		 * das Profil des aktuellen Benutzers aus der Datenbank zu lesen.
+		 */
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
-
 		Profile temp = this.profileMapper.findByName(userName);
 
+		/*
+		 * Auslesen der "Wünsche"/Favoriten des aktuellen Benutzers.
+		 */
 		ArrayList<Wish> ws = new ArrayList<Wish>();
 		ws = this.wishMapper.findWishedProfiles(temp.getId());
 
+		/*
+		 * Zusammenstellen der Profile der gefundenen "Wünsche"/Favoriten.
+		 */
 		ArrayList<Profile> rs = new ArrayList<Profile>();
 		for (Wish w : ws) {
 			rs.add(this.profileMapper.findByKey(w.getWishedProfileId()));
 		}
 
+		/*
+		 * Markieren der zusammengestellten "Wünsche"/Favoriten als
+		 * "Favorite/Wunsch"
+		 */
 		for (Profile p : rs) {
 			p.setIsFavorite(true);
 		}
 
+		/*
+		 * Auslesen aller Profileigenschaften sowie deren Informationen
+		 */
 		rs = this.propertyMapper.searchForProperties(rs);
 		rs = this.informationMapper.searchForInformationValues(rs);
 
-		ClientsideSettings.getLogger().info("getWishes ausgefÃ¼hrt");
 		return rs;
 	}
 
+	/**
+	 * Löscht ungewollte "Wünsche"/Favoriten aus der Datenbank.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param toUnwish
+	 *            Liste mit "Wunsch"-Objekten (enthalten nur Profil-IDs)
+	 * @return
+	 */
 	@Override
 	public void deleteWishes(ArrayList<Wish> toUnwish) throws IllegalArgumentException {
-		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
-				.getUserService();
-		com.google.appengine.api.users.User user = userService.getCurrentUser();
 
+		/*
+		 * Auslesen des aktuellen Benutzernamen aus der Google Accounts API, um
+		 * das Profil des aktuellen Benutzers aus der Datenbank zu lesen.
+		 */
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
 		Profile temp = this.profileMapper.findByName(userName);
 
-		ClientsideSettings.getLogger().info("Zeile 403 Impl. ausgefÃ¼hrt");
-
+		/*
+		 * Übergebene "Wünsche" werden aus der Datenbank entfernt.
+		 */
 		for (Wish w : toUnwish) {
 			w.setWishingProfileId(temp.getId());
 			this.wishMapper.delete(w);
-			ClientsideSettings.getLogger().info("Zeile 408 Impl. ausgefÃ¼hrt");
 		}
-
 	}
 
+	/**
+	 * Fügt ein ausgewähltes Profil zu der "Wunschliste" des Benutzers hinzu.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param wishedProfileId
+	 *            Das "gewünschte" Profil
+	 * @param wishingProfileId
+	 *            Das "wünschende" Profil
+	 * @return Der angelegte "Wunsch"
+	 */
 	@Override
 	public Wish addWishToWishlist(int wishedProfileId, int wishingProfileId) throws IllegalArgumentException {
-		logger.info("addWishtoWishlist wird ausgefÃ¼hrt");
 		Wish wish = new Wish();
 		wish.setWishedProfileId(wishedProfileId);
 		wish.setWishingProfileId(wishingProfileId);
 		return this.wishMapper.insert(wish);
-
 	}
 
+	/**
+	 * Löscht ein ausgewähltes Profil von der "Wunschliste" des Benutzers.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param wishedProfileId
+	 *            Das "gewünschte" Profil
+	 * @param wishingProfileId
+	 *            Das "wünschende" Profil
+	 * @return
+	 */
 	@Override
 	public void deleteWishFromWishlist(int wishedProfileId, int wishingProfileId) throws IllegalArgumentException {
 		Wish wish = new Wish();
 		wish.setWishedProfileId(wishedProfileId);
 		wish.setWishingProfileId(wishingProfileId);
 		this.wishMapper.delete(wish);
-
 	}
 
-	public ArrayList<Wish> wishlist(int wishingpId) throws IllegalArgumentException {
-		ArrayList<Wish> wishlist = this.wishMapper.findWishedProfiles(wishingpId);
-
-		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-
-		for (int x = 0; x < wishlist.size(); x++) {
-			System.out.println(wishlist.get(x).getId());
-			System.out.println(wishlist.get(x).getWishedProfile().getUserName());
-			System.out.println(wishlist.get(x).getWishedProfile().getName());
-			System.out.println(wishlist.get(x).getWishedProfile().getLastName());
-			System.out.println(wishlist.get(x).getWishedProfile().getDateOfBirth());
-			System.out.println(wishlist.get(x).getWishedProfile().getGender());
-			System.out.println("");
-		}
-
-		// profiles = this.propertyMapper.searchForProperties(profiles);
-		// profiles =
-		// this.informationMapper.searchForInformationValues(profiles);
-		// Profile reference = ServersideSettings.getUserProfile();
-
-		/**
-		 * for (int x = 0; x<profiles.size(); x++){ Profile p = profiles.get(x);
-		 * p.equals(reference); }
-		 * 
-		 * Collections.sort(profiles, Collections.reverseOrder());
-		 * ServersideSettings.setProfilesFoundAndCompared(profiles);
-		 * System.out.println( "Clientside-Settings, ProfilesFoundAndCompared
-		 * wird gesetzt");
-		 **/
-		return wishlist;
-	}
-
+	/**
+	 * Gibt einen booleschen Wert zurück, der anzeigt, ob das ausgewählte Profil
+	 * vom Benutzer "blockiert" wird.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param currentUserProfile
+	 *            Das Profil des aktuellen Benutzers
+	 * @param selectedProfile
+	 *            Das zu überprüfende Profil
+	 * @return True (wenn Profil "blockiert" ist), False (wenn Profil nicht
+	 *         "blockiert" ist)
+	 */
 	@Override
 	public Boolean isProfileBanned(Profile currentUserProfile, Profile selectedProfile)
 			throws IllegalArgumentException {
 		return this.profileBanMapper.isProfileBanned(currentUserProfile.getId(), selectedProfile.getId());
 	}
 
+	/**
+	 * Gibt eine Liste mit Profilen zurück, die vom Benutzer "blockiert" werden.
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste mit "blockierten" Profilen
+	 */
 	@Override
 	public ArrayList<Profile> getBans() throws IllegalArgumentException {
-		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
-				.getUserService();
-		com.google.appengine.api.users.User user = userService.getCurrentUser();
 
+		/*
+		 * Auslesen des aktuellen Benutzernamen aus der Google Accounts API, um
+		 * das Profil des aktuellen Benutzers aus der Datenbank zu lesen.
+		 */
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
-
 		Profile temp = this.profileMapper.findByName(userName);
 
+		/*
+		 * Auslesen der "blockierten" Profile-IDs des aktuellen Benutzers.
+		 */
 		ArrayList<ProfileBan> pbs = new ArrayList<ProfileBan>();
 		pbs = this.profileBanMapper.findBannedProfiles(temp.getId());
 
+		/*
+		 * Zusammenstellen der "blockierten" Profile der gefundenen Profile-IDs.
+		 */
 		ArrayList<Profile> rs = new ArrayList<Profile>();
 		for (ProfileBan pb : pbs) {
 			rs.add(this.profileMapper.findByKey(pb.getBannedProfileId()));
 		}
 
+		/*
+		 * Markieren der zusammengestellten "blockierten" Profile als
+		 * "blockiert"
+		 */
 		for (Profile p : rs) {
 			p.setIsBanned(true);
 		}
 
+		/*
+		 * Auslesen aller Profileigenschaften sowie deren Informationen
+		 */
 		rs = this.propertyMapper.searchForProperties(rs);
 		rs = this.informationMapper.searchForInformationValues(rs);
 
-		ClientsideSettings.getLogger().info("getBans ausgefÃ¼hrt");
 		return rs;
 	}
 
+	/**
+	 * Erstellt einen Eintrag in der Datenbank, der anzeigt, dass das
+	 * ausgewählte Profil "blockiert" wird.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param bannedpId
+	 *            Das zu blockierende Profil
+	 * @param banningpId
+	 *            Das blockierende Profil
+	 * @return ProfileBan-Objekt
+	 */
 	@Override
 	public ProfileBan createProfileBan(int bannedpId, int banningpId) throws IllegalArgumentException {
 		ProfileBan pb = new ProfileBan();
 		pb.setBannedProfileId(bannedpId);
 		pb.setBanningProfileId(banningpId);
-
-		System.out.println("BannedProfileId 422 AdminImpl: " + pb.getBannedProfileId());
-		System.out.println("BanningProfileId 423 AdminImpl: " + pb.getBanningProfileId());
-
 		return this.profileBanMapper.insert(pb);
 	}
 
+	/**
+	 * Löscht den Eintrag in der Datenbank, der anzeigt, dass das ausgewählte
+	 * Profil "blockiert" wird.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param toUnban
+	 *            Liste mit ProfileBan-Objekten (enthalten nur Profil-IDs)
+	 * @return
+	 */
 	@Override
 	public void deleteProfileBan(ArrayList<ProfileBan> toUnban) throws IllegalArgumentException {
-		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
-				.getUserService();
-		com.google.appengine.api.users.User user = userService.getCurrentUser();
 
+		/*
+		 * Auslesen des aktuellen Benutzernamen aus der Google Accounts API, um
+		 * das Profil des aktuellen Benutzers aus der Datenbank zu lesen.
+		 */
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
 		int atIndex = user.getEmail().indexOf("@");
 		String userName = user.getEmail().substring(0, atIndex);
 		Profile temp = this.profileMapper.findByName(userName);
 
-		ClientsideSettings.getLogger().info("Zeile 403 Impl. ausgefÃ¼hrt");
-
+		/*
+		 * Entfernen der "Block"-Einträge in der Datenbank
+		 */
 		for (ProfileBan pb : toUnban) {
 			pb.setBanningProfileId(temp.getId());
 			this.profileBanMapper.delete(pb);
-			ClientsideSettings.getLogger().info("Zeile 408 Impl. ausgefÃ¼hrt");
 		}
 
 	}
 
+	/**
+	 * Löscht den Eintrag in der Datenbank, der anzeigt, dass das ausgewählte
+	 * Profil "blockiert" wird.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param banningProfileId
+	 *            Das blockierende Profil
+	 * @param bannedProfileId
+	 *            Das zu blockierende Profil
+	 * @return
+	 */
 	@Override
 	public void deleteProfileBan(int banningProfileId, int bannedProfileId) throws IllegalArgumentException {
 		ProfileBan pb = new ProfileBan();
 		pb.setBannedProfileId(bannedProfileId);
 		pb.setBanningProfileId(banningProfileId);
 		this.profileBanMapper.delete(pb);
-	}
-
-	public ArrayList<ProfileBan> bans(int banningpId) throws IllegalArgumentException {
-		ArrayList<ProfileBan> bans = this.profileBanMapper.findBannedProfiles(banningpId);
-
-		System.out.println("AdministrationServiceImpl: Output ArrayList:");
-
-		for (int x = 0; x < bans.size(); x++) {
-			System.out.println(bans.get(x).getId());
-			System.out.println(bans.get(x).getBannedProfile().getUserName());
-			System.out.println(bans.get(x).getBannedProfile().getName());
-			System.out.println(bans.get(x).getBannedProfile().getLastName());
-			System.out.println(bans.get(x).getBannedProfile().getDateOfBirth());
-			System.out.println(bans.get(x).getBannedProfile().getGender());
-			System.out.println("");
-		}
-		return bans;
-	}
-
-	@Override
-	public Property createProperty() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void editProperty(Property property) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteProperty(Property property) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Property createSelection(int SelectionId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void editSelection(Selection selection) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSelection(Selection selection) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Description createDescription(int SelectionId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void editDescription(Description description) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteDescription(Description description) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Description createInformation(int ProfileId, int PropertyId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void editInformation(Description description) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteInformation(Description description) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
 	}
 }

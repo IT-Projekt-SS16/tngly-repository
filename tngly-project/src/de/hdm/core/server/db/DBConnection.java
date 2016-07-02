@@ -82,8 +82,8 @@ public class DBConnection {
                     /**
                      *  Local MySQL instance to use during development.
                      */
-                    Class.forName("com.mysql.jdbc.GoogleDriver");
-                    url = googleUrl;
+                    Class.forName("com.mysql.jdbc.Driver");
+                    url = localUrl;
                 }
 
                 // Für Local development wieder url, user, password, driver und url anpassen
@@ -95,7 +95,7 @@ public class DBConnection {
                  * abgespeichert und fortan verwendet.
                  */
               // Für Deployment hier nur (url) übergeben und in if/else jeweils GoogleDriver und local
-                con = DriverManager.getConnection(url);
+                con = DriverManager.getConnection(url, user, password);
 
             } 
             

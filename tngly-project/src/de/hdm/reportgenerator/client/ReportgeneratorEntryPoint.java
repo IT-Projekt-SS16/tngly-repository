@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -24,8 +23,6 @@ import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.client.LoginService;
 import de.hdm.core.client.LoginServiceAsync;
 import de.hdm.core.shared.LoginInfo;
-import de.hdm.editor.client.EditProfileView;
-import de.hdm.editor.client.Update;
 
 
 public class ReportgeneratorEntryPoint implements EntryPoint {
@@ -76,11 +73,8 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		
 		VerticalPanel verPanel = new VerticalPanel();
 		
-		final Label title = new Label("TNGLY");
-		
 		final Button signOutButton = new Button("SIGN OUT");
 		final Button imprintButton = new Button("IMPRINT");
-		final Button editorButton = new Button("GO TO ED");
 		
 		final DialogBox dialogBox = createDialogBox();
 	    dialogBox.setGlassEnabled(true);
@@ -94,26 +88,19 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 			}
 		});
 		
-//		title.setStylePrimaryName("tngly-header");
-		
 		signOutButton.setStylePrimaryName("tngly-menubutton-signout");
 		imprintButton.setStylePrimaryName("tngly-submenubutton");
-		editorButton.setStylePrimaryName("tngly-submenubutton");
 
 		verPanel.setStylePrimaryName("tngly-navigation");
 		
 		verPanel.add(signOutButton);
-		verPanel.add(editorButton);
 		verPanel.add(imprintButton);
-
-//		RootPanel.get("Header").add(title);
 		RootPanel.get("Navigator").add(verPanel);
 		
 		signOutButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(),
-						"_self", "");
+				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
 			}
 		});
 		
@@ -122,14 +109,6 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				dialogBox.center();
 	            dialogBox.show();
-			}
-		});
-		
-		editorButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.open(GWT.getHostPageBaseURL() + "Editor.html",
-						"_self", "");
 			}
 		});
 		

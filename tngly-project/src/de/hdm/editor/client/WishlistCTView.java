@@ -3,19 +3,13 @@ package de.hdm.editor.client;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.view.client.CellPreviewEvent;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,78 +36,148 @@ import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.Wish;
 
+/**
+ * Diese View Klasse stellt die Favoriten des aktuellen Benutzers mithilfe einer
+ * Tabelle für den Benutzer dar. Der Benutzer hat die Wahl, über die Tabelle in
+ * das ausgewählte Profil oder zurück zur Suchansicht zu springen.
+ * 
+ * @author Kevin Jaeger, Philipp Schmitt
+ */
 public class WishlistCTView extends Update {
 
+	/**
+	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Applikationslogik.
+	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
-	private HorizontalPanel hPanel = new HorizontalPanel();
-
+	/**
+	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * dessen Profileigenschaften.
+	 */
 	private Profile currentUserProfile;
 
-	Logger logger = ClientsideSettings.getLogger();
+	/**
+	 * Instanziierung des Tabellen Widgets zur Darstellung von Benutzerprofilen.
+	 */
+	private CellTable<Profile> cellTable = new CellTable<Profile>();
 
+	/**
+	 * Instanziierung des DataProviders, der die Profilwerte für das Tabellen
+	 * Widget bereithält.
+	 */
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
-	private CellTable<Profile> cellTable = new CellTable<Profile>();
+	/**
+	 * Instanziierung des Handlers, der die Profilwerte für das Tabellen Widget
+	 * sortiert.
+	 */
 	private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
 
-	// Add a selection model so we can select cells.
+	/**
+	 * Instanziierung des SelectionModel, welches die Auswahl von Profilwerten
+	 * im Tabellen Widget unterstützt.
+	 */
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
+	/**
+	 * Instanziierung des Pagers, der die Kontrolle über das Tabellen Widget
+	 * unterstützt.
+	 */
+	SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+	SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+	
+	/**
+	 * Deklaration, Definition und Initialisierung aller relevanten
+	 * Eingabemöglichkeiten, wie: Widgets zur Gestaltung der View, wie:
+	 * HorizontalPanel, Trennlinien und Widgets zur Ablaufsteuerung, wie:
+	 * Buttons
+	 */
+	private HorizontalPanel hPanel = new HorizontalPanel();
 	private final Button unwishProfileButton = new Button("Unwish selected profiles");
 
 	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
-
 	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
 
+	/**
+	 * No-Argument Konstruktor
+	 */
 	public WishlistCTView() {
-		// this.searchProfile = searchProfile;
 	}
 
+	/**
+	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * erstellt wird.
+	 * 
+	 * @author Peter Thies
+	 * @see Update#getHeadlineText()
+	 */
 	@Override
 	protected String getHeadlineText() {
 		return "Your wishes";
 	}
 
+	/**
+	 * Jede View muss die <code>run()</code>-Methode implementieren. Sie ist
+	 * eine "Einschubmethode", die von einer Methode der Basisklasse
+	 * <code>Update</code> aufgerufen wird, wenn die View aktiviert wird.
+	 * 
+	 * @author Kevin Jaeger
+	 * @return
+	 */
 	@Override
 	protected void run() {
 
+		/**
+		 * Abfragen von "Wünschen" des aktuellen Benutzers aus der
+		 * Datenbank.
+		 */
 		adminService.getWishes(getWishesCallback());
 
+		/**
+		 * Auslesen des Profils vom aktuellen Benutzer aus der Datenbank.
+		 */
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
 		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
 				getCurrentUserProfileCallback());
 
+		/*
+		 * Formatierung der Panels und Widgets für die Ansicht.
+		 */
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-
-		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
-
+		cellTable.setWidth("100%", true);
 		unwishProfileButton.setStylePrimaryName("tngly-ctvbutton");
 
-		cellTable.setWidth("100%", true);
-
-		// Do not refresh the headers and footers every time the data is
-		// updated.
+		/*
+		 * Keine erneute Aktualisierung der Header und Footer bei einer
+		 * Wertänderung.
+		 */
 		cellTable.setAutoHeaderRefreshDisabled(true);
 
-		// Attach a column sort handler to the ListDataProvider to sort the
-		// list.
+		/*
+		 * Anhängen eines Handlers zur Spaltensortierung an den DataProvider, um
+		 * die Tabelle sortieren zu können.
+		 */
 		cellTable.addColumnSortHandler(sortHandler);
 		cellTable.setSelectionModel(selectionModel, DefaultSelectionEventManager.<Profile>createCheckboxManager());
 
-		// Initialize the columns.
+		/*
+		 * Initialisierung der Tabellenspalten
+		 */
 		initTableColumns(selectionModel, sortHandler);
 
-		// Add the CellList to the adapter in the database.
+		/*
+		 * Hinzufügen eines DatenAdapters zur Tabelle.
+		 */
 		addDataDisplay(cellTable);
 
-		// Create a Pager to control the table.
-		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-		SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(cellTable);
 
+		/*
+		 * Zuweisung des jeweiligen Child Widget zum Parent Widget.
+		 */
 		RootPanel.get("Details").add(horLine);
 		RootPanel.get("Details").add(unwishProfileButton);
 		RootPanel.get("Details").add(horLine2);
@@ -121,38 +185,31 @@ public class WishlistCTView extends Update {
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
 
+		/*
+		 * Zuweisung der ClickHandler an die jeweiligen Buttons.
+		 */
 		unwishProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-
 				unwishProfileButton.setEnabled(false);
 				unwishProfileButton.setStylePrimaryName("tngly-disabledButton");
-
 				ArrayList<Profile> toUnwish = new ArrayList<Profile>(selectionModel.getSelectedSet());
-				ClientsideSettings.getLogger().info("Arraylist contains: " + toUnwish.get(0).getUserName());
 				ArrayList<Wish> wishesToDelete = new ArrayList<Wish>();
-
 				for (Profile p : toUnwish) {
 					Wish w = new Wish();
 					w.setWishedProfileId(p.getId());
 					wishesToDelete.add(w);
 				}
-
 				adminService.deleteWishes(wishesToDelete, deleteWishesCallback());
 				refreshDisplays();
 				return;
 			}
 		});
-
-		////////////////////////////////////////////////////////////////////////////////////////////
-
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
-	 * Add a display to the database. The current range of interest of the
-	 * display will be populated with data.
+	 * Fügt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
+	 * befüllt.
 	 * 
 	 * @param display
 	 *            a {@Link HasData}.
@@ -162,33 +219,37 @@ public class WishlistCTView extends Update {
 	}
 
 	/**
-	 * Refresh all displays.
+	 * Aktualisiert alle Datenadapter.
+	 * 
+	 * @return
 	 */
 	public void refreshDisplays() {
 		dataProvider.refresh();
 	}
 
 	/**
-	 * Add the columns to the table.
+	 * Fügt die Spalten in die Tabelle.
+	 * 
+	 * @param selectionModel
+	 *            SelectionModel, welches die Auswahl von Profilwerten im
+	 *            Tabellen Widget unterstützt
+	 * @param sortHandler
+	 *            Handler, der die Profilwerte für das Tabellen Widget sortiert.
 	 */
 	private void initTableColumns(final SelectionModel<Profile> selectionModel, ListHandler<Profile> sortHandler) {
-		// Checkbox column. This table will uses a checkbox column for
-		// selection.
-		// Alternatively, you can call cellTable.setSelectionEnabled(true) to
-		// enable
-		// mouse selection.
+		
+		// CheckBox.
 		Column<Profile, Boolean> checkColumn = new Column<Profile, Boolean>(new CheckboxCell(true, false)) {
 			@Override
 			public Boolean getValue(Profile object) {
-				// Get the value from the selection model.
 				return selectionModel.isSelected(object);
 			}
 		};
 		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
 		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 
+		// Username.
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
-
 			@Override
 			public String getCellStyleNames(Cell.Context context, Profile object) {
 				return "tngly-userNameColumn";
@@ -196,14 +257,12 @@ public class WishlistCTView extends Update {
 
 			@Override
 			public String getValue(Profile object) {
-				// Get the value from the selection model.
 				return object.getUserName();
 			}
 		};
 		clickableTextColumn.setFieldUpdater(new FieldUpdater<Profile, String>() {
 			@Override
 			public void update(int index, Profile object, String value) {
-				// Called when the user changes the value.
 				Update update = new OtherProfileView(object, "WishlistCTView", currentUserProfile);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -307,7 +366,7 @@ public class WishlistCTView extends Update {
 				return o1.getHairColour().compareTo(o2.getHairColour());
 			}
 		});
-		cellTable.addColumn(haircolorColumn, "Haircolour");
+		cellTable.addColumn(haircolorColumn, "Hair colour");
 		cellTable.setColumnWidth(haircolorColumn, 40, Unit.PCT);
 
 		// Smoker.
@@ -353,9 +412,14 @@ public class WishlistCTView extends Update {
 		cellTable.setColumnWidth(confessionColumn, 40, Unit.PCT);
 	}
 
+	/**
+	 * AsyncCallback für das Abfragen von "Wunsch"-Profilen aus der
+	 * Datenbank.
+	 * 
+	 * @return Liste mit gewünschten Profilen
+	 */
 	private AsyncCallback<ArrayList<Profile>> getWishesCallback() {
 		AsyncCallback<ArrayList<Profile>> asyncCallback = new AsyncCallback<ArrayList<Profile>>() {
-
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -365,7 +429,6 @@ public class WishlistCTView extends Update {
 			public void onSuccess(ArrayList<Profile> result) {
 				ClientsideSettings.getLogger()
 						.severe("Success GetWishesCallback: " + result.getClass().getSimpleName());
-				ClientsideSettings.getLogger().severe("+ id des Profiles" + result.get(0).getId());
 				for (Profile p : result) {
 					dataProvider.getList().add(p);
 				}
@@ -374,9 +437,14 @@ public class WishlistCTView extends Update {
 		return asyncCallback;
 	}
 
+	/**
+	 * AsyncCallback für das Löschen von "Wunsch"-Profilen aus der
+	 * Datenbank.
+	 * 
+	 * @return Liste mit gewünschten Profilen
+	 */
 	private AsyncCallback<Void> deleteWishesCallback() {
 		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
-
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -384,20 +452,22 @@ public class WishlistCTView extends Update {
 
 			@Override
 			public void onSuccess(Void result) {
-
 				Update update = new WishlistCTView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
-				ClientsideSettings.getLogger().info("ProfileWish wurde entfernt");
-
 			}
 		};
 		return asyncCallback;
 	}
 
+	/**
+	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * Datenbank.
+	 * 
+	 * @return Profil des aktuellen Benutzers
+	 */
 	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
 		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
-
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());

@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
-import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.editor.client.Update;
 
@@ -92,12 +91,9 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 	}
 	
 	public SearchByProfileViewR(SearchProfile searchProfile, Boolean unseenChecked)	{
-		if (ClientsideSettings.getSearchProfile() != null)	{
 			this.searchProfile = searchProfile;
 			this.unseenChecked = unseenChecked;
 			logger.info("90 searchProfile: " + searchProfile.toString());
-		}
-		
 	}
 
 	/**
@@ -450,12 +446,12 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 
 				logger.info("Confession CHECK");
 
-				ClientsideSettings.setSearchProfile(temp);
-				logger.info(ClientsideSettings.getSearchProfile().toString());
+//				ClientsideSettings.setSearchProfile(temp);
+//				logger.info(ClientsideSettings.getSearchProfile().toString());
 				
 				ClientsideSettings.getLogger().info("Report AllProfiles erstellen...");
 
-				 UpdateReportGenerator update = new AllProfilesView(unseenChecked, temp);
+				 UpdateReportGenerator update = new ReportView(unseenChecked, temp);
 				
 				 RootPanel.get("Details").clear();
 				 RootPanel.get("Details").add(update);

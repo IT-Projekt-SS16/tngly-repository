@@ -40,7 +40,7 @@
 		<url-pattern>/reportgenerator/administration</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
+	<!--<servlet>
 		<servlet-name>reportgenerator</servlet-name>
 		<servlet-class>de.hdm.core.server.ReportGeneratorImpl</servlet-class>
 	</servlet>
@@ -48,7 +48,7 @@
 	<servlet-mapping>
 		<servlet-name>reportgenerator</servlet-name>
 		<url-pattern>/reportgenerator/reportgenerator</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping>-->
 
 	<servlet>
 
@@ -57,8 +57,6 @@
 		<servlet-class>de.hdm.core.server.LoginServiceImpl</servlet-class>
 
 	</servlet>
-
-
 
 	<servlet-mapping>
 
@@ -73,6 +71,7 @@
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Editor.html</welcome-file>
+		<welcome-file>Reportgenerator.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>

@@ -1,10 +1,7 @@
 package de.hdm.editor.client;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,27 +28,44 @@ import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 
+/**
+ * Diese View Klasse für den Editor Client stellt das persönliche Profil des
+ * aktuell eingeloggten Benutzers zur weiteren Bearbeitung zur Verfügung. Der
+ * Benutzer hat die Wahl, seine Profilwerte und -eigenschaften zu ändern oder
+ * das komplette Profil zu löschen.
+ * 
+ * @author Kevin Jaeger, Philipp Schmitt
+ */
 public class EditProfileView extends Update {
 
-	private static final Logger logger = ClientsideSettings.getLogger();
-
 	/**
-	 * Instanziierung aller relevanten Eingabemï¿½glichkeiten = Textboxen,
-	 * Checkboxen, DatePicker usw.
+	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
+
+	/**
+	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * dessen Profileigenschaften.
+	 */
 	private Profile currentUserProfile = null;
 
+	/**
+	 * Deklaration, Definition und Initialisierung aller relevanten
+	 * Eingabemöglichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen,
+	 * DatePicker sowie Widgets zur Gestaltung der View, wie: VerticalPanel,
+	 * HorizontalPanel, Trennlinien Und Widgets zur Ablaufsteuerung, wie:
+	 * Buttons
+	 */
 	private VerticalPanel verPanel = new VerticalPanel();
 	private VerticalPanel verPanel2 = new VerticalPanel();
-
 	private HorizontalPanel horPanel = new HorizontalPanel();
 	private HorizontalPanel horPanel2 = new HorizontalPanel();
 
-	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
-	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
-
-	HTML verLine = new HTML(
+	private HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
+	private HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
+	private String horLineStr = new String("<hr  style=\"width:100%;\" />");
+	private HTML verLine = new HTML(
 			"  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='625' style='background:grey'></td></tr></table>");
 
 	private final Label lblWrongInputFirstName = new Label(
@@ -67,24 +81,20 @@ public class EditProfileView extends Update {
 	private final TextBox tbbh = new TextBox();
 	private final TextBox tBb = new TextBox();
 	private final TextBox tBm = new TextBox();
-
 	private TextArea ta = new TextArea();
 
 	private final ListBox hairColourList = new ListBox(false);
 	private final ListBox isSmokingBox = new ListBox(false);
 	private final ListBox confessionBox = new ListBox(false);
 	private final ListBox genderBox = new ListBox(false);
-	private final ListBox myHobbiesSelect = new ListBox(true);
-
-	final ListBox subcultureBox = new ListBox(false);
-	final ListBox eraBox = new ListBox(false);
+	private final ListBox subcultureBox = new ListBox(false);
+	private final ListBox eraBox = new ListBox(false);
 
 	private final DatePicker datePicker = new DatePicker();
 
 	private FlexTable t = new FlexTable();
 	private FlexTable t2 = new FlexTable();
 	private FlexTable t3 = new FlexTable();
-	private FlexTable t4 = new FlexTable();
 	private FlexTable t5 = new FlexTable();
 	private FlexTable t6 = new FlexTable();
 	private FlexTable t7 = new FlexTable();
@@ -120,12 +130,12 @@ public class EditProfileView extends Update {
 	private final Button deleteProfileButton = new Button("Delete Profile");
 
 	/**
-	 * Jede View besitzt eine einleitende ï¿½berschrift, die durch diese Methode
-	 * zu erstellen ist.
+	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * erstellt wird.
 	 * 
-	 * @see Showcase#getHeadlineText()
+	 * @author Peter Thies
+	 * @see Update#getHeadlineText()
 	 */
-
 	@Override
 	protected String getHeadlineText() {
 		return "Edit Profile";
@@ -134,21 +144,26 @@ public class EditProfileView extends Update {
 	/**
 	 * Jede View muss die <code>run()</code>-Methode implementieren. Sie ist
 	 * eine "Einschubmethode", die von einer Methode der Basisklasse
-	 * <code>Update</code> aufgerufen wird, wenn der View aktiviert wird.
+	 * <code>Update</code> aufgerufen wird, wenn die View aktiviert wird.
+	 * 
+	 * @author Kevin Jaeger
+	 * @return
 	 */
 	@Override
 	protected void run() {
 
+		/**
+		 * Auslesen des Profils vom aktuellen Benutzer aus der Datenbank.
+		 */
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
 		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
 				getCurrentUserProfileCallback());
 
-		logger.info("Erfolgreich Profile-Edit-View geswitcht.");
-		logger.info(ClientsideSettings.getLoginInfo().getEmailAddress());
-
+		/*
+		 * Formatierung der Panels für die Ansicht.
+		 */
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
-
 		horPanel2.setWidth("100%");
 		horPanel2.setHorizontalAlignment(ALIGN_CENTER);
 
@@ -156,9 +171,12 @@ public class EditProfileView extends Update {
 		tbfn.setPixelSize(120, 15);
 		tbn.setPixelSize(120, 15);
 		tbbh.setPixelSize(120, 15);
-		
+
 		tbun.setStylePrimaryName("tngly-disabledTextbox");
 
+		/*
+		 * Befüllen der Listboxen mit Werten
+		 */
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
 		hairColourList.addItem("Brown");
@@ -194,6 +212,9 @@ public class EditProfileView extends Update {
 		datePicker.setVisibleYearCount(101);
 		datePicker.setYearAndMonthDropdownVisible(true);
 
+		/*
+		 * Sperren der Eingabemöglichkeit im DatePicker bei zukünftigen Daten
+		 */
 		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>() {
 			@Override
 			public void onShowRange(ShowRangeEvent<Date> event) {
@@ -213,27 +234,12 @@ public class EditProfileView extends Update {
 			}
 		});
 
-		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>() {
-			@Override
-			public void onShowRange(ShowRangeEvent<Date> event) {
-				Date start = event.getStart();
-				Date temp = CalendarUtil.copyDate(start);
-				Date end = event.getEnd();
-
-				// long d = 817689600000L;
-				Date today = new Date(-2209075200000L);
-
-				while (temp.before(end)) {
-					if (temp.before(today) && datePicker.isDateVisible(temp)) {
-						datePicker.setTransientEnabledOnDates(false, temp);
-					}
-					CalendarUtil.addDaysToDate(temp, 1);
-				}
-			}
-		});
-
 		ta.setWidth("230px");
+		tbun.setWidth("100%");
 
+		/*
+		 * Aufbau und Befüllung der FlexTables mit Werten und Widgets
+		 */
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
 		t.setWidget(0, 1, tbun);
@@ -250,7 +256,7 @@ public class EditProfileView extends Update {
 		t.setText(5, 0, "Date of Birth");
 		t.setWidget(5, 1, datePicker);
 
-		t.setText(6, 0, "Body Height");
+		t.setText(6, 0, "Body Height (in meter)");
 		t.setWidget(6, 1, tbbh);
 
 		t.setText(7, 0, "Haircolor");
@@ -261,8 +267,9 @@ public class EditProfileView extends Update {
 
 		t.setText(9, 0, "Confession");
 		t.setWidget(9, 1, confessionBox);
-		
-		t.setWidget(10, 0, horLine);
+
+		t.setHTML(10, 0, horLineStr);
+		t.setHTML(10, 1, horLineStr);
 
 		t.setText(11, 0, "Hobbies");
 		t2.setWidget(0, 0, chkVolleyball);
@@ -275,31 +282,35 @@ public class EditProfileView extends Update {
 
 		ta.setCharacterWidth(50);
 		ta.setVisibleLines(2);
-		
-		t.setWidget(12, 0, horLine);
+
+		t.setHTML(12, 0, horLineStr);
+		t.setHTML(12, 1, horLineStr);
 
 		t.setText(13, 0, "This is how I describe myself");
 		t.setWidget(13, 1, ta);
 
 		t3.setText(0, 0, "Favorite Band");
 		t3.setWidget(0, 1, tBb);
-		
-		t3.setWidget(1, 0, horLine);
+
+		t3.setHTML(1, 0, horLineStr);
+		t3.setHTML(1, 1, horLineStr);
 
 		t3.setText(2, 0, "Favorite Movie");
 		t3.setWidget(2, 1, tBm);
-		
-		t3.setWidget(3, 0, horLine);
 
-		t3.setText(4, 0, "My Strong Points");
+		t3.setHTML(3, 0, horLineStr);
+		t3.setHTML(3, 1, horLineStr);
+
+		t3.setText(4, 0, "Strong Points");
 		t7.setWidget(0, 0, chkBringing);
 		t7.setWidget(1, 0, chkEnjoying);
 		t7.setWidget(2, 0, chkBeing);
 		t7.setWidget(3, 0, chkSolving);
 		t7.setWidget(4, 0, chkKeeping);
 		t3.setWidget(4, 1, t7);
-		
-		t3.setWidget(5, 0, horLine);
+
+		t3.setHTML(5, 0, horLineStr);
+		t3.setHTML(5, 1, horLineStr);
 
 		t3.setText(6, 0, "I associate myself with this subculture");
 		t6.setWidget(0, 0, chkHipHop);
@@ -308,8 +319,9 @@ public class EditProfileView extends Update {
 		t6.setWidget(3, 0, chkEmo);
 		t6.setWidget(4, 0, chkAzzlackz);
 		t3.setWidget(6, 1, t6);
-		
-		t3.setWidget(7, 0, horLine);
+
+		t3.setHTML(7, 0, horLineStr);
+		t3.setHTML(7, 1, horLineStr);
 
 		t3.setText(8, 0, "Favorite Era");
 		t5.setWidget(0, 0, chkStoneAge);
@@ -321,38 +333,49 @@ public class EditProfileView extends Update {
 		t5.setWidget(6, 0, chkModernAge);
 		t3.setWidget(8, 1, t5);
 
+		/*
+		 * Zuweisung von Styles an die jeweiligen Widgets.
+		 */
 		saveProfilButton.setStyleName("tngly-bluebutton");
 		deleteProfileButton.setStyleName("tngly-button");
-
-		horPanel2.add(saveProfilButton);
-		horPanel2.add(deleteProfileButton);
-
 		lblWrongInputFirstName.setStyleName("serverResponseLabelError");
 		lblWrongInputLastName.setStyleName("serverResponseLabelError");
 		lblWrongInputBodyHeight.setStyleName("serverResponseLabelError");
 
+		/*
+		 * Zuweisung des jeweiligen Child Widget zum Parent Widget.
+		 */
+		horPanel2.add(saveProfilButton);
+		horPanel2.add(deleteProfileButton);
 		verPanel.add(t);
 		verPanel2.add(t3);
-
 		horPanel.add(verPanel);
 		horPanel.add(verLine);
 		horPanel.add(verPanel2);
-
 		RootPanel.get("Details").add(horLine);
 		RootPanel.get("Details").add(horPanel2);
 		RootPanel.get("Details").add(horLine2);
 		RootPanel.get("Details").add(horPanel);
 
-		///////////////////////////////////////////////////////////////////////
-
+		/*
+		 * Zuweisung der ClickHandler an die jeweiligen Buttons.
+		 */
 		saveProfilButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 
+				/*
+				 * Rücksetzung der Labels für die Meldungen zu Eingabefehlern.
+				 */
 				t.setWidget(2, 2, null);
 				t.setWidget(3, 2, null);
 				t.setWidget(6, 2, null);
 
+				/*
+				 * Überprüfung der Textboxen (Namen, Körpergröße) auf logische
+				 * Falscheingaben bzw. formale Inkorrektheiten (bspw. Zahl in
+				 * Textfeld).
+				 */
 				if (!tbfn.getText().matches("^[a-zA-Z ]{0,30}$")) {
 					t.setWidget(2, 2, lblWrongInputFirstName);
 					return;
@@ -366,98 +389,65 @@ public class EditProfileView extends Update {
 					return;
 				}
 
+				/*
+				 * Speichern der eingegebenen Werte blockieren, um
+				 * Mehrfach-Klicks und daraus entstehende, unnötige Einträge in
+				 * der Datenbank zu verhindern.
+				 */
 				saveProfilButton.setEnabled(false);
 				saveProfilButton.setStylePrimaryName("tngly-disabledButton");
 
-				logger.info("Erfolgreich onClick ausgefuehrt.");
-				Profile temp = new Profile();
-
+				/*
+				 * Auslesen der eingegebenen Werte aus den Widgets in den
+				 * aktuellen Benutzer.
+				 */
 				int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
-
 				currentUserProfile
 						.setUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex));
-
-				logger.info("UserName CHECK " + currentUserProfile.getUserName());
-
 				currentUserProfile.setName(capitalize(tbfn.getText().toUpperCase()));
-
-				logger.info("Name CHECK + " + currentUserProfile.getName());
-
 				currentUserProfile.setLastName(capitalize(tbn.getText().toUpperCase()));
-
-				logger.info("lastName CHECK + " + currentUserProfile.getLastName());
-
 				int selectedGenderIndex = genderBox.getSelectedIndex();
 				currentUserProfile.setGender(genderBox.getItemText(selectedGenderIndex));
-
-				logger.info("gender CHECK");
-
 				currentUserProfile.setDateOfBirth(datePicker.getValue());
-
-				logger.info("dateOfBirth CHECK");
-
 				float f = Float.valueOf(tbbh.getText().trim()).floatValue();
 				currentUserProfile.setBodyHeight(f);
-
-				logger.info("bodyHeight CHECK " + currentUserProfile.getBodyHeight());
-
-				// temp.setHairColour(tbhc.getText());
 				int selectedHairColourIndex = hairColourList.getSelectedIndex();
 				currentUserProfile.setHairColour(hairColourList.getItemText(selectedHairColourIndex));
-
-				logger.info("HairColour CHECK");
-
 				int selectedIsSmokingIndex = isSmokingBox.getSelectedIndex();
 				if (isSmokingBox.getItemText(selectedIsSmokingIndex) == "Yes") {
 					currentUserProfile.setIsSmoking(1);
 				} else {
 					currentUserProfile.setIsSmoking(0);
 				}
-
-				logger.info("isSmoking CHECK");
-
-				// temp.setConfession(tbc.getText());
 				int selectedConfessionIndex = confessionBox.getSelectedIndex();
 				currentUserProfile.setConfession(confessionBox.getItemText(selectedConfessionIndex));
 
-				logger.info("Confession CHECK");
-
 				ArrayList<Integer> selectedRowsMyHobbies = this.getSelectedRows(t2);
-
-				for (int i : selectedRowsMyHobbies) {
-					logger.info("Selektiert ist Zeile: " + i);
-				}
-
 				ArrayList<Integer> selectedRowsFavoriteEra = this.getSelectedRows(t5);
 				ArrayList<Integer> selectedRowsSubculture = this.getSelectedRows(t6);
 				ArrayList<Integer> selectedRowsStrongPoints = this.getSelectedRows(t7);
 
-				logger.info("Zeile 333 ausgefÃ¼hrt");
 				currentUserProfile.getSelectionList().get(0).getInformationValues().clear();
 
-				/**
-				 * Auslesen der Checkbox-Werte fï¿½r die Eigenschaft "My
-				 * Hobbies"
+				/*
+				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * "MyHobbies" und Schreiben dieser Werte in den aktuellen
+				 * Benutzer
 				 */
-				logger.info("Zeile 381 ausgefÃ¼hrt");
 				for (int i : selectedRowsMyHobbies) {
 					Information info = new Information();
 					info.setProfileId(currentUserProfile.getId());
 					info.setPropertyId(1);
 					CheckBox checkBox = (CheckBox) t2.getWidget(i, 0);
-					logger.info("Zeile 344 ausgefÃ¼hrt");
-
 					info.setValue(checkBox.getText());
-					logger.info("Info-Values: " + info.getValue());
 					currentUserProfile.getSelectionList().get(0).getInformationValues().add(info);
 				}
 
-				logger.info("Zeile 350 ausgefÃ¼hrt");
-
-				/**
-				 * Auslesen & Setzen der Eigenschaft "How I describe myself"
+				/*
+				 * Auslesen der Werte der Textbox für die Profileigenschaft
+				 * "How I describe myself" und Schreiben dieser Werte in den
+				 * aktuellen Benutzer
 				 */
-
 				if (currentUserProfile.getDescriptionList().get(0).getInformationValues().size() > 0) {
 					currentUserProfile.getDescriptionList().get(0).getInformationValues().get(0)
 							.setProfileId(currentUserProfile.getId());
@@ -469,9 +459,7 @@ public class EditProfileView extends Update {
 						currentUserProfile.getDescriptionList().get(0).getInformationValues().get(0)
 								.setValue(capitalize(ta.getText()));
 					}
-				}
-
-				else {
+				} else {
 					Information in = new Information();
 					in.setProfileId(currentUserProfile.getId());
 					in.setPropertyId(2);
@@ -480,14 +468,13 @@ public class EditProfileView extends Update {
 					} else {
 						in.setValue(ta.getText());
 					}
-
 					currentUserProfile.getDescriptionList().get(0).getInformationValues().add(in);
 				}
 
-				logger.info("Zeile 364 ausgefÃ¼hrt");
-
-				/**
-				 * Auslesen & Setzen der Eigenschaft "Favorite Band"
+				/*
+				 * Auslesen der Werte der Textbox für die Profileigenschaft
+				 * "Favorite Band" und Schreiben dieser Werte in den aktuellen
+				 * Benutzer
 				 */
 				if (currentUserProfile.getDescriptionList().get(1).getInformationValues().size() > 0) {
 					currentUserProfile.getDescriptionList().get(1).getInformationValues().get(0)
@@ -500,9 +487,7 @@ public class EditProfileView extends Update {
 						currentUserProfile.getDescriptionList().get(1).getInformationValues().get(0)
 								.setValue(capitalize(tBb.getText()));
 					}
-				}
-
-				else {
+				} else {
 					Information in = new Information();
 					in.setProfileId(currentUserProfile.getId());
 					in.setPropertyId(3);
@@ -511,14 +496,14 @@ public class EditProfileView extends Update {
 					} else {
 						in.setValue(tBb.getText());
 					}
-
 					currentUserProfile.getDescriptionList().get(1).getInformationValues().add(in);
 				}
 
-				/**
-				 * Auslesen & Setzen der Eigenschaft "Favorite Movie"
+				/*
+				 * Auslesen der Werte der Textbox für die Profileigenschaft
+				 * "How I describe myself" und Schreiben dieser Werte in den
+				 * aktuellen Benutzer
 				 */
-
 				if (currentUserProfile.getDescriptionList().get(2).getInformationValues().size() > 0) {
 					currentUserProfile.getDescriptionList().get(2).getInformationValues().get(0)
 							.setProfileId(currentUserProfile.getId());
@@ -530,9 +515,7 @@ public class EditProfileView extends Update {
 						currentUserProfile.getDescriptionList().get(2).getInformationValues().get(0)
 								.setValue(capitalize(tBm.getText()));
 					}
-				}
-
-				else {
+				} else {
 					Information in = new Information();
 					in.setProfileId(currentUserProfile.getId());
 					in.setPropertyId(6);
@@ -541,15 +524,13 @@ public class EditProfileView extends Update {
 					} else {
 						in.setValue(tBm.getText());
 					}
-
 					currentUserProfile.getDescriptionList().get(2).getInformationValues().add(in);
 				}
 
-				logger.info("Zeile 369 ausgefÃ¼hrt");
-
-				/**
-				 * Auslesen der Checkbox-Werte fï¿½r die Eigenschaft "My Strong
-				 * Points"
+				/*
+				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * "My Strong Points" und Schreiben dieser Werte in den
+				 * aktuellen Benutzer
 				 */
 				currentUserProfile.getSelectionList().get(1).getInformationValues().clear();
 				for (int i : selectedRowsStrongPoints) {
@@ -557,16 +538,14 @@ public class EditProfileView extends Update {
 					info.setProfileId(currentUserProfile.getId());
 					info.setPropertyId(4);
 					CheckBox checkBox = (CheckBox) t7.getWidget(i, 0);
-					logger.info("Zeile 429 ausgefÃ¼hrt");
-
 					info.setValue(checkBox.getText());
-					logger.info("Info-Values: " + info.getValue());
 					currentUserProfile.getSelectionList().get(1).getInformationValues().add(info);
 				}
 
-				/**
-				 * Auslesen der Checkbox-Werte fï¿½r die Eigenschaft "I
-				 * associate myself with this subculture"
+				/*
+				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * "I associate myself with this subculture" und Schreiben
+				 * dieser Werte in den aktuellen Benutzer
 				 */
 				currentUserProfile.getSelectionList().get(2).getInformationValues().clear();
 				for (int i : selectedRowsSubculture) {
@@ -574,37 +553,34 @@ public class EditProfileView extends Update {
 					info.setProfileId(currentUserProfile.getId());
 					info.setPropertyId(5);
 					CheckBox checkBox = (CheckBox) t6.getWidget(i, 0);
-					logger.info("Zeile 446 ausgefÃ¼hrt");
-
 					info.setValue(checkBox.getText());
-					logger.info("Info-Values: " + info.getValue());
 					currentUserProfile.getSelectionList().get(2).getInformationValues().add(info);
 				}
 
 				/*
-				 * Auslesen der Checkbox-Werte fï¿½r die Eigenschaft
-				 * "Favorite Era"
+				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * "Favorite Era" und Schreiben dieser Werte in den aktuellen
+				 * Benutzer
 				 */
-
 				currentUserProfile.getSelectionList().get(3).getInformationValues().clear();
 				for (int i : selectedRowsFavoriteEra) {
 					Information info = new Information();
 					info.setProfileId(currentUserProfile.getId());
 					info.setPropertyId(7);
 					CheckBox checkBox = (CheckBox) t5.getWidget(i, 0);
-					logger.info("Zeile 446 ausgefÃ¼hrt");
-
 					info.setValue(checkBox.getText());
-					logger.info("Info-Values: " + info.getValue());
 					currentUserProfile.getSelectionList().get(3).getInformationValues().add(info);
 				}
-
-				logger.info("Zeile 470 ausgefÃ¼hrt");
 				adminService.editProfile(currentUserProfile, updateUserProfileCallback());
-				logger.info("editProfile vom AdminService ausgefÃ¼hrt");
-
 			}
 
+			/**
+			 * Gibt alle selektierten Zeilen der übergebenen FlexTable zurück.
+			 * 
+			 * @author Kevin Jaeger
+			 * @return Liste mit den Nummern der selektierten Zeilen der
+			 *         FlexTable
+			 */
 			private ArrayList<Integer> getSelectedRows(FlexTable table) {
 				ArrayList<Integer> selectedRows = new ArrayList<Integer>();
 
@@ -614,25 +590,29 @@ public class EditProfileView extends Update {
 						selectedRows.add(i);
 					}
 				}
-
 				return selectedRows;
 			}
 		});
 
+		/*
+		 * Zuweisung der ClickHandler an die jeweiligen Buttons.
+		 */
 		deleteProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-
 				deleteProfileButton.setEnabled(false);
 				deleteProfileButton.setStylePrimaryName("tngly-disabledButton");
-
-				logger.info("DeleteProfilButton onClick aufgerufen");
 				adminService.deleteProfile(currentUserProfile, deleteUserProfileCallback());
-				logger.info("deleteProfile vom AdminService ausgefuehrt");
 			}
 		});
 	}
 
+	/**
+	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * Datenbank.
+	 * 
+	 * @return Profil des aktuellen Benutzers
+	 */
 	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
 		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
 
@@ -647,12 +627,14 @@ public class EditProfileView extends Update {
 						.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
 				currentUserProfile = result;
 
+				/*
+				 * Zuweisung von Profilwerten an die jeweiligen Widgets.
+				 */
 				tbun.setText(result.getUserName());
 				tbfn.setText(result.getName());
 				tbn.setText(result.getLastName());
 
 				int index = 0;
-
 				switch (result.getGender()) {
 				case "Male":
 					index = 1;
@@ -665,15 +647,11 @@ public class EditProfileView extends Update {
 				genderBox.setItemSelected(index, true);
 
 				Date dob = result.getDateOfBirth();
-
 				datePicker.setValue(dob);
-
 				datePicker.setCurrentMonth(dob);
 
 				float bh = result.getBodyHeight();
-
 				float bhFormatted = (float) (Math.round(bh * 100) / 100.0);
-
 				tbbh.setText(Float.toString(bhFormatted));
 
 				switch (result.getHairColour()) {
@@ -731,7 +709,8 @@ public class EditProfileView extends Update {
 				confessionBox.setItemSelected(index, true);
 
 				/*
-				 * Markierung der Checkboxen fï¿½r die Eigenschaft "My Hobbies"
+				 * Markierung der Checkboxen für die Profileigenschaft
+				 * "My Hobbies"
 				 */
 				for (int x = 0; x < t2.getRowCount(); x++) {
 					ArrayList<String> values = new ArrayList<String>();
@@ -744,39 +723,29 @@ public class EditProfileView extends Update {
 					tempValue = cb.getText();
 					if (values.contains(tempValue)) {
 						cb.setValue(true);
+						cb.addStyleName("tngly-checkbox-marked");
 					}
 				}
 
+				/*
+				 * Zuweisung von Werten der Beschreibungseigenschaften an die
+				 * jeweiligen Widgets.
+				 */
 				if (result.getDescriptionList().get(0).getInformationValues().size() > 0) {
-					logger.info("Profile-Description 0: "
-							+ result.getDescriptionList().get(0).getInformationValues().get(0).getValue());
-
 					ta.setText(result.getDescriptionList().get(0).getInformationValues().get(0).getValue());
 				} else {
-					logger.info("Profile-Description 0: null");
 				}
-
 				if (result.getDescriptionList().get(1).getInformationValues().size() > 0) {
-
-					logger.info("Profile-Description 1: "
-							+ result.getDescriptionList().get(1).getInformationValues().get(0).getValue());
-
 					tBb.setText(result.getDescriptionList().get(1).getInformationValues().get(0).getValue());
 				} else {
-					logger.info("Profile-Description 1: null");
 				}
-
 				if (result.getDescriptionList().get(2).getInformationValues().size() > 0) {
-					logger.info("Profile-Description 2: "
-							+ result.getDescriptionList().get(2).getInformationValues().get(0).getValue());
-
 					tBm.setText(result.getDescriptionList().get(2).getInformationValues().get(0).getValue());
 				} else {
-					logger.info("Profile-Description 2: null");
 				}
 
 				/*
-				 * Markierung der Checkboxen fï¿½r die Eigenschaft
+				 * Markierung der Checkboxen für die Profileigenschaft
 				 * "My Strong Points"
 				 */
 				for (int x = 0; x < t7.getRowCount(); x++) {
@@ -790,11 +759,12 @@ public class EditProfileView extends Update {
 					tempValue = cb.getText();
 					if (values.contains(tempValue)) {
 						cb.setValue(true);
+						cb.addStyleName("tngly-checkbox-marked");
 					}
 				}
 
 				/*
-				 * Markierung der Checkboxen fï¿½r die Eigenschaft
+				 * Markierung der Checkboxen für die Profileigenschaft
 				 * "I associate myself with this subculture"
 				 */
 				for (int x = 0; x < t6.getRowCount(); x++) {
@@ -808,11 +778,12 @@ public class EditProfileView extends Update {
 					tempValue = cb.getText();
 					if (values.contains(tempValue)) {
 						cb.setValue(true);
+						cb.addStyleName("tngly-checkbox-marked");
 					}
 				}
 
 				/*
-				 * Markierung der Checkboxen fï¿½r die Eigenschaft
+				 * Markierung der Checkboxen für die Profileigenschaft
 				 * "Favorite Era"
 				 */
 				for (int x = 0; x < t5.getRowCount(); x++) {
@@ -827,17 +798,21 @@ public class EditProfileView extends Update {
 					tempValue = cb.getText();
 					if (values.contains(tempValue)) {
 						cb.setValue(true);
+						cb.addStyleName("tngly-checkbox-marked");
 					}
 				}
-
 				currentUserProfile = result;
 			}
 		};
-		logger.info("AsyncCallback zu Ende ausgefÃ¼hrt");
 		return asyncCallback;
-
 	}
 
+	/**
+	 * AsyncCallback für das Aktualisieren vom Profil des aktuellen Benutzers in der
+	 * Datenbank.
+	 * 
+	 * @return
+	 */
 	private AsyncCallback<Void> updateUserProfileCallback() {
 		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
 
@@ -848,16 +823,21 @@ public class EditProfileView extends Update {
 
 			@Override
 			public void onSuccess(Void result) {
-				ClientsideSettings.getLogger().info("Zeile 688 ausgefÃ¼hrt, onSuccess firing");
+				ClientsideSettings.getLogger().info("Zeile 688 ausgeführt, onSuccess firing");
 				Update update = new ProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
-				logger.info("Erfolgreicher Reswitch.");
 			}
 		};
 		return asyncCallback;
 	}
 
+	/**
+	 * AsyncCallback für das Löschen vom Profil des aktuellen Benutzers in der
+	 * Datenbank.
+	 * 
+	 * @return
+	 */
 	private AsyncCallback<Void> deleteUserProfileCallback() {
 		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
 
@@ -875,6 +855,12 @@ public class EditProfileView extends Update {
 		return asyncCallback;
 	}
 
+	/**
+	 * Bearbeitet die Vor- und Nachnamen des aktuellen Benutzers für eine bessere Darstellung.
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Der bearbeitete Text
+	 */
 	public static String capitalize(String givenString) {
 		String Separateur = " ,.-;";
 		StringBuffer sb = new StringBuffer();

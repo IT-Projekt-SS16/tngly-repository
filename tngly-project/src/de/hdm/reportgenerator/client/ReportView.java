@@ -16,19 +16,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.AdministrationServiceAsync;
-import de.hdm.core.shared.ReportGeneratorAsync;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.report.HTMLProfilesReport;
 import de.hdm.editor.client.SearchByProfileView;
 import de.hdm.editor.client.Update;
 
-public class AllProfilesView extends UpdateReportGenerator {
+public class ReportView extends UpdateReportGenerator {
 	
 	private SearchProfile searchProfile = new SearchProfile();
 	private Boolean unseenChecked = false;
 	
-	private ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
@@ -47,7 +45,7 @@ public class AllProfilesView extends UpdateReportGenerator {
 	
 	private final Button backButton = new Button("Back");
 	
-	public AllProfilesView (Boolean unseenChecked, SearchProfile searchProfile){
+	public ReportView (Boolean unseenChecked, SearchProfile searchProfile){
 		
 		logger.info("Zeile 33 APV ausgeführt");
 		this.searchProfile = searchProfile;
@@ -103,7 +101,6 @@ public class AllProfilesView extends UpdateReportGenerator {
 		});
 		
 		adminService.searchAndCompareProfiles(unseenChecked, searchProfile, comparedProfilesCallback());
-		reportGenerator.testCallback(testCallback());
 		
 	}
 	

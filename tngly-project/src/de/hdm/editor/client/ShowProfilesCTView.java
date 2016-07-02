@@ -3,7 +3,6 @@ package de.hdm.editor.client;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell;
@@ -39,87 +38,171 @@ import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
 
+/**
+ * Diese View Klasse stellt die Suchergebnisse anhand eines Suchprofils mithilfe
+ * einer Tabelle für den Benutzer dar. Der Benutzer hat die Wahl, über die
+ * Tabelle in das ausgewählte Profil oder zurück zur Suchansicht zu springen.
+ * 
+ * @author Kevin Jaeger, Philipp Schmitt
+ *
+ */
 public class ShowProfilesCTView extends Update {
 
-	private static final Logger logger = ClientsideSettings.getLogger();
-
+	/**
+	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Applikationslogik.
+	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
-	private HorizontalPanel hPanel = new HorizontalPanel();
-
-	private Profile profile = null;
+	/**
+	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * dessen Profileigenschaften.
+	 */
 	private Profile currentUserProfile = new Profile();
+
+	/**
+	 * Die Instanz des Suchprofils ermöglicht den schnellen Zugriff auf dessen
+	 * Kriterien.
+	 */
 	private SearchProfile searchProfile = null;
 
-	private final Button markAsSeenButton = new Button("Mark as seen");
-	private final Button markAsUnseenButton = new Button("Mark as unseen");
-	private final Button backButton = new Button("Back");
+	/**
+	 * Instanziierung des Tabellen Widgets zur Darstellung von Benutzerprofilen.
+	 */
+	private CellTable<Profile> cellTable = new CellTable<Profile>();
 
+	/**
+	 * Instanziierung des DataProviders, der die Profilwerte für das Tabellen
+	 * Widget bereithält.
+	 */
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
+
+	/**
+	 * Instanziierung des Handlers, der die Profilwerte für das Tabellen Widget
+	 * sortiert.
+	 */
+	private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
+
+	/**
+	 * Instanziierung des SelectionModel, welches die Auswahl von Profilwerten
+	 * im Tabellen Widget unterstützt.
+	 */
+	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
+
+	/**
+	 * Instanziierung des Pagers, der die Kontrolle über das Tabellen Widget
+	 * unterstützt.
+	 */
+	SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+	SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+
+	/**
+	 * Deklaration, Definition und Initialisierung aller relevanten
+	 * Eingabemöglichkeiten, wie: Widgets zur Gestaltung der View, wie:
+	 * HorizontalPanel, Trennlinien und Widgets zur Ablaufsteuerung, wie:
+	 * Buttons
+	 */
+	private HorizontalPanel hPanel = new HorizontalPanel();
 
 	HTML horLine = new HTML("<hr  style=\"width:100%;\" />");
 	HTML horLine2 = new HTML("<hr  style=\"width:100%;\" />");
 
-	private CellTable<Profile> cellTable = new CellTable<Profile>();
-	private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
+	private final Button backButton = new Button("Back");
 
-	// Add a selection model so we can select cells.
-	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
-
+	/**
+	 * Parametrisierter Konstruktor der View
+	 * 
+	 * @author Philipp Schmitt
+	 * @param searchProfile
+	 *            das Suchprofil, das vom Benutzer eingegeben wurde
+	 */
 	public ShowProfilesCTView(SearchProfile searchProfile) {
 		this.searchProfile = searchProfile;
-		logger.info("76 searchProfile: " + searchProfile.toString());
 	}
 
+	/**
+	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * erstellt wird.
+	 * 
+	 * @author Peter Thies
+	 * @see Update#getHeadlineText()
+	 */
 	@Override
 	protected String getHeadlineText() {
 		return "Your search results";
 	}
 
+	/**
+	 * Jede View muss die <code>run()</code>-Methode implementieren. Sie ist
+	 * eine "Einschubmethode", die von einer Methode der Basisklasse
+	 * <code>Update</code> aufgerufen wird, wenn die View aktiviert wird.
+	 * 
+	 * @author Kevin Jaeger
+	 * @return
+	 */
 	@Override
 	protected void run() {
 
+		/**
+		 * Abfragen von Profilen anhand des Suchprofils vom Benutzer aus der
+		 * Datenbank.
+		 */
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
 		adminService.searchAndCompareProfiles(false, searchProfile, getComparedProfileCallback());
+
+		/**
+		 * Auslesen des Profils vom aktuellen Benutzer aus der Datenbank.
+		 */
 		adminService.getProfileByUserName(ClientsideSettings.getLoginInfo().getEmailAddress().substring(0, atIndex),
 				getCurrentUserProfileCallback());
 
+		/*
+		 * Formatierung der Panels und Widgets für die Ansicht.
+		 */
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		backButton.setStylePrimaryName("tngly-backbutton");
-		hPanel.add(backButton);
-
-		ClientsideSettings.getLogger().info("Buttons werden aufgebaut");
-
 		cellTable.setWidth("100%", true);
 
-		// Do not refresh the headers and footers every time the data is
-		// updated.
+		/*
+		 * Keine erneute Aktualisierung der Header und Footer bei einer
+		 * Wertänderung.
+		 */
 		cellTable.setAutoHeaderRefreshDisabled(true);
 
-		// Attach a column sort handler to the ListDataProvider to sort the
-		// list.
+		/*
+		 * Anhängen eines Handlers zur Spaltensortierung an den DataProvider, um
+		 * die Tabelle sortieren zu können.
+		 */
 		cellTable.addColumnSortHandler(sortHandler);
 		cellTable.setSelectionModel(selectionModel, DefaultSelectionEventManager.<Profile>createCheckboxManager());
 
-		// Initialize the columns.
+		/*
+		 * Initialisierung der Tabellenspalten
+		 */
 		initTableColumns(selectionModel, sortHandler);
 
-		// Add the CellList to the adapter in the database.
+		/*
+		 * Hinzufügen eines DatenAdapters zur Tabelle.
+		 */
 		addDataDisplay(cellTable);
 
-		// Create a Pager to control the table.
-		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-		SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(cellTable);
 
+		/*
+		 * Zuweisung des jeweiligen Child Widget zum Parent Widget.
+		 */
+		hPanel.add(backButton);
 		RootPanel.get("Details").add(horLine);
 		RootPanel.get("Details").add(hPanel);
 		RootPanel.get("Details").add(horLine2);
 		RootPanel.get("Details").add(cellTable);
 		RootPanel.get("Details").add(pager);
 
+		/*
+		 * Zuweisung der ClickHandler an die jeweiligen Buttons.
+		 */
 		backButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				backButton.setEnabled(false);
@@ -127,14 +210,13 @@ public class ShowProfilesCTView extends Update {
 				Update update = new SearchByProfileView(searchProfile);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
-				logger.info("Erfolgreich View geswitcht.");
 			}
 		});
 	}
 
 	/**
-	 * Add a display to the database. The current range of interest of the
-	 * display will be populated with data.
+	 * Fügt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
+	 * befüllt.
 	 * 
 	 * @param display
 	 *            a {@Link HasData}.
@@ -144,21 +226,26 @@ public class ShowProfilesCTView extends Update {
 	}
 
 	/**
-	 * Refresh all displays.
+	 * Aktualisiert alle Datenadapter.
+	 * 
+	 * @return
 	 */
 	public void refreshDisplays() {
 		dataProvider.refresh();
 	}
 
 	/**
-	 * Add the columns to the table.
+	 * Fügt die Spalten in die Tabelle.
+	 * 
+	 * @param selectionModel
+	 *            SelectionModel, welches die Auswahl von Profilwerten im
+	 *            Tabellen Widget unterstützt
+	 * @param sortHandler
+	 *            Handler, der die Profilwerte für das Tabellen Widget sortiert.
 	 */
 	private void initTableColumns(final SelectionModel<Profile> selectionModel, ListHandler<Profile> sortHandler) {
 
 		ButtonCell profileVisitedButton = new ButtonCell() {
-			// A native button cell doesn't have the gwt-button class, which
-			// makes it
-			// look weird next to other gwt buttons. Fix that here.
 			@Override
 			public void render(final Context context, final SafeHtml data, final SafeHtmlBuilder sb) {
 				sb.appendHtmlConstant("<button type=\"button\" class=\"profile-Visited-Button\" tabindex=\"-1\">");
@@ -170,9 +257,6 @@ public class ShowProfilesCTView extends Update {
 		};
 
 		ButtonCell favoriteButton = new ButtonCell() {
-			// A native button cell doesn't have the gwt-button class, which
-			// makes it
-			// look weird next to other gwt buttons. Fix that here.
 			@Override
 			public void render(final Context context, final SafeHtml data, final SafeHtmlBuilder sb) {
 				sb.appendHtmlConstant("<button type=\"button\" class=\"favorite-Button\" tabindex=\"-1\">");
@@ -183,6 +267,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		};
 
+		// Profilbesuch.
 		Column<Profile, String> profileVisitedColumn = new Column<Profile, String>(profileVisitedButton) {
 			@Override
 			public String getValue(Profile object) {
@@ -197,8 +282,8 @@ public class ShowProfilesCTView extends Update {
 		cellTable.addColumn(profileVisitedColumn, "");
 		cellTable.setColumnWidth(profileVisitedColumn, 35, Unit.PX);
 
+		// Username.
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
-
 			@Override
 			public String getCellStyleNames(Cell.Context context, Profile object) {
 				return "tngly-userNameColumn";
@@ -220,9 +305,7 @@ public class ShowProfilesCTView extends Update {
 					pv.setVisitedProfileId(object.getId());
 					pvs.add(pv);
 					adminService.createProfileVisit(pvs, createProfileVisitCallback());
-					System.out.println("CreateProfileVisit ausgefuehrt");
 				}
-				// Called when the user changes the value.
 				Update update = new OtherProfileView(object, "ShowProfilesCTView", currentUserProfile);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -326,7 +409,7 @@ public class ShowProfilesCTView extends Update {
 				return o1.getHairColour().compareTo(o2.getHairColour());
 			}
 		});
-		cellTable.addColumn(haircolorColumn, "Haircolour");
+		cellTable.addColumn(haircolorColumn, "Hair colour");
 		cellTable.setColumnWidth(haircolorColumn, 40, Unit.PCT);
 
 		// Smoker.
@@ -371,7 +454,7 @@ public class ShowProfilesCTView extends Update {
 		cellTable.addColumn(confessionColumn, "Confession");
 		cellTable.setColumnWidth(confessionColumn, 40, Unit.PCT);
 
-		// Similiarity To Reference.
+		// Ähnlichkeitswert.
 		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
 			@Override
 			public String getValue(Profile object) {
@@ -391,6 +474,7 @@ public class ShowProfilesCTView extends Update {
 		cellTable.addColumn(similiarityColumn, "Similiarity");
 		cellTable.setColumnWidth(similiarityColumn, 40, Unit.PCT);
 
+		// Favorite
 		Column<Profile, String> favoriteColumn = new Column<Profile, String>(favoriteButton) {
 			@Override
 			public String getValue(Profile object) {
@@ -406,9 +490,14 @@ public class ShowProfilesCTView extends Update {
 		cellTable.setColumnWidth(favoriteColumn, 120, Unit.PX);
 	}
 
+	/**
+	 * AsyncCallback für das Abfragen von Profilen anhand eines Suchprofils aus der
+	 * Datenbank.
+	 * 
+	 * @return Liste mit gefundenen und verglichenen Profilen
+	 */
 	private AsyncCallback<ArrayList<Profile>> getComparedProfileCallback() {
 		AsyncCallback<ArrayList<Profile>> asyncCallback = new AsyncCallback<ArrayList<Profile>>() {
-
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -426,9 +515,14 @@ public class ShowProfilesCTView extends Update {
 		return asyncCallback;
 	}
 
+	/**
+	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * Datenbank.
+	 * 
+	 * @return Profil des aktuellen Benutzers
+	 */
 	private AsyncCallback<Profile> getCurrentUserProfileCallback() {
 		AsyncCallback<Profile> asyncCallback = new AsyncCallback<Profile>() {
-
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
@@ -439,17 +533,19 @@ public class ShowProfilesCTView extends Update {
 				ClientsideSettings.getLogger()
 						.severe("Success GetCurrentUserProfileCallback: " + result.getClass().getSimpleName());
 				currentUserProfile = result;
-				logger.info("currentUserProfileId: " + currentUserProfile.getId());
 			}
 		};
-
-		ClientsideSettings.getLogger().info("AsyncCallback zu Ende ausgefÃ¼hrt");
 		return asyncCallback;
 	}
 
+	/**
+	 * AsyncCallback für das Speichern eines Profilbesuchs in die
+	 * Datenbank.
+	 * 
+	 * @return
+	 */
 	private AsyncCallback<Void> createProfileVisitCallback() {
 		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
-
 			@Override
 			public void onFailure(Throwable caught) {
 				ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
