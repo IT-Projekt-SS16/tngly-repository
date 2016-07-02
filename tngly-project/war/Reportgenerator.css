@@ -271,7 +271,12 @@ background-color: #f4f4f4;
 
 div#Header {
 	height: 100px;
+	color: #ffffff;
 	text-align: center;
+	font-weight: bold;
+	font-size: 150px;
+	opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
 }
 
 div#Details {
@@ -314,7 +319,7 @@ div#Navigator {
 
 div#Trailer {
 	clear: both;
-	padding: 15px 0;
+	/*padding: 15px 0;*/
 	margin: 0 auto; 
 	border-top: 1px dashed silver;
 	font-size: 80%;

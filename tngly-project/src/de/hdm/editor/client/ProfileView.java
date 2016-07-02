@@ -138,6 +138,7 @@ public class ProfileView extends Update {
 		tBb.setStylePrimaryName("tngly-disabledTextbox");
 		tBm.setStylePrimaryName("tngly-disabledTextbox");
 		tDob.setStylePrimaryName("tngly-disabledTextbox");
+		ta.setStylePrimaryName("tngly-disabledTextbox");
 
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");

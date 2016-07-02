@@ -94,7 +94,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 			}
 		});
 		
-		title.setStylePrimaryName("tngly-header");
+//		title.setStylePrimaryName("tngly-header");
 		
 		signOutButton.setStylePrimaryName("tngly-menubutton");
 		imprintButton.setStylePrimaryName("tngly-submenubutton");
@@ -106,7 +106,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		verPanel.add(editorButton);
 		verPanel.add(imprintButton);
 
-		RootPanel.get("Header").add(title);
+//		RootPanel.get("Header").add(title);
 		RootPanel.get("Navigator").add(verPanel);
 		
 		signOutButton.addClickHandler(new ClickHandler() {
@@ -158,7 +158,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 				+ "Tingly Partnerboerse<br>"
 				+ "Hochschule der Medien Stuttgart<br>"
 				+ "Team 10<br>"
-				+ "Philipp Schmitt ()<br> Kevin Jaeger ()<br> Dominik Dach ()<br> Lorena Esposito ()<br> Marius Klepser ()<br> Esra Simsek ()<br>";
+				+ "Philipp Schmitt (27940)<br> Kevin Jaeger (27942)<br> Dominik Dach (27932)<br> Lorena Esposito (27981)<br> Marius Klepser (27989)<br> Esra Simsek (26497)<br>";
 
 	    aboutHTML.setHTML(about);
 	    dialogContents.add(aboutHTML);

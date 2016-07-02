@@ -143,6 +143,7 @@ public class OtherProfileView extends Update {
 		tBb.setStylePrimaryName("tngly-disabledTextbox");
 		tBm.setStylePrimaryName("tngly-disabledTextbox");
 		tDob.setStylePrimaryName("tngly-disabledTextbox");
+		ta.setStylePrimaryName("tngly-disabledTextbox");
 
 		horPanelButtons.setHorizontalAlignment(ALIGN_CENTER);
 		horPanelButtons.setVerticalAlignment(ALIGN_TOP);

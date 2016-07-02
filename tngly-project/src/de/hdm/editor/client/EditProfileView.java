@@ -156,6 +156,8 @@ public class EditProfileView extends Update {
 		tbfn.setPixelSize(120, 15);
 		tbn.setPixelSize(120, 15);
 		tbbh.setPixelSize(120, 15);
+		
+		tbun.setStylePrimaryName("tngly-disabledTextbox");
 
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
