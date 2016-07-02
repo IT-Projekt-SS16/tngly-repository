@@ -8,78 +8,42 @@ import com.google.appengine.api.utils.SystemProperty;
 /**
  * Verwalten einer Verbindung zur Datenbank.
  * 
- * <b>Vorteil:</b> Sehr einfacher Verbindungsaufbau zur Datenbank.
- * <p>
- * <b>Nachteil:</b> Durch die Singleton-Eigenschaft der Klasse kann nur auf eine
- * fest vorgegebene Datenbank zugegriffen werden.
- * <p>
- * 
- * Da die Einrichtung von mehreren Datenbank-Verbindungen den Rahmen dieses Projekts
- * sprengen bzw. die Software unnötig verkomplizieren würde, haben wir eine einzige
- * Datenbank mit einer einzigen Verbindung eingerichtet.
- * 
- * Kommentare inspiriert und abgewandelt von @author Thies
+ * @author Philipp Schmitt
  */
 
 public class DBConnection {
 
     /**
-     * Die Klasse DBConnection wird nur einmal instantiiert. Man spricht hierbei
-     * von einem sogenannten <b>Singleton</b>.
-     * <p>
-     * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
-     * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
-     * speichert die einzige Instanz dieser Klasse.
-     * 
+     * Instantiieren der Connection und Festlegung der Einzigartigkeit durch <code>static</code>
      */
 	
     private static Connection con = null;
 
     /**
-     * Die URL, mit deren Hilfe die Datenbank angesprochen wird. In einer
-     * professionellen Applikation würde diese Zeichenkette aus einer
-     * Konfigurationsdatei eingelesen oder über einen Parameter von außen
-     * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
-     * Software neu komilieren zu müssen.
+     * Die URL für die Google Cloud-SQL Datenbank - angesprochen übern die Projekt-, sowie Instanz-ID.
+     * In deploytem Status soll die Datenbank von der Application nur über einen root-Zugang und den entsprechenden Google-Treibern angesprochen werden.
      */
-    //Deployen mit dieser!!
     private static String googleUrl = "jdbc:google:mysql://our-lacing-132223:tngly/tnglyDB?user=root";
 
     /**
-     * Logger aktivieren
+     * Aktivieren des Loggers zum Debugging.
      */
     
     private static Logger logger = Logger.getLogger("Tngly Web Client");
     
     /**
-     *   Die localUrl würde normalerweise benutzt werden, um in einer komplett auf dem Rechner
-     *   laufenden Entwicklungsumgebung zu testen. Wir haben von Anfang an direkt auf der Live-DB
-     *   von Google Cloud SQL entwickelt, um unter möglichst realistischen Bedingungen zu arbeiten.
+     *   Die URL für die Google Cloud-SQL Datenbank zum Ansteuern der Datenbank von einer
+     *   lokalen Entwicklungsumgebung (nicht <code>deployed</code>). Hier muss die Datenbank über die
+     *   bereitgestellte IPv4-Adresse sowie einen eingerichteten Zugang angesprochen werden.
      */
     
-    private static String localUrl = "jdbc:mysql://173.194.237.74:3306/tnglyDB?user=root";
+    private static String localUrl = "jdbc:mysql://173.194.237.74:3306/tnglyDB";
 
     /**
-     * Diese statische Methode kann aufgrufen werden durch
-     * <code>DBConnection.connection()</code>. Sie stellt die
-     * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine
-     * einzige Instanz von <code>DBConnection</code> existiert.
-     * <p>
+     * Statische Methode zum Aufruf der <code>DBConnection.connection()</code>.
+     * Weitere Sicherstellung der Einzigartigkeit einer DBConnection-Instanz.
      * 
-     * <b>Fazit:</b> DBConnection sollte nicht mittels <code>new</code>
-     * instantiiert werden, sondern stets durch Aufruf dieser statischen
-     * Methode.
-     * <p>
-     * 
-     * <b>Nachteil:</b> Bei Zusammenbruch der Verbindung zur Datenbank - dies
-     * kann z.B. durch ein unbeabsichtigtes Herunterfahren der Datenbank
-     * ausgelöst werden - wird keine neue Verbindung aufgebaut, so dass die in
-     * einem solchen Fall die gesamte Software neu zu starten ist. In einer
-     * robusten Lösung würde man hier die Klasse dahingehend modifizieren, dass
-     * bei einer nicht mehr funktionsfähigen Verbindung stets versucht würde,
-     * eine neue Verbindung aufzubauen. Dies würde allerdings ebenfalls den
-     * Rahmen dieses Projekts sprengen.
-     * 
+     * @author Philipp Schmitt
      * @return DAS <code>DBConnection</code>-Objekt.
      * @see con
      */
@@ -87,14 +51,14 @@ public class DBConnection {
     public static Connection connection() {
     	
         /**
-         *  Wenn es bisher keine Connection zur DB gab, ...
+         *  Prüfen, ob es bisher eine Connection aufgebaut ist.
          */
     	
         if (con == null) {
         	
         	/**
-        	 * Je nach Entwicklungsumgebung wird url benutzt, um entweder die Verbindung zur lokalen DB
-        	 * oder zur remote DB zu übergeben.
+        	 * Je nach Entwicklungsumgebung wird url benutzt, um entweder die Verbindung von der lokalen Entwicklungsumgebung
+        	 * oder der deployten Applikation aufzubauen.
         	 */
         	
             String url = null;
@@ -112,28 +76,26 @@ public class DBConnection {
                      *	"jdbc:google:mysql://" prefix.
                      */
                     Class.forName("com.mysql.jdbc.GoogleDriver");
-                    url = localUrl;
-                    logger.info("googleUrl benutzt!!");
+                    url = googleUrl;
 
                 } else {
                     /**
                      *  Local MySQL instance to use during development.
                      */
-                    Class.forName("com.mysql.jdbc.Driver");
-                    url = localUrl;
-                    logger.info("local benutzt!!");
-                    con = DriverManager.getConnection(url, user, password);
+                    Class.forName("com.mysql.jdbc.GoogleDriver");
+                    url = googleUrl;
                 }
 
+                // Für Local development wieder url, user, password, driver und url anpassen
                 /**
                  * Hier gibt der DriverManager eine Verbindung, hergestellt durch die angegebene
-                 * URL und den User-Account mit vollem Zugriff zurück
+                 * URL und den User-Account mit vollem Zugriff, zurück
                  * 
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
               // Für Deployment hier nur (url) übergeben und in if/else jeweils GoogleDriver und local
-                con = DriverManager.getConnection(url, user, password);
+                con = DriverManager.getConnection(url);
 
             } 
             

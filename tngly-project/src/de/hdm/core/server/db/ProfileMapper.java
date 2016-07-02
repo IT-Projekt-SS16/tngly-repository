@@ -7,23 +7,41 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Logger;
 
-import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.SearchProfile;
 
 /**
- * Übernommen & angepasst von: @author Thies
+ * Die Mapper-Klasse ProfileMapper stellt eine Schnittstelle zwischen Applikation
+ * und Datenbank dar. Die zu persistierenden Profile werden hier auf eine
+ * relationale Ebene projiziert. Die abzurufenden Profile werden aus den
+ * relationalen Tabellen zusammengestellt.
+ * 
+ * @author Philipp Schmitt
  */
 
 public class ProfileMapper {
 
+	/**
+	 * Instanziieren des Mappers
+	 */
 	private static ProfileMapper profileMapper = null;
 
+	/**
+	 * Mithilfe des <code>protected</code>-Attributs im Konstruktor wird
+	 * verhindert, dass von anderen Klassen eine neue Instanz der Klasse
+	 * geschaffen werden kann.
+	 */
 	protected ProfileMapper() {
 	}
 
+	/**
+	 * Aufruf eines Profile-Mappers für Klassen, die keinen Zugriff auf den
+	 * Konstruktor haben.
+	 * 
+	 * @return Einzigartige Mapper-Instanz zur Benutzung in der
+	 *         Applikationsschicht
+	 */
 	public static ProfileMapper profileMapper() {
 		if (profileMapper == null) {
 			profileMapper = new ProfileMapper();
@@ -32,11 +50,15 @@ public class ProfileMapper {
 		return profileMapper;
 	}
 
-	Logger logger = ClientsideSettings.getLogger();
-
 	/**
-	 * FindByKey-Methode. Hierbei wird ein Profil anhand der ID gefunden und
-	 * zurückgegeben.
+	 * Read-Methode - Anhand einer vorgegebenen id wird das dazu gehörige
+	 * Profile in der Datenbank gesucht.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param id
+	 *            Die id des Profils, das aus der Datenbank gelesen werden soll
+	 * @return Das durch die id referenzierte Profile-Objekt
+	 * 
 	 */
 
 	public Profile findByKey(int id) {
@@ -56,8 +78,8 @@ public class ProfileMapper {
 					+ "' ORDER BY id");
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
-			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
 
@@ -84,8 +106,18 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * FindByName-Methode. Hierbei wird ein Profil anhand des Namens gefunden
-	 * und zurückgegeben.
+	 * Read-Methode - Anhand eines Usernamen wird das dazu gehörige Profile in
+	 * der Datenbank gesucht. Diese Methode ist vor Allem für den Login
+	 * relevant, der über die Google-Email-Adresse realisiert wird. Die
+	 * Google-Adresse fungiert also als Username, der von Haus aus eindeutig
+	 * ist.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param id
+	 *            Der Username zum Profil, das aus der Datenbank gelesen werden
+	 *            soll
+	 * @return Das durch die id referenzierte Profile-Objekt
+	 * 
 	 */
 
 	public Profile findByName(String id) {
@@ -105,8 +137,8 @@ public class ProfileMapper {
 					+ "' ORDER BY lastName");
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
-			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
 				/**
@@ -139,7 +171,10 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * FindAll-Methode. Hierbei werden in einem Vektor alle Profiles ausgegeben.
+	 * Read-Methode - Auslesen aller Profile in einen Vektor.
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste aller derzeit in der Datenbank eingetragenen Profile.
 	 */
 
 	public Vector<Profile> findAll() {
@@ -200,10 +235,14 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * Insert-Methode. Ein Profile-Objekt p wird übergeben und die zugehörigen
+	 * Insert-Methode - Ein Profile-Objekt wird übergeben und die zugehörigen
 	 * Werte in ein SQL-Statement geschrieben, welches ausgeführt wird, um das
 	 * Objekt in die Datenbank einzutragen.
 	 * 
+	 * @author Philipp Schmitt
+	 * @param pb
+	 *            Profil, das in die Datenbank geschrieben werden soll
+	 * @return Profile-Objekt, das in die Datenbank geschrieben wurde
 	 */
 
 	public Profile insert(Profile p) {
@@ -270,8 +309,12 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * Delete-Methode. Ein Profile-Objekt wird übergeben und dieses aus der DB
-	 * gelöscht.
+	 * Delete-Methode - Ein Profile-Objekt wird übergeben, anhand dessen der
+	 * zugehörige Eintrag in der Datenbank gelöscht wird
+	 * 
+	 * @author Philipp Schmitt
+	 * @param p
+	 *            Profil, das gelöscht werden soll
 	 */
 
 	public void delete(Profile p) {
@@ -296,10 +339,13 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * Edit-Methode. Ein Informationsobjekt in wird übergeben und die
-	 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
-	 * wird, um die Werte des Objekts in der Datenbank zu aktualisieren.
+	 * Edit-Methode - Ein Profil wird übergeben und die zugehörigen Werte in ein
+	 * SQL-Statement geschrieben, welches ausgeführt wird, um die
+	 * Informationswerte des Profils in der Datenbank zu aktualisieren.
 	 * 
+	 * @author Philipp Schmitt
+	 * @param profile
+	 *            Das Profil, dessen Variablen in der DB geändert werden soll.
 	 */
 
 	public Profile edit(Profile p) {
@@ -319,11 +365,6 @@ public class ProfileMapper {
 			/**
 			 * Statement ausfüllen und als Query an die DB schicken
 			 */
-			System.out.println("UPDATE profiles " + "SET userName=\"" + p.getUserName() + "\", " + "name=\""
-					+ p.getName() + "\", " + "lastName=\"" + p.getLastName() + "\", " + "dateOfBirth=\"" + date + "\", "
-					+ "gender=\"" + p.getGender() + "\", " + "bodyHeight=\"" + p.getBodyHeight() + "\", "
-					+ "hairColour=\"" + p.getHairColour() + "\", " + "confession=\"" + p.getConfession() + "\", "
-					+ "isSmoking=\"" + p.getIsSmoking() + " WHERE id=" + p.getId());
 
 			stmt.executeUpdate("UPDATE profiles " + "SET userName=\"" + p.getUserName() + "\", " + "name=\""
 					+ p.getName() + "\", " + "lastName=\"" + p.getLastName() + "\", " + "dateOfBirth=\"" + date + "\", "
@@ -342,8 +383,16 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * SearchByProfile-Methode. Ein SearchProfile wird übergeben, anhand dessen
-	 * ähnliche Profile in einer ArrayList ausgegeben werden.
+	 * Read-Methode - Übergabe eines Suchprofils, anhand dessen Profile aus der
+	 * Datenbank ausgelesen werden sollen, die den Kriterien (z.B.
+	 * <code>AgeRange</code> ) entsprechen.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param searchProfile
+	 *            Suchprofil mit Werten, nach denen die auszugebenden Profile
+	 *            selektiert werden sollen
+	 * @return Ausgabe aller Profile, die den Kriterien des Suchprofils
+	 *         entsprechen
 	 */
 
 	public ArrayList<Profile> searchProfileByProfile(SearchProfile searchProfile) {
@@ -487,14 +536,11 @@ public class ProfileMapper {
 
 			String preparedStatement = stringBuilder.toString();
 
-			logger.severe(preparedStatement);
-			System.out.println(preparedStatement);
-
 			ResultSet rs = stmt.executeQuery(preparedStatement);
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel
-			 * zurückgegeben werden. Prüfe, ob ein Ergebnis vorliegt.
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 
 			while (rs.next()) {
@@ -508,9 +554,6 @@ public class ProfileMapper {
 				p.setBodyHeight(rs.getFloat("bodyHeight"));
 				p.setHairColour(rs.getString("hairColour"));
 				p.setConfession(rs.getString("confession"));
-
-				// evtl. muss hier nochmal geschaut werden, ob 0 automatisch als
-				// false und * automatisch als true ausgegeben wird
 
 				p.setIsSmoking(rs.getInt("isSmoking"));
 

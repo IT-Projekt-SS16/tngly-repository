@@ -12,27 +12,33 @@ import java.util.Vector;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.Wish;
 
+/**
+ * Die Mapper-Klasse WishMapper stellt eine
+ * Schnittstelle zwischen Applikation und Datenbank dar. Die zu persistierenden
+ * Profilwünsche werden hier auf eine relationale Ebene projiziert. Die abzurufenden
+ * Profilwünsche werden aus den relationalen Tabellen zusammengestellt.
+ * 
+ * @author Philipp Schmitt
+ */
 public class WishMapper {
-
-
 	/**
-	 * Übernommen & angepasst von: @author Thies
+	 * Instanziieren des Mappers
 	 */
-	
-	  public static WishMapper getWishMapper() {
-			return wishMapper;
-		}
-
-		public static void setWishMapper(WishMapper wishMapper) {
-			WishMapper.wishMapper = wishMapper;
-		}
-
 		  private static WishMapper wishMapper = null;
 
+		  /**
+			 * Mithilfe des <code>protected</code>-Attributs im Konstruktor wird
+			 * verhindert, dass von anderen Klassen eine neue Instanz der Klasse
+			 * geschaffen werden kann.
+			 */
 	  protected WishMapper() {
 	  }
 
-
+	  /**
+		 * Aufruf eines ProfileBan-Mappers für Klassen, die keinen Zugriff auf den Konstruktor haben.
+		 * 
+		 * @return Einzigartige Mapper-Instanz zur Benutzung in der Applikationsschicht
+		 */
 	  public static WishMapper wishMapper() {
 	    if (wishMapper == null) {
 	    	wishMapper = new WishMapper();
@@ -41,8 +47,15 @@ public class WishMapper {
 	    return wishMapper;
 	  }
 	  
-		/**
-		 * FindByKey-Methode. Hierbei wird ein Wish-Objekt anhand der ID gefunden und zurückgegeben.
+	  /**
+		 * Read-Methode - Anhand einer vorgegebenen id wird der dazu gehörige
+		 * Wish in der Datenbank gesucht.
+		 * 
+		 * @author Philipp Schmitt
+		 * @param id
+		 *            Die id, zu der der Eintrag aus der DB gelesen werden soll
+		 * @return Das durch die id referenzierte Wish-Objekt
+		 * 
 		 */
 	  
 	  public Wish findByKey(int id) {
@@ -89,8 +102,11 @@ public class WishMapper {
 		    return null;
 		  }
 	  
-		/**
-		 * FindAll-Methode. Hierbei werden in einem Vektor alle ProfileVisit-Objekte ausgegeben.
+	  /**
+		 * Read-Methode - Auslesen aller Wishes in einen Vektor.
+		 * 
+		 * @author Philipp Schmitt
+		 * @return Liste aller derzeit in der Datenbank eingetragenen Profilwünsche
 		 */
 	  
 		  public Vector<Wish> findAll() {
@@ -134,9 +150,16 @@ public class WishMapper {
 		    return result;
 		  }
 
-			/**
-			 * FindWishedProfiles-Methode. Hierbei werden durch die ID eines Profiles alle dazu gehörigen
-			 * Wish-Objekte gefunden und zurückgegeben.
+		  /**
+			 * Read-Methode - Auslesen aller Wishes (Profilwünsche), die vom
+			 * übergebenen Profil je getätigt wurden
+			 * 
+			 * @author Philipp Schmitt
+			 * @param wishingProfileId
+			 *            Id des Profils, zu dem alle Profilwünsche gesucht werden
+			 *            sollen.
+			 * @return Liste aller von dem zu überprüfenden Profil getätigten
+			 *         Profilwünsche
 			 */
 		  
 		  public ArrayList<Wish> findWishedProfiles(int wishingProfileId) {
@@ -187,12 +210,15 @@ public class WishMapper {
 			  }
 		  
 		  /**
-		   * Überprüfung, ob ein bestimmtes Profil vom aktuell angemeldeten User "favorisiert" wird.
-		   * 
-		   * @param banningProfileId
-		   * @param checkedProfileId
-		   * @return
-		   */
+			 * Read-Methode - Abfrage, ob für das übergebene zu checkende Profil ein Profilwunsch durch den Nutzer besteht.
+			 * 
+			 * @param currentUserProfile
+			 *            Profil, das ein anderes Profil gewünscht haben soll
+			 * @param otherProfile
+			 *            Profil, das gewünscht
+			 * @return Boolean, ob das angemeldete Profil das zu checkende Profil
+			 *         wünscht
+			 */
 		  
 		  public boolean isProfileWished(int wishingProfileId, int checkedProfileId)	{
 				 /**
@@ -238,10 +264,15 @@ public class WishMapper {
 			 }
 		  
 		  
-			/**
-			 * Insert-Methode. Ein Wish-Objekt w wird übergeben und die zugehörigen Werte
-			 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um das Objekt in die Datenbank einzutragen.
+		  /**
+			 * Insert-Methode - Ein Wish-Objekt w wird übergeben und die
+			 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
+			 * wird, um das Objekt in die Datenbank einzutragen.
 			 * 
+			 * @author Philipp Schmitt
+			 * @param w
+			 *            Profilwunsch, die in die Datenbank geschrieben werden soll
+			 * @return Wish-Objekt, das in die Datenbank geschrieben wurde
 			 */
 		  
 		  public Wish insert(Wish w) {
@@ -277,8 +308,6 @@ public class WishMapper {
 				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
 				Date currentDate = new Date();
 				String date = mySQLformat.format(currentDate);
-				
-				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
 		        
 		        /**
 		         *  Jetzt erst erfolgt die tatsächliche Einfügeoperation
@@ -294,49 +323,14 @@ public class WishMapper {
 		    return w;
 		  }
 
-			/**
-			 *  Edit-Methode. Diese Methode heißt nur zwecks der Konvention "edit" -
-			 *  aufgrund des inhaltlichen Kontexts macht sie nicht mehr als den timestamp zu aktualisieren.
+
+		  /**
+			 * Delete-Methode - Ein Wish-Objekt wird übergeben und dieses aus der
+			 * DB gelöscht.
+			 * 
+			 * @author Philipp Schmitt
 			 * @param w
-			 * @return
-			 */
-
-		  public Wish edit(Wish w) {
-			
-				/**
-				 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
-				 */
-			  
-				    Connection con = DBConnection.connection();
-
-				    try {
-				      Statement stmt = con.createStatement();
-				      
-						SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
-						Date currentDate = new Date();
-						String date = mySQLformat.format(currentDate);
-						
-						/**
-						 *  insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
-						 */
-				      
-				      stmt.executeUpdate("UPDATE wishes " + "SET timestamp=\""
-				          + date
-				          + "WHERE id=" + w.getId());
-
-				    }
-				    catch (SQLException e) {
-				      e.printStackTrace();
-				    }
-
-				    /**
-				     *  Um Analogie zu insert(Wish w) zu wahren, geben wir w zurück
-				     */
-				    return w;
-				  }
-
-			/** 
-			 *  Delete-Methode. Ein Wish-Objekt wird übergeben und dieses aus der DB gelöscht.
+			 *            Profilwunsch, der aufgehoben werden soll
 			 */
 		  
 		public void delete(Wish w) {
@@ -344,8 +338,6 @@ public class WishMapper {
 		
 		    try {
 		      Statement stmt = con.createStatement();
-		
-		      stmt.executeUpdate("DELETE FROM profileWishes " + "WHERE wishingProfileId=" + w.getWishingProfileId() + " AND wishedProfileId=" +w.getWishedProfileId());
 		      stmt.executeUpdate("DELETE FROM profileWishes " + "WHERE wishingProfileId=" + w.getWishingProfileId() + " AND wishedProfileId=" +w.getWishedProfileId());
 		    }
 		    catch (SQLException e) {
@@ -354,11 +346,14 @@ public class WishMapper {
 		  }
 
 		/**
-		 * Delete-Methode für Profile. Ein Profilobjekt profile wird übergeben und die zugehörigen Werte
-		 * in ein SQL-Statement geschrieben, welches ausgeführt wird, um alle Wish-Objekte zu entfernen,
-		 * die mit diesem Profil verknüpft sind.
+		 * Delete-Methode zur Profillöschung. Ein Profilobjekt profile soll komplett
+		 * aus der Datenbank gelöscht werden und hiermit auch die entsprechenden
+		 * Referenzen in der wish-Tabelle.
 		 * 
-		 */	
+		 * @author Philipp Schmitt
+		 * @param profile
+		 *            Profil, das komplett aus der Datenbank gelöscht wird
+		 */
 		
 		public void delete(Profile profile) {
 

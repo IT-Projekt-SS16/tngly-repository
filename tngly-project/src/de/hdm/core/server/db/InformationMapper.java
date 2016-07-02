@@ -4,34 +4,39 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.Selection;
 
+/**
+ * Die Mapper-Klasse InformationMapper stellt eine Schnittstelle zwischen
+ * Applikation und Datenbank dar. Die zu persistierenden Informationswerte werden hier auf
+ * eine relationale Ebene projiziert. Die abzurufenden Informationswerte werden aus den
+ * relationalen Tabellen zusammengestellt.
+ * 
+ * @author Philipp Schmitt
+ */
 public class InformationMapper {
 
 	/**
-	 * Übernommen & angepasst von: @author Thies
+	 * Mithilfe des <code>protected</code>-Attributs im Konstruktor wird
+	 * verhindert, dass von anderen Klassen eine neue Instanz der Klasse
+	 * geschaffen werden kann.
 	 */
-
-	public static InformationMapper getInformationMapper() {
-		return informationMapper;
-	}
-
-	public static void setInformationMapper(InformationMapper informationMapper) {
-		InformationMapper.informationMapper = informationMapper;
-	}
-
-	private static InformationMapper informationMapper = null;
-	private ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
 
 	protected InformationMapper() {
 	}
+
+	/**
+	 * Aufruf eines Information-Mappers für Klassen, die keinen Zugriff auf den
+	 * Konstruktor haben.
+	 * 
+	 * @return Einzigartige Mapper-Instanz zur Benutzung in der
+	 *         Applikationsschicht
+	 */
 
 	public static InformationMapper informationMapper() {
 		if (informationMapper == null) {
@@ -42,16 +47,26 @@ public class InformationMapper {
 	}
 
 	/**
-	 * Insert-Methode. Ein Informationsobjekt in wird übergeben und die
+	 * Instanziieren des Mappers
+	 */
+
+	private static InformationMapper informationMapper = null;
+
+	/**
+	 * Insert-Methode - Ein Informationsobjekt wird übergeben und die
 	 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
 	 * wird, um das Objekt in die Datenbank einzutragen.
 	 * 
+	 * @author Philipp Schmitt
+	 * @param in
+	 *            In die DB zu schreibendes Information-Objekt
+	 * @return In die DB geschriebenes Information-Objekt
 	 */
 
 	public Information insert(Information in) {
 
 		/**
-		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 * Aufbauen der DB-Verbindung & Erzeugen eines neuen SQL-Statements.
 		 */
 		Connection con = DBConnection.connection();
 
@@ -59,7 +74,7 @@ public class InformationMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Der aktuell höchste Primärschlüsselwert wird gesucht...
+			 * Suchen des aktuell höchsten Primärschlüsselwertes
 			 */
 
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM information");
@@ -67,25 +82,19 @@ public class InformationMapper {
 			if (rs.next()) {
 
 				/**
-				 * und um 1 erhöht.
+				 * Erhöhung dieses Werts um 1
 				 */
 
 				in.setId(rs.getInt("maxid") + 1);
 
+				/**
+				 * Vorbereiten eines neuen SQL-Statements
+				 */
 				stmt = con.createStatement();
-
-				SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
-				Date currentDate = new Date();
-				String date = mySQLformat.format(currentDate);
-
-				// insert Date as current timestamp yyyy-MM-dd, NICHT VERGESSEN!
 
 				/**
 				 * Statement ausfüllen und als Query an die DB schicken
 				 */
-				System.out
-						.println("INSERT INTO information (id, value, propertyId, profileId) " + "VALUES (" + in.getId()
-								+ ",'" + in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId() + "')");
 				stmt.executeUpdate(
 						"INSERT INTO information (id, value, propertyId, profileId) " + "VALUES (" + in.getId() + ",'"
 								+ in.getValue() + "','" + in.getPropertyId() + "','" + in.getProfileId() + "')");
@@ -94,49 +103,22 @@ public class InformationMapper {
 			e.printStackTrace();
 		}
 
+		/**
+		 * Rückgeben des in die Datenbank geschriebenen Information-Objekts
+		 */
 		return in;
 	}
 
 	/**
-	 * Edit-Methode. Ein Informationsobjekt in wird übergeben und die
-	 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
-	 * wird, um die Werte des Objekts in der Datenbank zu aktualisieren.
+	 * Read-Methode zur Befüllung einer beliebigen Anzahl an Profilen mit den
+	 * korrespendierenden Werten / Einträgen aus der information - Tabelle.
 	 * 
+	 * @author Philipp Schmitt
+	 * @param profiles
+	 *            Ein Array an Profilen, zu denen die zugehörigen
+	 *            Informationswerte ausgelesen werden sollen
+	 * @return Das Profil-Array mit den ergänzten Informationswerten.
 	 */
-
-	public Information edit(Information in) {
-
-		/**
-		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
-		 */
-
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			SimpleDateFormat mySQLformat = new SimpleDateFormat("yyyy-MM-dd");
-			Date currentDate = new Date();
-			String date = mySQLformat.format(currentDate);
-
-			/**
-			 * Statement ausfüllen und als Query an die DB schicken
-			 */
-
-			stmt.executeUpdate("UPDATE information " + "SET value=\"" + in.getValue() + "\", " + "timestamp=\"" + date
-					+ " WHERE id=" + in.getId());
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		/**
-		 * Um Analogie zu insert(Information in) zu wahren, geben wir in zurück.
-		 */
-		return in;
-
-	}
-
 	public ArrayList<Profile> searchForInformationValues(ArrayList<Profile> profiles) {
 
 		/**
@@ -144,26 +126,40 @@ public class InformationMapper {
 		 */
 		Connection con = DBConnection.connection();
 
+		/**
+		 * Durchlaufen jedes Profil-Objekts in der übergebenen Liste
+		 */
 		for (Profile p : profiles) {
+
+			/**
+			 * Durchlaufen jedes frei zu beschreibenden Eigenschaft-Objekts (
+			 * <code>Description</code>) des Profils
+			 */
 			for (Description d : p.getDescriptionList()) {
 
 				try {
 					/**
-					 * Leeres SQL-Statement (JDBC) anlegen
+					 * Leeres SQL-Statement (<code>JDBC</code>) anlegen
 					 */
 					Statement stmt = con.createStatement();
+
+					/**
+					 * Anlegen eines temporären Zwischenspeichers für die
+					 * ausgelesenen Informationswerte
+					 */
 					ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
 
 					/**
 					 * Statement ausfüllen und als Query an die DB schicken
 					 */
-					System.out.println(
-							"INFORMATIONMAPPER ABFRAGE::: SELECT id, value, profileId, propertyId FROM information WHERE profileId="
-									+ p.getId() + " AND propertyId=" + d.getId());
 					String sql0 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 							+ p.getId() + " AND propertyId=" + d.getId();
 					ResultSet rs = stmt.executeQuery(sql0);
 
+					/**
+					 * Mapping jedes aus der DB gelesenen Datensatzes in
+					 * Java-Objekte
+					 */
 					while (rs.next()) {
 						Information i = new Information();
 						i.setId(rs.getInt("id"));
@@ -179,8 +175,9 @@ public class InformationMapper {
 
 					/**
 					 * Das vollkommen ausgefüllte Set an vorhandenen
-					 * Informationen wird der jeweiligen Eigenschaft als
-					 * ArrayList übergeben
+					 * Informationen wird der jeweiligen
+					 * Beschreibungs-Eigenschaft des Profils als ArrayList
+					 * übergeben
 					 */
 					d.setInformationValues(informationValuesTemp);
 
@@ -189,6 +186,10 @@ public class InformationMapper {
 					return null;
 				}
 
+				/**
+				 * Durchlaufen jedes auszuwählenden Eigenschaft-Objekts (
+				 * <code>Selection</code>) des Profils
+				 */
 				for (Selection s : p.getSelectionList()) {
 
 					try {
@@ -205,6 +206,10 @@ public class InformationMapper {
 								+ p.getId() + " AND propertyId=" + s.getId();
 						ResultSet rs = stmt.executeQuery(sql1);
 
+						/**
+						 * Mapping jedes aus der DB gelesenen Datensatzes in
+						 * Java-Objekte
+						 */
 						while (rs.next()) {
 							Information i = new Information();
 							i.setId(rs.getInt("id"));
@@ -220,8 +225,8 @@ public class InformationMapper {
 
 						/**
 						 * Das vollkommen ausgefüllte Set an vorhandenen
-						 * Informationen wird der jeweiligen Eigenschaft als
-						 * ArrayList übergeben
+						 * Informationen wird der jeweiligen Auswahl-Eigenschaft
+						 * als ArrayList übergeben
 						 */
 						s.setInformationValues(informationValuesTemp);
 
@@ -237,10 +242,147 @@ public class InformationMapper {
 	}
 
 	/**
-	 * Delete-Methode. Ein Informationsobjekt in wird übergeben und die
+	 * Edit-Methode - Ein Profil wird übergeben und die zugehörigen Werte in ein
+	 * SQL-Statement geschrieben, welches ausgeführt wird, um die
+	 * Informationswerte des Profils in der Datenbank zu aktualisieren.
+	 * 
+	 * @author Philipp Schmitt
+	 * @param profile
+	 *            Das Profil, dessen Informationswerte geändert werden soll.
+	 */
+
+	public void edit(Profile profile) {
+		/**
+		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
+		 */
+		Connection con = DBConnection.connection();
+
+		/**
+		 * Durchlaufen jedes frei zu beschreibenden Eigenschaft-Objekts (
+		 * <code>Description</code>) des Profils
+		 */
+		for (Description d : profile.getDescriptionList()) {
+
+			/**
+			 * Prüfen, ob für die Eigenschaft ein Wert hinterlegt ist
+			 */
+
+			if (d.getInformationValues().get(0).getValue() != null) {
+
+				/**
+				 * Falls ja, soll geprüft werden, ob dieser dem Wert, der
+				 * bereits in der DB hinterlegt ist, entspricht.
+				 */
+				try {
+					Statement stmt = con.createStatement();
+					/**
+					 * Statement ausfüllen und als Query an die DB schicken.
+					 */
+					String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
+							+ " AND propertyId=" + d.getId());
+					ResultSet rs = stmt.executeQuery(sqlS);
+
+					/**
+					 * Falls die Eigenschaft bereits mit einem Informationswert
+					 * in der DB hinterlegt ist, wird dieser Eintrag geupdatet.
+					 * Falls bisher kein Informationswert mit der Eigenschaft
+					 * verknüpft war, wird hier ein neuer Eintrag angelegt.
+					 */
+					if (rs.next() && rs.getString("value") != d.getInformationValues().get(0).getValue()) {
+						System.out.println("UPDATE information " + "SET value=\""
+								+ d.getInformationValues().get(0).getValue() + "\" WHERE id=" + rs.getInt("id"));
+						stmt.executeUpdate("UPDATE information " + "SET value=\""
+								+ d.getInformationValues().get(0).getValue() + "\" WHERE id=" + rs.getInt("id"));
+					} else {
+						this.insert(d.getInformationValues().get(0));
+					}
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			/**
+			 * Falls für die Eigenschaft im übergebenen Profil kein
+			 * Informationswert hinterlegt ist, sollen die bisherigen Einträge
+			 * aus der Datenbank gelöscht werden.
+			 */
+			if (d.getInformationValues().get(0).getValue() == null) {
+				try {
+					Statement stmt = con.createStatement();
+					/**
+					 * Statement ausfüllen und als Query an die DB schicken.
+					 */
+					String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
+							+ " AND propertyId=" + d.getId());
+					ResultSet rs = stmt.executeQuery(sqlS);
+
+					/**
+					 * Falls bisher ein Informationswert für die Eigenschaft
+					 * hinterlegt war, mappen dieses Objekts und Weitergabe zur
+					 * Löschung
+					 */
+					if (rs.next()) {
+						Information in = new Information();
+						in.setId(rs.getInt("id"));
+						this.delete(in);
+					} else {
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		/**
+		 * Durchlaufen jedes auszuwählenden Eigenschaft-Objekts (
+		 * <code>Selection</code>) des Profils
+		 */
+		for (Selection s : profile.getSelectionList()) {
+
+			/**
+			 * Pauschales Löschen aller bisherigen Einträge mit
+			 * Informationswerten zu Auswahleigenschaften, die dem Profil bisher
+			 * zugeordnet waren
+			 */
+			try {
+				Statement stmt = con.createStatement();
+				/**
+				 * Statement ausfüllen und als Query an die DB schicken.
+				 * Löschung erfolgt.
+				 */
+				String sqlS = ("DELETE FROM information " + "WHERE profileId=" + profile.getId() + " AND propertyId="
+						+ s.getId());
+				System.out.println("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
+						+ " AND propertyId=" + s.getId());
+				stmt.executeUpdate(sqlS);
+
+				/**
+				 * Falls für die Auswahleigenschaften im übergebenen Profil
+				 * Werte hinterlegt sind, werden diese nun der Datenbank neu
+				 * hinzugefügt.
+				 */
+				if (!s.getInformationValues().isEmpty()) {
+					for (Information i : s.getInformationValues()) {
+
+						insert(i);
+					}
+				} else {
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	/**
+	 * Delete-Methode - Ein Informationsobjekt in wird übergeben und die
 	 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
 	 * wird, um das Objekt aus der Datenbank zu entfernen.
 	 * 
+	 * @author Philipp Schmitt
+	 * @param in
+	 *            Das Informationsobjekt, das aus der DB gelöscht werden soll
 	 */
 
 	public void delete(Information in) {
@@ -258,110 +400,20 @@ public class InformationMapper {
 			 * erfolgt.
 			 */
 			stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
-			System.out.println("DELETE FROM information " + "WHERE id=" + in.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void edit(Profile profile) {
-		/**
-		 * DB-Verbindung holen & Erzeugen eines neuen SQL-Statements.
-		 */
-		Connection con = DBConnection.connection();
-
-		for (Description d : profile.getDescriptionList()) {
-
-			System.out.println(" .. " + d.getInformationValues().get(0).getValue());
-
-			if (d.getInformationValues().get(0).getValue() != null) {
-
-				try {
-					Statement stmt = con.createStatement();
-					/**
-					 * Statement ausfüllen und als Query an die DB schicken.
-					 * Löschung erfolgt.
-					 */
-					String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
-							+ " AND propertyId=" + d.getId());
-					System.out.println("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
-							+ " AND propertyId=" + d.getId());
-					ResultSet rs = stmt.executeQuery(sqlS);
-
-					if (rs.next() && rs.getString("value") != d.getInformationValues().get(0).getValue()) {
-						System.out.println("UPDATE information " + "SET value=\""
-								+ d.getInformationValues().get(0).getValue() + "\" WHERE id=" + rs.getInt("id"));
-						stmt.executeUpdate("UPDATE information " + "SET value=\""
-								+ d.getInformationValues().get(0).getValue() + "\" WHERE id=" + rs.getInt("id"));
-					} else {
-						this.insert(d.getInformationValues().get(0));
-					}
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (d.getInformationValues().get(0).getValue() == null) {
-				try {
-					Statement stmt = con.createStatement();
-					/**
-					 * Statement ausfüllen und als Query an die DB schicken.
-					 * Löschung erfolgt.
-					 */
-					String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
-							+ " AND propertyId=" + d.getId());
-					ResultSet rs = stmt.executeQuery(sqlS);
-
-					if (rs.next()) {
-						System.out.println("Zeile 293 ausgeführt");
-						Information in = new Information();
-						in.setId(rs.getInt("id"));
-						this.delete(in);
-					} else {
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		for (Selection s : profile.getSelectionList()) {
-
-			try {
-				Statement stmt = con.createStatement();
-				/**
-				 * Statement ausfüllen und als Query an die DB schicken.
-				 * Löschung erfolgt.
-				 */
-				String sqlS = ("DELETE FROM information " + "WHERE profileId=" + profile.getId() + " AND propertyId="
-						+ s.getId());
-				System.out.println("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
-						+ " AND propertyId=" + s.getId());
-				stmt.executeUpdate(sqlS);
-
-				if (!s.getInformationValues().isEmpty()) {
-					for (Information i : s.getInformationValues()) {
-
-						insert(i);
-					}
-				} else {
-					System.out.println("s.getInformationValues ist empty");
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
 	/**
-	 * Delete-Methode für Profile. Ein Profilobjekt profile wird übergeben und
-	 * die zugehörigen Werte in ein SQL-Statement geschrieben, welches
-	 * ausgeführt wird, um alle Informationsobjekte zu entfernen, die mit diesem
-	 * Profil verknüpft sind.
+	 * Delete-Methode zur Profillöschung. Ein Profilobjekt profile soll komplett
+	 * aus der Datenbank gelöscht werden und hiermit auch die entsprechenden
+	 * Referenzen in der information-Tabelle.
 	 * 
+	 * @author Philipp Schmitt
+	 * @param profile
+	 *            Profil, das komplett aus der Datenbank gelöscht wird
 	 */
 
 	public void delete(Profile profile) {
