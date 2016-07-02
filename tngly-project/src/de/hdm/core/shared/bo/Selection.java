@@ -3,42 +3,54 @@ package de.hdm.core.shared.bo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Selection extends Property implements Serializable{
+/**
+ * Subklasse von Property - Definition eines Selection-Objekts, das dem Nutzer
+ * die Möglichkeit bietet, seine Interessen zu bestimmten Eigenschaftsfeldern
+ * durch ausgewählte Eingabe-Möglichkeiten zu bekunden.
+ * 
+ * @author Philipp Schmitt
+ */
+public class Selection extends Property implements Serializable {
+
+	/*
+	 * Attribute
+	 */
 
 	/**
-	 * 
+	 * Deklaration der serialVersionUID zur Serialisierung der Objekte
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// Items
-	private ArrayList<String> items;
-	
-	//InformationValues from Information table
-	private ArrayList<Information> informationValues;
-	
-	/*
-	 * Operations
+	/**
+	 * Liste an Informationsobjekten, die das Profil sich anhand dieser
+	 * Eigenschaft zugeordnet hat
 	 */
-	
-	// Get items
-	public ArrayList<String> getItems()	{
-		return this.items;
-	}
-		
-	// Add item
-	public void addItem(String newItem)	{
-		this.items.add(newItem);
-	}
-		
-	// Delete item
-	public void deleteItem(String oldItem)	{
-		this.items.remove(this.items.indexOf(oldItem));
-	}
+	private ArrayList<Information> informationValues;
 
+	/*
+	 * get-/set-Operations
+	 */
+
+	/**
+	 * Rückgeben der Liste an Informationsobjekten, die das Profil mit dieser
+	 * Eigenschaft verknüpft hat
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste an Informationsobjekten des Profils zu dieser Eigenschaft
+	 */
 	public ArrayList<Information> getInformationValues() {
 		return informationValues;
 	}
 
+	/**
+	 * Setzen der Liste an Informationsobjekten, die das Profil mit dieser
+	 * Eigenschaft verknüpft hat
+	 * 
+	 * @author Philipp Schmitt
+	 * @param informationValues
+	 *            Die zu setzende Liste an Informationsobjekten des Profils zu
+	 *            dieser Eigenschaft
+	 */
 	public void setInformationValues(ArrayList<Information> informationValues) {
 		this.informationValues = informationValues;
 	}

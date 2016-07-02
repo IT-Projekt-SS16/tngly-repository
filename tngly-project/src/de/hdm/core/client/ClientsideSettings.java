@@ -16,7 +16,6 @@ import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
 import de.hdm.core.shared.bo.ProfileVisit;
 import de.hdm.core.shared.bo.SearchProfile;
-import de.hdm.core.shared.bo.User;
 import de.hdm.core.shared.bo.Wish;
 
 public class ClientsideSettings extends CommonSettings {

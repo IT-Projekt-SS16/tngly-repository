@@ -3,78 +3,143 @@ package de.hdm.core.shared.bo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ProfileVisit implements Serializable{
-
-	public ProfileVisit()	{
-		
-	}
-
-	private static final long serialVersionUID = 1L;
+/**
+ * Definition eines Profilbesuchs-Objekts, das das Verhältnis zwischen zwei
+ * Profilen darstellt. Eine Profilbesuch-Objekt wird dann erstellt, wenn sich
+ * das aktuelle Nutzer-Profil ein anderes Profil in der Detailansicht anzeigen
+ * lässt.
+ * 
+ * @author Philipp Schmitt
+ */
+public class ProfileVisit implements Serializable {
 
 	/*
-	 *  Attributes
+	 * Attribute
 	 */
 
+	/**
+	 * Deklaration der serialVersionUID zur Serialisierung der Objekte
+	 */
+	private static final long serialVersionUID = 1L;
 
-	// The ProfileVisit´s ID
+	/**
+	 * Die id des Profilbesuchs - eindeutiger Primärschlüssel für die Datenbank
+	 */
 	private int id;
-	
-	// The visiting profile
+
+	/**
+	 * Die id des besuchenden Profils
+	 */
 	private int visitingProfileId;
-	
-	// The visited profile
+
+	/**
+	 * Die id des besuchten Profils
+	 */
 	private int visitedProfileId;
-	
-	// The visit´s timestamp
+
+	/**
+	 * Timestamp vom Zeitpunkt der Erstellung
+	 */
 	private Date timestamp;
-	
+
 	/*
 	 * Get-/Set-Operations + toString
 	 */
-	
-	
-	// Get ProfileVisits´s id
-	public int getId()	{
+
+	/**
+	 * Rückgeben der Profilbesuchs-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Die eindeutige Id des Profilbesuchs-Objekts
+	 */
+	public int getId() {
 		return this.id;
 	}
-	
-	// Set profile´s ID
-	public void setId(int id)	{
+
+	/**
+	 * Setzen der Profilbesuchs-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @param id
+	 *            Die zu setzende Id des Profilbesuchs-Objekts
+	 */
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	// Get ProfileVisit´s visiting profile id
-	public int getVisitingProfileId()	{
+
+	/**
+	 * Rückgeben der besuchenden Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Die eindeutige Id des besuchenden Profils
+	 */
+	public int getVisitingProfileId() {
 		return this.visitingProfileId;
 	}
-	
-	// Set ProfileVisit´s visiting profile id
-	public void setVisitingProfileId(int visitingProfileId)	{
+
+	/**
+	 * Setzen der besuchenden Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @param visitingProfileId
+	 *            Die zu setzende Id des besuchenden Profils
+	 */
+	public void setVisitingProfileId(int visitingProfileId) {
 		this.visitingProfileId = visitingProfileId;
 	}
-	
-	// Get ProfileVisit´s visited profile id
-	public int getVisitedProfileId()	{
+
+	/**
+	 * Rückgeben der besuchten Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Die eindeutige id des besuchten Profils
+	 */
+	public int getVisitedProfileId() {
 		return this.visitedProfileId;
 	}
-	
-	// Set ProfileVisit´s visited profile id
-	public void setVisitedProfileId(int visitedProfileId)	{
+
+	/**
+	 * Setzen der besuchten Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @param visitedProfileId
+	 *            Die zu setzende Id des besuchten Profils
+	 */
+	public void setVisitedProfileId(int visitedProfileId) {
 		this.visitedProfileId = visitedProfileId;
 	}
-	
-	// Get timestamp
-	public Date getTimestamp()	{
+
+	/**
+	 * Rückgeben des Timestamps von der Erstellung des Profilbesuch-Objekts
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Timestamp zum Zeitpunkt der Objekt-Erstellung
+	 */
+	public Date getTimestamp() {
 		return this.timestamp;
 	}
-	
-	// Set timestamp
-	public void setTimestamp(Date timestamp)	{
+
+	/**
+	 * Setzen des Timestamps von der Erstellung des Profilbesuch-Objekts
+	 * 
+	 * @param timestamp
+	 *            Der zu setzende Timestamp zum Zeitpunkt der Objekt-Erstellung
+	 */
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
+	/**
+	 * Rückgeben des Profilbesuchs-Objekts als String mit ausgewählten
+	 * Variablen-Werten
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Textuelle Beschreibung des Profilbesuchs-Objekts anhand
+	 *         ausgewählter Eigenschaften
+	 */
 	@Override
 	public String toString() {
-	    return super.toString() + " " + this.id + " Das Profil mit der id " + this.visitingProfileId + " besuchte das Profil mit der id " + this.visitedProfileId + " um " + this.timestamp;
-	  }
+		return super.toString() + " " + this.id + " Das Profil mit der id " + this.visitingProfileId
+				+ " besuchte das Profil mit der id " + this.visitedProfileId + " um " + this.timestamp;
+	}
 }

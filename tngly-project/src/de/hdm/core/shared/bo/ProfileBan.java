@@ -3,98 +3,195 @@ package de.hdm.core.shared.bo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ProfileBan implements Serializable{
+/**
+ * Definition eines Kontaktsperre-Objekts, das das Verhältnis zwischen zwei
+ * Profilen darstellt. Eine Kontaktsperre wird vom Nutzer-Profil über ein
+ * anderes Objekt verhängt, wenn es dieses in der Suche nichtmehr angezeigt
+ * bekommen möchte.
+ * 
+ * @author Philipp Schmitt
+ */
 
+public class ProfileBan implements Serializable {
+
+	/*
+	 * Attribute
+	 */
 	/**
-	 * 
+	 * Deklaration der serialVersionUID zur Serialisierung der Objekte
 	 */
 	private static final long serialVersionUID = 1L;
-	//Default-Konstruktor
-	public ProfileBan(){
+
+	/**
+	 * Die id der Kontaktsperre - eindeutiger Primärschlüssel für die Datenbank
+	 */
+	private int id = 0;
+
+	/**
+	 * Die id des sperrenden Profils
+	 */
+	private int banningProfileId;
+
+	/**
+	 * Die id des gesperrten Profils
+	 */
+	private int bannedProfileId;
+
+	/**
+	 * Timestamp vom Zeitpunkt der Erstellung
+	 */
+	private Date timestamp;
+
+	/**
+	 * Das sperrende Profil-Objekt
+	 */
+	private Profile banningProfile;
+
+	/**
+	 * Das gesperrte Profil-Objekt
+	 */
+	private Profile bannedProfile;
+
+	/*
+	 * Get-/Set-Operations + toString
+	 */
+
+	/**
+	 * Rückgeben der Kontaktsperren-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Die eindeutige Id des Kontaktsperren-Objekts
+	 */
+	public int getId() {
+		return this.id;
 	}
 
-	
-	
-	// The Ban´s ID
-			private int id = 0;
-			
-			// The banning profile´s id
-			private int banningProfileId;
-			
-			// The banned profile´s id
-			private int bannedProfileId;
-			
-			// The ban´s timestamp
-			private Date timestamp;
-			
-			private Profile banningProfile;
-			
-			private Profile bannedProfile;
-			
-			/*
-			 * Get-/Set-Operations + toString
-			 */
-			
-			
-			// Get Ban´s id
-			public int getId()	{
-				return this.id;
-			}
-			
-			// Set profile´s ID
-			public void setId(int id)	{
-				this.id = id;
-			}
-			
-			// Get banning profile´s id
-			public int getBanningProfileId()	{
-				return this.banningProfileId;
-			}
-			
-			// Set banning profile´s id
-			public void setBanningProfileId(int banningProfileId)	{
-				this.banningProfileId = banningProfileId;
-			}
-			
-			// Get banned profile´s id
-			public int getBannedProfileId()	{
-				return this.bannedProfileId;
-			}
-			
-			// Set banned profile´s id
-			public void setBannedProfileId(int bannedProfileId)	{
-				this.bannedProfileId = bannedProfileId;
-			}
-			
-			// Get timestamp
-			public Date getTimestamp()	{
-				return this.timestamp;
-			}
-			
-			// Set timestamp
-			public void setTimestamp(Date timestamp)	{
-				this.timestamp = timestamp;
-			}
-			
-			public Profile getBanningProfile()	{
-				return this.banningProfile;
-			}
-			
-			public void setBanningProfile(Profile banningProfile)	{
-				this.banningProfile = banningProfile;
-			}
-			
-			public Profile getBannedProfile()	{
-				return this.bannedProfile;
-			}
-			
-			public void setBannedProfile(Profile bannedProfile)	{
-				this.bannedProfile = bannedProfile;
-			}
-			
-			
-			@Override
-			public String toString() {
-			    return super.toString() + " " + this.id + " Das Profil mit der id " + this.banningProfileId + " bannte das Profile mit der id " + this.bannedProfileId + " um " + this.timestamp;
-			  }
+	/**
+	 * Setzen der Kontaktsperren-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @param id
+	 *            Die zu setzende Id des Kontaktsperren-Objekts
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Rückgeben der sperrenden Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Die eindeutige Id des sperrenden Profils
+	 */
+	public int getBanningProfileId() {
+		return this.banningProfileId;
+	}
+
+	/**
+	 * Setzen der sperrenden Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @param banningProfileId
+	 *            Die zu setzende Id des sperrenden Profils
+	 */
+	public void setBanningProfileId(int banningProfileId) {
+		this.banningProfileId = banningProfileId;
+	}
+
+	/**
+	 * Rückgeben der gesperrten Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Die eindeutige id des gesperrten Profils
+	 */
+	public int getBannedProfileId() {
+		return this.bannedProfileId;
+	}
+
+	/**
+	 * Setzen der gesperrten Profils-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @param bannedProfileId
+	 *            Die zu setzende Id des gesperrten Profils
+	 */
+	public void setBannedProfileId(int bannedProfileId) {
+		this.bannedProfileId = bannedProfileId;
+	}
+
+	/**
+	 * Rückgeben des Timestamps von der Erstellung des Kontaktsperren-Objekts
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Timestamp zum Zeitpunkt der Objekt-Erstellung
+	 */
+	public Date getTimestamp() {
+		return this.timestamp;
+	}
+
+	/**
+	 * Setzen des Timestamps von der Erstellung des Kontaktsperren-Objekts
+	 * 
+	 * @param timestamp
+	 *            Der zu setzende Timestamp zum Zeitpunkt der Objekt-Erstellung
+	 */
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	/**
+	 * Rückgeben des sperrenden Profil-Objekts
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Das sperrende Profil-Objekt
+	 */
+	public Profile getBanningProfile() {
+		return this.banningProfile;
+	}
+
+	/**
+	 * Setzen des sperrenden Profil-Objekts
+	 * 
+	 * @author Philipp Schmitt
+	 * @param banningProfile
+	 *            Das zu setzende, sperrende Profil-Objekt
+	 */
+	public void setBanningProfile(Profile banningProfile) {
+		this.banningProfile = banningProfile;
+	}
+
+	/**
+	 * Rückgeben des gesperrten Profil-Objekts
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Das gesperrte Profil-Objekt
+	 */
+	public Profile getBannedProfile() {
+		return this.bannedProfile;
+	}
+
+	/**
+	 * Setzen des gesperrten Profil-Objekts
+	 * 
+	 * @author Philipp Schmitt
+	 * @param bannedProfile
+	 *            Das zu setzende, gesperrte Profil-Objekt
+	 */
+	public void setBannedProfile(Profile bannedProfile) {
+		this.bannedProfile = bannedProfile;
+	}
+
+	/**
+	 * Rückgeben des Kontaktsperren-Objekts als String mit ausgewählten
+	 * Variablen-Werten
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Textuelle Beschreibung des Kontaktsperren-Objekts anhand
+	 *         ausgewählter Eigenschaften
+	 */
+	@Override
+	public String toString() {
+		return super.toString() + " " + this.id + " Das Profil mit der id " + this.banningProfileId
+				+ " bannte das Profile mit der id " + this.bannedProfileId + " um " + this.timestamp;
+	}
 }

@@ -4,17 +4,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.view.client.ProvidesKey;
 
+/**
+ * Definition eines Profil-Objekts, das den Nutzer und die von ihm eingegebenen
+ * Eigenschaften und Merkmale darstellt. Das Profil ist weiterhin zur korrekten
+ * Navigation in der Applikation unabdinglich und fungiert über den Usernamen
+ * gleichzeitig als User.
+ * 
+ * @author Philipp Schmitt
+ */
 public class Profile implements Serializable, Comparable<Profile> {
 
 	/*
-	 * Attributes
+	 * Attribute
 	 */
 
 	/**
-	 * 
+	 * Deklaration der serialVersionUID zur Serialisierung der Objekte
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -22,56 +29,115 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	private int similiarityToReference;
 
-	// The profile´s ID
+	/**
+	 * Die id des Profils - eindeutiger Primärschlüssel für die Datenbank
+	 */
 	private int id;
 
-	// The profile´s username
+	/**
+	 * Der Username des Profil-Nutzers, der gleichzeitig als Login über die
+	 * Google-Mailadresse fungiert
+	 */
 	private String userName;
 
-	// The real (pre)name of the person
+	/**
+	 * Der reale Vorname des Profil-Nutzers
+	 */
 	private String name;
 
-	// The real last name of the person
+	/**
+	 * Der reale Nachname des Profil-Nutzers
+	 */
 	private String lastName;
 
-	// The persons date of birth
+	/**
+	 * Der Geburtstag des Profil-Nutzers
+	 */
 	private Date dateOfBirth;
 
-	// The person´s gender
+	/**
+	 * Das Geschlecht des Profil-Nutzers
+	 */
 	private String gender;
 
-	// The body height of the person
+	/**
+	 * Die Körpergröße des Profil-Nutzers in Meter im Format #.##
+	 */
 	private float bodyHeight;
 
-	// The person´s hair colour
+	/**
+	 * Die Haarfarbe des Profil-Nutzers
+	 */
 	private String hairColour;
 
-	// The person´s religious confession (e.g. catholic, muslim..)
+	/**
+	 * Die Konfession des Profil-Nutzers
+	 */
 	private String confession;
 
-	// Is the person smoking? (e.g. yes, no)
+	/**
+	 * Die Information, ob der Nutzer des Profils raucht oder nicht - zur
+	 * Übertragung auf die Datenbank direkt als int formatiert 0 = raucht nicht
+	 * 1 = raucht
+	 */
 	private int isSmoking;
 
-	// The person´s movie
-	private String movie;
-
-	private String band;
-
+	/**
+	 * Die Information, ob das Profil vom aktuellen Nutzer bereits besucht wurde
+	 * (ein Eintrag in der profileVisits-Tabelle der Datenbank besteht)
+	 */
 	private Boolean wasVisited;
 
+	/**
+	 * Eine Liste an Wishes (Profilwünschen), die vom Profil-Nutzer bisher
+	 * erstellt wurden
+	 */
 	private ArrayList<Wish> wishlist;
 
+	/**
+	 * Eine Liste an profileBans (Kontaktsperren), die bisher vom Profil-Nutzer
+	 * verhängt worden sind
+	 */
 	private ArrayList<ProfileBan> banlist;
 
+	/**
+	 * Eine Liste an allen frei beschreibenden Eigenschaften, die aktuell in der
+	 * Datenbank hinterlegt sind. Hinter diesen Eigenschaftsobjekten befinden
+	 * sich wiederum die Informationsobjekte, die dem Profil zugeordnet sind und
+	 * die Interessen des Profil-Nutzers weiter beschreiben.
+	 */
 	private ArrayList<Description> descriptionList;
+
+	/**
+	 * Eine Liste an allen auszuwählenden Eigenschaften, die aktuell in der
+	 * Datenbank hinterlegt sind. Hinter diesen Eigenschaftsobjekten befinden
+	 * sich wiederum die Informationsobjekte, die dem Profil zugeordnet sind und
+	 * die Interessen des Profil-Nutzers weiter beschreiben.
+	 */
 	private ArrayList<Selection> selectionList;
 
+	/**
+	 * Die Information, ob das Profil vom aktuellen Nutzer gewünscht wird (ein
+	 * Eintrag in der wish-Tabelle der Datenbank besteht)
+	 */
 	private boolean isFavorite;
 
+	/**
+	 * Die Information, ob das Profil vom aktuellen Nutzer gebannt ist (ein
+	 * Eintrag in der profileBans-Tabelle der Datenbank besteht)
+	 */
 	private boolean isBanned;
-	
+
+	/**
+	 * Die Information, ob das Profil in der aktuellen Session durch einen Login
+	 * mit einer bisher nicht bekannten Googlemail erstellt wurde.
+	 */
 	private boolean createdOnLogin;
 
+	/**
+	 * Standard-Konstruktor der Klasse, bei dem alle Listen und boole'schen
+	 * Werte initialisiert werden.
+	 */
 	public Profile() {
 		this.setWishlist(new ArrayList<Wish>());
 		this.setBanlist(new ArrayList<ProfileBan>());
@@ -79,180 +145,441 @@ public class Profile implements Serializable, Comparable<Profile> {
 		this.setSelectionList(new ArrayList<Selection>());
 		this.setWasVisited(false);
 		this.setIsFavorite(false);
+		this.setIsBanned(false);
 	}
 
 	/*
 	 * Get-/Set-Operations + toString
 	 */
 
+	/**
+	 * Rückgeben der Wunschliste (Einträgen in der wish-Tabelle)
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste mit Wunsch-Objekten
+	 */
 	public ArrayList<Wish> getWishlist() {
 		return wishlist;
 	}
 
+	/**
+	 * Setzen der Wunschliste (Einträgen in der wish-Tabelle)
+	 * 
+	 * @author Philipp Schmitt
+	 * @param wishlist
+	 *            Die zu setzende Liste mit Einträgen der wish-Tabelle
+	 */
 	public void setWishlist(ArrayList<Wish> wishlist) {
 		this.wishlist = wishlist;
 	}
 
+	/**
+	 * Rückgeben der Sperrliste (Einträgen in der profileBans-Tabelle)
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste mit Kontaktsperre-Objekten
+	 */
 	public ArrayList<ProfileBan> getBanlist() {
 		return banlist;
 	}
 
+	/**
+	 * Setzen der Sperrliste (Einträgen in der profilebans-Tabelle)
+	 * 
+	 * @author Philipp Schmitt
+	 * @param banlist
+	 *            Die zu setzende Liste mit Einträgen der profileBans-Tabelle
+	 */
 	public void setBanlist(ArrayList<ProfileBan> banlist) {
 		this.banlist = banlist;
 	}
 
+	/**
+	 * Rückgeben der beschreibenden Eigenschaftsliste
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste mit beschreibenden Eigenschaftsobjekten (
+	 *         <code>Description</code>)
+	 */
 	public ArrayList<Description> getDescriptionList() {
 		return descriptionList;
 	}
 
+	/**
+	 * Setzen der beschreibenden Eigenschaftsliste
+	 * 
+	 * @author Philipp Schmitt
+	 * @param descriptionList
+	 *            Die zu setzende Liste mit beschreibenden Eigenschaftsobjekten
+	 *            (<code>Description</code>)
+	 */
 	public void setDescriptionList(ArrayList<Description> descriptionList) {
 		this.descriptionList = descriptionList;
 	}
 
+	/**
+	 * Rückgeben der auszuwählenden Eigenschaftsliste
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste mit Auswahl-Eigenschaftsobjekten (<code>Selection</code>)
+	 */
 	public ArrayList<Selection> getSelectionList() {
 		return selectionList;
 	}
 
+	/**
+	 * Setzen der auszuwählenden Eigenschaftsliste
+	 * 
+	 * @author Philipp Schmitt
+	 * @param selectionList
+	 *            Die zu setzende Liste mit AuswahlEigenschaftsobjekten (
+	 *            <code>Selection</code>)
+	 */
 	public void setSelectionList(ArrayList<Selection> selectionList) {
 		this.selectionList = selectionList;
 	}
 
-	// Get profile´s ID
+	/**
+	 * Rückgeben der Profil-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @return id des Profils
+	 */
 	public int getId() {
 		return this.id;
 	}
 
-	// Set profile´s ID
+	/**
+	 * Setzen der Profil-Id
+	 * 
+	 * @author Philipp Schmitt
+	 * @param id
+	 *            Die zu setzende Id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	// Get profile´s user name
+	/**
+	 * Rückgeben des Profil-Usernamens
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Username des Profils
+	 */
 	public String getUserName() {
 		return this.userName;
 	}
 
-	// Set profile´s user name
+	/**
+	 * Setzen des Profil-Usernamens
+	 * 
+	 * @author Philipp Schmitt
+	 * @param userName
+	 *            Der zu setzende Username des Profilnutzers
+	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	// Get person´s real (pre)name
+	/**
+	 * Rückgeben des Profil-Vornamens
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Vorname des Profil-Nutzers
+	 */
 	public String getName() {
 		return this.name;
 	}
 
-	// Set person´s real (pre)name
+	/**
+	 * Setzen des Profil-Vornamens
+	 * 
+	 * @author Philipp Schmitt
+	 * @param name
+	 *            Der zu setzende Vorname des Profilnutzers
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	// Get person´s real last name
+	/**
+	 * Rückgeben des Profil-Nachnamens
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Nachname des Profil-Nutzers
+	 */
 	public String getLastName() {
 		return this.lastName;
 	}
 
-	// Set person´s real last name
+	/**
+	 * Setzen des Profil-Nachnamens
+	 * 
+	 * @author Philipp Schmitt
+	 * @param lastName
+	 *            Der zu setzende Nachname des Profil-Nutzers
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	// Get person´s date of birth
+	/**
+	 * Rückgeben des Profil-Geburtstages
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Geburtstag des Profil-Nutzers
+	 */
 	public Date getDateOfBirth() {
 		return this.dateOfBirth;
 	}
 
-	// Set person´s date of birth
+	/**
+	 * Setzen des Profil-Geburtstages
+	 * 
+	 * @author Philipp Schmitt
+	 * @param dateOfBirth
+	 *            Der zu setzende Geburtstag des Profil-Nutzers
+	 */
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	// Get person´s gender
+	/**
+	 * Rückgeben des Profil-Geschlechts
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Geschlecht des Profil-Nutzers
+	 */
 	public String getGender() {
 		return this.gender;
 	}
 
-	// Set person´s gender
+	/**
+	 * Setzen des Profil-Geschlechts
+	 * 
+	 * @author Philipp Schmitt
+	 * @param gender
+	 *            Das zu setzende Geschlecht des Profil-Nutzers
+	 */
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-	// Get person´s body height
+	/**
+	 * Rückgeben der Profil-Körpergröße
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Körpergröße des Profil-Nutzers
+	 */
 	public float getBodyHeight() {
 		return this.bodyHeight;
 	}
 
-	// Set person´s body height
+	/**
+	 * Setzen der Profil-Körpergröße
+	 * 
+	 * @author Philipp Schmitt
+	 * @param bodyHeight
+	 *            Die zu setzende Körpergröße des Profil-Nutzers
+	 */
 	public void setBodyHeight(float bodyHeight) {
 		this.bodyHeight = bodyHeight;
 	}
 
-	// Get person´s hair colour
+	/**
+	 * Rückgeben der Profil-Haarfarbe
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Haarfarbe des Profil-Nutzers
+	 */
 	public String getHairColour() {
 		return this.hairColour;
 	}
 
-	// Set person´s hair colour
+	/**
+	 * Setzen der Profil-Haarfarbe
+	 * 
+	 * @author Philipp Schmitt
+	 * @param hairColour
+	 *            Die zu setzende Haarfarbe des Profil-Nutzers
+	 */
 	public void setHairColour(String hairColour) {
 		this.hairColour = hairColour;
 	}
 
-	// Get person´s confession
+	/**
+	 * Rückgeben der Profil-Konfession
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Konfession des Profil-Nutzers
+	 */
 	public String getConfession() {
 		return this.confession;
 	}
 
-	// Set person´s confession
+	/**
+	 * Setzen der Profil-Konfession
+	 * 
+	 * @author Philipp Schmitt
+	 * @param confession
+	 *            Die zu setzende Konfession des Profil-Nutzers
+	 */
 	public void setConfession(String confession) {
 		this.confession = confession;
 	}
 
-	// Get person´s smoking status - Is the person smoking?
+	/**
+	 * Rückgeben des Raucher-Status
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Raucher-Status des Profil-Nutzers
+	 */
 	public int getIsSmoking() {
 		return this.isSmoking;
 	}
 
-	// Set person´s smoking status - Is the person smoking?
+	/**
+	 * Setzen des Raucher-Status
+	 * 
+	 * @author Philipp Schmitt
+	 * @param isSmoking
+	 *            Der zu setzende Raucher-Status des Profil-Nutzers
+	 */
 	public void setIsSmoking(int isSmoking) {
 		this.isSmoking = isSmoking;
 	}
 
-	// Set person´s real (pre)name
-	public void setMovie(String m) {
-		this.movie = m;
-	}
-
-	public void setBand(String b) {
-		this.band = b;
-	}
-
-	// Get person´s movie
-	public String getMovie() {
-		return this.movie;
-	}
-
-	public String getBand() {
-		return this.band;
-	}
-	// Return textual description of selected instance adding the real name and
-	// user name
-
+	/**
+	 * Rückgeben des Ähnlichkeitswerts
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Ähnlichkeitswert zum aktuell eingeloggten Nutzer-Profil
+	 */
 	public int getSimiliarityToReference() {
 		return similiarityToReference;
 	}
 
+	/**
+	 * Setzen des Ähnlichkeitswerts
+	 * 
+	 * @author Philipp Schmitt
+	 * @param similiarityToReference
+	 *            Der zu setzende Ähnlichkeitswert zum aktuell eingeloggten
+	 *            Nutzer-Profil
+	 */
 	public void setSimiliarityToReference(int similiarityToReference) {
 		this.similiarityToReference = similiarityToReference;
 	}
 
+	/**
+	 * Rückgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
+	 * besucht wurde (ein Eintrag in der profileVisits-Tabelle besteht)
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Information, ob das Profil schon vom aktuellen Nutzer-Profil
+	 *         besucht wurde
+	 */
 	public Boolean getWasVisited() {
 		return wasVisited;
 	}
 
+	/**
+	 * Setzen der Information, ob das Profil vom aktuellen Nutzer-Profil besucht
+	 * wurde ( ein Eintrag in der profileVisits-Tabelle besteht)
+	 * 
+	 * @author Philipp Schmitt
+	 * @param wasVisited
+	 *            Die zu setzende Information, ob das Profil schon vom aktuellen
+	 *            Nutzer-Profil besucht wurde
+	 */
 	public void setWasVisited(Boolean wasVisited) {
 		this.wasVisited = wasVisited;
 	}
 
+	/**
+	 * Setzen der Information, ob das Profil vom aktuellen Nutzer-Profil
+	 * gewünscht ist ( ein Eintrag in der wishes-Tabelle besteht )
+	 * 
+	 * @author Philipp Schmitt
+	 * @param profileWished
+	 *            Die zu setzende Information, ob das Profil vom aktuellen
+	 *            Nutzer-Profil gewünscht ist
+	 */
+	public void setIsFavorite(boolean profileWished) {
+		this.isFavorite = profileWished;
+	}
+
+	/**
+	 * Rückgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
+	 * gewünscht ist (ein Eintrag in der wishes-Tabelle besteht)
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Information, ob das Profil schon vom aktuellen Nutzer-Profil
+	 *         gewünscht ist
+	 */
+	public Boolean getIsFavorite() {
+		return isFavorite;
+	}
+
+	/**
+	 * Setzen der Information, ob das Profil vom aktuellen Nutzer-Profil gebannt
+	 * ist ( ein Eintrag in der profileBan-Tabelle besteht )
+	 * 
+	 * @author Philipp Schmitt
+	 * @param profileBanned
+	 *            Die zu setzende Information, ob das Profil vom aktuellen
+	 *            Nutzer-Profil gewünscht ist
+	 */
+	public void setIsBanned(boolean profileBanned) {
+		this.isBanned = profileBanned;
+	}
+
+	/**
+	 * Rückgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
+	 * gebannt ist (ein Eintrag in der profileBan-Tabelle besteht)
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Information, ob das Profil schon vom aktuellen Nutzer-Profil
+	 *         gebannt ist
+	 */
+	public Boolean getIsBanned() {
+		return isBanned;
+	}
+
+	/**
+	 * Setzen der Information, ob das Profil in der aktuellen Session durch
+	 * einen Login erstellt wurde
+	 * 
+	 * @author Philipp Schmitt
+	 * @param profileBanned
+	 *            Die zu setzende Information, ob das Profil in der aktuellen
+	 *            Session durch den Login erstellt wurde
+	 */
+	public void setCreatedOnLogin(boolean createdOnLogin) {
+		this.createdOnLogin = createdOnLogin;
+	}
+
+	/**
+	 * Rückgeben der Information, ob das Profil in der aktuellen Session durch
+	 * einen Login erstellt wurde
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Information, ob das Profil in der aktuellen Session durch einen
+	 *         Login erstellt wurde
+	 */
+	public Boolean getCreatedOnLogin() {
+		return createdOnLogin;
+	}
+
+	/**
+	 * Vergleich eines Profils mit einem anderen, um einen in Prozent
+	 * ausgedrückten Ähnlichkeitswert anhand ausgewählter eingetragener
+	 * Eigenschaften zu ermitteln
+	 * 
+	 * @author Philipp Schmitt
+	 * @param p
+	 *            Das mit diesem Profil zu vergleichende Profil
+	 */
 	public void equals(Profile p) {
 		int percentage = 0;
 		int addedPercentage = 100 / 9;
@@ -260,25 +587,11 @@ public class Profile implements Serializable, Comparable<Profile> {
 			return;
 		}
 
-		System.out.println("Aktuelles Profil: " + this.getName() + ", " + this.getLastName());
-		System.out.println("Referenzprofil: " + p.getName() + ", " + p.getLastName());
-
-		System.out.println("Confession aktuelles Profil: " + this.getConfession());
-		System.out.println("Confession-Referenzprofil: " + p.getConfession());
-
-		System.out.println("Smoking aktuelles Profil: " + this.getIsSmoking());
-		System.out.println("Smoking-Referenzprofil: " + p.getIsSmoking());
-
-		// Custom equality check here, so here you need to check only those
-		// fields which in your
-		// opinion will be unique in your objects
 		if (this.getConfession() == p.getConfession()) {
 			percentage = percentage + addedPercentage;
-			System.out.println("Confession verglichen -> identisch: " + percentage + "%");
 		}
 		if (this.getIsSmoking() == p.getIsSmoking()) {
 			percentage = percentage + addedPercentage;
-			System.out.println("Smoking verglichen -> identisch: " + percentage + "%");
 		}
 
 		ArrayList<String> informationValuesCompare = new ArrayList<String>();
@@ -296,7 +609,6 @@ public class Profile implements Serializable, Comparable<Profile> {
 		for (String s : informationValuesCompare) {
 			if (informationValuesReference.contains(s)) {
 				percentage = percentage + addedPercentage;
-				System.out.println("Info-Objekt verglichen -> identisch: " + percentage + "%");
 			}
 		}
 
@@ -317,14 +629,18 @@ public class Profile implements Serializable, Comparable<Profile> {
 		for (String s : informationValuesCompare) {
 			if (informationValuesReference.contains(s)) {
 				percentage = percentage + addedPercentage;
-				System.out.println("Info-Objekt verglichen -> identisch: " + percentage + "%");
 			}
 		}
 
 		this.similiarityToReference = percentage;
-		System.out.println("�hnlichkeitswert: " + this.similiarityToReference);
 	}
 
+	/**
+	 * Rückgeben des Profil-Objekts als String mit ausgewählten Variablen-Werten
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Textuelle Beschreibung des Profil-Objekts anhand ausgewählter Eigenschaften
+	 */
 	@Override
 	public String toString() {
 		Date dateBirth = this.dateOfBirth;
@@ -333,36 +649,17 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 		return this.userName + "\n" + this.name + " " + this.lastName + ", " + this.gender + ", " + age + " ("
 				+ this.similiarityToReference + "%)";
-		// return super.toString() + " " + this.name + " " + this.lastName + "
-		// aka " + this.userName;
 	}
 
+	/**
+	 * Abgleichen der Ähnlichkeitswerte zweier Profile
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Negative Zahl für <, 0 für =, positive Zahl für >
+	 */
 	@Override
 	public int compareTo(Profile p1) {
 		return Integer.compare(this.similiarityToReference, p1.similiarityToReference);
 	}
 
-	public void setIsFavorite(boolean profileWished) {
-		this.isFavorite = profileWished;
-	}
-
-	public Boolean getIsFavorite() {
-		return isFavorite;
-	}
-
-	public void setIsBanned(boolean profileBanned) {
-		this.isBanned = profileBanned;
-	}
-
-	public Boolean getIsBanned() {
-		return isBanned;
-	}
-	
-	public void setCreatedOnLogin(boolean createdOnLogin)	{
-		this.createdOnLogin = createdOnLogin;
-	}
-	
-	public Boolean getCreatedOnLogin()	{
-		return createdOnLogin;
-	}
 }

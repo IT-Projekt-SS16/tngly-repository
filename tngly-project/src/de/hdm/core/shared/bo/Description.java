@@ -3,30 +3,55 @@ package de.hdm.core.shared.bo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Description extends Property implements Serializable{
+/**
+ * Subklasse von Property - Definition eines Description-Objekts, das dem Nutzer
+ * die Möglichkeit bietet, seine Interessen zu bestimmten Eigenschaftsfeldern
+ * durch freie Eingabe zu bekunden.
+ * 
+ * @author Philipp Schmitt
+ */
 
+public class Description extends Property implements Serializable {
+
+	/*
+	 * Attribute
+	 */
+	
 	/**
-	 * 
+	 * Deklaration der serialVersionUID zur Serialisierung der Objekte
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private String description;
 
-	//InformationValues from Information table
-		private ArrayList<Information> informationValues;
-	
-	public String getDescription() {
-		return description;
-	}
+	/**
+	 * Liste an Informationsobjekten, die das Profil mit dieser Eigenschaft
+	 * verknüpft hat
+	 */
+	private ArrayList<Information> informationValues;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
+	/*
+	 * get-/set-Operations
+	 */
+
+	/**
+	 * Rückgeben der Liste an Informationsobjekten, die das Profil mit dieser
+	 * Eigenschaft verknüpft hat
+	 * 
+	 * @author Philipp Schmitt
+	 * @return Liste an Informationsobjekten des Profils zu dieser Eigenschaft
+	 */
 	public ArrayList<Information> getInformationValues() {
 		return informationValues;
 	}
 
+	/**
+	 * Setzen der Liste an Informationsobjekten, die das Profil mit dieser
+	 * Eigenschaft verknüpft hat
+	 * 
+	 * @author Philipp Schmitt
+	 * @param informationValues
+	 *            Die zu setzende Liste an Informationsobjekten des Profils zu
+	 *            dieser Eigenschaft
+	 */
 	public void setInformationValues(ArrayList<Information> informationValues) {
 		this.informationValues = informationValues;
 	}
