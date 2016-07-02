@@ -96,7 +96,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		
 //		title.setStylePrimaryName("tngly-header");
 		
-		signOutButton.setStylePrimaryName("tngly-menubutton");
+		signOutButton.setStylePrimaryName("tngly-menubutton-signout");
 		imprintButton.setStylePrimaryName("tngly-submenubutton");
 		editorButton.setStylePrimaryName("tngly-submenubutton");
 
