@@ -52,10 +52,10 @@ public class HTMLProfilesReport {
 	 * Abfrageergebnis der beiden Abfragen) in HTML zurueck.
 	 * 
 	 * @param searchResult
-	 *            gefundene und verglichene Profile (sortiert nach Ähnlichkeit)
+	 *            gefundene und verglichene Profile (sortiert nach ï¿½hnlichkeit)
 	 * @param searchProfile
 	 *            eingegebene Kritierien zur Suche nach Profilen (Geschlecht,
-	 *            Alter, Körpergröße, Haarfarbe, Raucher, Konfession)
+	 *            Alter, Kï¿½rpergrï¿½ï¿½e, Haarfarbe, Raucher, Konfession)
 	 * @return
 	 */
 	public static HTML generateAllProfilesReport(ArrayList<Profile> searchResult, SearchProfile searchProfile) {
@@ -64,7 +64,7 @@ public class HTMLProfilesReport {
 		report += "<div>";
 
 		/*
-		 * Korrekte Formatierung des Datums mit Uhrzeit für die Darstellung im Bericht 
+		 * Korrekte Formatierung des Datums mit Uhrzeit fï¿½r die Darstellung im Bericht 
 		 */
 		Date today = new Date();
 		DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm:ss");
@@ -80,30 +80,21 @@ public class HTMLProfilesReport {
 		}
 
 		/*
-		 * Einfügen des Datums in den Bericht
+		 * Einfï¿½gen des Datums in den Bericht
 		 */
 		report += "<br>";
 		report += "Generated at " + fmt.format(today) + "<br>";
 		report += "<br>";
-		report += "<br>";
 		/*
-		 * Einfügen des Suchprofils in den Bericht
+		 * Einfï¿½gen des Suchprofils in den Bericht
 		 */
-		report += "Gender: " + searchProfile.getGender() + "<br>";
-		report += "<br>";
-		report += "Age Range: " + searchProfile.getAgeRangeFrom() + " - " + searchProfile.getAgeRangeTo() + "<br>";
-		report += "<br>";
-		report += "Body Height: " + searchProfile.getBodyHeightFrom() + "m" + " - " + searchProfile.getBodyHeightTo()
-				+ "m" + "<br>";
-		report += "<br>";
-		report += "Haircolour: " + searchProfile.getHairColour() + "<br>";
-		report += "<br>";
-		report += "Smoker: " + smokerSearchProfile + "<br>";
-		report += "<br>";
-		report += "Confession: " + searchProfile.getConfession() + "<br>";
+		report += "Search Profile ||   Gender: " + searchProfile.getGender() + "  |  Age Range: " + searchProfile.getAgeRangeFrom() + " - " + searchProfile.getAgeRangeTo() + "  |  BodyHeight: " + searchProfile.getBodyHeightFrom() + "m - " + searchProfile.getBodyHeightTo() + "m";
+		report += "  |  Haircolour: " + searchProfile.getHairColour() + "  |  Smoker: " + smokerSearchProfile + "  |  Confession: " + searchProfile.getConfession();
+
+		// report += "Confession: " + searchProfile.getConfession() + "<br>";
 		report += "<br>";
 		/*
-		 * Einfügen der Überschriften der Tabelle in den Bericht
+		 * Einfï¿½gen der ï¿½berschriften der Tabelle in den Bericht
 		 */
 		report += "<div style=\"overflow-x:auto;\">";
 		report += "<table id=\"reporttable\">" + "<tr>" + "<th id=\"profile\">Username</th>"
@@ -117,7 +108,7 @@ public class HTMLProfilesReport {
 				+ "<th id=\"profile\">Favorite Era</th>" + "<th id=\"profile\">Similiarity</th>" + "</tr>";
 
 		/*
-		 * Auslesen & Formatieren der Profileigenschaften für eine korrekte Anzeige in der HTML-Tabelle
+		 * Auslesen & Formatieren der Profileigenschaften fï¿½r eine korrekte Anzeige in der HTML-Tabelle
 		 */
 		for (Profile p : searchResult) {
 			Date dateBirth = p.getDateOfBirth();
@@ -175,7 +166,7 @@ public class HTMLProfilesReport {
 			float bhFormatted = (float) (Math.round(p.getBodyHeight() * 100) / 100.0);
 
 			/*
-			 * Einfügen der Eigenschaften eines Profils (ein Profil = eine Zeile) in die HTML-Tabelle
+			 * Einfï¿½gen der Eigenschaften eines Profils (ein Profil = eine Zeile) in die HTML-Tabelle
 			 */
 			report += "<tr id=\"spalten\">" + "<td id=\"zelle\">" + p.getUserName() + "</td>" + "<td id=\"zelle\">"
 					+ p.getName() + "</td>" + "<td id=\"zelle\">" + p.getLastName() + "</td>" + "<td id=\"zelle\">"

@@ -29,30 +29,30 @@ import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 
 /**
- * Diese View Klasse für den Editor Client stellt das persönliche Profil des
- * aktuell eingeloggten Benutzers zur weiteren Bearbeitung zur Verfügung. Der
- * Benutzer hat die Wahl, seine Profilwerte und -eigenschaften zu ändern oder
- * das komplette Profil zu löschen.
+ * Diese View Klasse fï¿½r den Editor Client stellt das persï¿½nliche Profil des
+ * aktuell eingeloggten Benutzers zur weiteren Bearbeitung zur Verfï¿½gung. Der
+ * Benutzer hat die Wahl, seine Profilwerte und -eigenschaften zu ï¿½ndern oder
+ * das komplette Profil zu lï¿½schen.
  * 
  * @author Kevin Jaeger, Philipp Schmitt
  */
 public class EditProfileView extends Update {
 
 	/**
-	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Die AdministrationService ermï¿½glicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * Die Instanz des aktuellen Benutzers ermï¿½glicht den schnellen Zugriff auf
 	 * dessen Profileigenschaften.
 	 */
 	private Profile currentUserProfile = null;
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen,
+	 * Eingabemï¿½glichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen,
 	 * DatePicker sowie Widgets zur Gestaltung der View, wie: VerticalPanel,
 	 * HorizontalPanel, Trennlinien Und Widgets zur Ablaufsteuerung, wie:
 	 * Buttons
@@ -130,7 +130,7 @@ public class EditProfileView extends Update {
 	private final Button deleteProfileButton = new Button("Delete Profile");
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende ï¿½berschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -160,7 +160,7 @@ public class EditProfileView extends Update {
 				getCurrentUserProfileCallback());
 
 		/*
-		 * Formatierung der Panels für die Ansicht.
+		 * Formatierung der Panels fï¿½r die Ansicht.
 		 */
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
@@ -175,7 +175,7 @@ public class EditProfileView extends Update {
 		tbun.setStylePrimaryName("tngly-disabledTextbox");
 
 		/*
-		 * Befüllen der Listboxen mit Werten
+		 * Befï¿½llen der Listboxen mit Werten
 		 */
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -213,7 +213,7 @@ public class EditProfileView extends Update {
 		datePicker.setYearAndMonthDropdownVisible(true);
 
 		/*
-		 * Sperren der Eingabemöglichkeit im DatePicker bei zukünftigen Daten
+		 * Sperren der Eingabemï¿½glichkeit im DatePicker bei zukï¿½nftigen Daten
 		 */
 		datePicker.addShowRangeHandlerAndFire(new ShowRangeHandler<java.util.Date>() {
 			@Override
@@ -238,7 +238,7 @@ public class EditProfileView extends Update {
 		tbun.setWidth("100%");
 
 		/*
-		 * Aufbau und Befüllung der FlexTables mit Werten und Widgets
+		 * Aufbau und Befï¿½llung der FlexTables mit Werten und Widgets
 		 */
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
@@ -365,14 +365,14 @@ public class EditProfileView extends Update {
 			public void onClick(ClickEvent event) {
 
 				/*
-				 * Rücksetzung der Labels für die Meldungen zu Eingabefehlern.
+				 * Rï¿½cksetzung der Labels fï¿½r die Meldungen zu Eingabefehlern.
 				 */
 				t.setWidget(2, 2, null);
 				t.setWidget(3, 2, null);
 				t.setWidget(6, 2, null);
 
 				/*
-				 * Überprüfung der Textboxen (Namen, Körpergröße) auf logische
+				 * ï¿½berprï¿½fung der Textboxen (Namen, Kï¿½rpergrï¿½ï¿½e) auf logische
 				 * Falscheingaben bzw. formale Inkorrektheiten (bspw. Zahl in
 				 * Textfeld).
 				 */
@@ -391,7 +391,7 @@ public class EditProfileView extends Update {
 
 				/*
 				 * Speichern der eingegebenen Werte blockieren, um
-				 * Mehrfach-Klicks und daraus entstehende, unnötige Einträge in
+				 * Mehrfach-Klicks und daraus entstehende, unnï¿½tige Eintrï¿½ge in
 				 * der Datenbank zu verhindern.
 				 */
 				saveProfilButton.setEnabled(false);
@@ -430,7 +430,7 @@ public class EditProfileView extends Update {
 				currentUserProfile.getSelectionList().get(0).getInformationValues().clear();
 
 				/*
-				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * Auslesen der Werte der Checkboxen fï¿½r die Profileigenschaft
 				 * "MyHobbies" und Schreiben dieser Werte in den aktuellen
 				 * Benutzer
 				 */
@@ -444,7 +444,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Auslesen der Werte der Textbox für die Profileigenschaft
+				 * Auslesen der Werte der Textbox fï¿½r die Profileigenschaft
 				 * "How I describe myself" und Schreiben dieser Werte in den
 				 * aktuellen Benutzer
 				 */
@@ -472,7 +472,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Auslesen der Werte der Textbox für die Profileigenschaft
+				 * Auslesen der Werte der Textbox fï¿½r die Profileigenschaft
 				 * "Favorite Band" und Schreiben dieser Werte in den aktuellen
 				 * Benutzer
 				 */
@@ -500,7 +500,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Auslesen der Werte der Textbox für die Profileigenschaft
+				 * Auslesen der Werte der Textbox fï¿½r die Profileigenschaft
 				 * "How I describe myself" und Schreiben dieser Werte in den
 				 * aktuellen Benutzer
 				 */
@@ -528,7 +528,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * Auslesen der Werte der Checkboxen fï¿½r die Profileigenschaft
 				 * "My Strong Points" und Schreiben dieser Werte in den
 				 * aktuellen Benutzer
 				 */
@@ -543,7 +543,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * Auslesen der Werte der Checkboxen fï¿½r die Profileigenschaft
 				 * "I associate myself with this subculture" und Schreiben
 				 * dieser Werte in den aktuellen Benutzer
 				 */
@@ -558,7 +558,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Auslesen der Werte der Checkboxen für die Profileigenschaft
+				 * Auslesen der Werte der Checkboxen fï¿½r die Profileigenschaft
 				 * "Favorite Era" und Schreiben dieser Werte in den aktuellen
 				 * Benutzer
 				 */
@@ -575,7 +575,7 @@ public class EditProfileView extends Update {
 			}
 
 			/**
-			 * Gibt alle selektierten Zeilen der übergebenen FlexTable zurück.
+			 * Gibt alle selektierten Zeilen der ï¿½bergebenen FlexTable zurï¿½ck.
 			 * 
 			 * @author Kevin Jaeger
 			 * @return Liste mit den Nummern der selektierten Zeilen der
@@ -608,7 +608,7 @@ public class EditProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * AsyncCallback fï¿½r das Auslesen vom Profil des aktuellen Benutzers aus der
 	 * Datenbank.
 	 * 
 	 * @return Profil des aktuellen Benutzers
@@ -631,8 +631,16 @@ public class EditProfileView extends Update {
 				 * Zuweisung von Profilwerten an die jeweiligen Widgets.
 				 */
 				tbun.setText(result.getUserName());
+		
+				if (result.getName() != "null")	{
 				tbfn.setText(result.getName());
+				}
+				else	{tbfn.setText("");}
+				
+				if (result.getLastName() != "null")	{
 				tbn.setText(result.getLastName());
+				}
+				else	{tbn.setText("");}
 
 				int index = 0;
 				switch (result.getGender()) {
@@ -652,7 +660,12 @@ public class EditProfileView extends Update {
 
 				float bh = result.getBodyHeight();
 				float bhFormatted = (float) (Math.round(bh * 100) / 100.0);
+
+				if (Float.toString(bhFormatted) != "0")	{
+
 				tbbh.setText(Float.toString(bhFormatted));
+				}
+				else { tbbh.setText("");}
 
 				switch (result.getHairColour()) {
 				case "Black":
@@ -709,7 +722,7 @@ public class EditProfileView extends Update {
 				confessionBox.setItemSelected(index, true);
 
 				/*
-				 * Markierung der Checkboxen für die Profileigenschaft
+				 * Markierung der Checkboxen fï¿½r die Profileigenschaft
 				 * "My Hobbies"
 				 */
 				for (int x = 0; x < t2.getRowCount(); x++) {
@@ -745,7 +758,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Markierung der Checkboxen für die Profileigenschaft
+				 * Markierung der Checkboxen fï¿½r die Profileigenschaft
 				 * "My Strong Points"
 				 */
 				for (int x = 0; x < t7.getRowCount(); x++) {
@@ -764,7 +777,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Markierung der Checkboxen für die Profileigenschaft
+				 * Markierung der Checkboxen fï¿½r die Profileigenschaft
 				 * "I associate myself with this subculture"
 				 */
 				for (int x = 0; x < t6.getRowCount(); x++) {
@@ -783,7 +796,7 @@ public class EditProfileView extends Update {
 				}
 
 				/*
-				 * Markierung der Checkboxen für die Profileigenschaft
+				 * Markierung der Checkboxen fï¿½r die Profileigenschaft
 				 * "Favorite Era"
 				 */
 				for (int x = 0; x < t5.getRowCount(); x++) {
@@ -808,7 +821,7 @@ public class EditProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Aktualisieren vom Profil des aktuellen Benutzers in der
+	 * AsyncCallback fï¿½r das Aktualisieren vom Profil des aktuellen Benutzers in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -823,7 +836,7 @@ public class EditProfileView extends Update {
 
 			@Override
 			public void onSuccess(Void result) {
-				ClientsideSettings.getLogger().info("Zeile 688 ausgeführt, onSuccess firing");
+				ClientsideSettings.getLogger().info("Zeile 688 ausgefï¿½hrt, onSuccess firing");
 				Update update = new ProfileView();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
@@ -833,7 +846,7 @@ public class EditProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Löschen vom Profil des aktuellen Benutzers in der
+	 * AsyncCallback fï¿½r das Lï¿½schen vom Profil des aktuellen Benutzers in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -856,7 +869,7 @@ public class EditProfileView extends Update {
 	}
 
 	/**
-	 * Bearbeitet die Vor- und Nachnamen des aktuellen Benutzers für eine bessere Darstellung.
+	 * Bearbeitet die Vor- und Nachnamen des aktuellen Benutzers fï¿½r eine bessere Darstellung.
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Der bearbeitete Text

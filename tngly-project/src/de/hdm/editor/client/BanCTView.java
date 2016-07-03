@@ -38,21 +38,21 @@ import de.hdm.core.shared.bo.ProfileBan;
 
 /**
  * Diese View Klasse stellt die "blockierten" Profile des aktuellen Benutzers
- * mithilfe einer Tabelle dar. Der Benutzer hat die Wahl, über die Tabelle in
- * das ausgewählte Profil oder zurück zur Suchansicht zu springen.
+ * mithilfe einer Tabelle dar. Der Benutzer hat die Wahl, ï¿½ber die Tabelle in
+ * das ausgewï¿½hlte Profil oder zurï¿½ck zur Suchansicht zu springen.
  * 
  * @author Kevin Jaeger, Philipp Schmitt
  */
 public class BanCTView extends Update {
 
 	/**
-	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Die AdministrationService ermï¿½glicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * Die Instanz des aktuellen Benutzers ermï¿½glicht den schnellen Zugriff auf
 	 * dessen Profileigenschaften.
 	 */
 	private Profile currentUserProfile;
@@ -63,33 +63,33 @@ public class BanCTView extends Update {
 	private CellTable<Profile> cellTable = new CellTable<Profile>();
 
 	/**
-	 * Instanziierung des DataProviders, der die Profilwerte für das Tabellen
-	 * Widget bereithält.
+	 * Instanziierung des DataProviders, der die Profilwerte fï¿½r das Tabellen
+	 * Widget bereithï¿½lt.
 	 */
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
 	/**
-	 * Instanziierung des Handlers, der die Profilwerte für das Tabellen Widget
+	 * Instanziierung des Handlers, der die Profilwerte fï¿½r das Tabellen Widget
 	 * sortiert.
 	 */
 	private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
 
 	/**
 	 * Instanziierung des SelectionModel, welches die Auswahl von Profilwerten
-	 * im Tabellen Widget unterstützt.
+	 * im Tabellen Widget unterstï¿½tzt.
 	 */
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
 	/**
-	 * Instanziierung des Pagers, der die Kontrolle über das Tabellen Widget
-	 * unterstützt.
+	 * Instanziierung des Pagers, der die Kontrolle ï¿½ber das Tabellen Widget
+	 * unterstï¿½tzt.
 	 */
 	SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 	SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Widgets zur Gestaltung der View, wie:
+	 * Eingabemï¿½glichkeiten, wie: Widgets zur Gestaltung der View, wie:
 	 * HorizontalPanel, Trennlinien und Widgets zur Ablaufsteuerung, wie:
 	 * Buttons
 	 */
@@ -106,7 +106,7 @@ public class BanCTView extends Update {
 	}
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende ï¿½berschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -142,7 +142,7 @@ public class BanCTView extends Update {
 				getCurrentUserProfileCallback());
 
 		/*
-		 * Formatierung der Panels und Widgets für die Ansicht.
+		 * Formatierung der Panels und Widgets fï¿½r die Ansicht.
 		 */
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
@@ -152,13 +152,13 @@ public class BanCTView extends Update {
 
 		/*
 		 * Keine erneute Aktualisierung der Header und Footer bei einer
-		 * Wertänderung.
+		 * Wertï¿½nderung.
 		 */
 		cellTable.setAutoHeaderRefreshDisabled(true);
 
 		/*
-		 * Anhängen eines Handlers zur Spaltensortierung an den DataProvider, um
-		 * die Tabelle sortieren zu können.
+		 * Anhï¿½ngen eines Handlers zur Spaltensortierung an den DataProvider, um
+		 * die Tabelle sortieren zu kï¿½nnen.
 		 */
 		cellTable.addColumnSortHandler(sortHandler);
 		cellTable.setSelectionModel(selectionModel, DefaultSelectionEventManager.<Profile>createCheckboxManager());
@@ -169,7 +169,7 @@ public class BanCTView extends Update {
 		initTableColumns(selectionModel, sortHandler);
 
 		/*
-		 * Hinzufügen eines DatenAdapters zur Tabelle.
+		 * Hinzufï¿½gen eines DatenAdapters zur Tabelle.
 		 */
 		addDataDisplay(cellTable);
 
@@ -209,8 +209,8 @@ public class BanCTView extends Update {
 	}
 
 	/**
-	 * Fügt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
-	 * befüllt.
+	 * Fï¿½gt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
+	 * befï¿½llt.
 	 * 
 	 * @param display
 	 *            a {@Link HasData}.
@@ -229,13 +229,13 @@ public class BanCTView extends Update {
 	}
 
 	/**
-	 * Fügt die Spalten in die Tabelle.
+	 * Fï¿½gt die Spalten in die Tabelle.
 	 * 
 	 * @param selectionModel
 	 *            SelectionModel, welches die Auswahl von Profilwerten im
-	 *            Tabellen Widget unterstützt
+	 *            Tabellen Widget unterstï¿½tzt
 	 * @param sortHandler
-	 *            Handler, der die Profilwerte für das Tabellen Widget sortiert.
+	 *            Handler, der die Profilwerte fï¿½r das Tabellen Widget sortiert.
 	 */
 	private void initTableColumns(final SelectionModel<Profile> selectionModel, ListHandler<Profile> sortHandler) {
 		// CheckBox.
@@ -414,10 +414,10 @@ public class BanCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Abfragen von Kontaktsperren aus der
+	 * AsyncCallback fï¿½r das Abfragen von Kontaktsperren aus der
 	 * Datenbank.
 	 * 
-	 * @return Liste mit gewünschten Profilen
+	 * @return Liste mit gewï¿½nschten Profilen
 	 */
 	private AsyncCallback<ArrayList<Profile>> getBansCallback() {
 		AsyncCallback<ArrayList<Profile>> asyncCallback = new AsyncCallback<ArrayList<Profile>>() {
@@ -439,10 +439,10 @@ public class BanCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Löschen von Kontaktsperren aus der
+	 * AsyncCallback fï¿½r das Lï¿½schen von Kontaktsperren aus der
 	 * Datenbank.
 	 * 
-	 * @return Liste mit gewünschten Profilen
+	 * @return Liste mit gewï¿½nschten Profilen
 	 */
 	private AsyncCallback<Void> deleteBansCallback() {
 		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
@@ -462,7 +462,7 @@ public class BanCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * AsyncCallback fï¿½r das Auslesen vom Profil des aktuellen Benutzers aus der
 	 * Datenbank.
 	 * 
 	 * @return Profil des aktuellen Benutzers

@@ -21,8 +21,8 @@ import de.hdm.core.client.LoginServiceAsync;
 import de.hdm.core.shared.LoginInfo;
 
 /**
- * EntryPoint Klasse für den Editor Client. Initialisierung der Navigation und
- * Überprüfung des eingeloggten Users mit der Datenbank, ob der Benutzer bereits
+ * EntryPoint Klasse fï¿½r den Editor Client. Initialisierung der Navigation und
+ * ï¿½berprï¿½fung des eingeloggten Users mit der Datenbank, ob der Benutzer bereits
  * in der Datenbank gespeichert ist.
  * 
  * @author Kevin Jaeger
@@ -30,13 +30,13 @@ import de.hdm.core.shared.LoginInfo;
 public class EditorEntryPoint implements EntryPoint {
 
 	/**
-	 * Der LoginService ermöglicht die asynchrone Kommunikation mit der
+	 * Der LoginService ermï¿½glicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
 	/**
-	 * Die Instanz von LoginInfo dient als Hilfsklasse für das Login und stellt
+	 * Die Instanz von LoginInfo dient als Hilfsklasse fï¿½r das Login und stellt
 	 * erforderliche Variablen und Operationen bereit.
 	 */
 	private LoginInfo loginInfo = null;
@@ -59,14 +59,14 @@ public class EditorEntryPoint implements EntryPoint {
 	private final DialogBox dialogBox = createDialogBox();
 
 	/**
-	 * Die Implementierung des Interface, um der Klasse zu ermöglichen, als
+	 * Die Implementierung des Interface, um der Klasse zu ermï¿½glichen, als
 	 * EntryPoint des Modules zu laden.
 	 */
 	@Override
 	public void onModuleLoad() {
 
 		/**
-		 * Der AsyncCallback für die Anmeldung des Benutzers. Die
+		 * Der AsyncCallback fï¿½r die Anmeldung des Benutzers. Die
 		 * Benutzerinformationen werden mithilfe der LoginInfo ausgegeben.
 		 */
 		loginService.login(GWT.getHostPageBaseURL() + "Editor.html", new AsyncCallback<LoginInfo>() {
@@ -150,6 +150,7 @@ public class EditorEntryPoint implements EntryPoint {
 				 * Zuweisung der neuen Ansicht zum Parent Widget.
 				 */
 				Update update = new ProfileView();
+				RootPanel.get("Details").setWidth("65%");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -174,6 +175,7 @@ public class EditorEntryPoint implements EntryPoint {
 				 * Zuweisung der neuen Ansicht zum Parent Widget.
 				 */
 				Update update = new WishlistCTView();
+				RootPanel.get("Details").setWidth("65%");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -198,6 +200,7 @@ public class EditorEntryPoint implements EntryPoint {
 				 * Zuweisung der neuen Ansicht zum Parent Widget.
 				 */
 				Update update = new SearchByProfileView();
+				RootPanel.get("Details").setWidth("65%");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -222,6 +225,7 @@ public class EditorEntryPoint implements EntryPoint {
 				 * Zuweisung der neuen Ansicht zum Parent Widget.
 				 */
 				Update update = new BanCTView();
+				RootPanel.get("Details").setWidth("65%");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -246,6 +250,7 @@ public class EditorEntryPoint implements EntryPoint {
 				 * Zuweisung der neuen Ansicht zum Parent Widget.
 				 */
 				Update update = new EditProfileView();
+				RootPanel.get("Details").setWidth("65%");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -254,11 +259,14 @@ public class EditorEntryPoint implements EntryPoint {
 		signOutButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				/*
 				 * Laden der Logout-URL der Google Accounts API und Anzeige des
 				 * LoginPanel.
 				 */
+				RootPanel.get("Details").setWidth("65%");
 				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
+
 			}
 		});
 
@@ -272,13 +280,13 @@ public class EditorEntryPoint implements EntryPoint {
 	}
 
 	/**
-	 * Erstellt eine DialogBox als Impressum und gibt diese zurück.
+	 * Erstellt eine DialogBox als Impressum und gibt diese zurï¿½ck.
 	 * 
 	 * @return Eine DialogBox als Impressum aufbereitet
 	 */
 	private DialogBox createDialogBox() {
 		/*
-		 * Instanziierung einer DialogBox und Setzung der Überschrift dieser
+		 * Instanziierung einer DialogBox und Setzung der ï¿½berschrift dieser
 		 * DialogBox.
 		 */
 		final DialogBox dialogBox = new DialogBox();
@@ -311,7 +319,7 @@ public class EditorEntryPoint implements EntryPoint {
 		});
 
 		/*
-		 * Hinzufügen einer Schliessen-Schaltfläche am Ende der DialogBox.
+		 * Hinzufï¿½gen einer Schliessen-Schaltflï¿½che am Ende der DialogBox.
 		 */
 		dialogContents.add(closeButton);
 		dialogContents.setCellHorizontalAlignment(closeButton, HasHorizontalAlignment.ALIGN_CENTER);
@@ -320,7 +328,7 @@ public class EditorEntryPoint implements EntryPoint {
 	}
 
 	/**
-	 * Laden des LoginPanel für die Anmeldung des Benutzers.
+	 * Laden des LoginPanel fï¿½r die Anmeldung des Benutzers.
 	 */
 	private void loadLogin() {
 

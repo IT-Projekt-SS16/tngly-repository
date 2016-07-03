@@ -40,8 +40,8 @@ import de.hdm.core.shared.bo.SearchProfile;
 
 /**
  * Diese View Klasse stellt die Suchergebnisse anhand eines Suchprofils mithilfe
- * einer Tabelle für den Benutzer dar. Der Benutzer hat die Wahl, über die
- * Tabelle in das ausgewählte Profil oder zurück zur Suchansicht zu springen.
+ * einer Tabelle fï¿½r den Benutzer dar. Der Benutzer hat die Wahl, ï¿½ber die
+ * Tabelle in das ausgewï¿½hlte Profil oder zurï¿½ck zur Suchansicht zu springen.
  * 
  * @author Kevin Jaeger, Philipp Schmitt
  *
@@ -49,19 +49,19 @@ import de.hdm.core.shared.bo.SearchProfile;
 public class ShowProfilesCTView extends Update {
 
 	/**
-	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Die AdministrationService ermï¿½glicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * Die Instanz des aktuellen Benutzers ermï¿½glicht den schnellen Zugriff auf
 	 * dessen Profileigenschaften.
 	 */
 	private Profile currentUserProfile = new Profile();
 
 	/**
-	 * Die Instanz des Suchprofils ermöglicht den schnellen Zugriff auf dessen
+	 * Die Instanz des Suchprofils ermï¿½glicht den schnellen Zugriff auf dessen
 	 * Kriterien.
 	 */
 	private SearchProfile searchProfile = null;
@@ -72,33 +72,33 @@ public class ShowProfilesCTView extends Update {
 	private CellTable<Profile> cellTable = new CellTable<Profile>();
 
 	/**
-	 * Instanziierung des DataProviders, der die Profilwerte für das Tabellen
-	 * Widget bereithält.
+	 * Instanziierung des DataProviders, der die Profilwerte fï¿½r das Tabellen
+	 * Widget bereithï¿½lt.
 	 */
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
 	/**
-	 * Instanziierung des Handlers, der die Profilwerte für das Tabellen Widget
+	 * Instanziierung des Handlers, der die Profilwerte fï¿½r das Tabellen Widget
 	 * sortiert.
 	 */
 	private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
 
 	/**
 	 * Instanziierung des SelectionModel, welches die Auswahl von Profilwerten
-	 * im Tabellen Widget unterstützt.
+	 * im Tabellen Widget unterstï¿½tzt.
 	 */
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
 	/**
-	 * Instanziierung des Pagers, der die Kontrolle über das Tabellen Widget
-	 * unterstützt.
+	 * Instanziierung des Pagers, der die Kontrolle ï¿½ber das Tabellen Widget
+	 * unterstï¿½tzt.
 	 */
 	SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 	SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Widgets zur Gestaltung der View, wie:
+	 * Eingabemï¿½glichkeiten, wie: Widgets zur Gestaltung der View, wie:
 	 * HorizontalPanel, Trennlinien und Widgets zur Ablaufsteuerung, wie:
 	 * Buttons
 	 */
@@ -121,7 +121,7 @@ public class ShowProfilesCTView extends Update {
 	}
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende ï¿½berschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -147,6 +147,9 @@ public class ShowProfilesCTView extends Update {
 		 * Abfragen von Profilen anhand des Suchprofils vom Benutzer aus der
 		 * Datenbank.
 		 */
+
+		RootPanel.get("Details").setWidth("73%");
+
 		int atIndex = ClientsideSettings.getLoginInfo().getEmailAddress().indexOf("@");
 		adminService.searchAndCompareProfiles(false, searchProfile, getComparedProfileCallback());
 
@@ -157,7 +160,7 @@ public class ShowProfilesCTView extends Update {
 				getCurrentUserProfileCallback());
 
 		/*
-		 * Formatierung der Panels und Widgets für die Ansicht.
+		 * Formatierung der Panels und Widgets fï¿½r die Ansicht.
 		 */
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
@@ -167,13 +170,13 @@ public class ShowProfilesCTView extends Update {
 
 		/*
 		 * Keine erneute Aktualisierung der Header und Footer bei einer
-		 * Wertänderung.
+		 * Wertï¿½nderung.
 		 */
 		cellTable.setAutoHeaderRefreshDisabled(true);
 
 		/*
-		 * Anhängen eines Handlers zur Spaltensortierung an den DataProvider, um
-		 * die Tabelle sortieren zu können.
+		 * Anhï¿½ngen eines Handlers zur Spaltensortierung an den DataProvider, um
+		 * die Tabelle sortieren zu kï¿½nnen.
 		 */
 		cellTable.addColumnSortHandler(sortHandler);
 		cellTable.setSelectionModel(selectionModel, DefaultSelectionEventManager.<Profile>createCheckboxManager());
@@ -184,7 +187,7 @@ public class ShowProfilesCTView extends Update {
 		initTableColumns(selectionModel, sortHandler);
 
 		/*
-		 * Hinzufügen eines DatenAdapters zur Tabelle.
+		 * Hinzufï¿½gen eines DatenAdapters zur Tabelle.
 		 */
 		addDataDisplay(cellTable);
 
@@ -208,6 +211,7 @@ public class ShowProfilesCTView extends Update {
 				backButton.setEnabled(false);
 				backButton.setStylePrimaryName("tngly-disabledButton");
 				Update update = new SearchByProfileView(searchProfile);
+				RootPanel.get("Details").setWidth("65%");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(update);
 			}
@@ -215,8 +219,8 @@ public class ShowProfilesCTView extends Update {
 	}
 
 	/**
-	 * Fügt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
-	 * befüllt.
+	 * Fï¿½gt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
+	 * befï¿½llt.
 	 * 
 	 * @param display
 	 *            a {@Link HasData}.
@@ -235,13 +239,13 @@ public class ShowProfilesCTView extends Update {
 	}
 
 	/**
-	 * Fügt die Spalten in die Tabelle.
+	 * Fï¿½gt die Spalten in die Tabelle.
 	 * 
 	 * @param selectionModel
 	 *            SelectionModel, welches die Auswahl von Profilwerten im
-	 *            Tabellen Widget unterstützt
+	 *            Tabellen Widget unterstï¿½tzt
 	 * @param sortHandler
-	 *            Handler, der die Profilwerte für das Tabellen Widget sortiert.
+	 *            Handler, der die Profilwerte fï¿½r das Tabellen Widget sortiert.
 	 */
 	private void initTableColumns(final SelectionModel<Profile> selectionModel, ListHandler<Profile> sortHandler) {
 
@@ -280,7 +284,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		};
 		cellTable.addColumn(profileVisitedColumn, "");
-		cellTable.setColumnWidth(profileVisitedColumn, 35, Unit.PX);
+		cellTable.setColumnWidth(profileVisitedColumn, 40, Unit.PX);
 
 		// Username.
 		Column<Profile, String> clickableTextColumn = new Column<Profile, String>(new ClickableTextCell()) {
@@ -306,13 +310,14 @@ public class ShowProfilesCTView extends Update {
 					pvs.add(pv);
 					adminService.createProfileVisit(pvs, createProfileVisitCallback());
 				}
-				Update update = new OtherProfileView(object, "ShowProfilesCTView", currentUserProfile);
+				Update update = new OtherProfileView(object, "ShowProfilesCTView", currentUserProfile, searchProfile);
 				RootPanel.get("Details").clear();
+				RootPanel.get("Details").setWidth("65%");
 				RootPanel.get("Details").add(update);
 			}
 		});
 		cellTable.addColumn(clickableTextColumn, "Username");
-		cellTable.setColumnWidth(clickableTextColumn, 150, Unit.PX);
+		cellTable.setColumnWidth(clickableTextColumn, 110, Unit.PX);
 
 		// First Name.
 		Column<Profile, String> firstNameColumn = new Column<Profile, String>(new TextCell()) {
@@ -330,7 +335,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		});
 		cellTable.addColumn(firstNameColumn, "First Name");
-		cellTable.setColumnWidth(firstNameColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(firstNameColumn, 55, Unit.PCT);
 
 		// Last Name.
 		Column<Profile, String> lastNameColumn = new Column<Profile, String>(new TextCell()) {
@@ -348,7 +353,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		});
 		cellTable.addColumn(lastNameColumn, "Last Name");
-		cellTable.setColumnWidth(lastNameColumn, 60, Unit.PCT);
+		cellTable.setColumnWidth(lastNameColumn, 55, Unit.PCT);
 
 		// Gender.
 		Column<Profile, String> genderColumn = new Column<Profile, String>(new TextCell()) {
@@ -366,7 +371,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		});
 		cellTable.addColumn(genderColumn, "Gender");
-		cellTable.setColumnWidth(genderColumn, 40, Unit.PCT);
+		cellTable.setColumnWidth(genderColumn, 35, Unit.PCT);
 
 		// Age.
 		Column<Profile, String> ageColumn = new Column<Profile, String>(new TextCell()) {
@@ -392,7 +397,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		});
 		cellTable.addColumn(ageColumn, "Age");
-		cellTable.setColumnWidth(ageColumn, 30, Unit.PCT);
+		cellTable.setColumnWidth(ageColumn, 25, Unit.PCT);
 
 		// Haircolour.
 		Column<Profile, String> haircolorColumn = new Column<Profile, String>(new TextCell()) {
@@ -409,7 +414,9 @@ public class ShowProfilesCTView extends Update {
 				return o1.getHairColour().compareTo(o2.getHairColour());
 			}
 		});
-		cellTable.addColumn(haircolorColumn, "Hair colour");
+
+		cellTable.addColumn(haircolorColumn, "Haircolor");
+
 		cellTable.setColumnWidth(haircolorColumn, 40, Unit.PCT);
 
 		// Smoker.
@@ -434,7 +441,7 @@ public class ShowProfilesCTView extends Update {
 			}
 		});
 		cellTable.addColumn(smokerColumn, "Smoker");
-		cellTable.setColumnWidth(smokerColumn, 40, Unit.PCT);
+		cellTable.setColumnWidth(smokerColumn, 35, Unit.PCT);
 
 		// Confession.
 		Column<Profile, String> confessionColumn = new Column<Profile, String>(new TextCell()) {
@@ -451,10 +458,10 @@ public class ShowProfilesCTView extends Update {
 				return o1.getConfession().compareTo(o2.getConfession());
 			}
 		});
-		cellTable.addColumn(confessionColumn, "Confession");
+		cellTable.addColumn(confessionColumn, "Confess.");
 		cellTable.setColumnWidth(confessionColumn, 40, Unit.PCT);
 
-		// Ähnlichkeitswert.
+		// ï¿½hnlichkeitswert.
 		Column<Profile, String> similiarityColumn = new Column<Profile, String>(new TextCell()) {
 			@Override
 			public String getValue(Profile object) {
@@ -487,11 +494,11 @@ public class ShowProfilesCTView extends Update {
 			}
 		};
 		cellTable.addColumn(favoriteColumn, "");
-		cellTable.setColumnWidth(favoriteColumn, 120, Unit.PX);
+		cellTable.setColumnWidth(favoriteColumn, 110, Unit.PX);
 	}
 
 	/**
-	 * AsyncCallback für das Abfragen von Profilen anhand eines Suchprofils aus der
+	 * AsyncCallback fï¿½r das Abfragen von Profilen anhand eines Suchprofils aus der
 	 * Datenbank.
 	 * 
 	 * @return Liste mit gefundenen und verglichenen Profilen
@@ -516,7 +523,7 @@ public class ShowProfilesCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * AsyncCallback fï¿½r das Auslesen vom Profil des aktuellen Benutzers aus der
 	 * Datenbank.
 	 * 
 	 * @return Profil des aktuellen Benutzers
@@ -539,7 +546,7 @@ public class ShowProfilesCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Speichern eines Profilbesuchs in die
+	 * AsyncCallback fï¿½r das Speichern eines Profilbesuchs in die
 	 * Datenbank.
 	 * 
 	 * @return

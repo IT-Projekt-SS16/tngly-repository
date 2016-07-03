@@ -21,12 +21,13 @@ import de.hdm.core.shared.AdministrationServiceAsync;
 import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.ProfileBan;
+import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Wish;
 
 /**
- * Diese View Klasse für den Editor Client stellt das Profil eines anderen
+ * Diese View Klasse fï¿½r den Editor Client stellt das Profil eines anderen
  * Benutzers dar. Der Benutzer hat die Wahl, dieses Profil zu seiner
- * "Wunschliste" hinzufügen bzw. zu löschen oder das Profil zu "blockieren" bzw.
+ * "Wunschliste" hinzufï¿½gen bzw. zu lï¿½schen oder das Profil zu "blockieren" bzw.
  * die Kontaktsperre aufzuheben.
  * 
  * @author Kevin Jaeger, Philipp Schmitt
@@ -34,7 +35,7 @@ import de.hdm.core.shared.bo.Wish;
 public class OtherProfileView extends Update {
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende ï¿½berschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -50,7 +51,28 @@ public class OtherProfileView extends Update {
 	 * 
 	 * @author Philipp Schmitt
 	 * @param selectedProfile
-	 *            Das ausgewählte Profil aus der Tabelle
+	 *            Das ausgewï¿½hlte Profil aus der Tabelle
+	 * @param originView
+	 *            Die Ursprungsview, aus der der Benutzer in diese View
+	 *            gesprungen ist
+	 * @param cUP
+	 *            Das Profil des aktuellen Benutzers
+	 * @param searchProfile
+	 * 			  Das von der vorhergehenden View ggf. Ã¼bergebene Suchprofil
+	 */
+	public OtherProfileView(Profile selectedProfile, String originView, Profile cUP, SearchProfile searchProfile) {
+		this.selectedProfile = selectedProfile;
+		this.originView = originView;
+		this.currentUserProfile = cUP;
+		this.searchProfile = searchProfile;
+	}
+	
+	/**
+	 * Parametrisierter Konstruktor der View
+	 * 
+	 * @author Philipp Schmitt
+	 * @param selectedProfile
+	 *            Das ausgewï¿½hlte Profil aus der Tabelle
 	 * @param originView
 	 *            Die Ursprungsview, aus der der Benutzer in diese View
 	 *            gesprungen ist
@@ -62,13 +84,13 @@ public class OtherProfileView extends Update {
 		this.originView = originView;
 		this.currentUserProfile = cUP;
 	}
-
+	
 	/**
 	 * Parametrisierter Konstruktor der View
 	 * 
 	 * @author Philipp Schmitt
 	 * @param selectedProfile
-	 *            Das ausgewählte Profil aus der Tabelle
+	 *            Das ausgewï¿½hlte Profil aus der Tabelle
 	 * @param originView
 	 *            Die Ursprungsview, aus der der Benutzer in diese View
 	 *            gesprungen ist
@@ -79,26 +101,31 @@ public class OtherProfileView extends Update {
 	}
 
 	/**
-	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Die AdministrationService ermï¿½glicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Instanz des ausgewählten Profils aus der Tabelle ermöglicht den
+	 * Die Instanz des ausgewï¿½hlten Profils aus der Tabelle ermï¿½glicht den
 	 * schnellen Zugriff auf dessen Profileigenschaften.
 	 */
 	private Profile selectedProfile;
 
 	/**
-	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * Die Instanz des aktuellen Benutzers ermï¿½glicht den schnellen Zugriff auf
 	 * dessen Profileigenschaften.
 	 */
 	private Profile currentUserProfile;
 
 	/**
-	 * Die Speicherung der ursprünglichen View, aus der der Benutzer in diese
-	 * View abgesprungen ist, ermöglicht die spätere Rückkehr in die entsprechende View.
+	 * Das von der vorhergehenden ShowProfilesCTView Ã¼bergebene Suchprofil. Dieses kann
+	 * im Falle eines back-Befehls in die vorhergehende View wieder verwendet werden.
+	 */
+	private SearchProfile searchProfile;
+	/**
+	 * Die Speicherung der ursprï¿½nglichen View, aus der der Benutzer in diese
+	 * View abgesprungen ist, ermï¿½glicht die spï¿½tere Rï¿½ckkehr in die entsprechende View.
 	 */
 	private String originView;
 
@@ -107,7 +134,7 @@ public class OtherProfileView extends Update {
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen,
+	 * Eingabemï¿½glichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen,
 	 * DatePicker sowie Widgets zur Gestaltung der View, wie: VerticalPanel,
 	 * HorizontalPanel, Trennlinien Und Widgets zur Ablaufsteuerung, wie:
 	 * Buttons
@@ -194,7 +221,7 @@ public class OtherProfileView extends Update {
 	protected void run() {
 
 		/*
-		 * Formatierung der Widgets für die Ansicht.
+		 * Formatierung der Widgets fï¿½r die Ansicht.
 		 */
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
@@ -268,7 +295,7 @@ public class OtherProfileView extends Update {
 		tbun.setWidth("100%");
 
 		/*
-		 * Befüllen der Listboxen mit Werten
+		 * Befï¿½llen der Listboxen mit Werten
 		 */
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -313,9 +340,9 @@ public class OtherProfileView extends Update {
 			public void onClick(ClickEvent event) {
 				switch (originView) {
 				case "ShowProfilesCTView":
-					// Update updateProfilesCTView = new ShowProfilesCTView();
-					// RootPanel.get("Details").clear();
-					// RootPanel.get("Details").add(updateProfilesCTView);
+					Update updateProfilesCTView = new ShowProfilesCTView(searchProfile);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(updateProfilesCTView);
 					break;
 				case "BanCTView":
 					Update updateBanCTView = new BanCTView();
@@ -333,7 +360,7 @@ public class OtherProfileView extends Update {
 		});
 
 		/*
-		 * Aufbau und Befüllung der FlexTables mit Werten und Widgets
+		 * Aufbau und Befï¿½llung der FlexTables mit Werten und Widgets
 		 */
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
@@ -519,7 +546,7 @@ public class OtherProfileView extends Update {
 		t3.setWidget(8, 1, t6);
 
 		/*
-		 * Markierung der Checkboxen für die Profileigenschaft "My Hobbies"
+		 * Markierung der Checkboxen fï¿½r die Profileigenschaft "My Hobbies"
 		 */
 		for (int x = 0; x < t2.getRowCount(); x++) {
 			ArrayList<String> values = new ArrayList<String>();
@@ -554,7 +581,7 @@ public class OtherProfileView extends Update {
 		}
 
 		/*
-		 * Markierung der Checkboxen für die Eigenschaft "My Strong Points"
+		 * Markierung der Checkboxen fï¿½r die Eigenschaft "My Strong Points"
 		 */
 		for (int x = 0; x < t7.getRowCount(); x++) {
 			ArrayList<String> values = new ArrayList<String>();
@@ -572,7 +599,7 @@ public class OtherProfileView extends Update {
 		}
 
 		/*
-		 * Markierung der Checkboxen für die Eigenschaft
+		 * Markierung der Checkboxen fï¿½r die Eigenschaft
 		 * "I associate myself with this subculture"
 		 */
 		for (int x = 0; x < t6.getRowCount(); x++) {
@@ -591,7 +618,7 @@ public class OtherProfileView extends Update {
 		}
 
 		/*
-		 * Markierung der Checkboxen für die Eigenschaft "Favorite Era"
+		 * Markierung der Checkboxen fï¿½r die Eigenschaft "Favorite Era"
 		 */
 		for (int x = 0; x < t5.getRowCount(); x++) {
 			ArrayList<String> values = new ArrayList<String>();
@@ -638,9 +665,9 @@ public class OtherProfileView extends Update {
 
 				switch (originView) {
 				case "ShowProfilesCellTableView":
-					// Update updateProfilesCTView = new ShowProfilesCTView();
-					// RootPanel.get("Details").clear();
-					// RootPanel.get("Details").add(updateProfilesCTView);
+					 Update updateProfilesCTView = new ShowProfilesCTView(searchProfile);
+					 RootPanel.get("Details").clear();
+					 RootPanel.get("Details").add(updateProfilesCTView);
 					break;
 				case "BanCTView":
 					Update updateBanCTView = new BanCTView();
@@ -703,7 +730,7 @@ public class OtherProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Löschen eines Profil-"Wunsches" in der
+	 * AsyncCallback fï¿½r das Lï¿½schen eines Profil-"Wunsches" in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -717,14 +744,14 @@ public class OtherProfileView extends Update {
 		@Override
 		public void onSuccess(Void result) {
 			selectedProfile.setIsFavorite(false);
-			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile, searchProfile);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(update);
 		}
 	}
 
 	/**
-	 * AsyncCallback für das Löschen einer Kontaktsperre in der
+	 * AsyncCallback fï¿½r das Lï¿½schen einer Kontaktsperre in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -738,14 +765,14 @@ public class OtherProfileView extends Update {
 		@Override
 		public void onSuccess(Void result) {
 			selectedProfile.setIsBanned(false);
-			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile, searchProfile);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(update);
 		}
 	}
 
 	/**
-	 * AsyncCallback für das Erstellen einer Kontaktsperre in der
+	 * AsyncCallback fï¿½r das Erstellen einer Kontaktsperre in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -759,14 +786,14 @@ public class OtherProfileView extends Update {
 		@Override
 		public void onSuccess(ProfileBan pb) {
 			selectedProfile.setIsBanned(true);
-			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile, searchProfile);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(update);
 		}
 	}
 
 	/**
-	 * AsyncCallback für das Erstellen eines Profil-"Wunsches" in der
+	 * AsyncCallback fï¿½r das Erstellen eines Profil-"Wunsches" in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -780,7 +807,7 @@ public class OtherProfileView extends Update {
 		@Override
 		public void onSuccess(Wish wish) {
 			selectedProfile.setIsFavorite(true);
-			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile);
+			Update update = new OtherProfileView(selectedProfile, originView, currentUserProfile, searchProfile);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(update);
 		}
