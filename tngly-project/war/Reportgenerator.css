@@ -88,7 +88,7 @@ div#TopLevelFrame{
 	font-weight: bold;
 	height: 2em;
 	width: 10em;
-	margin-left: 70px;
+	/*margin-left: 70px;*/
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
 }
 

@@ -82,7 +82,7 @@ public class SearchByProfileView extends Update {
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
-	 * @see Showcase#getHeadlineText()
+	 * @see Update#getHeadlineText()
 	 */
 	@Override
 	protected String getHeadlineText() {

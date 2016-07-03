@@ -1,9 +1,5 @@
 package de.hdm.reportgenerator.client;
 
-
-
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,153 +20,163 @@ import de.hdm.core.client.LoginService;
 import de.hdm.core.client.LoginServiceAsync;
 import de.hdm.core.shared.LoginInfo;
 
-
+/**
+ * EntryPoint Klasse für den ReportGenerator Client. Initialisierung der
+ * Navigation und Überprüfung des eingeloggten Users mit der Datenbank, ob der
+ * Benutzer bereits in der Datenbank gespeichert ist.
+ * 
+ * @author Kevin Jaeger
+ */
 public class ReportgeneratorEntryPoint implements EntryPoint {
-	
-	private static final Logger logger = ClientsideSettings.getLogger();
 
+	/**
+	 * Der LoginService ermöglicht die asynchrone Kommunikation mit der
+	 * Applikationslogik.
+	 */
+	LoginServiceAsync loginService = GWT.create(LoginService.class);
+
+	/**
+	 * Die Instanz von LoginInfo dient als Hilfsklasse für das Login und stellt
+	 * erforderliche Variablen und Operationen bereit.
+	 */
 	private LoginInfo loginInfo = null;
 
+	/**
+	 * Deklaration, Definition und Initialisierung der Widgets.
+	 */
 	private VerticalPanel loginPanel = new VerticalPanel();
-
 	private Label loginLabel = new Label("Please sign in to your Google Account to access the REPORTGENERATOR module.");
-
 	private Anchor signInLink = new Anchor("Sign In");
+
+	private VerticalPanel verPanel = new VerticalPanel();
+	private final Button signOutButton = new Button("SIGN OUT");
+	private final Button imprintButton = new Button("IMPRINT");
+	private final DialogBox dialogBox = createDialogBox();
 
 	@Override
 	public void onModuleLoad() {
-		LoginServiceAsync loginService = GWT.create(LoginService.class);
 
 		loginService.login(GWT.getHostPageBaseURL() + "Reportgenerator.html", new AsyncCallback<LoginInfo>() {
 
 			public void onFailure(Throwable error) {
-
 			}
 
 			public void onSuccess(LoginInfo result) {
-
 				loginInfo = result;
+				ClientsideSettings.setLoginInfo(result);
 
 				if (loginInfo.isLoggedIn()) {
-					logger.info("LoginService onSuccess wird ausgefï¿½hrt");
-
 					loadReportgenerator();
-
 				} else {
-
 					loadLogin();
-
 				}
-
 			}
-
 		});
-
 	}
-	
-	
-	private void loadReportgenerator() {
-		
-		VerticalPanel verPanel = new VerticalPanel();
-		
-		final Button signOutButton = new Button("SIGN OUT");
-		final Button imprintButton = new Button("IMPRINT");
-		
-		final DialogBox dialogBox = createDialogBox();
-	    dialogBox.setGlassEnabled(true);
-	    dialogBox.setAnimationEnabled(true);
-		
-		logger.info("loadReportgenerator wird ausgefï¿½hrt");
 
-		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
-			public void onUncaughtException(Throwable e) {
-				
-			}
-		});
-		
+	/**
+	 * Baut den Reportgenerator mit entsprechender Navigation auf.
+	 */
+	private void loadReportgenerator() {
+
+		/*
+		 * Zuweisung von Styles an die jeweiligen Widgets.
+		 */
+		dialogBox.setGlassEnabled(true);
+		dialogBox.setAnimationEnabled(true);
 		signOutButton.setStylePrimaryName("tngly-menubutton-signout");
 		imprintButton.setStylePrimaryName("tngly-submenubutton");
-
 		verPanel.setStylePrimaryName("tngly-navigation");
-		
+
+		/*
+		 * Zuweisung des jeweiligen Child Widget zum Parent Widget.
+		 */
 		verPanel.add(signOutButton);
 		verPanel.add(imprintButton);
 		RootPanel.get("Navigator").add(verPanel);
-		
+
+		/*
+		 * Zuweisung der neuen Ansicht zum Parent Widget.
+		 */
+		UpdateReportGenerator update = new SearchByProfileViewR();
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(update);
+
+		/*
+		 * Zuweisung der ClickHandler an die jeweiligen Buttons.
+		 */
 		signOutButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.open(ClientsideSettings.getLoginInfo().getLogoutUrl(), "_self", "");
 			}
 		});
-		
+
 		imprintButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				dialogBox.center();
-	            dialogBox.show();
+				dialogBox.show();
 			}
 		});
-		
-		UpdateReportGenerator update = new SearchByProfileViewR();
-		RootPanel.get("Details").clear();
-		RootPanel.get("Details").add(update);
-		
-		logger.info("RootPanel wurde gecleart und SearchByProfileReportView hinzugefÃ¼gt");
-		
 	}
 
+	/**
+	 * Erstellt eine DialogBox als Impressum und gibt diese zurück.
+	 * 
+	 * @return Eine DialogBox als Impressum aufbereitet
+	 */
 	private DialogBox createDialogBox() {
-		// Create a dialog box and set the caption text
-	    final DialogBox dialogBox = new DialogBox();
-	    dialogBox.ensureDebugId("cwDialogBox");
-	    dialogBox.setText("Imprint");
+		/*
+		 * Instanziierung einer DialogBox und Setzung der Überschrift dieser
+		 * DialogBox.
+		 */
+		final DialogBox dialogBox = new DialogBox();
+		dialogBox.ensureDebugId("cwDialogBox");
+		dialogBox.setText("Imprint");
 
-	    // Create a table to layout the content
-	    VerticalPanel dialogContents = new VerticalPanel();
-	    dialogContents.setSpacing(4);
-	    dialogBox.setWidget(dialogContents);
-	    
-	    HTML aboutHTML = new HTML();
-	    
-	    String about = "IT-Projekt SS 2016<br>"
-				+ "Tingly Partnerboerse<br>"
-				+ "Hochschule der Medien Stuttgart<br>"
+		/*
+		 * Instanziierung eines vertikalen Panel, um den Inhalt der DialogBox zu
+		 * formatieren.
+		 */
+		VerticalPanel dialogContents = new VerticalPanel();
+		dialogContents.setSpacing(4);
+		dialogBox.setWidget(dialogContents);
+
+		/*
+		 * Setzung des Impressumstext als HTML in die DialogBox.
+		 */
+		HTML aboutHTML = new HTML();
+		String about = "IT-Projekt SS 2016<br>" + "Tingly Partnerboerse<br>" + "Hochschule der Medien Stuttgart<br>"
 				+ "Team 10<br>"
 				+ "Philipp Schmitt (27940)<br> Kevin Jaeger (27942)<br> Dominik Dach (27932)<br> Lorena Esposito (27981)<br> Marius Klepser (27989)<br> Esra Simsek (26497)<br>";
+		aboutHTML.setHTML(about);
+		dialogContents.add(aboutHTML);
+		dialogContents.setCellHorizontalAlignment(aboutHTML, HasHorizontalAlignment.ALIGN_CENTER);
 
-	    aboutHTML.setHTML(about);
-	    dialogContents.add(aboutHTML);
-	    dialogContents.setCellHorizontalAlignment(
-	        aboutHTML, HasHorizontalAlignment.ALIGN_CENTER);
-	    
-	 // Add a close button at the bottom of the dialog
-	    Button closeButton = new Button(
-	        "Close", new ClickHandler() {
-	          public void onClick(ClickEvent event) {
-	            dialogBox.hide();
-	          }
-	        });
-	    
-	    dialogContents.add(closeButton);
-	    dialogContents.setCellHorizontalAlignment(
-	        closeButton, HasHorizontalAlignment.ALIGN_CENTER);
-	    
-	 // Return the dialog box
-	    return dialogBox;
+		Button closeButton = new Button("Close", new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dialogBox.hide();
+			}
+		});
+
+		/*
+		 * Hinzufügen einer Schliessen-Schaltfläche am Ende der DialogBox.
+		 */
+		dialogContents.add(closeButton);
+		dialogContents.setCellHorizontalAlignment(closeButton, HasHorizontalAlignment.ALIGN_CENTER);
+
+		return dialogBox;
 	}
 
-
+	/**
+	 * Baut das Login-Panel zur Anmeldung für den Benutzer auf.
+	 */
 	private void loadLogin() {
-
-		// Assemble login panel.
-
 		signInLink.setHref(loginInfo.getLoginUrl());
-
 		loginPanel.add(loginLabel);
-
 		loginPanel.add(signInLink);
-
+		RootPanel.get("Details").clear();
 		RootPanel.get("Details").add(loginPanel);
 	}
 }
