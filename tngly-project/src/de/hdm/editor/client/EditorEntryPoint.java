@@ -21,8 +21,8 @@ import de.hdm.core.client.LoginServiceAsync;
 import de.hdm.core.shared.LoginInfo;
 
 /**
- * EntryPoint Klasse f�r den Editor Client. Initialisierung der Navigation und
- * �berpr�fung des eingeloggten Users mit der Datenbank, ob der Benutzer bereits
+ * EntryPoint Klasse fuer den Editor Client. Initialisierung der Navigation und
+ * Ueberpruefung des eingeloggten Users mit der Datenbank, ob der Benutzer bereits
  * in der Datenbank gespeichert ist.
  * 
  * @author Kevin Jaeger
@@ -30,13 +30,13 @@ import de.hdm.core.shared.LoginInfo;
 public class EditorEntryPoint implements EntryPoint {
 
 	/**
-	 * Der LoginService erm�glicht die asynchrone Kommunikation mit der
+	 * Der LoginService ermoeglicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
 	/**
-	 * Die Instanz von LoginInfo dient als Hilfsklasse f�r das Login und stellt
+	 * Die Instanz von LoginInfo dient als Hilfsklasse fuer das Login und stellt
 	 * erforderliche Variablen und Operationen bereit.
 	 */
 	private LoginInfo loginInfo = null;
@@ -59,14 +59,14 @@ public class EditorEntryPoint implements EntryPoint {
 	private final DialogBox dialogBox = createDialogBox();
 
 	/**
-	 * Die Implementierung des Interface, um der Klasse zu erm�glichen, als
+	 * Die Implementierung des Interface, um der Klasse zu ermoeglichen, als
 	 * EntryPoint des Modules zu laden.
 	 */
 	@Override
 	public void onModuleLoad() {
 
 		/**
-		 * Der AsyncCallback f�r die Anmeldung des Benutzers. Die
+		 * Der AsyncCallback fuer die Anmeldung des Benutzers. Die
 		 * Benutzerinformationen werden mithilfe der LoginInfo ausgegeben.
 		 */
 		loginService.login(GWT.getHostPageBaseURL() + "Editor.html", new AsyncCallback<LoginInfo>() {
@@ -280,13 +280,13 @@ public class EditorEntryPoint implements EntryPoint {
 	}
 
 	/**
-	 * Erstellt eine DialogBox als Impressum und gibt diese zur�ck.
+	 * Erstellt eine DialogBox als Impressum und gibt diese zurueck.
 	 * 
 	 * @return Eine DialogBox als Impressum aufbereitet
 	 */
 	private DialogBox createDialogBox() {
 		/*
-		 * Instanziierung einer DialogBox und Setzung der �berschrift dieser
+		 * Instanziierung einer DialogBox und Setzung der Ueberschrift dieser
 		 * DialogBox.
 		 */
 		final DialogBox dialogBox = new DialogBox();
@@ -319,7 +319,7 @@ public class EditorEntryPoint implements EntryPoint {
 		});
 
 		/*
-		 * Hinzuf�gen einer Schliessen-Schaltfl�che am Ende der DialogBox.
+		 * Hinzufuegen einer Schliessen-Schaltflaeche am Ende der DialogBox.
 		 */
 		dialogContents.add(closeButton);
 		dialogContents.setCellHorizontalAlignment(closeButton, HasHorizontalAlignment.ALIGN_CENTER);
@@ -328,7 +328,7 @@ public class EditorEntryPoint implements EntryPoint {
 	}
 
 	/**
-	 * Laden des LoginPanel f�r die Anmeldung des Benutzers.
+	 * Laden des LoginPanel fuer die Anmeldung des Benutzers.
 	 */
 	private void loadLogin() {
 

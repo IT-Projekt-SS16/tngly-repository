@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Subklasse von Property - Definition eines Description-Objekts, das dem Nutzer
- * die Möglichkeit bietet, seine Interessen zu bestimmten Eigenschaftsfeldern
+ * die Moeglichkeit bietet, seine Interessen zu bestimmten Eigenschaftsfeldern
  * durch freie Eingabe zu bekunden.
  * 
  * @author Philipp Schmitt
@@ -24,7 +24,7 @@ public class Description extends Property implements Serializable {
 
 	/**
 	 * Liste an Informationsobjekten, die das Profil mit dieser Eigenschaft
-	 * verknüpft hat
+	 * verknuepft hat
 	 */
 	private ArrayList<Information> informationValues;
 
@@ -33,8 +33,8 @@ public class Description extends Property implements Serializable {
 	 */
 
 	/**
-	 * Rückgeben der Liste an Informationsobjekten, die das Profil mit dieser
-	 * Eigenschaft verknüpft hat
+	 * Rueckgeben der Liste an Informationsobjekten, die das Profil mit dieser
+	 * Eigenschaft verknuepft hat
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Liste an Informationsobjekten des Profils zu dieser Eigenschaft
@@ -45,7 +45,7 @@ public class Description extends Property implements Serializable {
 
 	/**
 	 * Setzen der Liste an Informationsobjekten, die das Profil mit dieser
-	 * Eigenschaft verknüpft hat
+	 * Eigenschaft verknuepft hat
 	 * 
 	 * @author Philipp Schmitt
 	 * @param informationValues

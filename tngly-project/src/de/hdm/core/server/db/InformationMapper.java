@@ -31,7 +31,7 @@ public class InformationMapper {
 	}
 
 	/**
-	 * Aufruf eines Information-Mappers für Klassen, die keinen Zugriff auf den
+	 * Aufruf eines Information-Mappers fuer Klassen, die keinen Zugriff auf den
 	 * Konstruktor haben.
 	 * 
 	 * @return Einzigartige Mapper-Instanz zur Benutzung in der
@@ -53,8 +53,8 @@ public class InformationMapper {
 	private static InformationMapper informationMapper = null;
 
 	/**
-	 * Insert-Methode - Ein Informationsobjekt wird übergeben und die
-	 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
+	 * Insert-Methode - Ein Informationsobjekt wird uebergeben und die
+	 * zugehoerigen Werte in ein SQL-Statement geschrieben, welches ausgefuehrt
 	 * wird, um das Objekt in die Datenbank einzutragen.
 	 * 
 	 * @author Philipp Schmitt
@@ -74,7 +74,7 @@ public class InformationMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Suchen des aktuell höchsten Primärschlüsselwertes
+			 * Suchen des aktuell hoechsten Primaerschluesselwertes
 			 */
 
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM information");
@@ -82,7 +82,7 @@ public class InformationMapper {
 			if (rs.next()) {
 
 				/**
-				 * Erhöhung dieses Werts um 1
+				 * Erhoehung dieses Werts um 1
 				 */
 
 				in.setId(rs.getInt("maxid") + 1);
@@ -93,7 +93,7 @@ public class InformationMapper {
 				stmt = con.createStatement();
 
 				/**
-				 * Statement ausfüllen und als Query an die DB schicken
+				 * Statement ausfuellen und als Query an die DB schicken
 				 */
 				stmt.executeUpdate(
 						"INSERT INTO information (id, value, propertyId, profileId) " + "VALUES (" + in.getId() + ",'"
@@ -104,20 +104,20 @@ public class InformationMapper {
 		}
 
 		/**
-		 * Rückgeben des in die Datenbank geschriebenen Information-Objekts
+		 * Rueckgeben des in die Datenbank geschriebenen Information-Objekts
 		 */
 		return in;
 	}
 
 	/**
-	 * Read-Methode zur Befüllung einer beliebigen Anzahl an Profilen mit den
-	 * korrespendierenden Werten / Einträgen aus der information - Tabelle.
+	 * Read-Methode zur Befuellung einer beliebigen Anzahl an Profilen mit den
+	 * korrespendierenden Werten / Eintraegen aus der information - Tabelle.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profiles
-	 *            Ein Array an Profilen, zu denen die zugehörigen
+	 *            Ein Array an Profilen, zu denen die zugehoerigen
 	 *            Informationswerte ausgelesen werden sollen
-	 * @return Das Profil-Array mit den ergänzten Informationswerten.
+	 * @return Das Profil-Array mit den ergaenzten Informationswerten.
 	 */
 	public ArrayList<Profile> searchForInformationValues(ArrayList<Profile> profiles) {
 
@@ -127,7 +127,7 @@ public class InformationMapper {
 		Connection con = DBConnection.connection();
 
 		/**
-		 * Durchlaufen jedes Profil-Objekts in der übergebenen Liste
+		 * Durchlaufen jedes Profil-Objekts in der uebergebenen Liste
 		 */
 		for (Profile p : profiles) {
 
@@ -144,13 +144,13 @@ public class InformationMapper {
 					Statement stmt = con.createStatement();
 
 					/**
-					 * Anlegen eines temporären Zwischenspeichers für die
+					 * Anlegen eines temporaeren Zwischenspeichers fuer die
 					 * ausgelesenen Informationswerte
 					 */
 					ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
 
 					/**
-					 * Statement ausfüllen und als Query an die DB schicken
+					 * Statement ausfuellen und als Query an die DB schicken
 					 */
 					String sql0 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 							+ p.getId() + " AND propertyId=" + d.getId();
@@ -168,16 +168,16 @@ public class InformationMapper {
 						i.setPropertyId(rs.getInt("propertyId"));
 
 						/**
-						 * Informationsobjekt wird zur ArrayList hinzugefügt
+						 * Informationsobjekt wird zur ArrayList hinzugefuegt
 						 */
 						informationValuesTemp.add(i);
 					}
 
 					/**
-					 * Das vollkommen ausgefüllte Set an vorhandenen
+					 * Das vollkommen ausgefuellte Set an vorhandenen
 					 * Informationen wird der jeweiligen
 					 * Beschreibungs-Eigenschaft des Profils als ArrayList
-					 * übergeben
+					 * uebergeben
 					 */
 					d.setInformationValues(informationValuesTemp);
 
@@ -187,7 +187,7 @@ public class InformationMapper {
 				}
 
 				/**
-				 * Durchlaufen jedes auszuwählenden Eigenschaft-Objekts (
+				 * Durchlaufen jedes auszuwaehlenden Eigenschaft-Objekts (
 				 * <code>Selection</code>) des Profils
 				 */
 				for (Selection s : p.getSelectionList()) {
@@ -200,7 +200,7 @@ public class InformationMapper {
 						ArrayList<Information> informationValuesTemp = new ArrayList<Information>();
 
 						/**
-						 * Statement ausfüllen und als Query an die DB schicken
+						 * Statement ausfuellen und als Query an die DB schicken
 						 */
 						String sql1 = "SELECT id, value, profileId, propertyId FROM information WHERE profileId="
 								+ p.getId() + " AND propertyId=" + s.getId();
@@ -218,15 +218,15 @@ public class InformationMapper {
 							i.setPropertyId(rs.getInt("propertyId"));
 
 							/**
-							 * Informationsobjekt wird zur ArrayList hinzugefügt
+							 * Informationsobjekt wird zur ArrayList hinzugefuegt
 							 */
 							informationValuesTemp.add(i);
 						}
 
 						/**
-						 * Das vollkommen ausgefüllte Set an vorhandenen
+						 * Das vollkommen ausgefuellte Set an vorhandenen
 						 * Informationen wird der jeweiligen Auswahl-Eigenschaft
-						 * als ArrayList übergeben
+						 * als ArrayList uebergeben
 						 */
 						s.setInformationValues(informationValuesTemp);
 
@@ -242,13 +242,13 @@ public class InformationMapper {
 	}
 
 	/**
-	 * Edit-Methode - Ein Profil wird übergeben und die zugehörigen Werte in ein
-	 * SQL-Statement geschrieben, welches ausgeführt wird, um die
+	 * Edit-Methode - Ein Profil wird uebergeben und die zugehoerigen Werte in ein
+	 * SQL-Statement geschrieben, welches ausgefuehrt wird, um die
 	 * Informationswerte des Profils in der Datenbank zu aktualisieren.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profile
-	 *            Das Profil, dessen Informationswerte geändert werden soll.
+	 *            Das Profil, dessen Informationswerte geaendert werden soll.
 	 */
 
 	public void edit(Profile profile) {
@@ -264,19 +264,19 @@ public class InformationMapper {
 		for (Description d : profile.getDescriptionList()) {
 
 			/**
-			 * Prüfen, ob für die Eigenschaft ein Wert hinterlegt ist
+			 * Pruefen, ob fuer die Eigenschaft ein Wert hinterlegt ist
 			 */
 
 			if (d.getInformationValues().get(0).getValue() != null) {
 
 				/**
-				 * Falls ja, soll geprüft werden, ob dieser dem Wert, der
+				 * Falls ja, soll geprueft werden, ob dieser dem Wert, der
 				 * bereits in der DB hinterlegt ist, entspricht.
 				 */
 				try {
 					Statement stmt = con.createStatement();
 					/**
-					 * Statement ausfüllen und als Query an die DB schicken.
+					 * Statement ausfuellen und als Query an die DB schicken.
 					 */
 					String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
 							+ " AND propertyId=" + d.getId());
@@ -286,7 +286,7 @@ public class InformationMapper {
 					 * Falls die Eigenschaft bereits mit einem Informationswert
 					 * in der DB hinterlegt ist, wird dieser Eintrag geupdatet.
 					 * Falls bisher kein Informationswert mit der Eigenschaft
-					 * verknüpft war, wird hier ein neuer Eintrag angelegt.
+					 * verknuepft war, wird hier ein neuer Eintrag angelegt.
 					 */
 					if (rs.next() && rs.getString("value") != d.getInformationValues().get(0).getValue()) {
 						System.out.println("UPDATE information " + "SET value=\""
@@ -302,24 +302,24 @@ public class InformationMapper {
 				}
 			}
 			/**
-			 * Falls für die Eigenschaft im übergebenen Profil kein
-			 * Informationswert hinterlegt ist, sollen die bisherigen Einträge
-			 * aus der Datenbank gelöscht werden.
+			 * Falls fuer die Eigenschaft im uebergebenen Profil kein
+			 * Informationswert hinterlegt ist, sollen die bisherigen Eintraege
+			 * aus der Datenbank geloescht werden.
 			 */
 			if (d.getInformationValues().get(0).getValue() == null) {
 				try {
 					Statement stmt = con.createStatement();
 					/**
-					 * Statement ausfüllen und als Query an die DB schicken.
+					 * Statement ausfuellen und als Query an die DB schicken.
 					 */
 					String sqlS = ("SELECT * FROM information " + "WHERE profileId=" + profile.getId()
 							+ " AND propertyId=" + d.getId());
 					ResultSet rs = stmt.executeQuery(sqlS);
 
 					/**
-					 * Falls bisher ein Informationswert für die Eigenschaft
+					 * Falls bisher ein Informationswert fuer die Eigenschaft
 					 * hinterlegt war, mappen dieses Objekts und Weitergabe zur
-					 * Löschung
+					 * Loeschung
 					 */
 					if (rs.next()) {
 						Information in = new Information();
@@ -334,21 +334,21 @@ public class InformationMapper {
 		}
 
 		/**
-		 * Durchlaufen jedes auszuwählenden Eigenschaft-Objekts (
+		 * Durchlaufen jedes auszuwaehlenden Eigenschaft-Objekts (
 		 * <code>Selection</code>) des Profils
 		 */
 		for (Selection s : profile.getSelectionList()) {
 
 			/**
-			 * Pauschales Löschen aller bisherigen Einträge mit
+			 * Pauschales Loeschen aller bisherigen Eintraege mit
 			 * Informationswerten zu Auswahleigenschaften, die dem Profil bisher
 			 * zugeordnet waren
 			 */
 			try {
 				Statement stmt = con.createStatement();
 				/**
-				 * Statement ausfüllen und als Query an die DB schicken.
-				 * Löschung erfolgt.
+				 * Statement ausfuellen und als Query an die DB schicken.
+				 * Loeschung erfolgt.
 				 */
 				String sqlS = ("DELETE FROM information " + "WHERE profileId=" + profile.getId() + " AND propertyId="
 						+ s.getId());
@@ -357,9 +357,9 @@ public class InformationMapper {
 				stmt.executeUpdate(sqlS);
 
 				/**
-				 * Falls für die Auswahleigenschaften im übergebenen Profil
+				 * Falls fuer die Auswahleigenschaften im uebergebenen Profil
 				 * Werte hinterlegt sind, werden diese nun der Datenbank neu
-				 * hinzugefügt.
+				 * hinzugefuegt.
 				 */
 				if (!s.getInformationValues().isEmpty()) {
 					for (Information i : s.getInformationValues()) {
@@ -376,13 +376,13 @@ public class InformationMapper {
 	}
 
 	/**
-	 * Delete-Methode - Ein Informationsobjekt in wird übergeben und die
-	 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
+	 * Delete-Methode - Ein Informationsobjekt in wird uebergeben und die
+	 * zugehoerigen Werte in ein SQL-Statement geschrieben, welches ausgefuehrt
 	 * wird, um das Objekt aus der Datenbank zu entfernen.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param in
-	 *            Das Informationsobjekt, das aus der DB gelöscht werden soll
+	 *            Das Informationsobjekt, das aus der DB geloescht werden soll
 	 */
 
 	public void delete(Information in) {
@@ -396,7 +396,7 @@ public class InformationMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken. Löschung
+			 * Statement ausfuellen und als Query an die DB schicken. Loeschung
 			 * erfolgt.
 			 */
 			stmt.executeUpdate("DELETE FROM information " + "WHERE id=" + in.getId());
@@ -407,13 +407,13 @@ public class InformationMapper {
 	}
 
 	/**
-	 * Delete-Methode zur Profillöschung. Ein Profilobjekt profile soll komplett
-	 * aus der Datenbank gelöscht werden und hiermit auch die entsprechenden
+	 * Delete-Methode zur Profilloeschung. Ein Profilobjekt profile soll komplett
+	 * aus der Datenbank geloescht werden und hiermit auch die entsprechenden
 	 * Referenzen in der information-Tabelle.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profile
-	 *            Profil, das komplett aus der Datenbank gelöscht wird
+	 *            Profil, das komplett aus der Datenbank geloescht wird
 	 */
 
 	public void delete(Profile profile) {
@@ -428,7 +428,7 @@ public class InformationMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken. Löschung
+			 * Statement ausfuellen und als Query an die DB schicken. Loeschung
 			 * erfolgt.
 			 */
 

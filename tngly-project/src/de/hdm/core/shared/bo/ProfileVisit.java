@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Definition eines Profilbesuchs-Objekts, das das Verhältnis zwischen zwei
+ * Definition eines Profilbesuchs-Objekts, das das Verhaeltnis zwischen zwei
  * Profilen darstellt. Eine Profilbesuch-Objekt wird dann erstellt, wenn sich
  * das aktuelle Nutzer-Profil ein anderes Profil in der Detailansicht anzeigen
- * lässt.
+ * laesst.
  * 
  * @author Philipp Schmitt
  */
@@ -23,7 +23,7 @@ public class ProfileVisit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Die id des Profilbesuchs - eindeutiger Primärschlüssel für die Datenbank
+	 * Die id des Profilbesuchs - eindeutiger Primaerschluessel fuer die Datenbank
 	 */
 	private int id;
 
@@ -47,7 +47,7 @@ public class ProfileVisit implements Serializable {
 	 */
 
 	/**
-	 * Rückgeben der Profilbesuchs-Id
+	 * Rueckgeben der Profilbesuchs-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige Id des Profilbesuchs-Objekts
@@ -68,7 +68,7 @@ public class ProfileVisit implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der besuchenden Profils-Id
+	 * Rueckgeben der besuchenden Profils-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige Id des besuchenden Profils
@@ -89,7 +89,7 @@ public class ProfileVisit implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der besuchten Profils-Id
+	 * Rueckgeben der besuchten Profils-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige id des besuchten Profils
@@ -110,7 +110,7 @@ public class ProfileVisit implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des Timestamps von der Erstellung des Profilbesuch-Objekts
+	 * Rueckgeben des Timestamps von der Erstellung des Profilbesuch-Objekts
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Timestamp zum Zeitpunkt der Objekt-Erstellung
@@ -130,12 +130,12 @@ public class ProfileVisit implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des Profilbesuchs-Objekts als String mit ausgewählten
+	 * Rueckgeben des Profilbesuchs-Objekts als String mit ausgewaehlten
 	 * Variablen-Werten
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Textuelle Beschreibung des Profilbesuchs-Objekts anhand
-	 *         ausgewählter Eigenschaften
+	 *         ausgewaehlter Eigenschaften
 	 */
 	@Override
 	public String toString() {

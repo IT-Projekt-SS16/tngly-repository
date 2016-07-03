@@ -13,7 +13,7 @@ public class Information implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * Die id der Information - eindeutiger Primärschlüssel für die Datenbank
+	 * Die id der Information - eindeutiger Primaerschluessel fuer die Datenbank
 	 */
 	private int id;
 
@@ -38,7 +38,7 @@ public class Information implements Serializable {
 	 */
 
 	/**
-	 * Rückgeben der Informations-Id
+	 * Rueckgeben der Informations-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige Id des Eigenschafts-Objekts
@@ -59,7 +59,7 @@ public class Information implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des textuellen Informations-Werts
+	 * Rueckgeben des textuellen Informations-Werts
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Der textuelle Wert der Information (z.B. "Volleyball")
@@ -81,7 +81,7 @@ public class Information implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der Eigenschafts-Id, auf die sich das Informationsobjekt
+	 * Rueckgeben der Eigenschafts-Id, auf die sich das Informationsobjekt
 	 * bezieht
 	 * 
 	 * @author Philipp Schmitt
@@ -104,7 +104,7 @@ public class Information implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der Profil-Id, auf die sich das Informationsobjekt bezieht
+	 * Rueckgeben der Profil-Id, auf die sich das Informationsobjekt bezieht
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Profil-Id, auf der sich das Informationsobjekt bezieht
@@ -126,11 +126,11 @@ public class Information implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des Informations-Objekts als String mit ausgewählten
+	 * Rueckgeben des Informations-Objekts als String mit ausgewaehlten
 	 * Variablen-Werten
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Textuelle Beschreibung des Informations-Objekts anhand ausgewählter Eigenschaften
+	 * @return Textuelle Beschreibung des Informations-Objekts anhand ausgewaehlter Eigenschaften
 	 */
 	@Override
 	public String toString() {

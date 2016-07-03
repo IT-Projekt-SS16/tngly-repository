@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Diese Klasse ist Bestandteil des Login-Vorgangs, um sich als Benutzer an der
- * Applikation anmelden und diese nutzen zu können. Siehe dazu auch
+ * Applikation anmelden und diese nutzen zu koennen. Siehe dazu auch
  * {@link LoginServiceImpl}
  * 
  * @author Kevin Jaeger
@@ -78,7 +78,7 @@ public class LoginInfo implements Serializable {
 	/**
 	 * Legt die Google Login-URL fest.
 	 * 
-	 * @param loginUrl von Google Accounts API für Benutzer erstellte URL
+	 * @param loginUrl von Google Accounts API fuer Benutzer erstellte URL
 	 */
 	public void setLoginUrl(String loginUrl) {
 		this.loginUrl = loginUrl;
@@ -87,7 +87,7 @@ public class LoginInfo implements Serializable {
 	/**
 	 * Legt die Google Logout-URL fest.
 	 * 
-	 * @param logoutUrl von Google Accounts API für Benutzer erstellte URL
+	 * @param logoutUrl von Google Accounts API fuer Benutzer erstellte URL
 	 */
 	public void setLogoutUrl(String logoutUrl) {
 		this.logoutUrl = logoutUrl;

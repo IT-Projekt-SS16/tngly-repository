@@ -1,18 +1,17 @@
-
 package de.hdm.core.shared.bo;
 
 import java.io.Serializable;
 
 /**
- * Definition eines Property-Objekts, das dem Nutzer die Möglichkeit bietet,
+ * Definition eines Property-Objekts, das dem Nutzer die Moeglichkeit bietet,
  * seine Interessen zu bestimmten Eigenschaftsfeldern zu bekunden. Es gibt zwei
  * verschiedene Arten von Eigenschaften:
  * 
- * - Zu beschreibende Eigenschaften (<code>Description</code>) - Auszuwählende
+ * - Zu beschreibende Eigenschaften (<code>Description</code>) - Auszuwaehlende
  * Eigenschaften (<code>Selection</code>)
  * 
- * Während der User bei Description eine freie Eingabe tätigen kann, muss er
- * sich bei Selections einen der präsentierten Werte entscheiden.
+ * Waehrend der User bei Description eine freie Eingabe taetigen kann, muss er
+ * sich bei Selections einen der praesentierten Werte entscheiden.
  * 
  * @author Philipp Schmitt
  */
@@ -29,7 +28,7 @@ public class Property implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Die id der Eigenschaft - eindeutiger Primärschlüssel für die Datenbank
+	 * Die id der Eigenschaft - eindeutiger Primaerschluessel fuer die Datenbank
 	 */
 	private int id;
 
@@ -43,7 +42,7 @@ public class Property implements Serializable {
 	 */
 
 	/**
-	 * Rückgeben der Eigenschafts-Id
+	 * Rueckgeben der Eigenschafts-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige Id des Eigenschafts-Objekts
@@ -64,7 +63,7 @@ public class Property implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der textuellen Beschreibung der Eigenschaft
+	 * Rueckgeben der textuellen Beschreibung der Eigenschaft
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die textuelle Beschreibung des Eigenschafts-Objekts
@@ -85,11 +84,11 @@ public class Property implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des Eigenschafts-Objekts als String mit ausgewählten
+	 * Rueckgeben des Eigenschafts-Objekts als String mit ausgewaehlten
 	 * Variablen-Werten
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Textuelle Beschreibung des Profilbesuchs-Objekts anhand ausgewählter Eigenschaften
+	 * @return Textuelle Beschreibung des Profilbesuchs-Objekts anhand ausgewaehlter Eigenschaften
 	 */
 	@Override
 	public String toString() {

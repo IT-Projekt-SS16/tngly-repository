@@ -14,7 +14,7 @@ import de.hdm.core.shared.bo.Wish;
 
 /**
  * Das synchrone Gegenstueck des Interface {@link AdministrationServiceAsync}
- * für RPCs, um die Geschäftsobjekte zu verwalten. Es erfolgt hier keine weitere
+ * fuer RPCs, um die Geschaeftsobjekte zu verwalten. Es erfolgt hier keine weitere
  * Dokumentation. Fuer weitere Informationen: siehe die Implementierung des
  * Interface {@link AdministrationServiceImpl}
  * 

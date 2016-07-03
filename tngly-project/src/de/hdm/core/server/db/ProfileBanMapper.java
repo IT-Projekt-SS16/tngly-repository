@@ -36,7 +36,7 @@ public class ProfileBanMapper {
 	}
 
 	/**
-	 * Aufruf eines ProfileBan-Mappers für Klassen, die keinen Zugriff auf den
+	 * Aufruf eines ProfileBan-Mappers fuer Klassen, die keinen Zugriff auf den
 	 * Konstruktor haben.
 	 * 
 	 * @return Einzigartige Mapper-Instanz zur Benutzung in der
@@ -52,7 +52,7 @@ public class ProfileBanMapper {
 	}
 
 	/**
-	 * Read-Methode - Anhand einer vorgegebenen id wird der dazu gehörige
+	 * Read-Methode - Anhand einer vorgegebenen id wird der dazu gehoerige
 	 * ProfileBan in der Datenbank gesucht.
 	 * 
 	 * @author Philipp Schmitt
@@ -74,7 +74,7 @@ public class ProfileBanMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken
+			 * Statement ausfuellen und als Query an die DB schicken
 			 */
 
 			ResultSet rs = stmt.executeQuery("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans "
@@ -131,14 +131,14 @@ public class ProfileBanMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken
+			 * Statement ausfuellen und als Query an die DB schicken
 			 */
 
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans" + "ORDER BY id");
 
 			/**
-			 * Für jeden Eintrag im Suchergebnis wird nun ein ProfileBan-Objekt
+			 * Fuer jeden Eintrag im Suchergebnis wird nun ein ProfileBan-Objekt
 			 * erstellt. *
 			 */
 
@@ -150,7 +150,7 @@ public class ProfileBanMapper {
 				pb.setTimestamp(rs.getDate("timestamp"));
 
 				/**
-				 * Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 * Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				 */
 
 				result.addElement(pb);
@@ -160,20 +160,20 @@ public class ProfileBanMapper {
 		}
 
 		/**
-		 * Ergebnisvektor zurückgeben
+		 * Ergebnisvektor zurueckgeben
 		 */
 		return result;
 	}
 
 	/**
 	 * Read-Methode - Auslesen aller ProfileBans (Kontaktsperren), die vom
-	 * übergebenen Profil je erstellt wurden.
+	 * uebergebenen Profil je erstellt wurden.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param banningProfileId
 	 *            Id des Profils, zu dem alle Kontaktsperren gesucht werden
 	 *            sollen.
-	 * @return Liste aller von dem zu überprüfenden Profil erstellten
+	 * @return Liste aller von dem zu ueberpruefenden Profil erstellten
 	 *         Kontaktsperren.
 	 */
 	public ArrayList<ProfileBan> findBannedProfiles(int banningProfileId) {
@@ -195,7 +195,7 @@ public class ProfileBanMapper {
 					+ "WHERE banningProfileId=" + banningProfileId + " ORDER BY timestamp");
 
 			/**
-			 * Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
+			 * Fuer jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
 			 * erstellt.
 			 */
 
@@ -208,7 +208,7 @@ public class ProfileBanMapper {
 				pb.setBanningProfile(profileMapper.findByKey(pb.getBanningProfileId()));
 				pb.setBannedProfile(profileMapper.findByKey(pb.getBanningProfileId()));
 				/**
-				 * Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 * Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				 */
 
 				System.out.println("ProfileBan Id: " + pb.getId() + "Banned Profile Id " + pb.getBannedProfileId());
@@ -220,7 +220,7 @@ public class ProfileBanMapper {
 		}
 
 		/**
-		 * Ergebnisvektor zurückgeben
+		 * Ergebnisvektor zurueckgeben
 		 */
 		return result;
 	}
@@ -233,9 +233,9 @@ public class ProfileBanMapper {
 	 *            Eindeutige id des Profils, das die Kontaktsperre erstellt
 	 *            haben soll.
 	 * @param checkedProfileId
-	 *            Eindeutige id des Profils, für das die Kontaktsperre erstellt
+	 *            Eindeutige id des Profils, fuer das die Kontaktsperre erstellt
 	 *            worden sein soll.
-	 * @return Boolean, ob eine Kontaktsperre vom bannenden Profil für ein zu
+	 * @return Boolean, ob eine Kontaktsperre vom bannenden Profil fuer ein zu
 	 *         checkendes Profil erstellt wurde.
 	 */
 	public boolean isProfileBanned(int banningProfileId, int checkedProfileId) {
@@ -257,14 +257,14 @@ public class ProfileBanMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Übergabe und Ausführung der Abfrage
+			 * Uebergabe und Ausfuehrung der Abfrage
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT id, banningProfileId, bannedProfileId, timestamp FROM profileBans"
 					+ " WHERE banningProfileId=" + banningProfileId + " AND bannedProfileId=" + checkedProfileId
 					+ " ORDER BY timestamp");
 
 			/**
-			 * Check, ob ein Ergebnis zurückkam. Falls ja, ist das Profil
+			 * Check, ob ein Ergebnis zurueckkam. Falls ja, ist das Profil
 			 * gebannt.
 			 */
 			if (rs.next()) {
@@ -276,15 +276,15 @@ public class ProfileBanMapper {
 		}
 
 		/**
-		 * Rückgabe der Ergebnisvariable
+		 * Rueckgabe der Ergebnisvariable
 		 */
 		return result;
 
 	}
 
 	/**
-	 * Insert-Methode - Ein ProfileBan-Objekt pb wird übergeben und die
-	 * zugehörigen Werte in ein SQL-Statement geschrieben, welches ausgeführt
+	 * Insert-Methode - Ein ProfileBan-Objekt pb wird uebergeben und die
+	 * zugehoerigen Werte in ein SQL-Statement geschrieben, welches ausgefuehrt
 	 * wird, um das Objekt in die Datenbank einzutragen.
 	 * 
 	 * @author Philipp Schmitt
@@ -305,19 +305,19 @@ public class ProfileBanMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
+			 * Zunaechst schauen wir nach, welches der momentan hoechste
+			 * Primaerschluesselwert ist.
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM profileBans ");
 
 			/**
-			 * Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			 * Wenn wir etwas zurueckerhalten, kann dies nur einzeilig sein
 			 */
 			if (rs.next()) {
 
 				/**
-				 * pb erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
+				 * pb erhaelt den bisher maximalen, nun um 1 inkrementierten
+				 * Primaerschluessel.
 				 */
 
 				pb.setId(rs.getInt("maxid") + 1);
@@ -329,7 +329,7 @@ public class ProfileBanMapper {
 				String date = mySQLformat.format(currentDate);
 
 				/**
-				 * Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				 * Jetzt erst erfolgt die tatsaechliche Einfuegeoperation
 				 */
 
 				stmt.executeUpdate("INSERT INTO profileBans (id, banningProfileId, bannedProfileId, timestamp) "
@@ -344,8 +344,8 @@ public class ProfileBanMapper {
 	}
 
 	/**
-	 * Delete-Methode - Ein ProfileBan-Objekt wird übergeben und dieses aus der
-	 * DB gelöscht.
+	 * Delete-Methode - Ein ProfileBan-Objekt wird uebergeben und dieses aus der
+	 * DB geloescht.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param pb
@@ -364,7 +364,7 @@ public class ProfileBanMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken. Löschung
+			 * Statement ausfuellen und als Query an die DB schicken. Loeschung
 			 * erfolgt.
 			 */
 
@@ -376,13 +376,13 @@ public class ProfileBanMapper {
 	}
 
 	/**
-	 * Delete-Methode zur Profillöschung. Ein Profilobjekt profile soll komplett
-	 * aus der Datenbank gelöscht werden und hiermit auch die entsprechenden
+	 * Delete-Methode zur Profilloeschung. Ein Profilobjekt profile soll komplett
+	 * aus der Datenbank geloescht werden und hiermit auch die entsprechenden
 	 * Referenzen in der profileBan-Tabelle.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profile
-	 *            Profil, das komplett aus der Datenbank gelöscht wird
+	 *            Profil, das komplett aus der Datenbank geloescht wird
 	 */
 
 	public void delete(Profile profile) {
@@ -397,7 +397,7 @@ public class ProfileBanMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken. Löschung
+			 * Statement ausfuellen und als Query an die DB schicken. Loeschung
 			 * erfolgt.
 			 */
 

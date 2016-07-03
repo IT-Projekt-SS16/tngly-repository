@@ -51,7 +51,7 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * Read-Methode - Anhand einer vorgegebenen id wird das dazu gehörige
+	 * Read-Methode - Anhand einer vorgegebenen id wird das dazu gehoerige
 	 * Profile in der Datenbank gesucht.
 	 * 
 	 * @author Philipp Schmitt
@@ -78,7 +78,7 @@ public class ProfileMapper {
 					+ "' ORDER BY id");
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * Da id Primaerschlüssel ist, kann max. nur ein Tupel zurückgegeben
 			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
@@ -106,7 +106,7 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * Read-Methode - Anhand eines Usernamen wird das dazu gehörige Profile in
+	 * Read-Methode - Anhand eines Usernamen wird das dazu gehoerige Profile in
 	 * der Datenbank gesucht. Diese Methode ist vor Allem für den Login
 	 * relevant, der über die Google-Email-Adresse realisiert wird. Die
 	 * Google-Adresse fungiert also als Username, der von Haus aus eindeutig
@@ -137,7 +137,7 @@ public class ProfileMapper {
 					+ "' ORDER BY lastName");
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * Da id Primaerschlüssel ist, kann max. nur ein Tupel zurückgegeben
 			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
@@ -235,7 +235,7 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * Insert-Methode - Ein Profile-Objekt wird übergeben und die zugehörigen
+	 * Insert-Methode - Ein Profile-Objekt wird übergeben und die zugehoerigen
 	 * Werte in ein SQL-Statement geschrieben, welches ausgeführt wird, um das
 	 * Objekt in die Datenbank einzutragen.
 	 * 
@@ -253,8 +253,8 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
+			 * Zunaechst schauen wir nach, welches der momentan hoechste
+			 * Primaerschlüsselwert ist.
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM profiles ");
 
@@ -263,8 +263,8 @@ public class ProfileMapper {
 			 */
 			if (rs.next()) {
 				/**
-				 * p erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
+				 * p erhaelt den bisher maximalen, nun um 1 inkrementierten
+				 * Primaerschlüssel.
 				 */
 				p.setId(rs.getInt("maxid") + 1);
 
@@ -281,7 +281,7 @@ public class ProfileMapper {
 				}
 
 				/**
-				 * Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				 * Jetzt erst erfolgt die tatsaechliche Einfügeoperation
 				 */
 				stmt.executeUpdate(
 						"INSERT INTO profiles (id, userName, name, lastName, gender, dateOfBirth, bodyHeight, hairColour, confession, isSmoking) "
@@ -310,11 +310,11 @@ public class ProfileMapper {
 
 	/**
 	 * Delete-Methode - Ein Profile-Objekt wird übergeben, anhand dessen der
-	 * zugehörige Eintrag in der Datenbank gelöscht wird
+	 * zugehoerige Eintrag in der Datenbank geloescht wird
 	 * 
 	 * @author Philipp Schmitt
 	 * @param p
-	 *            Profil, das gelöscht werden soll
+	 *            Profil, das geloescht werden soll
 	 */
 
 	public void delete(Profile p) {
@@ -339,13 +339,13 @@ public class ProfileMapper {
 	}
 
 	/**
-	 * Edit-Methode - Ein Profil wird übergeben und die zugehörigen Werte in ein
+	 * Edit-Methode - Ein Profil wird übergeben und die zugehoerigen Werte in ein
 	 * SQL-Statement geschrieben, welches ausgeführt wird, um die
 	 * Informationswerte des Profils in der Datenbank zu aktualisieren.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profile
-	 *            Das Profil, dessen Variablen in der DB geändert werden soll.
+	 *            Das Profil, dessen Variablen in der DB geaendert werden soll.
 	 */
 
 	public Profile edit(Profile p) {
@@ -539,7 +539,7 @@ public class ProfileMapper {
 			ResultSet rs = stmt.executeQuery(preparedStatement);
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * Da id Primaerschlüssel ist, kann max. nur ein Tupel zurückgegeben
 			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
 

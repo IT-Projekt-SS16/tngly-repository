@@ -9,7 +9,7 @@ import com.google.gwt.view.client.ProvidesKey;
 /**
  * Definition eines Profil-Objekts, das den Nutzer und die von ihm eingegebenen
  * Eigenschaften und Merkmale darstellt. Das Profil ist weiterhin zur korrekten
- * Navigation in der Applikation unabdinglich und fungiert über den Usernamen
+ * Navigation in der Applikation unabdinglich und fungiert ueber den Usernamen
  * gleichzeitig als User.
  * 
  * @author Philipp Schmitt
@@ -30,12 +30,12 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private int similiarityToReference;
 
 	/**
-	 * Die id des Profils - eindeutiger Primärschlüssel für die Datenbank
+	 * Die id des Profils - eindeutiger Primaerschluessel fuer die Datenbank
 	 */
 	private int id;
 
 	/**
-	 * Der Username des Profil-Nutzers, der gleichzeitig als Login über die
+	 * Der Username des Profil-Nutzers, der gleichzeitig als Login ueber die
 	 * Google-Mailadresse fungiert
 	 */
 	private String userName;
@@ -61,7 +61,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private String gender;
 
 	/**
-	 * Die Körpergröße des Profil-Nutzers in Meter im Format #.##
+	 * Die Koerpergroeße des Profil-Nutzers in Meter im Format #.##
 	 */
 	private float bodyHeight;
 
@@ -77,7 +77,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	/**
 	 * Die Information, ob der Nutzer des Profils raucht oder nicht - zur
-	 * Übertragung auf die Datenbank direkt als int formatiert 0 = raucht nicht
+	 * uebertragung auf die Datenbank direkt als int formatiert 0 = raucht nicht
 	 * 1 = raucht
 	 */
 	private int isSmoking;
@@ -89,14 +89,14 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private Boolean wasVisited;
 
 	/**
-	 * Eine Liste an Wishes (Profilwünschen), die vom Profil-Nutzer bisher
+	 * Eine Liste an Wishes (Profilwuenschen), die vom Profil-Nutzer bisher
 	 * erstellt wurden
 	 */
 	private ArrayList<Wish> wishlist;
 
 	/**
 	 * Eine Liste an profileBans (Kontaktsperren), die bisher vom Profil-Nutzer
-	 * verhängt worden sind
+	 * verhaengt worden sind
 	 */
 	private ArrayList<ProfileBan> banlist;
 
@@ -109,7 +109,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private ArrayList<Description> descriptionList;
 
 	/**
-	 * Eine Liste an allen auszuwählenden Eigenschaften, die aktuell in der
+	 * Eine Liste an allen auszuwaehlenden Eigenschaften, die aktuell in der
 	 * Datenbank hinterlegt sind. Hinter diesen Eigenschaftsobjekten befinden
 	 * sich wiederum die Informationsobjekte, die dem Profil zugeordnet sind und
 	 * die Interessen des Profil-Nutzers weiter beschreiben.
@@ -117,7 +117,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	private ArrayList<Selection> selectionList;
 
 	/**
-	 * Die Information, ob das Profil vom aktuellen Nutzer gewünscht wird (ein
+	 * Die Information, ob das Profil vom aktuellen Nutzer gewuenscht wird (ein
 	 * Eintrag in der wish-Tabelle der Datenbank besteht)
 	 */
 	private boolean isFavorite;
@@ -153,7 +153,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	 */
 
 	/**
-	 * Rückgeben der Wunschliste (Einträgen in der wish-Tabelle)
+	 * Rueckgeben der Wunschliste (Eintraegen in der wish-Tabelle)
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Liste mit Wunsch-Objekten
@@ -163,18 +163,18 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Setzen der Wunschliste (Einträgen in der wish-Tabelle)
+	 * Setzen der Wunschliste (Eintraegen in der wish-Tabelle)
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishlist
-	 *            Die zu setzende Liste mit Einträgen der wish-Tabelle
+	 *            Die zu setzende Liste mit Eintraegen der wish-Tabelle
 	 */
 	public void setWishlist(ArrayList<Wish> wishlist) {
 		this.wishlist = wishlist;
 	}
 
 	/**
-	 * Rückgeben der Sperrliste (Einträgen in der profileBans-Tabelle)
+	 * Rueckgeben der Sperrliste (Eintraegen in der profileBans-Tabelle)
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Liste mit Kontaktsperre-Objekten
@@ -184,18 +184,18 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Setzen der Sperrliste (Einträgen in der profilebans-Tabelle)
+	 * Setzen der Sperrliste (Eintraegen in der profilebans-Tabelle)
 	 * 
 	 * @author Philipp Schmitt
 	 * @param banlist
-	 *            Die zu setzende Liste mit Einträgen der profileBans-Tabelle
+	 *            Die zu setzende Liste mit Eintraegen der profileBans-Tabelle
 	 */
 	public void setBanlist(ArrayList<ProfileBan> banlist) {
 		this.banlist = banlist;
 	}
 
 	/**
-	 * Rückgeben der beschreibenden Eigenschaftsliste
+	 * Rueckgeben der beschreibenden Eigenschaftsliste
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Liste mit beschreibenden Eigenschaftsobjekten (
@@ -218,7 +218,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben der auszuwählenden Eigenschaftsliste
+	 * Rueckgeben der auszuwaehlenden Eigenschaftsliste
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Liste mit Auswahl-Eigenschaftsobjekten (<code>Selection</code>)
@@ -228,7 +228,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Setzen der auszuwählenden Eigenschaftsliste
+	 * Setzen der auszuwaehlenden Eigenschaftsliste
 	 * 
 	 * @author Philipp Schmitt
 	 * @param selectionList
@@ -240,7 +240,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben der Profil-Id
+	 * Rueckgeben der Profil-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return id des Profils
@@ -261,7 +261,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Profil-Usernamens
+	 * Rueckgeben des Profil-Usernamens
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Username des Profils
@@ -282,7 +282,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Profil-Vornamens
+	 * Rueckgeben des Profil-Vornamens
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Vorname des Profil-Nutzers
@@ -303,7 +303,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Profil-Nachnamens
+	 * Rueckgeben des Profil-Nachnamens
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Nachname des Profil-Nutzers
@@ -324,7 +324,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Profil-Geburtstages
+	 * Rueckgeben des Profil-Geburtstages
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Geburtstag des Profil-Nutzers
@@ -345,7 +345,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Profil-Geschlechts
+	 * Rueckgeben des Profil-Geschlechts
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Geschlecht des Profil-Nutzers
@@ -366,28 +366,28 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben der Profil-Körpergröße
+	 * Rueckgeben der Profil-Koerpergroeße
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Körpergröße des Profil-Nutzers
+	 * @return Koerpergroeße des Profil-Nutzers
 	 */
 	public float getBodyHeight() {
 		return this.bodyHeight;
 	}
 
 	/**
-	 * Setzen der Profil-Körpergröße
+	 * Setzen der Profil-Koerpergroeße
 	 * 
 	 * @author Philipp Schmitt
 	 * @param bodyHeight
-	 *            Die zu setzende Körpergröße des Profil-Nutzers
+	 *            Die zu setzende Koerpergroeße des Profil-Nutzers
 	 */
 	public void setBodyHeight(float bodyHeight) {
 		this.bodyHeight = bodyHeight;
 	}
 
 	/**
-	 * Rückgeben der Profil-Haarfarbe
+	 * Rueckgeben der Profil-Haarfarbe
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Haarfarbe des Profil-Nutzers
@@ -408,7 +408,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben der Profil-Konfession
+	 * Rueckgeben der Profil-Konfession
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Konfession des Profil-Nutzers
@@ -429,7 +429,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Raucher-Status
+	 * Rueckgeben des Raucher-Status
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Raucher-Status des Profil-Nutzers
@@ -450,21 +450,21 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Ähnlichkeitswerts
+	 * Rueckgeben des aehnlichkeitswerts
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Ähnlichkeitswert zum aktuell eingeloggten Nutzer-Profil
+	 * @return aehnlichkeitswert zum aktuell eingeloggten Nutzer-Profil
 	 */
 	public int getSimiliarityToReference() {
 		return similiarityToReference;
 	}
 
 	/**
-	 * Setzen des Ähnlichkeitswerts
+	 * Setzen des aehnlichkeitswerts
 	 * 
 	 * @author Philipp Schmitt
 	 * @param similiarityToReference
-	 *            Der zu setzende Ähnlichkeitswert zum aktuell eingeloggten
+	 *            Der zu setzende aehnlichkeitswert zum aktuell eingeloggten
 	 *            Nutzer-Profil
 	 */
 	public void setSimiliarityToReference(int similiarityToReference) {
@@ -472,7 +472,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
+	 * Rueckgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
 	 * besucht wurde (ein Eintrag in der profileVisits-Tabelle besteht)
 	 * 
 	 * @author Philipp Schmitt
@@ -498,24 +498,24 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	/**
 	 * Setzen der Information, ob das Profil vom aktuellen Nutzer-Profil
-	 * gewünscht ist ( ein Eintrag in der wishes-Tabelle besteht )
+	 * gewuenscht ist ( ein Eintrag in der wishes-Tabelle besteht )
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profileWished
 	 *            Die zu setzende Information, ob das Profil vom aktuellen
-	 *            Nutzer-Profil gewünscht ist
+	 *            Nutzer-Profil gewuenscht ist
 	 */
 	public void setIsFavorite(boolean profileWished) {
 		this.isFavorite = profileWished;
 	}
 
 	/**
-	 * Rückgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
-	 * gewünscht ist (ein Eintrag in der wishes-Tabelle besteht)
+	 * Rueckgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
+	 * gewuenscht ist (ein Eintrag in der wishes-Tabelle besteht)
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Information, ob das Profil schon vom aktuellen Nutzer-Profil
-	 *         gewünscht ist
+	 *         gewuenscht ist
 	 */
 	public Boolean getIsFavorite() {
 		return isFavorite;
@@ -528,14 +528,14 @@ public class Profile implements Serializable, Comparable<Profile> {
 	 * @author Philipp Schmitt
 	 * @param profileBanned
 	 *            Die zu setzende Information, ob das Profil vom aktuellen
-	 *            Nutzer-Profil gewünscht ist
+	 *            Nutzer-Profil gewuenscht ist
 	 */
 	public void setIsBanned(boolean profileBanned) {
 		this.isBanned = profileBanned;
 	}
 
 	/**
-	 * Rückgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
+	 * Rueckgeben der Information, ob das Profil vom aktuellen Nutzer-Profil
 	 * gebannt ist (ein Eintrag in der profileBan-Tabelle besteht)
 	 * 
 	 * @author Philipp Schmitt
@@ -560,7 +560,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben der Information, ob das Profil in der aktuellen Session durch
+	 * Rueckgeben der Information, ob das Profil in der aktuellen Session durch
 	 * einen Login erstellt wurde
 	 * 
 	 * @author Philipp Schmitt
@@ -573,7 +573,7 @@ public class Profile implements Serializable, Comparable<Profile> {
 
 	/**
 	 * Vergleich eines Profils mit einem anderen, um einen in Prozent
-	 * ausgedrückten Ähnlichkeitswert anhand ausgewählter eingetragener
+	 * ausgedrueckten aehnlichkeitswert anhand ausgewaehlter eingetragener
 	 * Eigenschaften zu ermitteln
 	 * 
 	 * @author Philipp Schmitt
@@ -636,10 +636,10 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Rückgeben des Profil-Objekts als String mit ausgewählten Variablen-Werten
+	 * Rueckgeben des Profil-Objekts als String mit ausgewaehlten Variablen-Werten
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Textuelle Beschreibung des Profil-Objekts anhand ausgewählter Eigenschaften
+	 * @return Textuelle Beschreibung des Profil-Objekts anhand ausgewaehlter Eigenschaften
 	 */
 	@Override
 	public String toString() {
@@ -652,10 +652,10 @@ public class Profile implements Serializable, Comparable<Profile> {
 	}
 
 	/**
-	 * Abgleichen der Ähnlichkeitswerte zweier Profile
+	 * Abgleichen der aehnlichkeitswerte zweier Profile
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Negative Zahl für <, 0 für =, positive Zahl für >
+	 * @return Negative Zahl fuer <, 0 fuer =, positive Zahl fuer >
 	 */
 	@Override
 	public int compareTo(Profile p1) {

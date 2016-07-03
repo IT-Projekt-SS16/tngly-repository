@@ -11,8 +11,8 @@ import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Wish;
 
 /**
- * Das asynchrone Gegenstueck des Interface {@link AdministrationService} für
- * RPCs, um die Geschäftsobjekte zu verwalten. Es wird semiautomatisch durch das
+ * Das asynchrone Gegenstueck des Interface {@link AdministrationService} fuer
+ * RPCs, um die Geschaeftsobjekte zu verwalten. Es wird semiautomatisch durch das
  * Google Plugin erstellt und gepflegt. Daher erfolgt hier keine weitere
  * Dokumentation. Fuer weitere Informationen: siehe das synchrone Interface
  * {@link AdministrationService}

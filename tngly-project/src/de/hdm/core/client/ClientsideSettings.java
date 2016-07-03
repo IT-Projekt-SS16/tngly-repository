@@ -11,8 +11,8 @@ import de.hdm.core.shared.CommonSettings;
 import de.hdm.core.shared.LoginInfo;
 
 /**
- * Klasse, die alle Eigenschaften und Methoden/Dienste zur Verfügung stellt, die
- * für alle Client-seitigen Klassen relevant sind.
+ * Klasse, die alle Eigenschaften und Methoden/Dienste zur Verfuegung stellt, die
+ * fuer alle Client-seitigen Klassen relevant sind.
  * 
  * @author Kevin Jaeger
  */
@@ -55,7 +55,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * Benutzers fest.
 	 * 
 	 * @param loginInfo
-	 *            Anmeldeinformationen aus Login über Google Accounts API
+	 *            Anmeldeinformationen aus Login ueber Google Accounts API
 	 */
 	public static void setLoginInfo(LoginInfo loginInfo) {
 		ClientsideSettings.loginInfo = loginInfo;

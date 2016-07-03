@@ -20,7 +20,7 @@ import de.hdm.core.shared.bo.Information;
 import de.hdm.core.shared.bo.Profile;
 
 /**
- * Diese View Klasse für den Editor Client stellt das persönliche Profil des
+ * Diese View Klasse fuer den Editor Client stellt das persoenliche Profil des
  * aktuell eingeloggten Benutzers zur Betrachtung dar.
  * 
  * @author Kevin Jaeger, Philipp Schmitt
@@ -28,20 +28,20 @@ import de.hdm.core.shared.bo.Profile;
 public class ProfileView extends Update {
 
 	/**
-	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Die AdministrationService ermoeglicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * Die Instanz des aktuellen Benutzers ermoeglicht den schnellen Zugriff auf
 	 * dessen Profileigenschaften.
 	 */
 	private Profile currentUserProfile = null;
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen
+	 * Eingabemoeglichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen
 	 * sowie Widgets zur Gestaltung der View, wie: VerticalPanel,
 	 * HorizontalPanel, Trennlinien Und Widgets zur Ablaufsteuerung, wie:
 	 * Buttons
@@ -109,7 +109,7 @@ public class ProfileView extends Update {
 			"  <table style='display:inline;border-collapse:collapse;border:0'><tr><td style='padding:0'><img src='transparent.gif' width='1' height='500' style='background:grey'></td></tr></table>");
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende Ueberschrift, die durch diese Methode
 	 * zu erstellen ist.
 	 * 
 	 * @see Showcase#getHeadlineText()
@@ -135,7 +135,7 @@ public class ProfileView extends Update {
 				getCurrentUserProfileCallback());
 
 		/*
-		 * Formatierung der Widgets für die Ansicht.
+		 * Formatierung der Widgets fuer die Ansicht.
 		 */
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
@@ -157,7 +157,7 @@ public class ProfileView extends Update {
 		ta.setStylePrimaryName("tngly-disabledTextbox");
 
 		/*
-		 * Befüllen der Listboxen mit Werten
+		 * Befuellen der Listboxen mit Werten
 		 */
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -190,7 +190,7 @@ public class ProfileView extends Update {
 		genderBox.setPixelSize(130, 25);
 
 		/*
-		 * Aufbau und Befüllung der FlexTables mit Werten und Widgets
+		 * Aufbau und Befuellung der FlexTables mit Werten und Widgets
 		 */
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
@@ -332,7 +332,7 @@ public class ProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * AsyncCallback fuer das Auslesen vom Profil des aktuellen Benutzers aus der
 	 * Datenbank.
 	 * 
 	 * @return Profil des aktuellen Benutzers
@@ -417,7 +417,7 @@ public class ProfileView extends Update {
 				confessionBox.setItemSelected(index, true);
 
 				/*
-				 * Markierung der Checkboxen für die Eigenschaft "My Hobbies"
+				 * Markierung der Checkboxen fuer die Eigenschaft "My Hobbies"
 				 */
 				for (int x = 0; x < t2.getRowCount(); x++) {
 					ArrayList<String> values = new ArrayList<String>();
@@ -452,7 +452,7 @@ public class ProfileView extends Update {
 				}
 
 				/*
-				 * Markierung der Checkboxen für die Eigenschaft
+				 * Markierung der Checkboxen fuer die Eigenschaft
 				 * "My Strong Points"
 				 */
 				for (int x = 0; x < t7.getRowCount(); x++) {
@@ -471,7 +471,7 @@ public class ProfileView extends Update {
 				}
 
 				/*
-				 * Markierung der Checkboxen für die Eigenschaft
+				 * Markierung der Checkboxen fuer die Eigenschaft
 				 * "I associate myself with this subculture"
 				 */
 				for (int x = 0; x < t6.getRowCount(); x++) {
@@ -490,7 +490,7 @@ public class ProfileView extends Update {
 				}
 
 				/*
-				 * Markierung der Checkboxen für die Eigenschaft
+				 * Markierung der Checkboxen fuer die Eigenschaft
 				 * "Favorite Era"
 				 */
 				for (int x = 0; x < t5.getRowCount(); x++) {

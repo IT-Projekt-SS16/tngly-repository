@@ -38,21 +38,21 @@ import de.hdm.core.shared.bo.Wish;
 
 /**
  * Diese View Klasse stellt die Favoriten des aktuellen Benutzers mithilfe einer
- * Tabelle für den Benutzer dar. Der Benutzer hat die Wahl, über die Tabelle in
- * das ausgewählte Profil oder zurück zur Suchansicht zu springen.
+ * Tabelle fuer den Benutzer dar. Der Benutzer hat die Wahl, ueber die Tabelle in
+ * das ausgewaehlte Profil oder zurueck zur Suchansicht zu springen.
  * 
  * @author Kevin Jaeger, Philipp Schmitt
  */
 public class WishlistCTView extends Update {
 
 	/**
-	 * Die AdministrationService ermöglicht die asynchrone Kommunikation mit der
+	 * Die AdministrationService ermoeglicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Instanz des aktuellen Benutzers ermöglicht den schnellen Zugriff auf
+	 * Die Instanz des aktuellen Benutzers ermoeglicht den schnellen Zugriff auf
 	 * dessen Profileigenschaften.
 	 */
 	private Profile currentUserProfile;
@@ -63,33 +63,33 @@ public class WishlistCTView extends Update {
 	private CellTable<Profile> cellTable = new CellTable<Profile>();
 
 	/**
-	 * Instanziierung des DataProviders, der die Profilwerte für das Tabellen
-	 * Widget bereithält.
+	 * Instanziierung des DataProviders, der die Profilwerte fuer das Tabellen
+	 * Widget bereithaelt.
 	 */
 	private ListDataProvider<Profile> dataProvider = new ListDataProvider<Profile>();
 
 	/**
-	 * Instanziierung des Handlers, der die Profilwerte für das Tabellen Widget
+	 * Instanziierung des Handlers, der die Profilwerte fuer das Tabellen Widget
 	 * sortiert.
 	 */
 	private ListHandler<Profile> sortHandler = new ListHandler<Profile>(dataProvider.getList());
 
 	/**
 	 * Instanziierung des SelectionModel, welches die Auswahl von Profilwerten
-	 * im Tabellen Widget unterstützt.
+	 * im Tabellen Widget unterstuetzt.
 	 */
 	private final MultiSelectionModel<Profile> selectionModel = new MultiSelectionModel<Profile>(null);
 
 	/**
-	 * Instanziierung des Pagers, der die Kontrolle über das Tabellen Widget
-	 * unterstützt.
+	 * Instanziierung des Pagers, der die Kontrolle ueber das Tabellen Widget
+	 * unterstuetzt.
 	 */
 	SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 	SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 	
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Widgets zur Gestaltung der View, wie:
+	 * Eingabemoeglichkeiten, wie: Widgets zur Gestaltung der View, wie:
 	 * HorizontalPanel, Trennlinien und Widgets zur Ablaufsteuerung, wie:
 	 * Buttons
 	 */
@@ -106,7 +106,7 @@ public class WishlistCTView extends Update {
 	}
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende Ueberschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -129,7 +129,7 @@ public class WishlistCTView extends Update {
 	protected void run() {
 
 		/**
-		 * Abfragen von "Wünschen" des aktuellen Benutzers aus der
+		 * Abfragen von "Wuenschen" des aktuellen Benutzers aus der
 		 * Datenbank.
 		 */
 		adminService.getWishes(getWishesCallback());
@@ -142,7 +142,7 @@ public class WishlistCTView extends Update {
 				getCurrentUserProfileCallback());
 
 		/*
-		 * Formatierung der Panels und Widgets für die Ansicht.
+		 * Formatierung der Panels und Widgets fuer die Ansicht.
 		 */
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
@@ -152,13 +152,13 @@ public class WishlistCTView extends Update {
 
 		/*
 		 * Keine erneute Aktualisierung der Header und Footer bei einer
-		 * Wertänderung.
+		 * Wertaenderung.
 		 */
 		cellTable.setAutoHeaderRefreshDisabled(true);
 
 		/*
-		 * Anhängen eines Handlers zur Spaltensortierung an den DataProvider, um
-		 * die Tabelle sortieren zu können.
+		 * Anhaengen eines Handlers zur Spaltensortierung an den DataProvider, um
+		 * die Tabelle sortieren zu koennen.
 		 */
 		cellTable.addColumnSortHandler(sortHandler);
 		cellTable.setSelectionModel(selectionModel, DefaultSelectionEventManager.<Profile>createCheckboxManager());
@@ -169,7 +169,7 @@ public class WishlistCTView extends Update {
 		initTableColumns(selectionModel, sortHandler);
 
 		/*
-		 * Hinzufügen eines DatenAdapters zur Tabelle.
+		 * Hinzufuegen eines DatenAdapters zur Tabelle.
 		 */
 		addDataDisplay(cellTable);
 
@@ -208,8 +208,8 @@ public class WishlistCTView extends Update {
 	}
 
 	/**
-	 * Fügt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
-	 * befüllt.
+	 * Fuegt einen Datenadapter hinzu. Die aktuelle Anzeige wird mit Werten
+	 * befuellt.
 	 * 
 	 * @param display
 	 *            a {@Link HasData}.
@@ -228,13 +228,13 @@ public class WishlistCTView extends Update {
 	}
 
 	/**
-	 * Fügt die Spalten in die Tabelle.
+	 * Fuegt die Spalten in die Tabelle.
 	 * 
 	 * @param selectionModel
 	 *            SelectionModel, welches die Auswahl von Profilwerten im
-	 *            Tabellen Widget unterstützt
+	 *            Tabellen Widget unterstuetzt
 	 * @param sortHandler
-	 *            Handler, der die Profilwerte für das Tabellen Widget sortiert.
+	 *            Handler, der die Profilwerte fuer das Tabellen Widget sortiert.
 	 */
 	private void initTableColumns(final SelectionModel<Profile> selectionModel, ListHandler<Profile> sortHandler) {
 		
@@ -413,10 +413,10 @@ public class WishlistCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Abfragen von "Wunsch"-Profilen aus der
+	 * AsyncCallback fuer das Abfragen von "Wunsch"-Profilen aus der
 	 * Datenbank.
 	 * 
-	 * @return Liste mit gewünschten Profilen
+	 * @return Liste mit gewuenschten Profilen
 	 */
 	private AsyncCallback<ArrayList<Profile>> getWishesCallback() {
 		AsyncCallback<ArrayList<Profile>> asyncCallback = new AsyncCallback<ArrayList<Profile>>() {
@@ -438,10 +438,10 @@ public class WishlistCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Löschen von "Wunsch"-Profilen aus der
+	 * AsyncCallback fuer das Loeschen von "Wunsch"-Profilen aus der
 	 * Datenbank.
 	 * 
-	 * @return Liste mit gewünschten Profilen
+	 * @return Liste mit gewuenschten Profilen
 	 */
 	private AsyncCallback<Void> deleteWishesCallback() {
 		AsyncCallback<Void> asyncCallback = new AsyncCallback<Void>() {
@@ -461,7 +461,7 @@ public class WishlistCTView extends Update {
 	}
 
 	/**
-	 * AsyncCallback für das Auslesen vom Profil des aktuellen Benutzers aus der
+	 * AsyncCallback fuer das Auslesen vom Profil des aktuellen Benutzers aus der
 	 * Datenbank.
 	 * 
 	 * @return Profil des aktuellen Benutzers

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 /**
  * Subklasse von Property - Definition eines Selection-Objekts, das dem Nutzer
- * die Möglichkeit bietet, seine Interessen zu bestimmten Eigenschaftsfeldern
- * durch ausgewählte Eingabe-Möglichkeiten zu bekunden.
+ * die Moeglichkeit bietet, seine Interessen zu bestimmten Eigenschaftsfeldern
+ * durch ausgewaehlte Eingabe-Moeglichkeiten zu bekunden.
  * 
  * @author Philipp Schmitt
  */
@@ -32,8 +32,8 @@ public class Selection extends Property implements Serializable {
 	 */
 
 	/**
-	 * Rückgeben der Liste an Informationsobjekten, die das Profil mit dieser
-	 * Eigenschaft verknüpft hat
+	 * Rueckgeben der Liste an Informationsobjekten, die das Profil mit dieser
+	 * Eigenschaft verknuepft hat
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Liste an Informationsobjekten des Profils zu dieser Eigenschaft
@@ -44,7 +44,7 @@ public class Selection extends Property implements Serializable {
 
 	/**
 	 * Setzen der Liste an Informationsobjekten, die das Profil mit dieser
-	 * Eigenschaft verknüpft hat
+	 * Eigenschaft verknuepft hat
 	 * 
 	 * @author Philipp Schmitt
 	 * @param informationValues

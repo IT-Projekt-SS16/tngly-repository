@@ -66,7 +66,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	/**
 	 * Das Profil des aktuellen Benutzer. Hier hinterlegt, um schnell darauf
-	 * zurückgreifen zu können.
+	 * zurueckgreifen zu koennen.
 	 */
 	private Profile currentUserProfile = null;
 
@@ -115,7 +115,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	 * No-Argument Konstruktor
 	 * 
 	 * @throws IllegalArgumentException
-	 *             Benötigt für RPC-Core
+	 *             Benoetigt fuer RPC-Core
 	 */
 	public AdministrationServiceImpl() throws IllegalArgumentException {
 
@@ -145,12 +145,12 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	/**
 	 * Erstellt ein neues Profil in der Datenbank. Dazu ruft sie mit dem
-	 * übergebenen Profil den ProfilMapper auf, der dieses dann über eine
-	 * INSERT-Abfrage in die Datenbank einfügt.
+	 * uebergebenen Profil den ProfilMapper auf, der dieses dann ueber eine
+	 * INSERT-Abfrage in die Datenbank einfuegt.
 	 * 
 	 * @author Kevin Jaeger
 	 * @param profile
-	 *            Das Profil, das in die Datenbank eingefügt werden soll
+	 *            Das Profil, das in die Datenbank eingefuegt werden soll
 	 */
 	@Override
 	public void createProfile(Profile profile) throws IllegalArgumentException {
@@ -159,8 +159,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	/**
 	 * Aktualisiert die Attribute und Eigenschaften eines Profils in der
-	 * Datenbank. Dazu ruft sie mit dem übergebenen Profil den ProfilMapper auf,
-	 * der dieses dann über eine UPDATE-Abfrage in der Datenbank aktualisiert.
+	 * Datenbank. Dazu ruft sie mit dem uebergebenen Profil den ProfilMapper auf,
+	 * der dieses dann ueber eine UPDATE-Abfrage in der Datenbank aktualisiert.
 	 * 
 	 * @author Kevin Jaeger
 	 * @param profile
@@ -173,10 +173,10 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Löscht das übergebene Profil endgültig aus der Datenbank. Die Methode
+	 * Loescht das uebergebene Profil endgueltig aus der Datenbank. Die Methode
 	 * ruft dazu, alle notwendigen Mapper (Profil, Information, Wish,
-	 * ProfileBan, ProfileVisit) mit dem übergebenen Profil auf, um ein
-	 * vollständiges Löschen aller Profildaten sicherzustellen.
+	 * ProfileBan, ProfileVisit) mit dem uebergebenen Profil auf, um ein
+	 * vollstaendiges Loeschen aller Profildaten sicherzustellen.
 	 * 
 	 * @author Kevin Jaeger
 	 * @param profile
@@ -192,12 +192,12 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Gibt das Benutzerprofil mit allen dazugehörigen Informationen anhand des
-	 * Username zurück.
+	 * Gibt das Benutzerprofil mit allen dazugehoerigen Informationen anhand des
+	 * Username zurueck.
 	 * 
 	 * @author Philipp Schmitt, Kevin Jaeger
 	 * @param userEmail
-	 *            Der Username, zu dem das Profil zurückgegeben werden soll
+	 *            Der Username, zu dem das Profil zurueckgegeben werden soll
 	 * @return Das gefundene Benutzerprofil
 	 */
 	@Override
@@ -205,7 +205,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 
 		/*
-		 * Wenn aktuell kein Profil in der Datenbank unter dem übergebenen
+		 * Wenn aktuell kein Profil in der Datenbank unter dem uebergebenen
 		 * Username vorhanden ist, dann wird ein neues Profil mit Username &
 		 * Geburtsdatum in der Datenbank angelegt.
 		 */
@@ -222,9 +222,9 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 
 		/*
-		 * Wenn aktuell ein Profil in der Datenbank unter dem übergebenen
+		 * Wenn aktuell ein Profil in der Datenbank unter dem uebergebenen
 		 * Username vorhanden ist, dann wird dieses von den entsprechenden
-		 * Mappern (Property & Information) befüllt und zurückgegeben.
+		 * Mappern (Property & Information) befuellt und zurueckgegeben.
 		 */
 		if (this.profileMapper.findByName(userEmail) != null) {
 			Profile profile = this.profileMapper.findByName(userEmail);
@@ -236,22 +236,22 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Sucht Profile nach einem übergebenen Suchprofil und vergleicht diese auf
-	 * Ähnlichkeit ihrer Eigenschaften.
+	 * Sucht Profile nach einem uebergebenen Suchprofil und vergleicht diese auf
+	 * uehnlichkeit ihrer Eigenschaften.
 	 * 
 	 * @author Kevin Jaeger
 	 * @param unseenChecked
 	 *            Zeigt, ob vom Benutzer gesehene Profile aus dem Suchergebnis
 	 *            entfernt werden sollen
 	 * @param searchProfile
-	 *            Die vom Benutzer eingegebenen Kriterien für die Profilsuche
-	 * @return Eine Liste mit nach Ähnlichkeit verglichenen, sortierten Profilen
+	 *            Die vom Benutzer eingegebenen Kriterien fuer die Profilsuche
+	 * @return Eine Liste mit nach uehnlichkeit verglichenen, sortierten Profilen
 	 */
 	@Override
 	public ArrayList<Profile> searchAndCompareProfiles(Boolean unseenChecked, SearchProfile searchProfile)
 			throws IllegalArgumentException {
 		/*
-		 * Suche nach Profilen, die mit dem Suchprofil übereinstimmen.
+		 * Suche nach Profilen, die mit dem Suchprofil uebereinstimmen.
 		 */
 		ArrayList<Profile> profiles = this.profileMapper.searchProfileByProfile(searchProfile);
 
@@ -279,8 +279,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 
 		/*
-		 * Da dem Suchenden keine Profile angezeigt werden dürfen, die diesen
-		 * "blockiert" haben, müssen diese Profile aus dem Suchergebnis entfernt
+		 * Da dem Suchenden keine Profile angezeigt werden duerfen, die diesen
+		 * "blockiert" haben, muessen diese Profile aus dem Suchergebnis entfernt
 		 * werden.
 		 */
 		for (int x = 0; x < profiles.size(); x++) {
@@ -292,7 +292,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 		/*
 		 * Da dem Suchenden auch keine Profile angezeigt werden sollen, die
-		 * dieser "blockiert" hat, müssen diese Profile aus dem Suchergebnis
+		 * dieser "blockiert" hat, muessen diese Profile aus dem Suchergebnis
 		 * entfernt werden.
 		 */
 		for (int x = 0; x < profiles.size(); x++) {
@@ -314,8 +314,8 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 
 		/*
-		 * Da nun alle Profile entfernt wurden, die zu entfernen waren, wird für
-		 * die restlichen Profile überprüft, ob diese schon besucht wurden bzw.
+		 * Da nun alle Profile entfernt wurden, die zu entfernen waren, wird fuer
+		 * die restlichen Profile ueberprueft, ob diese schon besucht wurden bzw.
 		 * einen Wunsch/Favorite des Benutzers darstellen.
 		 */
 		for (int x = 0; x < profiles.size(); x++) {
@@ -332,7 +332,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 		/*
 		 * Vergleich aller gefundenen Profile mit dem eigenen Benutzerprofil auf
-		 * Ähnlichkeit bei Eigenschaften
+		 * uehnlichkeit bei Eigenschaften
 		 */
 		for (int x = 0; x < profiles.size(); x++) {
 			Profile p = profiles.get(x);
@@ -340,14 +340,14 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 
 		/*
-		 * Sortierung aller verglichenen Profile anhand des Ähnlichkeitswertes
+		 * Sortierung aller verglichenen Profile anhand des uehnlichkeitswertes
 		 */
 		Collections.sort(profiles, Collections.reverseOrder());
 		return profiles;
 	}
 
 	/**
-	 * Erstellt einen Eintrag für einen Profilbesuch in der Datenbank.
+	 * Erstellt einen Eintrag fuer einen Profilbesuch in der Datenbank.
 	 * 
 	 * @author Kevin Jaeger
 	 * @param visitedProfiles
@@ -361,7 +361,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Löscht einen Eintrag für einen Profilbesuch in der Datenbank.
+	 * Luescht einen Eintrag fuer einen Profilbesuch in der Datenbank.
 	 * 
 	 * @author Kevin Jaeger
 	 * @param visitedProfiles
@@ -375,14 +375,14 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Gibt einen booleschen Wert zurück, der anzeigt, ob ein Profil vom
+	 * Gibt einen booleschen Wert zurueck, der anzeigt, ob ein Profil vom
 	 * Benutzer schon besucht oder nicht.
 	 * 
 	 * @author Kevin Jaeger
 	 * @param currentUserProfile
 	 *            Das Profil des aktuellen Benutzers
 	 * @param dependantProfile
-	 *            Das Profil, bei dem geprüft wird, ob es besucht wurde
+	 *            Das Profil, bei dem geprueft wird, ob es besucht wurde
 	 * @return True (wenn Profil besucht wurde), False (wenn Profil nicht
 	 *         besucht wurde)
 	 */
@@ -393,14 +393,14 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Gibt einen booleschen Wert zurück, der anzeigt, ob ein Profil einen
+	 * Gibt einen booleschen Wert zurueck, der anzeigt, ob ein Profil einen
 	 * "Wunsch" des Benutzers darstellt.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param currentUserProfile
 	 *            Das Profil des aktuellen Benutzers
 	 * @param selectedProfile
-	 *            Das Profil, bei dem geprüft wird, ob es einen
+	 *            Das Profil, bei dem geprueft wird, ob es einen
 	 *            Favorite/"Wunsch" darstellt
 	 * @return True (wenn Profil Favorite ist), False (wenn Profil kein Favorite
 	 *         ist)
@@ -412,11 +412,11 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Gibt einen booleschen Wert zurück, der anzeigt, ob ein Profil einen
+	 * Gibt einen booleschen Wert zurueck, der anzeigt, ob ein Profil einen
 	 * "Wunsch" des Benutzers darstellt.
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Liste mit "Wünschen"/Favoriten (vollständige Profile mit allen
+	 * @return Liste mit "Wuenschen"/Favoriten (vollstuendige Profile mit allen
 	 *         Informationen)
 	 */
 	@Override
@@ -433,13 +433,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile temp = this.profileMapper.findByName(userName);
 
 		/*
-		 * Auslesen der "Wünsche"/Favoriten des aktuellen Benutzers.
+		 * Auslesen der "Wuensche"/Favoriten des aktuellen Benutzers.
 		 */
 		ArrayList<Wish> ws = new ArrayList<Wish>();
 		ws = this.wishMapper.findWishedProfiles(temp.getId());
 
 		/*
-		 * Zusammenstellen der Profile der gefundenen "Wünsche"/Favoriten.
+		 * Zusammenstellen der Profile der gefundenen "Wuensche"/Favoriten.
 		 */
 		ArrayList<Profile> rs = new ArrayList<Profile>();
 		for (Wish w : ws) {
@@ -447,7 +447,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		}
 
 		/*
-		 * Markieren der zusammengestellten "Wünsche"/Favoriten als
+		 * Markieren der zusammengestellten "Wuensche"/Favoriten als
 		 * "Favorite/Wunsch"
 		 */
 		for (Profile p : rs) {
@@ -464,7 +464,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Löscht ungewollte "Wünsche"/Favoriten aus der Datenbank.
+	 * Luescht ungewollte "Wuensche"/Favoriten aus der Datenbank.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param toUnwish
@@ -485,7 +485,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile temp = this.profileMapper.findByName(userName);
 
 		/*
-		 * Übergebene "Wünsche" werden aus der Datenbank entfernt.
+		 * uebergebene "Wuensche" werden aus der Datenbank entfernt.
 		 */
 		for (Wish w : toUnwish) {
 			w.setWishingProfileId(temp.getId());
@@ -494,13 +494,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Fügt ein ausgewähltes Profil zu der "Wunschliste" des Benutzers hinzu.
+	 * Fuegt ein ausgewuehltes Profil zu der "Wunschliste" des Benutzers hinzu.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishedProfileId
-	 *            Das "gewünschte" Profil
+	 *            Das "gewuenschte" Profil
 	 * @param wishingProfileId
-	 *            Das "wünschende" Profil
+	 *            Das "wuenschende" Profil
 	 * @return Der angelegte "Wunsch"
 	 */
 	@Override
@@ -512,13 +512,13 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Löscht ein ausgewähltes Profil von der "Wunschliste" des Benutzers.
+	 * Luescht ein ausgewuehltes Profil von der "Wunschliste" des Benutzers.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishedProfileId
-	 *            Das "gewünschte" Profil
+	 *            Das "gewuenschte" Profil
 	 * @param wishingProfileId
-	 *            Das "wünschende" Profil
+	 *            Das "wuenschende" Profil
 	 * @return
 	 */
 	@Override
@@ -530,14 +530,14 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Gibt einen booleschen Wert zurück, der anzeigt, ob das ausgewählte Profil
+	 * Gibt einen booleschen Wert zurueck, der anzeigt, ob das ausgewuehlte Profil
 	 * vom Benutzer "blockiert" wird.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param currentUserProfile
 	 *            Das Profil des aktuellen Benutzers
 	 * @param selectedProfile
-	 *            Das zu überprüfende Profil
+	 *            Das zu ueberpruefende Profil
 	 * @return True (wenn Profil "blockiert" ist), False (wenn Profil nicht
 	 *         "blockiert" ist)
 	 */
@@ -548,7 +548,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Gibt eine Liste mit Profilen zurück, die vom Benutzer "blockiert" werden.
+	 * Gibt eine Liste mit Profilen zurueck, die vom Benutzer "blockiert" werden.
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Liste mit "blockierten" Profilen
@@ -599,7 +599,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 
 	/**
 	 * Erstellt einen Eintrag in der Datenbank, der anzeigt, dass das
-	 * ausgewählte Profil "blockiert" wird.
+	 * ausgewuehlte Profil "blockiert" wird.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param bannedpId
@@ -617,7 +617,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Löscht den Eintrag in der Datenbank, der anzeigt, dass das ausgewählte
+	 * Luescht den Eintrag in der Datenbank, der anzeigt, dass das ausgewuehlte
 	 * Profil "blockiert" wird.
 	 * 
 	 * @author Philipp Schmitt
@@ -639,7 +639,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 		Profile temp = this.profileMapper.findByName(userName);
 
 		/*
-		 * Entfernen der "Block"-Einträge in der Datenbank
+		 * Entfernen der "Block"-Eintruege in der Datenbank
 		 */
 		for (ProfileBan pb : toUnban) {
 			pb.setBanningProfileId(temp.getId());
@@ -649,7 +649,7 @@ public class AdministrationServiceImpl extends RemoteServiceServlet implements A
 	}
 
 	/**
-	 * Löscht den Eintrag in der Datenbank, der anzeigt, dass das ausgewählte
+	 * Loescht den Eintrag in der Datenbank, der anzeigt, dass das ausgewaehlte
 	 * Profil "blockiert" wird.
 	 * 
 	 * @author Philipp Schmitt

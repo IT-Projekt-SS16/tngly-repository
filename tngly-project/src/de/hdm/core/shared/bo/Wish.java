@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Definition eines Profilwunsch-Objekts, das das Verhältnis zwischen zwei
- * Profilen darstellt. Ein Profilwunsch wird vom Nutzer-Profil für ein anderes
- * Profil erstellt, wenn sich der Nutzer dieses Profil zur späteren, weiteren
- * Begutachtung "merken" möchte.
+ * Definition eines Profilwunsch-Objekts, das das Verhaeltnis zwischen zwei
+ * Profilen darstellt. Ein Profilwunsch wird vom Nutzer-Profil fuer ein anderes
+ * Profil erstellt, wenn sich der Nutzer dieses Profil zur spaeteren, weiteren
+ * Begutachtung "merken" moechte.
  * 
  * @author Philipp Schmitt
  */
@@ -23,17 +23,17 @@ public class Wish implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Die id des Profilwunschs - eindeutiger Primärschlüssel für die Datenbank
+	 * Die id des Profilwunschs - eindeutiger Primaerschluessel fuer die Datenbank
 	 */
 	private int id = 0;
 
 	/**
-	 * Die id des wünschenden Profils
+	 * Die id des wuenschenden Profils
 	 */
 	private int wishingProfileId = 0;
 
 	/**
-	 * Die id des gewünschten Profils
+	 * Die id des gewuenschten Profils
 	 */
 	private int wishedProfileId = 0;
 
@@ -43,12 +43,12 @@ public class Wish implements Serializable {
 	private Date timestamp;
 
 	/**
-	 * Das wünschende Profil-Objekt
+	 * Das wuenschende Profil-Objekt
 	 */
 	private Profile wishingProfile;
 
 	/**
-	 * Das gewünschte Profil-Objekt
+	 * Das gewuenschte Profil-Objekt
 	 */
 	private Profile wishedProfile;
 
@@ -57,7 +57,7 @@ public class Wish implements Serializable {
 	 */
 
 	/**
-	 * Rückgeben der Profilwunsch-Id
+	 * Rueckgeben der Profilwunsch-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige Id des Profilwunsch-Objekts
@@ -78,49 +78,49 @@ public class Wish implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der wünschenden Profils-Id
+	 * Rueckgeben der wuenschenden Profils-Id
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Die eindeutige Id des wünschenden Profils
+	 * @return Die eindeutige Id des wuenschenden Profils
 	 */
 	public int getWishingProfileId() {
 		return this.wishingProfileId;
 	}
 
 	/**
-	 * Setzen der wünschenden Profils-Id
+	 * Setzen der wuenschenden Profils-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishingProfileId
-	 *            Die zu setzende Id des wünschenden Profils
+	 *            Die zu setzende Id des wuenschenden Profils
 	 */
 	public void setWishingProfileId(int wishingProfileId) {
 		this.wishingProfileId = wishingProfileId;
 	}
 
 	/**
-	 * Rückgeben der gewünschten Profils-Id
+	 * Rueckgeben der gewuenschten Profils-Id
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Die eindeutige id des gewünschten Profils
+	 * @return Die eindeutige id des gewuenschten Profils
 	 */
 	public int getWishedProfileId() {
 		return this.wishedProfileId;
 	}
 
 	/**
-	 * Setzen der gewünschten Profils-Id
+	 * Setzen der gewuenschten Profils-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishedProfileId
-	 *            Die zu setzende Id des gewünschten Profils
+	 *            Die zu setzende Id des gewuenschten Profils
 	 */
 	public void setWishedProfileId(int wishedProfileId) {
 		this.wishedProfileId = wishedProfileId;
 	}
 
 	/**
-	 * Rückgeben des Timestamps von der Erstellung des Profilwunsch-Objekts
+	 * Rueckgeben des Timestamps von der Erstellung des Profilwunsch-Objekts
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Timestamp zum Zeitpunkt der Objekt-Erstellung
@@ -140,59 +140,59 @@ public class Wish implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des wünschenden Profil-Objekts
+	 * Rueckgeben des wuenschenden Profil-Objekts
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Das wünschende Profil-Objekt
+	 * @return Das wuenschende Profil-Objekt
 	 */
 	public Profile getWishingProfile() {
 		return this.wishingProfile;
 	}
 
 	/**
-	 * Setzen des wünschenden Profil-Objekts
+	 * Setzen des wuenschenden Profil-Objekts
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishingProfile
-	 *            Das zu setzende, wünschende Profil-Objekt
+	 *            Das zu setzende, wuenschende Profil-Objekt
 	 */
 	public void setWishingProfile(Profile wishingProfile) {
 		this.wishingProfile = wishingProfile;
 	}
 
 	/**
-	 * Rückgeben des gewünschten Profil-Objekts
+	 * Rueckgeben des gewuenschten Profil-Objekts
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Das gewünschte Profil-Objekt
+	 * @return Das gewuenschte Profil-Objekt
 	 */
 	public Profile getWishedProfile() {
 		return this.wishedProfile;
 	}
 
 	/**
-	 * Setzen des gewünschten Profil-Objekts
+	 * Setzen des gewuenschten Profil-Objekts
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishedProfile
-	 *            Das zu setzende, gewünschte Profil-Objekt
+	 *            Das zu setzende, gewuenschte Profil-Objekt
 	 */
 	public void setWishedProfile(Profile wishedProfile) {
 		this.wishedProfile = wishedProfile;
 	}
 
 	/**
-	 * Rückgeben des Profilwunsch-Objekts als String mit ausgewählten
+	 * Rueckgeben des Profilwunsch-Objekts als String mit ausgewaehlten
 	 * Variablen-Werten
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Textuelle Beschreibung des Profilwunsch-Objekts anhand
-	 *         ausgewählter Eigenschaften
+	 *         ausgewaehlter Eigenschaften
 	 */
 	@Override
 	public String toString() {
 		return super.toString() + " " + this.id + " Das Profil mit der id " + this.wishingProfileId
-				+ " wünscht sich das Profile mit der id " + this.wishedProfileId + " um " + this.timestamp;
+				+ " wuenscht sich das Profile mit der id " + this.wishedProfileId + " um " + this.timestamp;
 	}
 
 }

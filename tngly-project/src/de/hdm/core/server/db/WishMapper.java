@@ -14,8 +14,8 @@ import de.hdm.core.shared.bo.Wish;
 
 /**
  * Die Mapper-Klasse WishMapper stellt eine Schnittstelle zwischen Applikation
- * und Datenbank dar. Die zu persistierenden Profilwünsche werden hier auf eine
- * relationale Ebene projiziert. Die abzurufenden Profilwünsche werden aus den
+ * und Datenbank dar. Die zu persistierenden Profilwuensche werden hier auf eine
+ * relationale Ebene projiziert. Die abzurufenden Profilwuensche werden aus den
  * relationalen Tabellen zusammengestellt.
  * 
  * @author Philipp Schmitt
@@ -35,7 +35,7 @@ public class WishMapper {
 	}
 
 	/**
-	 * Aufruf eines ProfileBan-Mappers für Klassen, die keinen Zugriff auf den
+	 * Aufruf eines ProfileBan-Mappers fuer Klassen, die keinen Zugriff auf den
 	 * Konstruktor haben.
 	 * 
 	 * @return Einzigartige Mapper-Instanz zur Benutzung in der
@@ -50,7 +50,7 @@ public class WishMapper {
 	}
 
 	/**
-	 * Read-Methode - Anhand einer vorgegebenen id wird der dazu gehörige Wish
+	 * Read-Methode - Anhand einer vorgegebenen id wird der dazu gehoerige Wish
 	 * in der Datenbank gesucht.
 	 * 
 	 * @author Philipp Schmitt
@@ -73,15 +73,15 @@ public class WishMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken
+			 * Statement ausfuellen und als Query an die DB schicken
 			 */
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM profileWishes "
 							+ "WHERE id=" + id + " ORDER BY id");
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 * Da id Primaerschluessel ist, kann max. nur ein Tupel zurueckgegeben
+			 * werden. Pruefe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
 				/**
@@ -107,7 +107,7 @@ public class WishMapper {
 	 * Read-Methode - Auslesen aller Wishes in einen Vektor.
 	 * 
 	 * @author Philipp Schmitt
-	 * @return Liste aller derzeit in der Datenbank eingetragenen Profilwünsche
+	 * @return Liste aller derzeit in der Datenbank eingetragenen Profilwuensche
 	 */
 
 	public Vector<Wish> findAll() {
@@ -124,7 +124,7 @@ public class WishMapper {
 					"SELECT id, wishingProfileId, wishedProfileId, timestamp FROM profileWishes" + "ORDER BY id");
 
 			/**
-			 * Für jeden Eintrag im Suchergebnis wird nun ein Wish-Objekt
+			 * Fuer jeden Eintrag im Suchergebnis wird nun ein Wish-Objekt
 			 * erstellt.
 			 */
 
@@ -136,7 +136,7 @@ public class WishMapper {
 				w.setTimestamp(rs.getDate("timestamp"));
 
 				/**
-				 * Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 * Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				 */
 
 				result.addElement(w);
@@ -146,21 +146,21 @@ public class WishMapper {
 		}
 
 		/**
-		 * Ergebnisvektor zurückgeben
+		 * Ergebnisvektor zurueckgeben
 		 */
 		return result;
 	}
 
 	/**
-	 * Read-Methode - Auslesen aller Wishes (Profilwünsche), die vom übergebenen
-	 * Profil je getätigt wurden
+	 * Read-Methode - Auslesen aller Wishes (Profilwuensche), die vom uebergebenen
+	 * Profil je getaetigt wurden
 	 * 
 	 * @author Philipp Schmitt
 	 * @param wishingProfileId
-	 *            Id des Profils, zu dem alle Profilwünsche gesucht werden
+	 *            Id des Profils, zu dem alle Profilwuensche gesucht werden
 	 *            sollen.
-	 * @return Liste aller von dem zu überprüfenden Profil getätigten
-	 *         Profilwünsche
+	 * @return Liste aller von dem zu ueberpruefenden Profil getaetigten
+	 *         Profilwuensche
 	 */
 
 	public ArrayList<Wish> findWishedProfiles(int wishingProfileId) {
@@ -182,7 +182,7 @@ public class WishMapper {
 							+ " WHERE wishingProfileId=" + wishingProfileId + " ORDER BY timestamp");
 
 			/**
-			 * Für jeden Eintrag im Suchergebnis wird nun ein Wish-Objekt
+			 * Fuer jeden Eintrag im Suchergebnis wird nun ein Wish-Objekt
 			 * erstellt.
 			 */
 
@@ -196,7 +196,7 @@ public class WishMapper {
 				w.setWishedProfile(profileMapper.findByKey(w.getWishedProfileId()));
 
 				/**
-				 * Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 * Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				 */
 
 				result.add(w);
@@ -206,21 +206,21 @@ public class WishMapper {
 		}
 
 		/**
-		 * Ergebnisvektor zurückgeben
+		 * Ergebnisvektor zurueckgeben
 		 */
 		return result;
 	}
 
 	/**
-	 * Read-Methode - Abfrage, ob für das übergebene zu checkende Profil ein
+	 * Read-Methode - Abfrage, ob fuer das uebergebene zu checkende Profil ein
 	 * Profilwunsch durch den Nutzer besteht.
 	 * 
 	 * @param currentUserProfile
-	 *            Profil, das ein anderes Profil gewünscht haben soll
+	 *            Profil, das ein anderes Profil gewuenscht haben soll
 	 * @param otherProfile
-	 *            Profil, das gewünscht
+	 *            Profil, das gewuenscht
 	 * @return Boolean, ob das angemeldete Profil das zu checkende Profil
-	 *         wünscht
+	 *         wuenscht
 	 */
 
 	public boolean isProfileWished(int wishingProfileId, int checkedProfileId) {
@@ -242,7 +242,7 @@ public class WishMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Übergabe und Ausführung der Abfrage
+			 * uebergabe und Ausfuehrung der Abfrage
 			 */
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, wishingProfileId, wishedProfileId, timestamp FROM profileWishes"
@@ -250,7 +250,7 @@ public class WishMapper {
 							+ " ORDER BY timestamp");
 
 			/**
-			 * Check, ob ein Ergebnis zurückkam. Falls ja, ist das Profil
+			 * Check, ob ein Ergebnis zurueckkam. Falls ja, ist das Profil
 			 * gebannt.
 			 */
 			if (rs.next()) {
@@ -262,15 +262,15 @@ public class WishMapper {
 		}
 
 		/**
-		 * Rückgabe der Ergebnisvariable
+		 * Rueckgabe der Ergebnisvariable
 		 */
 		return result;
 
 	}
 
 	/**
-	 * Insert-Methode - Ein Wish-Objekt w wird übergeben und die zugehörigen
-	 * Werte in ein SQL-Statement geschrieben, welches ausgeführt wird, um das
+	 * Insert-Methode - Ein Wish-Objekt w wird uebergeben und die zugehoerigen
+	 * Werte in ein SQL-Statement geschrieben, welches ausgefuehrt wird, um das
 	 * Objekt in die Datenbank einzutragen.
 	 * 
 	 * @author Philipp Schmitt
@@ -291,18 +291,18 @@ public class WishMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
+			 * Zunaechst schauen wir nach, welches der momentan hoechste
+			 * Primaerschluesselwert ist.
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM profileWishes ");
 
 			/**
-			 * Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			 * Wenn wir etwas zurueckerhalten, kann dies nur einzeilig sein
 			 */
 			if (rs.next()) {
 				/**
-				 * w erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
+				 * w erhaelt den bisher maximalen, nun um 1 inkrementierten
+				 * Primaerschluessel.
 				 */
 				w.setId(rs.getInt("maxid") + 1);
 
@@ -313,7 +313,7 @@ public class WishMapper {
 				String date = mySQLformat.format(currentDate);
 
 				/**
-				 * Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				 * Jetzt erst erfolgt die tatsaechliche Einfuegeoperation
 				 */
 				stmt.executeUpdate("INSERT INTO profileWishes (id, wishingProfileId, wishedProfileId, timestamp) "
 						+ "VALUES (" + w.getId() + ",'" + w.getWishingProfileId() + "','" + w.getWishedProfileId()
@@ -327,8 +327,8 @@ public class WishMapper {
 	}
 
 	/**
-	 * Delete-Methode - Ein Wish-Objekt wird übergeben und dieses aus der DB
-	 * gelöscht.
+	 * Delete-Methode - Ein Wish-Objekt wird uebergeben und dieses aus der DB
+	 * geloescht.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param w
@@ -348,13 +348,13 @@ public class WishMapper {
 	}
 
 	/**
-	 * Delete-Methode zur Profillöschung. Ein Profilobjekt profile soll komplett
-	 * aus der Datenbank gelöscht werden und hiermit auch die entsprechenden
+	 * Delete-Methode zur Profilloeschung. Ein Profilobjekt profile soll komplett
+	 * aus der Datenbank geloescht werden und hiermit auch die entsprechenden
 	 * Referenzen in der wish-Tabelle.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profile
-	 *            Profil, das komplett aus der Datenbank gelöscht wird
+	 *            Profil, das komplett aus der Datenbank geloescht wird
 	 */
 
 	public void delete(Profile profile) {

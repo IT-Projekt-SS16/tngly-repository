@@ -15,9 +15,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.core.shared.bo.SearchProfile;
 
 /**
- * Diese View Klasse für den Editor Client stellt Eingabemöglichkeiten für den
- * Benutzer zur Verfügung, um eine Suche nach Profilen anhand folgender
- * Kriterien zu ermöglichen: Geschlecht, Alter, Körpergrösse, Haarfarbe,
+ * Diese View Klasse fuer den Editor Client stellt Eingabemoeglichkeiten fuer den
+ * Benutzer zur Verfuegung, um eine Suche nach Profilen anhand folgender
+ * Kriterien zu ermoeglichen: Geschlecht, Alter, Koerpergroesse, Haarfarbe,
  * Raucher, Konfession
  * 
  * @author Kevin Jaeger, Philipp Schmitt
@@ -25,14 +25,14 @@ import de.hdm.core.shared.bo.SearchProfile;
 public class SearchByProfileView extends Update {
 
 	/**
-	 * Die Speicherung des Suchprofils ermöglicht den schnellen Zugriff auf die
+	 * Die Speicherung des Suchprofils ermoeglicht den schnellen Zugriff auf die
 	 * durch den Benutzer eingegebenen Kriterien.
 	 */
 	private SearchProfile searchProfile;
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Textboxen, Listboxen, Checkboxen, sowie
+	 * Eingabemoeglichkeiten, wie: Textboxen, Listboxen, Checkboxen, sowie
 	 * Widgets zur Gestaltung der View, wie: VerticalPanel Und Widgets zur
 	 * Ablaufsteuerung, wie: Button
 	 */
@@ -78,7 +78,7 @@ public class SearchByProfileView extends Update {
 	private final Button showProfilesButton = new Button("Search");
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende Ueberschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -115,7 +115,7 @@ public class SearchByProfileView extends Update {
 	protected void run() {
 
 		/*
-		 * Befüllen der Listboxen mit Werten
+		 * Befuellen der Listboxen mit Werten
 		 */
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -144,7 +144,7 @@ public class SearchByProfileView extends Update {
 		genderBox.addItem("Male");
 
 		/*
-		 * Aufbau und Befüllung der FlexTables mit Werten und Widgets
+		 * Aufbau und Befuellung der FlexTables mit Werten und Widgets
 		 */
 		t.setText(0, 0, "Gender");
 		t.setWidget(0, 1, genderBox);
@@ -289,7 +289,7 @@ public class SearchByProfileView extends Update {
 		showProfilesButton.setStyleName("tngly-bluebutton");
 
 		/*
-		 * Formatierung der Widgets für die Ansicht.
+		 * Formatierung der Widgets fuer die Ansicht.
 		 */
 		t.setCellSpacing(5);
 		verPanel.setSpacing(10);
@@ -385,20 +385,20 @@ public class SearchByProfileView extends Update {
 			public void onClick(ClickEvent event) {
 
 				/*
-				 * Rücksetzung der Labels für die Meldungen zu Eingabefehlern.
+				 * Ruecksetzung der Labels fuer die Meldungen zu Eingabefehlern.
 				 */
 				t.setWidget(4, 5, null);
 				t.setWidget(2, 5, null);
 
 				/*
-				 * Instanziierung eines temporären Objekts vom Typ Suchprofil,
+				 * Instanziierung eines temporaeren Objekts vom Typ Suchprofil,
 				 * um die eingegebenen Werte vom Benutzer an den Server zu
 				 * schicken.
 				 */
 				SearchProfile temp = new SearchProfile();
 
 				/*
-				 * Auslesen von Werten der Checkboxen für die Suchkriterien
+				 * Auslesen von Werten der Checkboxen fuer die Suchkriterien
 				 * "Any"
 				 */
 				boolean genderChecked = chkGenderAny.getValue();
@@ -409,7 +409,7 @@ public class SearchByProfileView extends Update {
 				boolean confessionChecked = chkConfessionAny.getValue();
 
 				/*
-				 * Überprüfung der Textboxen (Alter, Körpergröße) auf logische
+				 * Ueberpruefung der Textboxen (Alter, Koerpergroesse) auf logische
 				 * Falscheingaben bzw. formale Inkorrektheiten (bspw. Zahl in
 				 * Textfeld).
 				 */
@@ -466,7 +466,7 @@ public class SearchByProfileView extends Update {
 				}
 
 				/*
-				 * Suchausführung mit eingegebenen Werte blockieren, um
+				 * Suchausfuehrung mit eingegebenen Werte blockieren, um
 				 * Mehrfach-Klicks zu verhindern.
 				 */
 				showProfilesButton.setEnabled(false);
@@ -474,7 +474,7 @@ public class SearchByProfileView extends Update {
 
 				/*
 				 * Auslesen der eingegebenen Werte aus den Widgets in das
-				 * temporäre Suchprofil.
+				 * temporaere Suchprofil.
 				 */
 				if (genderChecked == false) {
 					int selectedGenderIndex = genderBox.getSelectedIndex();

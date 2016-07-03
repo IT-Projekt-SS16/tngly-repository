@@ -18,9 +18,9 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Führt den Login aus und ruft die Informationen des angemeldeten Benutzers
+	 * Fuehrt den Login aus und ruft die Informationen des angemeldeten Benutzers
 	 * von der Google Accounts API ab. Im Falle einer inkorrekten Anmeldung wird
-	 * eine Login-URL zur Anzeige eines Anmeldebildschirms für den Benutzer
+	 * eine Login-URL zur Anzeige eines Anmeldebildschirms fuer den Benutzer
 	 * erstellt.
 	 * 
 	 * @author Kevin Jaeger

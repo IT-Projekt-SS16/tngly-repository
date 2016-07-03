@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Diese Klasse ist die Basisklasse aller Views im Reportgenerator. Jede View
- * ist ein VerticalPanel und lässt sich somit unter GWT entsprechend anordnen.
+ * ist ein VerticalPanel und laesst sich somit unter GWT entsprechend anordnen.
  * 
  * @author Peter Thies
  */
@@ -39,11 +39,11 @@ public abstract class UpdateReportGenerator extends VerticalPanel {
 	/**
 	 * Mit Hilfe dieser Methoden erstellen wir aus einem String ein mittels CSS
 	 * formatierbares HTML-Element, das an das Ende der bisherigen Ausgabe
-	 * dieser View angehängt wird.
+	 * dieser View angehaengt wird.
 	 * 
 	 * @param text
 	 *            der String, den wir als HTML an die bisherige View-Ausgabe
-	 *            anhängen wollen
+	 *            anhaengen wollen
 	 */
 	protected void append(String text) {
 		HTML content = new HTML(text);

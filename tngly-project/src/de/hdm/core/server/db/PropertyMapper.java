@@ -6,19 +6,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import de.hdm.core.shared.bo.Property;
 import de.hdm.core.shared.bo.Description;
 import de.hdm.core.shared.bo.Profile;
 import de.hdm.core.shared.bo.Selection;
 
 /**
  * Die Mapper-Klasse PropertyMapper stellt eine Schnittstelle zwischen
- * Applikation und Datenbank dar. Aufgrund der gestellten Anforderungen enthält
+ * Applikation und Datenbank dar. Aufgrund der gestellten Anforderungen enthaelt
  * diese Klasse keine typischen CRUD-Methoden. Die Properties werden im Rahmen
- * dieses Projekts einmal festgelegt und der Datenbank hinzugefügt. Diese sind
- * nicht frei erstell-, editier- und löschbar. Die zu persistierenden
- * Eigenschaften würden hier auf eine relationale Ebene projiziert. Die
- * abzurufenden Properties würden aus den relationalen Tabellen
+ * dieses Projekts einmal festgelegt und der Datenbank hinzugefuegt. Diese sind
+ * nicht frei erstell-, editier- und loeschbar. Die zu persistierenden
+ * Eigenschaften wuerden hier auf eine relationale Ebene projiziert. Die
+ * abzurufenden Properties wuerden aus den relationalen Tabellen
  * zusammengestellt.
  * 
  * @author Philipp Schmitt
@@ -39,7 +38,7 @@ public class PropertyMapper {
 	}
 
 	/**
-	 * Aufruf eines Property-Mappers für Klassen, die keinen Zugriff auf den
+	 * Aufruf eines Property-Mappers fuer Klassen, die keinen Zugriff auf den
 	 * Konstruktor haben.
 	 * 
 	 * @return Einzigartige Mapper-Instanz zur Benutzung in der
@@ -54,15 +53,15 @@ public class PropertyMapper {
 	}
 
 	/**
-	 * Read-Methode zur Befüllung einer beliebigen Anzahl an Profilen mit
-	 * aktuell in der Datenbank verfügbaren Eigenschaften, für die der Nutzer
+	 * Read-Methode zur Befuellung einer beliebigen Anzahl an Profilen mit
+	 * aktuell in der Datenbank verfuegbaren Eigenschaften, fuer die der Nutzer
 	 * Informationswerte verwalten kann.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profiles
-	 *            Ein Array an Profilen, für die die möglichen Eigenschaften
-	 *            hinzugefügt werden sollen
-	 * @return Das Profil-Array mit den ergänzten Eigenschaftswerten
+	 *            Ein Array an Profilen, fuer die die moeglichen Eigenschaften
+	 *            hinzugefuegt werden sollen
+	 * @return Das Profil-Array mit den ergaenzten Eigenschaftswerten
 	 */
 
 	public ArrayList<Profile> searchForProperties(ArrayList<Profile> profiles) {
@@ -80,7 +79,7 @@ public class PropertyMapper {
 				Statement stmt = con.createStatement();
 
 				/**
-				 * Statement ausfüllen und als Query an die DB schicken
+				 * Statement ausfuellen und als Query an die DB schicken
 				 */
 				String sql0 = "SELECT id, textualDescription FROM properties WHERE type ='description'";
 				ResultSet rs = stmt.executeQuery(sql0);

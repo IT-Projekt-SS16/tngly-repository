@@ -1,7 +1,5 @@
 package de.hdm.reportgenerator.client;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -14,13 +12,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.hdm.core.client.ClientsideSettings;
 import de.hdm.core.shared.bo.SearchProfile;
 
 /**
- * Diese View Klasse für den ReportGenerator Client stellt Eingabemöglichkeiten
- * für den Benutzer zur Verfügung, um eine Suche nach Profilen und deren Ausgabe
- * anhand folgender Kriterien zu ermöglichen: Geschlecht, Alter, Körpergrösse,
+ * Diese View Klasse fuer den ReportGenerator Client stellt Eingabemoeglichkeiten
+ * fuer den Benutzer zur Verfuegung, um eine Suche nach Profilen und deren Ausgabe
+ * anhand folgender Kriterien zu ermoeglichen: Geschlecht, Alter, Koerpergroesse,
  * Haarfarbe, Raucher, Konfession
  * 
  * @author Kevin Jaeger, Philipp Schmitt
@@ -28,7 +25,7 @@ import de.hdm.core.shared.bo.SearchProfile;
 public class SearchByProfileViewR extends UpdateReportGenerator {
 
 	/**
-	 * Die Speicherung des Suchprofils ermöglicht den schnellen Zugriff auf die
+	 * Die Speicherung des Suchprofils ermoeglicht den schnellen Zugriff auf die
 	 * durch den Benutzer eingegebenen Kriterien.
 	 */
 	private SearchProfile searchProfile;
@@ -37,7 +34,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabemöglichkeiten, wie: Textboxen, Listboxen, Checkboxen, sowie
+	 * Eingabemoeglichkeiten, wie: Textboxen, Listboxen, Checkboxen, sowie
 	 * Widgets zur Gestaltung der View, wie: VerticalPanel Und Widgets zur
 	 * Ablaufsteuerung, wie: Button
 	 */
@@ -84,7 +81,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 	private final Button showProfilesButton = new Button("Search");
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende Ueberschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -125,7 +122,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 	protected void run() {
 		
 		/*
-		 * Befüllen der Listboxen mit Werten
+		 * Befuellen der Listboxen mit Werten
 		 */
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -154,7 +151,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 		genderBox.addItem("Male");
 
 		/*
-		 * Aufbau und Befüllung der FlexTables mit Werten und Widgets
+		 * Aufbau und Befuellung der FlexTables mit Werten und Widgets
 		 */
 		t.setText(0, 0, "Gender");
 		t.setWidget(0, 1, genderBox);
@@ -309,7 +306,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 		showProfilesButton.setStyleName("tngly-bluebutton");
 		
 		/*
-		 * Formatierung der Widgets für die Ansicht.
+		 * Formatierung der Widgets fuer die Ansicht.
 		 */
 		t.setCellSpacing(5);
 		verPanel.setSpacing(10);
@@ -329,7 +326,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 			public void onClick(ClickEvent event) {
 
 				/*
-				 * Auslesen von Werten der Checkboxen für die Suchkriterien
+				 * Auslesen von Werten der Checkboxen fuer die Suchkriterien
 				 * "Any"
 				 */
 				boolean genderChecked = chkGenderAny.getValue();
@@ -341,14 +338,14 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 				boolean unseenChecked = chkOnlyUnseenProfiles.getValue();
 
 				/*
-				 * Instanziierung eines temporären Objekts vom Typ Suchprofil,
+				 * Instanziierung eines temporaeren Objekts vom Typ Suchprofil,
 				 * um die eingegebenen Werte vom Benutzer an den Server zu
 				 * schicken.
 				 */
 				SearchProfile temp = new SearchProfile();
 
 				/*
-				 * Überprüfung der Textboxen (Alter, Körpergröße) auf logische
+				 * Ueberpruefung der Textboxen (Alter, Koerpergroesse) auf logische
 				 * Falscheingaben bzw. formale Inkorrektheiten (bspw. Zahl in
 				 * Textfeld).
 				 */
@@ -405,7 +402,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 				}
 
 				/*
-				 * Suchausführung mit eingegebenen Werte blockieren, um
+				 * Suchausfuehrung mit eingegebenen Werte blockieren, um
 				 * Mehrfach-Klicks zu verhindern.
 				 */
 				showProfilesButton.setEnabled(false);
@@ -413,7 +410,7 @@ public class SearchByProfileViewR extends UpdateReportGenerator {
 
 				/*
 				 * Auslesen der eingegebenen Werte aus den Widgets in das
-				 * temporäre Suchprofil.
+				 * temporaere Suchprofil.
 				 */
 				if (genderChecked == false) {
 					int selectedGenderIndex = genderBox.getSelectedIndex();

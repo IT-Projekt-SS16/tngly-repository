@@ -21,8 +21,8 @@ import de.hdm.core.client.LoginServiceAsync;
 import de.hdm.core.shared.LoginInfo;
 
 /**
- * EntryPoint Klasse für den ReportGenerator Client. Initialisierung der
- * Navigation und Überprüfung des eingeloggten Users mit der Datenbank, ob der
+ * EntryPoint Klasse fuer den ReportGenerator Client. Initialisierung der
+ * Navigation und Ueberpruefung des eingeloggten Users mit der Datenbank, ob der
  * Benutzer bereits in der Datenbank gespeichert ist.
  * 
  * @author Kevin Jaeger
@@ -30,13 +30,13 @@ import de.hdm.core.shared.LoginInfo;
 public class ReportgeneratorEntryPoint implements EntryPoint {
 
 	/**
-	 * Der LoginService ermöglicht die asynchrone Kommunikation mit der
+	 * Der LoginService ermoeglicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
 
 	/**
-	 * Die Instanz von LoginInfo dient als Hilfsklasse für das Login und stellt
+	 * Die Instanz von LoginInfo dient als Hilfsklasse fuer das Login und stellt
 	 * erforderliche Variablen und Operationen bereit.
 	 */
 	private LoginInfo loginInfo = null;
@@ -122,13 +122,13 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 	}
 
 	/**
-	 * Erstellt eine DialogBox als Impressum und gibt diese zurück.
+	 * Erstellt eine DialogBox als Impressum und gibt diese zurueck.
 	 * 
 	 * @return Eine DialogBox als Impressum aufbereitet
 	 */
 	private DialogBox createDialogBox() {
 		/*
-		 * Instanziierung einer DialogBox und Setzung der Überschrift dieser
+		 * Instanziierung einer DialogBox und Setzung der Ueberschrift dieser
 		 * DialogBox.
 		 */
 		final DialogBox dialogBox = new DialogBox();
@@ -161,7 +161,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 		});
 
 		/*
-		 * Hinzufügen einer Schliessen-Schaltfläche am Ende der DialogBox.
+		 * Hinzufuegen einer Schliessen-Schaltflaeche am Ende der DialogBox.
 		 */
 		dialogContents.add(closeButton);
 		dialogContents.setCellHorizontalAlignment(closeButton, HasHorizontalAlignment.ALIGN_CENTER);
@@ -170,7 +170,7 @@ public class ReportgeneratorEntryPoint implements EntryPoint {
 	}
 
 	/**
-	 * Baut das Login-Panel zur Anmeldung für den Benutzer auf.
+	 * Baut das Login-Panel zur Anmeldung fuer den Benutzer auf.
 	 */
 	private void loadLogin() {
 		signInLink.setHref(loginInfo.getLoginUrl());

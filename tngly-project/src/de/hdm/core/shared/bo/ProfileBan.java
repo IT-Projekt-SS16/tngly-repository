@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Definition eines Kontaktsperre-Objekts, das das Verhältnis zwischen zwei
- * Profilen darstellt. Eine Kontaktsperre wird vom Nutzer-Profil über ein
- * anderes Objekt verhängt, wenn es dieses in der Suche nichtmehr angezeigt
- * bekommen möchte.
+ * Definition eines Kontaktsperre-Objekts, das das Verhaeltnis zwischen zwei
+ * Profilen darstellt. Eine Kontaktsperre wird vom Nutzer-Profil ueber ein
+ * anderes Objekt verhaengt, wenn es dieses in der Suche nichtmehr angezeigt
+ * bekommen moechte.
  * 
  * @author Philipp Schmitt
  */
@@ -23,7 +23,7 @@ public class ProfileBan implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Die id der Kontaktsperre - eindeutiger Primärschlüssel für die Datenbank
+	 * Die id der Kontaktsperre - eindeutiger Primaerschluessel fuer die Datenbank
 	 */
 	private int id = 0;
 
@@ -57,7 +57,7 @@ public class ProfileBan implements Serializable {
 	 */
 
 	/**
-	 * Rückgeben der Kontaktsperren-Id
+	 * Rueckgeben der Kontaktsperren-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige Id des Kontaktsperren-Objekts
@@ -78,7 +78,7 @@ public class ProfileBan implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der sperrenden Profils-Id
+	 * Rueckgeben der sperrenden Profils-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige Id des sperrenden Profils
@@ -99,7 +99,7 @@ public class ProfileBan implements Serializable {
 	}
 
 	/**
-	 * Rückgeben der gesperrten Profils-Id
+	 * Rueckgeben der gesperrten Profils-Id
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Die eindeutige id des gesperrten Profils
@@ -120,7 +120,7 @@ public class ProfileBan implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des Timestamps von der Erstellung des Kontaktsperren-Objekts
+	 * Rueckgeben des Timestamps von der Erstellung des Kontaktsperren-Objekts
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Timestamp zum Zeitpunkt der Objekt-Erstellung
@@ -140,7 +140,7 @@ public class ProfileBan implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des sperrenden Profil-Objekts
+	 * Rueckgeben des sperrenden Profil-Objekts
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Das sperrende Profil-Objekt
@@ -161,7 +161,7 @@ public class ProfileBan implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des gesperrten Profil-Objekts
+	 * Rueckgeben des gesperrten Profil-Objekts
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Das gesperrte Profil-Objekt
@@ -182,12 +182,12 @@ public class ProfileBan implements Serializable {
 	}
 
 	/**
-	 * Rückgeben des Kontaktsperren-Objekts als String mit ausgewählten
+	 * Rueckgeben des Kontaktsperren-Objekts als String mit ausgewaehlten
 	 * Variablen-Werten
 	 * 
 	 * @author Philipp Schmitt
 	 * @return Textuelle Beschreibung des Kontaktsperren-Objekts anhand
-	 *         ausgewählter Eigenschaften
+	 *         ausgewaehlter Eigenschaften
 	 */
 	@Override
 	public String toString() {

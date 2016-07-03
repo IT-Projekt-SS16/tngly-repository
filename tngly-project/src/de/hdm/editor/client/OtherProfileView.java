@@ -25,9 +25,9 @@ import de.hdm.core.shared.bo.SearchProfile;
 import de.hdm.core.shared.bo.Wish;
 
 /**
- * Diese View Klasse f�r den Editor Client stellt das Profil eines anderen
+ * Diese View Klasse fuer den Editor Client stellt das Profil eines anderen
  * Benutzers dar. Der Benutzer hat die Wahl, dieses Profil zu seiner
- * "Wunschliste" hinzuf�gen bzw. zu l�schen oder das Profil zu "blockieren" bzw.
+ * "Wunschliste" hinzufuegen bzw. zu loeschen oder das Profil zu "blockieren" bzw.
  * die Kontaktsperre aufzuheben.
  * 
  * @author Kevin Jaeger, Philipp Schmitt
@@ -35,7 +35,7 @@ import de.hdm.core.shared.bo.Wish;
 public class OtherProfileView extends Update {
 
 	/**
-	 * Jede View besitzt eine einleitende �berschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende Ueberschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -51,28 +51,7 @@ public class OtherProfileView extends Update {
 	 * 
 	 * @author Philipp Schmitt
 	 * @param selectedProfile
-	 *            Das ausgew�hlte Profil aus der Tabelle
-	 * @param originView
-	 *            Die Ursprungsview, aus der der Benutzer in diese View
-	 *            gesprungen ist
-	 * @param cUP
-	 *            Das Profil des aktuellen Benutzers
-	 * @param searchProfile
-	 * 			  Das von der vorhergehenden View ggf. übergebene Suchprofil
-	 */
-	public OtherProfileView(Profile selectedProfile, String originView, Profile cUP, SearchProfile searchProfile) {
-		this.selectedProfile = selectedProfile;
-		this.originView = originView;
-		this.currentUserProfile = cUP;
-		this.searchProfile = searchProfile;
-	}
-	
-	/**
-	 * Parametrisierter Konstruktor der View
-	 * 
-	 * @author Philipp Schmitt
-	 * @param selectedProfile
-	 *            Das ausgew�hlte Profil aus der Tabelle
+	 *            Das ausgewaehlte Profil aus der Tabelle
 	 * @param originView
 	 *            Die Ursprungsview, aus der der Benutzer in diese View
 	 *            gesprungen ist
@@ -90,7 +69,7 @@ public class OtherProfileView extends Update {
 	 * 
 	 * @author Philipp Schmitt
 	 * @param selectedProfile
-	 *            Das ausgew�hlte Profil aus der Tabelle
+	 *            Das ausgewaehlte Profil aus der Tabelle
 	 * @param originView
 	 *            Die Ursprungsview, aus der der Benutzer in diese View
 	 *            gesprungen ist
@@ -101,19 +80,19 @@ public class OtherProfileView extends Update {
 	}
 
 	/**
-	 * Die AdministrationService erm�glicht die asynchrone Kommunikation mit der
+	 * Die AdministrationService ermoeglicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Instanz des ausgew�hlten Profils aus der Tabelle erm�glicht den
+	 * Die Instanz des ausgewaehlten Profils aus der Tabelle ermoeglicht den
 	 * schnellen Zugriff auf dessen Profileigenschaften.
 	 */
 	private Profile selectedProfile;
 
 	/**
-	 * Die Instanz des aktuellen Benutzers erm�glicht den schnellen Zugriff auf
+	 * Die Instanz des aktuellen Benutzers ermoeglicht den schnellen Zugriff auf
 	 * dessen Profileigenschaften.
 	 */
 	private Profile currentUserProfile;
@@ -123,9 +102,10 @@ public class OtherProfileView extends Update {
 	 * im Falle eines back-Befehls in die vorhergehende View wieder verwendet werden.
 	 */
 	private SearchProfile searchProfile;
+	
 	/**
-	 * Die Speicherung der urspr�nglichen View, aus der der Benutzer in diese
-	 * View abgesprungen ist, erm�glicht die sp�tere R�ckkehr in die entsprechende View.
+	 * Die Speicherung der urspruenglichen View, aus der der Benutzer in diese
+	 * View abgesprungen ist, ermoeglicht die spaetere Rueckkehr in die entsprechende View.
 	 */
 	private String originView;
 
@@ -134,7 +114,7 @@ public class OtherProfileView extends Update {
 
 	/**
 	 * Deklaration, Definition und Initialisierung aller relevanten
-	 * Eingabem�glichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen,
+	 * Eingabemoeglichkeiten, wie: Textboxen, Listboxen, TextArea, Checkboxen,
 	 * DatePicker sowie Widgets zur Gestaltung der View, wie: VerticalPanel,
 	 * HorizontalPanel, Trennlinien Und Widgets zur Ablaufsteuerung, wie:
 	 * Buttons
@@ -221,7 +201,7 @@ public class OtherProfileView extends Update {
 	protected void run() {
 
 		/*
-		 * Formatierung der Widgets f�r die Ansicht.
+		 * Formatierung der Widgets fuer die Ansicht.
 		 */
 		verPanel.setSpacing(10);
 		verPanel2.setSpacing(10);
@@ -295,7 +275,7 @@ public class OtherProfileView extends Update {
 		tbun.setWidth("100%");
 
 		/*
-		 * Bef�llen der Listboxen mit Werten
+		 * Befuellen der Listboxen mit Werten
 		 */
 		hairColourList.setVisibleItemCount(1);
 		hairColourList.addItem("Black");
@@ -360,7 +340,7 @@ public class OtherProfileView extends Update {
 		});
 
 		/*
-		 * Aufbau und Bef�llung der FlexTables mit Werten und Widgets
+		 * Aufbau und Befuellung der FlexTables mit Werten und Widgets
 		 */
 		t.setText(0, 0, "Username");
 		tbun.setEnabled(false);
@@ -546,7 +526,7 @@ public class OtherProfileView extends Update {
 		t3.setWidget(8, 1, t6);
 
 		/*
-		 * Markierung der Checkboxen f�r die Profileigenschaft "My Hobbies"
+		 * Markierung der Checkboxen fuer die Profileigenschaft "My Hobbies"
 		 */
 		for (int x = 0; x < t2.getRowCount(); x++) {
 			ArrayList<String> values = new ArrayList<String>();
@@ -581,7 +561,7 @@ public class OtherProfileView extends Update {
 		}
 
 		/*
-		 * Markierung der Checkboxen f�r die Eigenschaft "My Strong Points"
+		 * Markierung der Checkboxen fuer die Eigenschaft "My Strong Points"
 		 */
 		for (int x = 0; x < t7.getRowCount(); x++) {
 			ArrayList<String> values = new ArrayList<String>();
@@ -599,7 +579,7 @@ public class OtherProfileView extends Update {
 		}
 
 		/*
-		 * Markierung der Checkboxen f�r die Eigenschaft
+		 * Markierung der Checkboxen fuer die Eigenschaft
 		 * "I associate myself with this subculture"
 		 */
 		for (int x = 0; x < t6.getRowCount(); x++) {
@@ -618,7 +598,7 @@ public class OtherProfileView extends Update {
 		}
 
 		/*
-		 * Markierung der Checkboxen f�r die Eigenschaft "Favorite Era"
+		 * Markierung der Checkboxen fuer die Eigenschaft "Favorite Era"
 		 */
 		for (int x = 0; x < t5.getRowCount(); x++) {
 			ArrayList<String> values = new ArrayList<String>();
@@ -730,7 +710,7 @@ public class OtherProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback f�r das L�schen eines Profil-"Wunsches" in der
+	 * AsyncCallback fuer das Loeschen eines Profil-"Wunsches" in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -751,7 +731,7 @@ public class OtherProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback f�r das L�schen einer Kontaktsperre in der
+	 * AsyncCallback fuer das Loeschen einer Kontaktsperre in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -772,7 +752,7 @@ public class OtherProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback f�r das Erstellen einer Kontaktsperre in der
+	 * AsyncCallback fuer das Erstellen einer Kontaktsperre in der
 	 * Datenbank.
 	 * 
 	 * @return
@@ -793,7 +773,7 @@ public class OtherProfileView extends Update {
 	}
 
 	/**
-	 * AsyncCallback f�r das Erstellen eines Profil-"Wunsches" in der
+	 * AsyncCallback fuer das Erstellen eines Profil-"Wunsches" in der
 	 * Datenbank.
 	 * 
 	 * @return

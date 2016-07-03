@@ -33,20 +33,20 @@ import de.hdm.core.shared.report.HTMLProfilesReport;
 public class ReportView extends UpdateReportGenerator {
 
 	/**
-	 * Der AdminService ermöglicht die asynchrone Kommunikation mit der
+	 * Der AdminService ermoeglicht die asynchrone Kommunikation mit der
 	 * Applikationslogik.
 	 */
 	private AdministrationServiceAsync adminService = ClientsideSettings.getAdministration();
 
 	/**
-	 * Die Speicherung des Suchprofils ermöglicht den schnellen Zugriff auf die
+	 * Die Speicherung des Suchprofils ermoeglicht den schnellen Zugriff auf die
 	 * durch den Benutzer eingegebenen Kriterien.
 	 */
 	private SearchProfile searchProfile = new SearchProfile();
 
 	/**
 	 * Die Speicherung des booleschen Wertes, ob der Benutzer nur ungesehene
-	 * Profile ausgeben möchte oder nicht.
+	 * Profile ausgeben moechte oder nicht.
 	 */
 	private Boolean unseenChecked = false;
 
@@ -71,7 +71,7 @@ public class ReportView extends UpdateReportGenerator {
 	 * 
 	 * @author Philipp Schmitt
 	 * @param unseenChecked
-	 *            True, wenn Benutzer nur ungesehene Profile ausgeben möchte
+	 *            True, wenn Benutzer nur ungesehene Profile ausgeben moechte
 	 *            (False, wenn nicht)
 	 * @param searchProfile
 	 *            das Suchprofil, das vom Benutzer eingegeben wurde
@@ -82,7 +82,7 @@ public class ReportView extends UpdateReportGenerator {
 	}
 
 	/**
-	 * Jede View besitzt eine einleitende Überschrift, die durch diese Methode
+	 * Jede View besitzt eine einleitende Ueberschrift, die durch diese Methode
 	 * erstellt wird.
 	 * 
 	 * @author Peter Thies
@@ -101,7 +101,7 @@ public class ReportView extends UpdateReportGenerator {
 	protected void run() {
 
 		/*
-		 * Formatierung der Widgets für die Ansicht.
+		 * Formatierung der Widgets fuer die Ansicht.
 		 */
 		RootPanel.get("Details").setWidth("85%");
 		RootPanel.get("Navigator").setStylePrimaryName("rootpanel-totheleft");
@@ -138,7 +138,7 @@ public class ReportView extends UpdateReportGenerator {
 	}
 
 	/**
-	 * AsyncCallback für das Abfragen von Profilen anhand eines Suchprofils aus der
+	 * AsyncCallback fuer das Abfragen von Profilen anhand eines Suchprofils aus der
 	 * Datenbank.
 	 * 
 	 * @return Liste mit gefundenen und verglichenen Profilen

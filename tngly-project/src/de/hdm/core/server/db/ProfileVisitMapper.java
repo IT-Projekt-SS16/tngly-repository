@@ -36,7 +36,7 @@ public class ProfileVisitMapper {
 	}
 
 	/**
-	 * Aufruf eines ProfileVisit-Mappers für Klassen, die keinen Zugriff auf den
+	 * Aufruf eines ProfileVisit-Mappers fuer Klassen, die keinen Zugriff auf den
 	 * Konstruktor haben.
 	 * 
 	 * @return Einzigartige Mapper-Instanz zur Benutzung in der
@@ -51,7 +51,7 @@ public class ProfileVisitMapper {
 	}
 
 	/**
-	 * Read-Methode - Anhand einer vorgegebenen id wird der dazu gehörige
+	 * Read-Methode - Anhand einer vorgegebenen id wird der dazu gehoerige
 	 * ProfileVisit in der Datenbank gesucht.
 	 * 
 	 * @author Philipp Schmitt
@@ -74,15 +74,15 @@ public class ProfileVisitMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken
+			 * Statement ausfuellen und als Query an die DB schicken
 			 */
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits "
 							+ "WHERE id=" + id + " ORDER BY id");
 
 			/**
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 * Da id Primaerschluessel ist, kann max. nur ein Tupel zurueckgegeben
+			 * werden. Pruefe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
 				/**
@@ -127,14 +127,14 @@ public class ProfileVisitMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken.
+			 * Statement ausfuellen und als Query an die DB schicken.
 			 */
 
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits" + "ORDER BY id");
 
 			/**
-			 * Für jeden Eintrag im Suchergebnis wird nun ein
+			 * Fuer jeden Eintrag im Suchergebnis wird nun ein
 			 * ProfileVisit-Objekt erstellt.
 			 */
 
@@ -146,7 +146,7 @@ public class ProfileVisitMapper {
 				pv.setTimestamp(rs.getDate("timestamp"));
 
 				/**
-				 * Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 * Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				 */
 
 				result.addElement(pv);
@@ -156,20 +156,20 @@ public class ProfileVisitMapper {
 		}
 
 		/**
-		 * Ergebnisvektor zurückgeben
+		 * Ergebnisvektor zurueckgeben
 		 */
 		return result;
 	}
 
 	/**
 	 * Read-Methode - Auslesen aller ProfileVisits (Profilbesuche), die vom
-	 * übergebenen Profil je getätigt wurden
+	 * uebergebenen Profil je getaetigt wurden
 	 * 
 	 * @author Philipp Schmitt
 	 * @param visitingProfileId
 	 *            Id des Profils, zu dem alle Profilbesuche gesucht werden
 	 *            sollen.
-	 * @return Liste aller von dem zu überprüfenden Profil getätigten
+	 * @return Liste aller von dem zu ueberpruefenden Profil getaetigten
 	 *         Profilbesuche
 	 */
 
@@ -197,7 +197,7 @@ public class ProfileVisitMapper {
 							+ "WHERE visitingProfileId=" + visitingProfileId + "ORDER BY timestamp");
 
 			/**
-			 * Für jeden Eintrag im Suchergebnis wird nun ein
+			 * Fuer jeden Eintrag im Suchergebnis wird nun ein
 			 * ProfileVisit-Objekt erstellt.
 			 */
 
@@ -209,7 +209,7 @@ public class ProfileVisitMapper {
 				pv.setTimestamp(rs.getDate("timestamp"));
 
 				/**
-				 * Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 * Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				 */
 
 				result.add(pv);
@@ -219,15 +219,15 @@ public class ProfileVisitMapper {
 		}
 
 		/**
-		 * Ergebnisvektor zurückgeben
+		 * Ergebnisvektor zurueckgeben
 		 */
 		return result;
 	}
 
 	/**
-	 * Insert-Methode - Ein ProfileVisit-Array visitedProfiles wird übergeben
-	 * und die zugehörigen Werte in ein SQL-Statement geschrieben, welches
-	 * ausgeführt wird, um die Objekt in die Datenbank einzutragen.
+	 * Insert-Methode - Ein ProfileVisit-Array visitedProfiles wird uebergeben
+	 * und die zugehoerigen Werte in ein SQL-Statement geschrieben, welches
+	 * ausgefuehrt wird, um die Objekt in die Datenbank einzutragen.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param visitedProfiles
@@ -253,18 +253,18 @@ public class ProfileVisitMapper {
 				Statement stmt = con.createStatement();
 
 				/**
-				 * Zunächst schauen wir nach, welches der momentan höchste
-				 * Primärschlüsselwert ist.
+				 * Zunaechst schauen wir nach, welches der momentan hoechste
+				 * Primaerschluesselwert ist.
 				 */
 				ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM profileVisits ");
 
 				/**
-				 * Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein *
+				 * Wenn wir etwas zurueckerhalten, kann dies nur einzeilig sein *
 				 */
 				if (rs.next()) {
 					/**
-					 * p erhält den bisher maximalen, nun um 1 inkrementierten
-					 * Primärschlüssel.
+					 * p erhaelt den bisher maximalen, nun um 1 inkrementierten
+					 * Primaerschluessel.
 					 */
 					p.setId(rs.getInt("maxid") + 1);
 
@@ -278,7 +278,7 @@ public class ProfileVisitMapper {
 					// VERGESSEN!
 
 					/**
-					 * Jetzt erst erfolgt die tatsächliche Einfügeoperation
+					 * Jetzt erst erfolgt die tatsaechliche Einfuegeoperation
 					 */
 					stmt.executeUpdate("INSERT INTO profileVisits (id, visitingProfileId, visitedProfileId, timestamp) "
 							+ "VALUES (" + p.getId() + ",'" + p.getVisitingProfileId() + "','" + p.getVisitedProfileId()
@@ -294,12 +294,12 @@ public class ProfileVisitMapper {
 	}
 
 	/**
-	 * Delete-Methode - Ein ProfileVisit-Array wird übergeben und die einzelnen
-	 * Profilbesuche aus der DB gelöscht.
+	 * Delete-Methode - Ein ProfileVisit-Array wird uebergeben und die einzelnen
+	 * Profilbesuche aus der DB geloescht.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param visitedProfiles
-	 *            Liste mit Profilbesuchen, die aus der Datenbank gelöscht
+	 *            Liste mit Profilbesuchen, die aus der Datenbank geloescht
 	 *            werden sollen
 	 */
 
@@ -319,13 +319,13 @@ public class ProfileVisitMapper {
 	}
 
 	/**
-	 * Delete-Methode zur Profillöschung. Ein Profilobjekt profile soll komplett
-	 * aus der Datenbank gelöscht werden und hiermit auch die entsprechenden
+	 * Delete-Methode zur Profilloeschung. Ein Profilobjekt profile soll komplett
+	 * aus der Datenbank geloescht werden und hiermit auch die entsprechenden
 	 * Referenzen in der profileVisit-Tabelle.
 	 * 
 	 * @author Philipp Schmitt
 	 * @param profile
-	 *            Profil, das komplett aus der Datenbank gelöscht wird
+	 *            Profil, das komplett aus der Datenbank geloescht wird
 	 */
 	public void delete(Profile profile) {
 
@@ -366,7 +366,7 @@ public class ProfileVisitMapper {
 			Statement stmt = con.createStatement();
 
 			/**
-			 * Statement ausfüllen und als Query an die DB schicken
+			 * Statement ausfuellen und als Query an die DB schicken
 			 */
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, visitingProfileId, visitedProfileId, timestamp FROM profileVisits "
@@ -380,7 +380,7 @@ public class ProfileVisitMapper {
 				pv.setVisitedProfileId(rs.getInt("visitedProfileId"));
 
 				/**
-				 * Hinzufügen des neuen Objekts zum Ergebnisvektor
+				 * Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				 */
 
 				result.addElement(pv);

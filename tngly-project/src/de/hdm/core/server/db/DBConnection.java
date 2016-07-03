@@ -2,7 +2,6 @@ package de.hdm.core.server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.logging.Logger;
 
 import com.google.appengine.api.utils.SystemProperty;
 /**
@@ -20,20 +19,14 @@ public class DBConnection {
     private static Connection con = null;
 
     /**
-     * Die URL für die Google Cloud-SQL Datenbank - angesprochen übern die Projekt-, sowie Instanz-ID.
-     * In deploytem Status soll die Datenbank von der Application nur über einen root-Zugang und den entsprechenden Google-Treibern angesprochen werden.
+     * Die URL fuer die Google Cloud-SQL Datenbank - angesprochen uebern die Projekt-, sowie Instanz-ID.
+     * In deploytem Status soll die Datenbank von der Application nur ueber einen root-Zugang und den entsprechenden Google-Treibern angesprochen werden.
      */
     private static String googleUrl = "jdbc:google:mysql://our-lacing-132223:tngly/tnglyDB?user=root";
-
-    /**
-     * Aktivieren des Loggers zum Debugging.
-     */
-    
-    private static Logger logger = Logger.getLogger("Tngly Web Client");
     
     /**
-     *   Die URL für die Google Cloud-SQL Datenbank zum Ansteuern der Datenbank von einer
-     *   lokalen Entwicklungsumgebung (nicht <code>deployed</code>). Hier muss die Datenbank über die
+     *   Die URL fuer die Google Cloud-SQL Datenbank zum Ansteuern der Datenbank von einer
+     *   lokalen Entwicklungsumgebung (nicht <code>deployed</code>). Hier muss die Datenbank ueber die
      *   bereitgestellte IPv4-Adresse sowie einen eingerichteten Zugang angesprochen werden.
      */
     
@@ -51,7 +44,7 @@ public class DBConnection {
     public static Connection connection() {
     	
         /**
-         *  Prüfen, ob es bisher eine Connection aufgebaut ist.
+         *  Pruefen, ob es bisher eine Connection aufgebaut ist.
          */
     	
         if (con == null) {
@@ -64,7 +57,7 @@ public class DBConnection {
             String url = null;
             
             /**
-             * Zugangsdaten für einen Nicht-root-Account zur Cloud SQL, der vollen Zugriff auf die DB hat.
+             * Zugangsdaten fuer einen Nicht-root-Account zur Cloud SQL, der vollen Zugriff auf die DB hat.
              */
     
              String user = "phil";
@@ -86,21 +79,21 @@ public class DBConnection {
                     url = localUrl;
                 }
 
-                // Für Local development wieder url, user, password, driver und url anpassen
+                // Fuer Local development wieder url, user, password, driver und url anpassen
                 /**
                  * Hier gibt der DriverManager eine Verbindung, hergestellt durch die angegebene
-                 * URL und den User-Account mit vollem Zugriff, zurück
+                 * URL und den User-Account mit vollem Zugriff, zurueck
                  * 
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
-              // Für Deployment hier nur (url) übergeben und in if/else jeweils GoogleDriver und local
+              // Fuer Deployment hier nur (url) uebergeben und in if/else jeweils GoogleDriver und local
                 con = DriverManager.getConnection(url, user, password);
 
             } 
             
             /**
-             * Falls die Verbindung fehlschlägt, soll die dazugehörige Exception ausgegeben werden.
+             * Falls die Verbindung fehlschlaegt, soll die dazugehoerige Exception ausgegeben werden.
              */
            
             catch (Exception e) {
@@ -110,7 +103,7 @@ public class DBConnection {
         }
 
         /**
-         *  Zurückgegeben der Verbindung
+         *  Zurueckgegeben der Verbindung
          */
         return con;
     }
